@@ -19,7 +19,7 @@ export function add(national_id, username, firstname, lastname, email, role) {
         role: role
     };
 
-    return apiClient("/new_user", 'POST', 'json', false, false, user_data);
+    return apiClient("/api/v1/new_user", 'POST', 'json', false, false, user_data);
 
 }
 
@@ -42,7 +42,7 @@ export function edit(user_id, national_id, username, firstname, lastname, email,
 
 export function login(formData) {
 
-    $.when(apiClient("/auth/login", 'POST', 'json', false, false, formData)).done(
+    $.when(apiClient("/api/v1/auth/login", 'POST', 'json', false, false, formData)).done(
         function (data) {
             if (data != null) {
                 token = data.token;
@@ -63,7 +63,7 @@ export function login(formData) {
 
 export function populateUsersTable() {
 
-    let data = apiClient("/users", 'GET', 'json', false, false, {});
+    let data = apiClient("/api/v1/users", 'GET', 'json', false, false, {});
 
     if (data != null) {
         for (var i = 0; i < data.length; i++) {
