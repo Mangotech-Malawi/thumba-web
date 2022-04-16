@@ -19,7 +19,7 @@ export const content_view = [
   {
     title: "Interests",
     link: "views/interests.html",
-    //modals: "views/modals/client.html",
+    modals: "views/modals/interest.html",
     state: "interests",
   },
   {
