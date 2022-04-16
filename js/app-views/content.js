@@ -5,8 +5,9 @@ export const content_view = [
     state: "dashboard",
     links: [
       "views/dashboards/admin.html",
-      "views/dashboards/loan-officer.html",
+      "views/dashboards/finance.html",
       "views/dashboards/investor.html",
+      "views/dashboards/loan-officer.html"   
     ],
   },
   {
@@ -14,6 +15,12 @@ export const content_view = [
     link: "views/clients.html",
     modals: "views/modals/client.html",
     state: "clients",
+  },
+  {
+    title: "Interests",
+    link: "views/interests.html",
+    //modals: "views/modals/client.html",
+    state: "interests",
   },
   {
     title: "Loans",

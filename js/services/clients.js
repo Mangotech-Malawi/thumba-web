@@ -1,7 +1,5 @@
 import { apiClient } from "./api-client.js";
 
-let token = sessionStorage.getItem("token");
-
 export function fetchClientsData() {
   let data = apiClient("/api/v1/clients", "GET", "json", false, false, {});
   if (data != null) {

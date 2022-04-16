@@ -1,16 +1,18 @@
 import * as users from "../services/users.js";
 import { fetchClientsData } from "../services/clients.js";
+import { fetchInterests } from "../services/interests.js";
 
 import { content_view } from "../app-views/content.js";
+import { links } from "../app-views/links.js";
 
+let user_role = sessionStorage.getItem("role");
 
+const mainContent = "mainContent";
+const modalContent = "modalContent";
 
 selectContent(localStorage.getItem("state"));
 
 $(document).ready(function () {
-  
-  let user_role = sessionStorage.getItem("role");
-
   if (sessionStorage.getItem("role") != null) {
     loadLinks(user_role);
   }
@@ -31,7 +33,12 @@ $(document).ready(function () {
 
   $("#users").on("click", function (e) {
     selectContent("users");
-    console.log("users clicked");
+
+  });
+
+  $("#interests").on("click", function (e) {
+    console.log("in here clicing inter");
+    selectContent("interests");
   });
 
   $("#logout").on("click", function (e) {
@@ -40,57 +47,80 @@ $(document).ready(function () {
   });
 });
 
-
-function loadlinks(user_role){
-   if(user_id = "admin"){
-     
-   }
+function loadLinks(user_role) {
+  for (let index = 0; index < links.length; index++) {
+    if (user_role === links[index].role) {
+      $.when(loadContent("sidebarLinks", "", links[index].link)).done(
+        function () {
+          //load dashboard stats
+        }
+      );
+    }
+  }
 }
 
-
-
 export function selectContent(state) {
-  const mainContent = "mainContent";
-  const modalContent = "modalContent";
+  const adminDashboardIndex = 0;
+  const financeDashboardIndex = 1;
+  const investorDashboardIndex = 2;
+  const loanOfficerDashboardIndex = 3;
 
   for (let index = 0; index < content_view.length; index++) {
     if (state === content_view[index].state) {
-      if (user_role === "admin" && state === "dashboard")
-        $.when(
-          loadContent(mainContent, state, content_view[index].links[0])
-        ).done(function () {
-          //load dashboard stats
-        });
-      else if (user_role === "investor" && state === "dashboard")
-        $.when(
-          loadContent(mainContent, state, content_view[index].links[1])
-        ).done(function () {
-          //load dashboard datas
-        });
-      else if (user_role === "loan officer" && state === "dashboard")
-        $.when(
-          loadContent(mainContent, state, content_view[index].links[2])
-        ).done(function () {
-          //load dashboard datas
-        });
-      else
-        $.when(
-          loadContent(mainContent, state, content_view[index].link),
-        ).done(function () {
-            $.when(
-                loadContent(modalContent, "", content_view[index].modals)).done(function (){
-                    switch (state) {
-                        case "users":
-                          users.populateUsersTable();
-                          break;
-                        case "clients":
-                          fetchClientsData();
-                          break;
-                      }
-                });
-        });
+      if (user_role === "admin" && state === "dashboard") {
+        loadDashboard(adminDashboardIndex, state, index);
+      } else if (user_role === "finance" && state === "dashboard") {
+        loadDashboard(financeDashboardIndex, state, index);
+      } else if (user_role === "investor" && state === "dashboard") {
+        loadDashboard(investorDashboardIndex, state, index);
+      } else if (user_role === "loan-officer" && state === "dashboard") {
+        loadDashboard(loanOfficerDashboardIndex, state, index);
+      } else {
+        loadOtherContent(state, index);
+      }
     }
   }
+
+}
+
+function loadDashboard(linkIndex, state, index) {
+  $.when(
+    loadContent(mainContent, state, content_view[index].links[linkIndex])
+  ).done(function () {
+    //load dashboard datas
+  });
+}
+
+function loadOtherContent(state, index) {
+  $.when(loadContent(mainContent, state, content_view[index].link)).done(
+    function () {
+     
+      if (
+        content_view[index].modals != null &&
+        typeof content_view[index].modals != undefined
+      ) {
+        $.when(loadContent(modalContent, "", content_view[index].modals)).done(
+          function () {
+      
+          }
+        );
+      }
+
+      switch (state) {
+        case "users":
+          users.populateUsersTable();
+          break;
+        case "clients":
+          fetchClientsData();
+          break;
+        case "interests":
+          console.log("here to fetch");
+          fetchInterests();
+          break;     
+      }
+
+    }
+  );
 }
 
 function loadContent(containerId, newState, urlPath) {
