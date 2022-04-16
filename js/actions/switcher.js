@@ -3,13 +3,16 @@ import { fetchClientsData } from "../services/clients.js";
 
 import { content_view } from "../app-views/content.js";
 
-let user_role = sessionStorage.getItem("role");
+
 
 selectContent(localStorage.getItem("state"));
 
 $(document).ready(function () {
-  if (sessionStorage.getItem("role") != "admin") {
-    $(".admin-link-item").hide();
+  
+  let user_role = sessionStorage.getItem("role");
+
+  if (sessionStorage.getItem("role") != null) {
+    loadLinks(user_role);
   }
 
   //The folloing are cases links
@@ -37,82 +40,79 @@ $(document).ready(function () {
   });
 });
 
+
+function loadlinks(user_role){
+   if(user_id = "admin"){
+     
+   }
+}
+
+
+
 export function selectContent(state) {
+  const mainContent = "mainContent";
+  const modalContent = "modalContent";
+
   for (let index = 0; index < content_view.length; index++) {
     if (state === content_view[index].state) {
       if (user_role === "admin" && state === "dashboard")
         $.when(
-          loadContent(
-            state,
-            content_view[index].title,
-            content_view[index].links[0]
-          )
+          loadContent(mainContent, state, content_view[index].links[0])
         ).done(function () {
           //load dashboard stats
-        
         });
       else if (user_role === "investor" && state === "dashboard")
         $.when(
-          loadContent(
-            state,
-            content_view[index].title,
-            content_view[index].links[1]
-          )
+          loadContent(mainContent, state, content_view[index].links[1])
         ).done(function () {
           //load dashboard datas
         });
       else if (user_role === "loan officer" && state === "dashboard")
         $.when(
-          loadContent(
-            state,
-            content_view[index].title,
-            content_view[index].links[2]
-          )
+          loadContent(mainContent, state, content_view[index].links[2])
         ).done(function () {
           //load dashboard datas
         });
       else
         $.when(
-          loadContent(
-            state,
-            content_view[index].title,
-            content_view[index].link
-          )
+          loadContent(mainContent, state, content_view[index].link),
         ).done(function () {
-          switch (state) {
-            case "users":
-              users.populateUsersTable();
-              break;
-            case "clients":
-              fetchClientsData();
-              break;
-          }
+            $.when(
+                loadContent(modalContent, "", content_view[index].modals)).done(function (){
+                    switch (state) {
+                        case "users":
+                          users.populateUsersTable();
+                          break;
+                        case "clients":
+                          fetchClientsData();
+                          break;
+                      }
+                });
         });
     }
   }
 }
 
-function loadContent(newState, title, urlPath) {
+function loadContent(containerId, newState, urlPath) {
   $.ajax({
     url: urlPath,
     data: {},
     type: "GET",
     async: false,
     success: function (resp) {
-      $("#mainContent").html("");
+      $(`#${containerId}`).html("");
 
-      $("#mainContent").append(resp);
+      $(`#${containerId}`).append(resp);
 
-      $("#pageTitle").text("");
+      /*$("#pageTitle").text("");
 
-      $("#pageTitle").text(title);
-
-      localStorage.setItem("state", newState);
+      $("#pageTitle").text(title);*/
+      if (newState != "") localStorage.setItem("state", newState);
     },
     error: function () {
-      $("#mainContent").append(
+      /* $(``).append(
         "<h>" + title + " view could not be loaded </h1>"
-      ); //Displays an error message if content is not loaded;
+      ); //Displays an error message if content is not loaded;*/
     },
   });
 }

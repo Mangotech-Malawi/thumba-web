@@ -1,6 +1,7 @@
 
 export function setTableAttributes(table) { //Sets the the attributes of datatable
     $(table).DataTable({
+        "destory": true,
         "responsive": true,
         "lengthChange": true,
         "autoWidth": false,

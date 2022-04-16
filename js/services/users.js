@@ -1,15 +1,11 @@
 
 import * as validator from "./validator.js";
-
 import { setTableAttributes } from "./table_attributes.js"
-
 import { apiClient } from "./api-client.js";
 
 let token = sessionStorage.getItem("token");
 
 export function add(national_id, username, firstname, lastname, email, role) {
-
-
     let user_data = {
         national_id: national_id,
         username: username,
@@ -34,9 +30,7 @@ export function edit(user_id, national_id, username, firstname, lastname, email,
         email: email,
         role: role
     };
-
-    return apiClient("/edit_user", 'POST', 'json', false, false, user_data);
-
+    return apiClient("/api/v1/edit_user", 'POST', 'json', false, false, user_data);
 }
 
 
@@ -59,44 +53,79 @@ export function login(formData) {
     )
 }
 
-
+export function delete_user(user_id) {
+    return apiClient("/api/v1/delete_user", 'POST', 'json', false, false, { user_id: user_id });
+}
 
 export function populateUsersTable() {
-
     let data = apiClient("/api/v1/users", 'GET', 'json', false, false, {});
-
     if (data != null) {
-        for (var i = 0; i < data.length; i++) {
-            drawUserRow(data[i]);
-        }
-        setTableAttributes('#usersTable');
+        loadUsersTable(data);
     }
 }
 
-function drawUserRow(rowData) {
-    var row = $("<tr ' />");
-    $("#usersTable").append(row);
-    row.append($("<td>" + rowData.id + "</td>"));
-    row.append($("<td>" + rowData.national_id + "</td>"));
-    row.append($("<td>" + rowData.username + "</td>"));
-    row.append($("<td>" + rowData.firstname + "</td>"));
-    row.append($("<td>" + rowData.lastname + "</td>"));
-    row.append($("<td>" + rowData.email + "</td>"));
-    row.append($("<td>" + rowData.role + "</td>"));
 
-    row.append($("<td><button class='btn  bg-gradient-primary ' id='btnAddSites' data-toggle='modal' " +
-        "data-target='#modal-edit-user'  " + "data-user-data = '" + JSON.stringify(rowData) + "' " +
-        "'data-button-type = 'edit' > </i><i class='fas fa-user-secret'></i> </button></td>"));
 
-    row.append($("<td><button class='btn  bg-gradient-danger ' id='delete-user' data-toggle='modal' " +
-        "data-target='#modal-delete-user' data-id ='" + rowData.id + "' " +
-        "data-username='" + rowData.username + "' > </i><i class='fas fa-trash'></i> </button></td>"));
+function loadUsersTable(dataset){
+    $("#usersTable").DataTable({
+        destroy: true,
+        responsive: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        bfilter: false,
+        info: true,
+        data: dataset,
+        columns: [
+            {data: "id"},
+            {data: "national_id"},
+            {data: "username"},
+            {data: "firstname"},
+            {data: "lastname"},
+            {data: "email"},
+            {data: "role"},
+            {data: null},
+            {data: null}
+        ],
+        columnDefs: [
+            {
+                render: getEditButton,
+                data: null,
+                targets: [7]
+            },
+            {
+                render: getDelButton,
+                data: null,
+                targets: [8]
+            }
+        ]
+    });
 }
 
-export function delete_user(user_id) {
-
-    return apiClient("/delete_user", 'POST', 'json', false, false, { user_id: user_id });
+function getDelButton(data, type, row, meta){
+    return `<button  type="button"  class="btn btn-danger"
+    data-toggle="modal" data-target = "#modal-delete-user"
+    data-id = "${data.id}"
+    data-username = "${data.username}">
+   <i class="fas fa-trash"></i></button>`;
 }
+
+function getEditButton(data, type, row, meta){
+    return `<button  type="button"  class="btn btn-default"
+    data-toggle="modal" data-target = "#modal-edit-user"
+    data-user-id = "${data.id}"
+    data-national-id = "${data.national_id}"
+    data-username = "${data.username}"
+    data-firstname = "${data.firstname}"
+    data-lastname = "${data.lastname}"
+    data-email = "${data.email}"
+    data-role = "${data.role}"
+    data-button-type = "edit">
+   <i class="fas fa-edit"></i></button>`;
+}
+
+
+
 
 
 

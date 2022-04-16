@@ -16,7 +16,7 @@ $(document).ready(function () {
         let username = $("#username").val();
         let firstname = $("#firstname").val();
         let lastname = $("#lastname").val();
-        let national_id = $("#national_id").val();
+        let national_id = $("#nationalId").val();
         let email = $("#email").val();
         let contact = $("#contact").val();
         let role = $("#role").val();
@@ -29,13 +29,13 @@ $(document).ready(function () {
                 clearFields();
             }
         } else {
-            let user_id = $("#user-id").val();
+            let user_id = $("#userId").val();
             let resp = users.edit(user_id, national_id, username, firstname, lastname, email, role);
             if (resp != null) {
                 if(resp.updated){
                     $("#modal-edit-user").modal('hide');
                     notify("center", "success", "Edit user", "User has been edited successfully", false, 3000);
-                    selectContent("users");
+                    users.populateUsersTable();
                 }
             }
         }
@@ -53,25 +53,16 @@ $(document).ready(function () {
             $('.alt-btn').removeAttr("data-dismiss");
             $('.alt-btn').text("Finish");
         } else {
-
-            let user_data = JSON.parse($(opener).attr('data-user-data'));
             $('#add-user').text("Save");
             $('.alt-btn').attr("data-dismiss", "modal");
             $('.alt-btn').text("Close");
             $('.modal-title').text("Edit User");
-            let userModal = $('#modal-edit-user');
+            let $userModal = $('#modal-edit-user');
 
-            Object.entries(user_data).forEach(([key, value]) => {
-                if (key === "role"){
-                    userModal.find('[id="' + key + '"] option[value="' + value + '"]').prop('selected', true);
-                }
-                else if (key === "id"){
-                    userModal.find('[id="user-id"]').val(value);
-                }else{
-                    userModal.find('[id="' + key + '"]').val(value);
-                }
+            $.each(opener.dataset, function(key, value){
+                console.log(key);
+                $userModal.find(`[id = '${key}']`).val(value);
             });
-
         }
     });
 
@@ -94,7 +85,7 @@ $(document).ready(function () {
         $("#username").val("");
         $("#firstname").val("");
         $("#lastname").val("");
-        $("#national_id").val("");
+        $("#nationalId").val("");
         $("#email").val("");
         
     }
@@ -114,8 +105,8 @@ $(document).ready(function () {
         let resp = users.delete_user($("#del-user-id").val());
         if (resp.deleted) {
             $("#modal-delete-user").modal('hide');
-            notify("center", "success", "Deleted User", "User has been deleted successfully", false, 6000);
-            selectContent("users");
+            notify("center", "success", "Deleted User", "User has been deleted successfully", false, 1500);
+            users.populateUsersTable();
         }
     });
 
