@@ -8,6 +8,18 @@ export function fetchInterests(){
     }
 }
 
+export function deleteInterest(interest_id){
+    return apiClient("/api/v1/interests/delete", "POST", "json", 
+                    false, false, {interest_id: interest_id});
+}
+
+export function editInterest(params){
+    return apiClient("/api/v1/interests/edit", "POST", "json", 
+                    false, false, params);
+}
+
+
+
 function populateInterestsTable(dataSet){
     $("#interestsTable").DataTable({
         destroy: true,
@@ -49,7 +61,7 @@ function populateInterestsTable(dataSet){
 function getEditButton(data, type, row, meta){
     return `<button  type="button"  class="btn btn-default"
     data-toggle="modal" data-target = "#modal-interest"
-    data-id = "${data.id}"
+    data-interest-id = "${data.id}"
     data-name  = "${data.name}" 
     data-max  = "${data.max}" 
     data-min = "${data.min}"
@@ -65,7 +77,7 @@ function getEditButton(data, type, row, meta){
 function getDelButton(data, type, row, meta) {
     return `<button  type="button"  class="btn btn-danger"
       data-toggle="modal" data-target = "#modal-del-interest"
-      data-id = "${data.id}">
+      data-del-interest-id = "${data.id}">
      <i class="fas fa-trash"></i></button>`;
   }
   

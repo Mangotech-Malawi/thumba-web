@@ -72,11 +72,10 @@ $(function () {
               false, 1500)
              ).done(function(){
 
-
           $.when(client.fetchClientsData()).done(function(){
-            $(modalId).modal('hide');s
+            $(modalId).modal('hide');
           });
-         
+    
         });
       
        
