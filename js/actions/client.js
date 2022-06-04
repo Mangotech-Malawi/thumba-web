@@ -1,7 +1,9 @@
 import * as client from "../services/clients.js";
-import {notify} from "../services/utils.js";
+import { notify } from "../services/utils.js";
 
 let modalId = "#modal-register-client";
+let orgModal = "#modal-org-client";
+let clientTypeModal = `#modal-client-type`;
 
 $(function () {
   $(document).on("show.bs.modal", modalId, function (e) {
@@ -17,18 +19,28 @@ $(function () {
     }
   });
 
-  $(document).on("show.bs.modal", "#modal-del-client", function (e){
-      $("#modal-del-client").find(`[id = 'delClientId']`)
-                            .val($(e.relatedTarget)
-                            .attr("data-id")
-                            );
+  $(document).on("show.bs.modal", "#modal-del-client", function (e) {
+    $("#modal-del-client")
+      .find(`[id = 'delClientId']`)
+      .val($(e.relatedTarget).attr("data-id"));
   });
 
-  $(document).on("click", "#delClientBtn", function (e){
-      let id = $("#delClientId").val();
-      let void_reason    = $("#reason").val();
-      
-      client.delClient(id, void_reason);
+  $(document).on("click", "#delClientBtn", function (e) {
+    let id = $("#delClientId").val();
+    let void_reason = $("#reason").val();
+
+    client.delClient(id, void_reason);
+  });
+
+  $(document).on("click", ".client-type-selected", function () {
+    let clientType = $(this).attr("id");
+    if (clientType === "individual") {
+      $(clientTypeModal).modal("hide");
+      $(modalId).modal("show");
+    } else if (clientType === "organization") {
+      $(clientTypeModal).modal("hide");
+      $(orgModal).modal("show");
+    }
   });
 
   $(document).on("click", "#registerBtn", function (e) {
@@ -45,7 +57,7 @@ $(function () {
     let current_ta = $("#currentTa").val();
     let current_village = $("#currentVillage").val();
     let nearest_landmark = $("#nearest_landmark option:selected").val();
-  
+
     let params = {
       id: user_id,
       national_id: national_id,
@@ -60,25 +72,25 @@ $(function () {
       current_ta: current_ta,
       current_village: current_village,
       nearest_landmark: nearest_landmark,
-   
     };
 
     if ($("#regModalTitle").text() === "Edit Client") {
-
       let resp = client.editClient(params);
-      if(resp.updated){
-        $.when(notify("center", "success", "Edit Client",
-             "Client has been updated successfully",
-              false, 1500)
-             ).done(function(){
-
-          $.when(client.fetchClientsData()).done(function(){
-            $(modalId).modal('hide');
+      if (resp.updated) {
+        $.when(
+          notify(
+            "center",
+            "success",
+            "Edit Client",
+            "Client has been updated successfully",
+            false,
+            1500
+          )
+        ).done(function () {
+          $.when(client.fetchClientsData()).done(function () {
+            $(modalId).modal("hide");
           });
-    
         });
-      
-       
       }
     } else {
       client.addClient(params);

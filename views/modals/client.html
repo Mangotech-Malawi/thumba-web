@@ -1,4 +1,39 @@
 
+    <div class="modal fade " id="modal-client-type">
+      <div class="modal-dialog  modal-lg ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Select Client</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="card-deck mt-4 pl-4 pr-4">
+                <div id="individual" class="client-type-selected card shadow-lg mt-2 p-4">
+                  <div class="card-body">
+                    <h3 class="text-center">Individual</h3>
+                  </div>
+                </div>
+                <div id="organization" class="client-type-selected card shadow-lg mt-2 p-4">
+                  <div class="card-body">
+                    <h3 class="text-center">Organization</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+         
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    
+    
     <div class="modal fade" id="modal-register-client">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
@@ -231,6 +266,189 @@
     </div>
 
 
+        
+    <div class="modal fade" id="modal-org-client">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <form id="addUser" action="" method="post"></form>
+          <div class="modal-header">
+            <h4 id ="regModalTitle" class="modal-title">Add Client</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+               <div class="modal-body">
+                   <div class="content">
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Name:</label>
+                              <div class="input-group ">
+                                <input id="name" type="text"  class="form-control"
+                                  placeholder="Name">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Category:</label>
+                              <div class="select2-primary">
+                                <select id="orgCategory" class="form-control"  data-placeholder="Select organization Category"
+                                    data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                    <option value="Sole proprietorship">Sole proprietorship</option>
+                                    <option value="Partnership">Partnership</option>
+                                    <option value="Corporation">Corporation</option>
+                                    <option value="Limited liability company">Limited liability company</option>
+                                    <option value="Cooperative">Cooperative</option>
+                                  </select>
+                                </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Purpose:</label>
+                              <div class="input-group ">
+                                <textarea id="purpose" type="text"  class="form-control"
+                                  placeholder="Why the organization exist"></textarea>
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Date Started</label>
+                            <div class="input-group date" id="orgStartDatePicker" data-target-input="nearest">
+                              <input type="text" id="startDate" class="form-control datetimepicker-input" data-target="#dateOfBirthPicker"/>
+                              <div class="input-group-append" data-target="#dateOfBirthPicker" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
+                          </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Email Address:</label>
+                              <div class="input-group ">
+                                <input id="emailAddress" type="text"  class="form-control"
+                                  placeholder="Email Address">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Phone Number:</label>
+                              <div class="input-group ">
+                                <input id="phoneNumber" type="text"  class="form-control"
+                                  placeholder="Phone Number">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Office Location:</label>
+                              <div class="input-group ">
+                                <input id="officeLocation" type="text"  class="form-control"
+                                  placeholder="Enter office location">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Postal Address:</label>
+                              <div class="input-group ">
+                                <input id="postalAddress" type="text"  class="form-control"
+                                  placeholder="Postal Address">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Funds Source:</label>
+                              <div class="input-group ">
+                                <input id="fundsSource" type="text"  class="form-control"
+                                  placeholder="Funds Source">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Registered:</label>
+                              <div class="input-group ">
+                                <input id="fundsSource" type="text"  class="form-control"
+                                  placeholder="Funds Source">
+                                <div class="input-group-append">
+                                  <div class="input-group-text">
+                                    <span class="fas fa-card"></span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+
+
+
+
+                         
+                     </div>
+                  </div>
+              <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger alt-btn" data-dismiss="modal">Close</button>
+                  <button type="button" id="registerBtn" class="btn btn-primary">Save</button>
+              </div>
+              </form>
+              </div>
+              <!-- /.modal-content -->
+      </div>
+          <!-- /.modal-dialog -->
+  </div>
+
     
 <div class="modal fade " id="modal-del-client">
   <div class="modal-dialog modal-lg ">
@@ -293,7 +511,7 @@
           //Date picker
           //$('').datetimepicker(  { icons: { time: 'far fa-clock' } });
 
-          $('#dateOfBirthPicker').datetimepicker({
+          $('.date').datetimepicker({
                  format: 'L'
           });
 
