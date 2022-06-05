@@ -3,7 +3,7 @@ import { apiClient } from "./api-client.js";
 export function fetchClientsData() {
   let data = apiClient("/api/v1/clients", "GET", "json", false, false, {});
   if (data != null) {
-    loadClientsTable(data);
+    loadClientsTable(data.individuals);
   }
 }
 
