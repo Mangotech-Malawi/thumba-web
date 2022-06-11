@@ -1,6 +1,5 @@
 
 import * as validator from "./validator.js";
-import { setTableAttributes } from "./table_attributes.js"
 import { apiClient } from "./api-client.js";
 
 let token = sessionStorage.getItem("token");

@@ -19,7 +19,14 @@ export function apiClient(path, type, dataType, async, cache, data) {
         data: data,
         success: function (res) {
             result = res
-        }
+        },
+        error: function(res){
+            if(res.status === 401){
+                
+            } else if(res.status === 403){
+
+            }
+        } 
     }).fail(function (jqXHR, testStatus, errorThrown) {
 
     });

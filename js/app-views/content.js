@@ -11,10 +11,16 @@ export const content_view = [
     ],
   },
   {
-    title: "Clients",
-    link: "views/clients.html",
+    title: "Individuals",
+    link: "views/clients/individuals.html",
     modals: "views/modals/client.html",
-    state: "clients",
+    state: "individuals",
+  },
+  {
+    title: "Organizations",
+    link: "views/clients/organizations.html",
+    modals: "views/modals/client.html",
+    state: "organizations",
   },
   {
     title: "Interests",

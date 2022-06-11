@@ -1,7 +1,7 @@
 import * as users from "../services/users.js";
 import { fetchClientsData } from "../services/clients.js";
 import { fetchInterests } from "../services/interests.js";
-
+import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
 
@@ -22,8 +22,12 @@ $(document).ready(function () {
     selectContent("dashboard");
   });
 
-  $("#clients").on("click", function (e) {
-    selectContent("clients");
+  $("#individualClient").on("click", function (e) {
+    selectContent("individuals");
+  });
+
+  $("#orgClient").on("click", function (e) {
+    selectContent("organizations");
   });
 
   //The folloing are user management links
@@ -110,11 +114,13 @@ function loadOtherContent(state, index) {
         case "users":
           users.populateUsersTable();
           break;
-        case "clients":
-          fetchClientsData();
+        case "individuals":
+          fetchClientsData(state);
+          break;
+        case "organizations":
+          fetchClientsData(state); 
           break;
         case "interests":
-          console.log("here to fetch");
           fetchInterests();
           break;     
       }
@@ -123,26 +129,3 @@ function loadOtherContent(state, index) {
   );
 }
 
-function loadContent(containerId, newState, urlPath) {
-  $.ajax({
-    url: urlPath,
-    data: {},
-    type: "GET",
-    async: false,
-    success: function (resp) {
-      $(`#${containerId}`).html("");
-
-      $(`#${containerId}`).append(resp);
-
-      /*$("#pageTitle").text("");
-
-      $("#pageTitle").text(title);*/
-      if (newState != "") localStorage.setItem("state", newState);
-    },
-    error: function () {
-      /* $(``).append(
-        "<h>" + title + " view could not be loaded </h1>"
-      ); //Displays an error message if content is not loaded;*/
-    },
-  });
-}
