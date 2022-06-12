@@ -18,6 +18,11 @@ export function editInterest(params){
                     false, false, params);
 }
 
+export function addInterest(params){
+  return apiClient("/api/v1/interests/new", "POST", "json", 
+  false, false, params);
+}
+
 
 
 function populateInterestsTable(dataSet){

@@ -22,10 +22,10 @@ export function apiClient(path, type, dataType, async, cache, data) {
         },
         error: function(res){
             if(res.status === 401){
-                
-            } else if(res.status === 403){
-
-            }
+               sessionStorage.clear();
+               localStorage.clear();
+               window.location = "index.html"
+            } 
         } 
     }).fail(function (jqXHR, testStatus, errorThrown) {
 

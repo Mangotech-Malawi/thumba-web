@@ -4,16 +4,29 @@ import { loadContent } from "../actions/contentLoader.js";
 
 let modalId = "#modal-register-client";
 let clientType = null;
-let clientTypeModal = `#modal-client-type`;
+
+localStorage;
 
 $(function () {
   $(document).on("show.bs.modal", modalId, function (e) {
     let opener = e.relatedTarget;
+    let actionType = $(opener).attr("data-action-type");
+    clientType = $(opener).attr("data-client-type");
 
-    if ($(opener).attr("data-action-type") === "edit") {
+    if (clientType === "organization") {
+      loadForm("views/clients/organizationForm.html");
+    } else if (clientType === "individual") {
+      loadForm("views/clients/individualForm.html");
+    }
+
+    if (actionType === "edit") {
       $(modalId).find(`[id = 'regModalTitle']`).text("Edit Client");
       $.each(opener.dataset, function (key, value) {
-        $(modalId).find(`[id = '${key}']`).val(value);
+        if (key === "registered") {
+          $(modalId).find(`[id = '${key}']`).prop("checked", value);
+        } else {
+          $(modalId).find(`[id = '${key}']`).val(value);
+        }
       });
     } else {
       $(modalId).find(`[id = 'regModalTitle']`).text("Add Client");
@@ -21,42 +34,39 @@ $(function () {
   });
 
   $(document).on("show.bs.modal", "#modal-del-client", function (e) {
+    let opener = e.relatedTarget;
+    clientType = $(opener).attr("data-client-type");
+
     $("#modal-del-client")
       .find(`[id = 'delClientId']`)
-      .val($(e.relatedTarget).attr("data-id"));
+      .val($(opener).attr("data-id"));
   });
 
   $(document).on("click", "#delClientBtn", function (e) {
-    let id = $("#delClientId").val();
+
+
+    let client_id = $("#delClientId").val();
     let void_reason = $("#reason").val();
 
-    client.delClient(id, void_reason);
-  });
-
-  $(document).on("click", ".client-type-selected", function () {
-    clientType = $(this).attr("id");
-    if (clientType === "individual") {
-      $(clientTypeModal).modal("hide");
-      $(modalId).modal("show");
-      loadForm("views/clients/individualForm.html");
-    } else if (clientType === "organization") {
-      $(clientTypeModal).modal("hide");
-      $(modalId).modal("show");
-      loadForm("views/clients/organizationForm.html");
-    }
+    deleteNotification(client.delClient(client_id, void_reason));
   });
 
   $(document).on("click", "#registerBtn", function (e) {
-    if ($("#regModalTitle").text() === "Edit Client") {
-      updateNotification(client.editClient(params));
-    } else {
-      if (clientType === "individual") client.addClient(individualParams());
-      else client.addClient(organizationParams());
+    if (clientType != null) {
+      if ($("#regModalTitle").text() === "Edit Client") {
+        if (clientType === "individual")
+          updateNotification(client.editClient(individualParams()));
+        else updateNotification(client.editClient(organizationParams()));
+      } else {
+        if (clientType === "individual") addNotification(client.addClient(individualParams()));
+        else addNotification(client.addClient(organizationParams()));
+      }
     }
   });
 });
 
 function individualParams() {
+  let client_id = $("#id").val();
   let national_id = $("#nationalId").val();
   let firstname = $("#firstname").val();
   let lastname = $("#lastname").val();
@@ -71,7 +81,8 @@ function individualParams() {
   let nearest_landmark = $("#nearest_landmark option:selected").val();
 
   let params = {
-    client_type: "individual",
+    client_id: client_id,
+    client_type: clientType,
     national_id: national_id,
     firstname: firstname,
     lastname: lastname,
@@ -89,7 +100,8 @@ function individualParams() {
   return params;
 }
 
-function organizationParams() {
+function organizationParams(type) {
+  let clientId = $("#id").val();
   let name = $("#name").val();
   let category = $("#orgCategory").val();
   let startDate = $("#startDate").val();
@@ -101,10 +113,11 @@ function organizationParams() {
   let registered = $("#registered").val();
 
   let params = {
-    client_type: "organization",
+    client_id: clientId,
+    client_type: clientType,
     name: name,
     category: category,
-    startDate: startDate,
+    start_date: startDate,
     purpose: purpose,
     email_address: emailAddress,
     phone_number: phoneNumber,
@@ -129,12 +142,54 @@ function updateNotification(resp) {
         "Edit Client",
         "Client has been updated successfully",
         false,
-        1500
+        3000
       )
     ).done(function () {
-      $.when(client.fetchClientsData()).done(function () {
+   
+      $.when(client.fetchClientsData(clientType)).done(function () {
         $(modalId).modal("hide");
       });
     });
   }
 }
+
+function addNotification(resp) {
+  if (resp.id != null ) {
+    $.when(
+      notify(
+        "center",
+        "success",
+        "Add Client",
+        "Client has been added succesfully",
+        false,
+        3000
+      )
+    ).done(function (){
+      $.when(client.fetchClientsData(clientType)).done(function () {
+        $(modalId).modal("hide");
+      });
+    });
+  }
+}
+
+
+function deleteNotification(resp) {
+  if (resp.deleted) {
+    $.when(
+      notify(
+        "center",
+        "success",
+        "Delete Client",
+        "Client has been deleted succesfully",
+        false,
+        3000
+      )
+    ).done(function (){
+      console.log("Somthing eeeh" + clientType);
+      $.when(client.fetchClientsData(clientType)).done(function () {
+        $("#modal-del-client").modal("hide");
+      });
+    });
+  }
+}
+

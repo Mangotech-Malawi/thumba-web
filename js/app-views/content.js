@@ -14,13 +14,13 @@ export const content_view = [
     title: "Individuals",
     link: "views/clients/individuals.html",
     modals: "views/modals/client.html",
-    state: "individuals",
+    state: "individual",
   },
   {
     title: "Organizations",
     link: "views/clients/organizations.html",
     modals: "views/modals/client.html",
-    state: "organizations",
+    state: "organization",
   },
   {
     title: "Interests",

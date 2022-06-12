@@ -3,8 +3,8 @@ import { apiClient } from "./api-client.js";
 export function fetchClientsData(state) {
   let data = apiClient("/api/v1/clients", "GET", "json", false, false, {});
   if (data != null) {
-    if (state === "individuals") loadIndividualsTable(data.individuals);
-    else if (state === "organizations")
+    if (state === "individual") loadIndividualsTable(data.individuals);
+    else if (state === "organization")
       loadOrganizationsTable(data.organizations);
   }
 }
@@ -24,9 +24,9 @@ export function addClient(params) {
   return apiClient("/api/v1/clients", "POST", "json", false, false, params);
 }
 
-export function delClient(id, void_reason) {
+export function delClient(client_id, void_reason) {
   return apiClient("/api/v1/clients/delete", "POST", "json", false, false, {
-    id: id,
+    client_id: client_id,
     void_reason: void_reason,
   });
 }
@@ -73,7 +73,7 @@ function loadIndividualsTable(dataSet) {
 }
 
 function getIndividualEditBtn(data, type, row, meta) {
-  let dataFields = `data-user-id = "${data.id}"
+  let dataFields = `data-id = "${data.id}"
               data-national-id  = "${data.national_id}" 
               data-firstname  = "${data.firstname}" 
               data-lastname = "${data.lastname}"
@@ -88,14 +88,15 @@ function getIndividualEditBtn(data, type, row, meta) {
               data-current-village ="${data.current_village}"
               data-nearest-landmark="${data.nearest_landmark}"
               data-spouse-id = "${data.spouse_id}"
-              data-action-type = "edit"`;
+              data-action-type = "edit"
+              data-client-type = "individual"`;
 
   return getButton(dataFields, "register-client", "default", "fas fa-edit");
 }
 
 function getIndividualDelBtn(data, type, row, meta) {
   return getButton(
-    `data-id = "${data.id}"`,
+    `data-id = "${data.id}" data-client-type = "individual"`,
     "del-client",
     "danger",
     "fa fa-trash"
@@ -108,11 +109,11 @@ function getIndividualViewBtn(data, type, row, meta) {
                     data-lastname = "${data.lastname}"
                     data-gender = "${data.gender}"
                     data-data-of-birth = "${data.date_of_birth}"
-                    data-house = "${data.house}"
+                    data-house = "${data.house}"s
                     data-created-at = "${data.created_at}"
-                    data-spouse-id = "${data.spouse_id}"`;
+                    `;
 
-  return getButton(dataFields, "view-client", "secondary", "fa fa-eye");
+  return getButton(dataFields, "view-client", "primary", "fa fa-eye");
 }
 
 function loadOrganizationsTable(dataSet) {
@@ -162,33 +163,35 @@ function getOrgViewBtn(data, type, row, meta) {
                     data-category="${data.category}"
                     data-purpose="${data.purpose}"
                     data-start-date="${data.start_date}"
-                    data-email-address="${data.email_address}}"
+                    data-email-address="${data.email_address}"
                     data-phone-number="${data.phone_number}"
                     data-office-location="${data.office_location}"
                     data-postal-address="${data.postal_address}"
                     data-registered="${data.registered}"`;
 
-  return getButton(dataFields, "register-client", "default", "fas fa-eye");
+  return getButton(dataFields, "register-client", "primary", "fas fa-eye");
 }
 
 function getOrgEditBtn(data, type, row, meta) {
   let dataFields = `data-id ="${data.id}"
-                    data-org-name ="${data.name}" 
+                    data-name ="${data.name}" 
                     data-category="${data.category}"
                     data-purpose="${data.purpose}"
                     data-start-date="${data.start_date}"
-                    data-email-address="${data.email_address}}"
+                    data-email-address="${data.email_address}"
                     data-phone-number="${data.phone_number}"
                     data-office-location="${data.office_location}"
                     data-postal-address="${data.postal_address}"
-                    data-registered="${data.registered}"`;
+                    data-registered="${data.registered}"
+                    data-action-type = "edit"
+                    data-client-type = "organization"`;
 
-  return getButton(dataFields, "edit-client", "default", "fas fa-edit");
+  return getButton(dataFields, "register-client", "default", "fas fa-edit");
 }
 
 function getOrgDelBtn(data, type, row, metas) {
   return getButton(
-    `data-id = "${data.id}"`,
+    `data-id = "${data.id}" data-client-type = "organization"`,
     "del-client",
     "danger",
     "fa fa-trash"

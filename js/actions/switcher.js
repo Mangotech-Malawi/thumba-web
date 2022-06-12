@@ -23,11 +23,11 @@ $(document).ready(function () {
   });
 
   $("#individualClient").on("click", function (e) {
-    selectContent("individuals");
+    selectContent("individual");
   });
 
   $("#orgClient").on("click", function (e) {
-    selectContent("organizations");
+    selectContent("organization");
   });
 
   //The folloing are user management links
@@ -114,14 +114,14 @@ function loadOtherContent(state, index) {
         case "users":
           users.populateUsersTable();
           break;
-        case "individuals":
+        case "individual":
           fetchClientsData(state);
           break;
-        case "organizations":
+        case "organization":
           fetchClientsData(state); 
           break;
         case "interests":
-          fetchInterests();
+          fetchInterests(state);
           break;     
       }
 
