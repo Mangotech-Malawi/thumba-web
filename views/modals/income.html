@@ -1,0 +1,136 @@
+
+    <div class="modal fade" id="modal-income">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form id="addUser" action="" method="post"></form>
+            <div class="modal-header">
+              <h4 id="incomeModalTitle" class="modal-title">Add Income</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="content">
+                    <div class="row">
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                              
+                              <div class="input-group ">
+                                <input id="investorId" type="hidden"  class="form-control">
+                              </div>
+                              
+                              <div class="form-group ">
+                                <label>Investor Name</label>
+         
+                                <div class="select2-primary">
+                                  <select id="homeDistrict" name="district" class="form-control"  data-placeholder="Select District"
+                                      data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                      <option value="blantyre">Blantyre</option>
+                                      <option value="lilongwe">Lilongwe</option>
+                                      <option value="mzuzu">Mzuzu</option>
+                                    </select>
+                                  </div>
+                              </div>
+
+                        </div>
+
+
+                        <div class="col-lg-6s col-md-6 col-sm-12 mb-3">
+                            <div class="form-group ">
+                            <label>Amount</label>
+                            <div class="input-group " >
+                                <input id="amounts" type="text"  class="form-control"
+                                placeholder="Amount">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                <span class="fas fa-users"></span>
+                                </div>
+                            </div>
+                            </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-sm-12 mb-3">                         
+                            <div class="form-group ">
+                              <label>Category</label>
+       
+                              <div class="select2-primary">
+                                <select id="category" class="form-control"  data-placeholder="Select Category"
+                                    data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                    <option value="mbi">MBI</option>
+                                    <option value="external">External</option>
+                                  </select>
+                                </div>
+                            </div>
+                      </div>
+
+                      <div class="col-lg-12 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group">
+                          <label>Description</label>
+                          <div class="input-group">
+                            <textarea
+                              id="purpose"
+                              type="text"
+                              class="form-control"
+                              placeholder="Why the organization exist"
+                            ></textarea>
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-card"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        
+
+
+                    </div>
+                </div>
+  
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+              <button type="button" id="saveInterestBtn" class="btn btn-primary">Save</button>
+            </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+  
+  
+      <div class="modal fade " id="modal-del-interest">
+        <div class="modal-dialog modal-lg ">
+          <div class="modal-content">
+            <form id="addUser" action="" method="post"></form>
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Interest</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <input id="delInterestId" type="hidden"  class="form-control">
+              </div>
+  
+              <p id="del-user-message">Are you sure you want to delete</p>
+  
+            </div>
+  
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" id="delInterestBtn" class="btn btn-success">Yes</button>
+            </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+  

@@ -37,12 +37,22 @@ $(document).ready(function () {
 
   $("#users").on("click", function (e) {
     selectContent("users");
+  });
 
+  $("#users").on("click", function (e) {
+    selectContent("users");
   });
 
   $("#interests").on("click", function (e) {
-    console.log("in here clicing inter");
     selectContent("interests");
+  });
+
+  $("#investors").on("click", function (e) {
+    selectContent("investors");
+  });
+
+  $("#income").on("click", function (e) {
+    selectContent("income");
   });
 
   $("#logout").on("click", function (e) {
@@ -84,7 +94,6 @@ export function selectContent(state) {
       }
     }
   }
-
 }
 
 function loadDashboard(linkIndex, state, index) {
@@ -98,15 +107,12 @@ function loadDashboard(linkIndex, state, index) {
 function loadOtherContent(state, index) {
   $.when(loadContent(mainContent, state, content_view[index].link)).done(
     function () {
-     
       if (
         content_view[index].modals != null &&
         typeof content_view[index].modals != undefined
       ) {
         $.when(loadContent(modalContent, "", content_view[index].modals)).done(
-          function () {
-      
-          }
+          function () {}
         );
       }
 
@@ -118,14 +124,18 @@ function loadOtherContent(state, index) {
           fetchClientsData(state);
           break;
         case "organization":
-          fetchClientsData(state); 
+          fetchClientsData(state);
           break;
         case "interests":
           fetchInterests(state);
-          break;     
+          break;
+        case "investors":
+          // fetchInterests(state);
+          break;
+        case "income":
+          // fetchInterests(state);
+          break;
       }
-
     }
   );
 }
-

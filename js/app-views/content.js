@@ -7,7 +7,7 @@ export const content_view = [
       "views/dashboards/admin.html",
       "views/dashboards/finance.html",
       "views/dashboards/investor.html",
-      "views/dashboards/loan-officer.html"   
+      "views/dashboards/loan-officer.html",
     ],
   },
   {
@@ -37,6 +37,12 @@ export const content_view = [
     title: "Investors",
     link: "views/investor.html",
     state: "investors",
+  },
+  {
+    title: "Income",
+    link: "views/incomes.html",
+    modals: "views/modals/income.html",
+    state: "income",
   },
   {
     title: "Users",
