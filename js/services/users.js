@@ -15,8 +15,8 @@ export function add(national_id, username, firstname, lastname, email, role) {
     };
 
     return apiClient("/api/v1/new_user", 'POST', 'json', false, false, user_data);
-
 }
+
 
 export function edit(user_id, national_id, username, firstname, lastname, email, role) {
 
@@ -56,16 +56,13 @@ export function delete_user(user_id) {
     return apiClient("/api/v1/delete_user", 'POST', 'json', false, false, { user_id: user_id });
 }
 
-export function populateUsersTable() {
-    let data = apiClient("/api/v1/users", 'GET', 'json', false, false, {});
-    if (data != null) {
-        loadUsersTable(data);
-    }
+export function fetchUsers(){
+    return apiClient("/api/v1/users", 'GET', 'json', false, false, {});
 }
 
 
 
-function loadUsersTable(dataset){
+export function loadUsersTable(dataset){
     $("#usersTable").DataTable({
         destroy: true,
         responsive: true,

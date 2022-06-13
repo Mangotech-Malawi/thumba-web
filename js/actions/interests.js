@@ -25,7 +25,7 @@ $(function () {
   });
 
   $(document).on("click", "#saveInterestBtn", function () {
-    console.log("Ndina yake");
+ 
     let id = $("#interestId").val();
     let name = $("#name").val();
     let max = $("#max").val();

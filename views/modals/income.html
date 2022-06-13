@@ -5,7 +5,7 @@
             <form id="addUser" action="" method="post"></form>
             <div class="modal-header">
               <h4 id="incomeModalTitle" class="modal-title">Add Income</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -17,18 +17,15 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
                               
                               <div class="input-group ">
-                                <input id="investorId" type="hidden"  class="form-control">
+                                <input id="incomeId" type="hidden"  class="form-control">
                               </div>
                               
                               <div class="form-group ">
                                 <label>Investor Name</label>
          
                                 <div class="select2-primary">
-                                  <select id="homeDistrict" name="district" class="form-control"  data-placeholder="Select District"
+                                  <select id="investorId" name="district" class="form-control"  data-placeholder="Select investor"
                                       data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                      <option value="blantyre">Blantyre</option>
-                                      <option value="lilongwe">Lilongwe</option>
-                                      <option value="mzuzu">Mzuzu</option>
                                     </select>
                                   </div>
                               </div>
@@ -40,11 +37,11 @@
                             <div class="form-group ">
                             <label>Amount</label>
                             <div class="input-group " >
-                                <input id="amounts" type="text"  class="form-control"
+                                <input id="amount" type="text"  class="form-control"
                                 placeholder="Amount">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                <span class="fas fa-users"></span>
+                                <span class="fas fa-coins"></span>
                                 </div>
                             </div>
                             </div>
@@ -72,29 +69,22 @@
                           <label>Description</label>
                           <div class="input-group">
                             <textarea
-                              id="purpose"
+                              id="description"
                               type="text"
                               class="form-control"
-                              placeholder="Why the organization exist"
+                              placeholder="Description"
                             ></textarea>
-                            <div class="input-group-append">
-                              <div class="input-group-text">
-                                <span class="fas fa-card"></span>
-                              </div>
-                            </div>
+                          
                           </div>
                         </div>
                       </div>
-                        
-
-
                     </div>
                 </div>
   
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
-              <button type="button" id="saveInterestBtn" class="btn btn-primary">Save</button>
+              <button type="button" id="saveIncomeBtn" class="btn btn-primary">Save</button>
             </div>
             </form>
           </div>
@@ -133,4 +123,10 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
-  
+      <script src="js/actions/income.js" type="module"></script>
+      <script>
+
+          $("#investorId").select2();
+
+          $("#category").select2();
+      </script>

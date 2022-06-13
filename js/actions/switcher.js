@@ -118,9 +118,9 @@ function loadOtherContent(state, index) {
 
       switch (state) {
         case "users":
-          users.populateUsersTable();
+          users.loadUsersTable(users.fetchUsers());
           break;
-        case "individual":
+        case "individual":1
           fetchClientsData(state);
           break;
         case "organization":

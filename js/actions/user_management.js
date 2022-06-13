@@ -35,7 +35,7 @@ $(document).ready(function () {
                 if(resp.updated){
                     $("#modal-edit-user").modal('hide');
                     notify("center", "success", "Edit user", "User has been edited successfully", false, 3000);
-                    users.populateUsersTable();
+                    users.loadUsersTable(users.fetchUsers());
                 }
             }
         }
@@ -60,7 +60,6 @@ $(document).ready(function () {
             let $userModal = $('#modal-edit-user');
 
             $.each(opener.dataset, function(key, value){
-                console.log(key);
                 $userModal.find(`[id = '${key}']`).val(value);
             });
         }
@@ -106,7 +105,7 @@ $(document).ready(function () {
         if (resp.deleted) {
             $("#modal-delete-user").modal('hide');
             notify("center", "success", "Deleted User", "User has been deleted successfully", false, 1500);
-            users.populateUsersTable();
+            users.loadUsersTable(users.fetchUsers());
         }
     });
 
