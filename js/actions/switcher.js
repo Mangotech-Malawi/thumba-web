@@ -1,4 +1,5 @@
 import * as users from "../services/users.js";
+import { fetchIncomeData } from "../services/income.js";
 import { fetchClientsData } from "../services/clients.js";
 import { fetchInterests } from "../services/interests.js";
 import { loadContent } from "../actions/contentLoader.js";
@@ -81,7 +82,7 @@ export function selectContent(state) {
 
   for (let index = 0; index < content_view.length; index++) {
     if (state === content_view[index].state) {
-      if (user_role === "admin" && state === "dashboard") {
+      if ((user_role === "admin" || user_role === "co-owner") && state === "dashboard") {
         loadDashboard(adminDashboardIndex, state, index);
       } else if (user_role === "finance" && state === "dashboard") {
         loadDashboard(financeDashboardIndex, state, index);
@@ -120,7 +121,8 @@ function loadOtherContent(state, index) {
         case "users":
           users.loadUsersTable(users.fetchUsers());
           break;
-        case "individual":1
+        case "individual":
+          1;
           fetchClientsData(state);
           break;
         case "organization":
@@ -133,7 +135,7 @@ function loadOtherContent(state, index) {
           // fetchInterests(state);
           break;
         case "income":
-          // fetchInterests(state);
+          fetchIncomeData();
           break;
       }
     }

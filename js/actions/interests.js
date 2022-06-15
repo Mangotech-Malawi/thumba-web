@@ -25,7 +25,6 @@ $(function () {
   });
 
   $(document).on("click", "#saveInterestBtn", function () {
- 
     let id = $("#interestId").val();
     let name = $("#name").val();
     let max = $("#max").val();
@@ -89,13 +88,20 @@ $(function () {
     }
   });
 
+  $(document).on("hide.bs.modal", modalId, function (e) {
+    clearFields();
+  });
+
   $(document).on("click", "#delInterestBtn", function (e) {
     let id = $("#delInterestId").val();
 
     deleteNotification(interest.deleteInterest(id));
   });
 
-  function deleteNotification(resp) {
+ 
+});
+
+function deleteNotification(resp) {
     if (resp.deleted) {
       $.when(
         notify(
@@ -113,4 +119,15 @@ $(function () {
       });
     }
   }
-});
+
+function clearFields() {
+  $("#interestId").val("");
+  $("#name").val("");
+  $("#max").val("");
+  $("#min").val("");
+  $("#rate").val("");
+  $("#period").val("");
+  $("#accumAmount").val("");
+  $("#gracePeriod").val("");
+  $("#accumDays").val("");
+}
