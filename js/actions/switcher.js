@@ -79,10 +79,11 @@ export function selectContent(state) {
   const financeDashboardIndex = 1;
   const investorDashboardIndex = 2;
   const loanOfficerDashboardIndex = 3;
+  const coOwnerDashboardIndex = 4
 
   for (let index = 0; index < content_view.length; index++) {
     if (state === content_view[index].state) {
-      if ((user_role === "admin" || user_role === "co-owner") && state === "dashboard") {
+      if (user_role === "co-owner" && state === "dashboard") {
         loadDashboard(adminDashboardIndex, state, index);
       } else if (user_role === "finance" && state === "dashboard") {
         loadDashboard(financeDashboardIndex, state, index);
@@ -90,7 +91,10 @@ export function selectContent(state) {
         loadDashboard(investorDashboardIndex, state, index);
       } else if (user_role === "loan-officer" && state === "dashboard") {
         loadDashboard(loanOfficerDashboardIndex, state, index);
-      } else {
+      } else if( user_role === "admin" ||  state === "dashboard"){
+        loadDashboard(coOwnerDashboardIndex , state, index);
+      } 
+      else {
         loadOtherContent(state, index);
       }
     }

@@ -8,6 +8,7 @@ export const content_view = [
       "views/dashboards/finance.html",
       "views/dashboards/investor.html",
       "views/dashboards/loan-officer.html",
+      "views/dashboards/co-owner.html",
     ],
   },
   {
