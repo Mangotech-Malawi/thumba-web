@@ -42,6 +42,20 @@ $(function () {
       .val($(opener).attr("data-id"));
   });
 
+  $(document).on("show.bs.modal", "#modal-client-record", function (e) {
+    let opener = e.relatedTarget;
+
+
+    loadClientRecord("views/clients/demographics.html");
+
+    $.each(opener.dataset, function (key, value) {
+
+        $("#modal-client-record").find(`[id = '${key}']`).text(value);
+      
+    });
+
+  });
+
   $(document).on("click", "#delClientBtn", function (e) {
 
 
@@ -131,6 +145,10 @@ function organizationParams(type) {
 
 function loadForm(path) {
   $.when(loadContent("clientRegistration", "", path)).done(function () {});
+}
+
+function loadClientRecord(path){
+  $.when(loadContent("client-record-content", "", path)).done(function () {});
 }
 
 function updateNotification(resp) {

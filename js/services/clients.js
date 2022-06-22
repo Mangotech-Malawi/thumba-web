@@ -54,14 +54,14 @@ function loadIndividualsTable(dataSet) {
     ],
     columnDefs: [
       {
-        render: getIndividualEditBtn,
-        data: null,
-        targets: [7],
-      },
-      {
         render: getIndividualViewBtn,
         data: null,
         targets: [6],
+      },
+      {
+        render: getIndividualEditBtn,
+        data: null,
+        targets: [7],
       },
       {
         render: getIndividualDelBtn,
@@ -70,6 +70,26 @@ function loadIndividualsTable(dataSet) {
       },
     ],
   });
+}
+
+function getIndividualViewBtn(data, type, row, meta) {
+  let dataFields = `data-del-client-id = "${data.id}"
+                    data-record-national-id  = "${data.national_id}" 
+                    data-record-firstname  = "${data.firstname}" 
+                    data-record-lastname = "${data.lastname}"
+                    data-record-gender = "${data.gender}"
+                    data-record-date-of-birth = "${data.date_of_birth}"
+                    data-record-home-district ="${data.home_district}"
+                    data-record-home-ta ="${data.home_ta}"
+                    data-record-home-village ="${data.home_village}"
+                    data-record-current-district ="${data.current_district}"
+                    data-record-current-ta ="${data.current_ta}"
+                    data-record-current-village ="${data.current_village}"
+                    data-record-nearest-landmark="${data.nearest_landmark}"
+                    data-record-created-at = "${data.created_at}"
+                    `;
+
+  return getButton(dataFields, "client-record", "primary", "fa fa-file");
 }
 
 function getIndividualEditBtn(data, type, row, meta) {
@@ -103,18 +123,7 @@ function getIndividualDelBtn(data, type, row, meta) {
   );
 }
 
-function getIndividualViewBtn(data, type, row, meta) {
-  let dataFields = `data-del-client-id = "${data.id}"
-                    data-firstname  = "${data.firstname}" 
-                    data-lastname = "${data.lastname}"
-                    data-gender = "${data.gender}"
-                    data-data-of-birth = "${data.date_of_birth}"
-                    data-house = "${data.house}"s
-                    data-created-at = "${data.created_at}"
-                    `;
 
-  return getButton(dataFields, "view-client", "primary", "fa fa-eye");
-}
 
 function loadOrganizationsTable(dataSet) {
   $("#organizationsTable").DataTable({
