@@ -5,6 +5,7 @@ import { loadContent } from "../actions/contentLoader.js";
 let modalId = "#modal-register-client";
 let clientType = null;
 let currentDataset = null;
+let jobModal = "#modal-client-job";
 
 localStorage;
 
@@ -15,9 +16,9 @@ $(function () {
     clientType = $(opener).attr("data-client-type");
 
     if (clientType === "organization") {
-      loadForm("views/clients/organizationForm.html");
+      loadForm("clientRegistration","views/clients/organizationForm.html");
     } else if (clientType === "individual") {
-      loadForm("views/clients/individualForm.html");
+      loadForm("clientRegistration","views/clients/individualForm.html");
     }
 
     if (actionType === "edit") {
@@ -95,6 +96,8 @@ $(function () {
     );
   });
 
+
+ /// CLIENT JOBS
   $(document).on("click", "#btnJobs", function (e) {
     $.when(loadIndividualRecordView("views/clients/jobs.html")).done(
       function () {
@@ -112,6 +115,16 @@ $(function () {
       }
     );
   });
+
+
+//CLIENT JOB MODAL
+  $(document).on("show.bs.modal", jobModal, function (e) {
+    let opener = e.relatedTarget;
+    let actionType = $(opener).attr("data-action-type");
+    loadForm("clientJobForm","views/clients/jobForm.html");
+
+  });
+
 
   $(document).on("click","#recordBackBtn", function(){
     clientType = this.dataset.clientType;
@@ -191,12 +204,12 @@ function organizationParams(type) {
   return params;
 }
 
-function loadForm(path) {
-  $.when(loadContent("clientRegistration", "", path)).done(function () {});
+function loadForm(id,path) {
+  $.when(loadContent(id, "", path)).done(function () {});
 }
 
 function loadIndividualRecordView(path) {
-  $.when(loadContent("individualRecord", "", path)).done(function () {});
+  $.when(loadContent("mainContent", "", path)).done(function () {});
 }
 
 function loadRecord(path) {

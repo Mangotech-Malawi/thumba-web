@@ -1,4 +1,35 @@
-<div class="container-fluid">    
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h3 id="recordName" class="card-title">Client Name Here</h3>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 text-right">
+          <!-- Button for calling add organisation modal -->
+
+          <button
+            type="button"
+            class="btn btn bg-gradient-success  text-left"
+            id="newJobBtn"
+            data-toggle="modal"
+            data-target="#modal-client-job"
+            data-form-type="job"
+            data-action-type="add"
+          >
+            <i class="fa fa-plus-square"></i> New Job
+          </button>
+
+          <button
+            type="button"
+            class="btn bg-gradient-secondary text-left"
+            id="recordBackBtn"
+            data-client-type="individual"
+          >
+            <i class="fa fa-arrow-left"></i> Back
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
       <table id="jobsTable" class="table table-striped">
         <thead>
           <tr>
@@ -6,8 +37,8 @@
             <th>Title</th>
             <th>Department</th>
             <th>Employer Type</th>
-            <th>Employer Name</th>   
-            <th>Employment Started</th>
+            <th>Employer Name</th>
+            <th>Employment Type</th>
             <th>Date Started</th>
             <th>Contract Due</th>
             <th>Net Salary</th>
@@ -44,4 +75,6 @@
           </tr>
         </tfoot>
       </table>
+    </div>
+  </div>
 </div>
