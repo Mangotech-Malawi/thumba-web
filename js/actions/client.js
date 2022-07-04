@@ -4,6 +4,7 @@ import { loadContent } from "../actions/contentLoader.js";
 
 let modalId = "#modal-register-client";
 let clientType = null;
+let currentDataset = null;
 
 localStorage;
 
@@ -42,23 +43,7 @@ $(function () {
       .val($(opener).attr("data-id"));
   });
 
-  $(document).on("show.bs.modal", "#modal-client-record", function (e) {
-    let opener = e.relatedTarget;
-
-
-    loadClientRecord("views/clients/demographics.html");
-
-    $.each(opener.dataset, function (key, value) {
-
-        $("#modal-client-record").find(`[id = '${key}']`).text(value);
-      
-    });
-
-  });
-
   $(document).on("click", "#delClientBtn", function (e) {
-
-
     let client_id = $("#delClientId").val();
     let void_reason = $("#reason").val();
 
@@ -72,11 +57,74 @@ $(function () {
           updateNotification(client.editClient(individualParams()));
         else updateNotification(client.editClient(organizationParams()));
       } else {
-        if (clientType === "individual") addNotification(client.addClient(individualParams()));
+        if (clientType === "individual")
+          addNotification(client.addClient(individualParams()));
         else addNotification(client.addClient(organizationParams()));
       }
     }
   });
+
+  $(document).on("click", ".recordBtn", function (e) {
+    let opener = e.relatedTarget;
+
+    currentDataset = this.dataset;
+
+    let clientType = this.dataset.clientType;
+
+    if (clientType === "individual") {
+      loadRecord("views/clients/individualRecord.html");
+      $("#recordName").text(
+        `${this.dataset.recordFirstname} ${this.dataset.recordLastname} Records`
+      );
+    } else if (clientType === "organization") {
+      loadRecord("views/clients/organizationRecord.html");
+    }
+  });
+
+  $(document).on("click", "#btnDemographics", function (e) {
+    $.when(loadIndividualRecordView("views/clients/demographics.html")).done(
+      function () {
+        $.each(currentDataset, function (key, value) {
+          $("#demographics").find(`[id = '${key}']`).text(value);
+        });
+
+        $("#recordName").text(
+          `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
+        );
+      }
+    );
+  });
+
+  $(document).on("click", "#btnJobs", function (e) {
+    $.when(loadIndividualRecordView("views/clients/jobs.html")).done(
+      function () {
+        
+        $("#recordName").text(
+          `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
+        );
+
+        console.log(currentDataset.recordId);
+
+        client.fetchClientJobs({
+          client_id: currentDataset.recordId,
+        });
+        
+      }
+    );
+  });
+
+  $(document).on("click","#recordBackBtn", function(){
+    clientType = this.dataset.clientType;
+    if (clientType === "individual") {
+      loadRecord("views/clients/individualRecord.html");
+      $("#recordName").text(
+        `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Records`
+      );
+    } else if (clientType === "organization") {
+      loadRecord("views/clients/organizationRecord.html");
+    }
+  });
+
 });
 
 function individualParams() {
@@ -147,8 +195,12 @@ function loadForm(path) {
   $.when(loadContent("clientRegistration", "", path)).done(function () {});
 }
 
-function loadClientRecord(path){
-  $.when(loadContent("client-record-content", "", path)).done(function () {});
+function loadIndividualRecordView(path) {
+  $.when(loadContent("individualRecord", "", path)).done(function () {});
+}
+
+function loadRecord(path) {
+  $.when(loadContent("mainContent", "", path)).done(function () {});
 }
 
 function updateNotification(resp) {
@@ -163,7 +215,6 @@ function updateNotification(resp) {
         3000
       )
     ).done(function () {
-   
       $.when(client.fetchClientsData(clientType)).done(function () {
         $(modalId).modal("hide");
       });
@@ -172,7 +223,7 @@ function updateNotification(resp) {
 }
 
 function addNotification(resp) {
-  if (resp.id != null ) {
+  if (resp.id != null) {
     $.when(
       notify(
         "center",
@@ -182,14 +233,13 @@ function addNotification(resp) {
         false,
         3000
       )
-    ).done(function (){
+    ).done(function () {
       $.when(client.fetchClientsData(clientType)).done(function () {
         $(modalId).modal("hide");
       });
     });
   }
 }
-
 
 function deleteNotification(resp) {
   if (resp.deleted) {
@@ -202,12 +252,10 @@ function deleteNotification(resp) {
         false,
         3000
       )
-    ).done(function (){
-      console.log("Somthing eeeh" + clientType);
+    ).done(function () {
       $.when(client.fetchClientsData(clientType)).done(function () {
         $("#modal-del-client").modal("hide");
       });
     });
   }
 }
-

@@ -18,12 +18,10 @@ $(document).ready(function () {
         let lastname = $("#lastname").val();
         let national_id = $("#nationalId").val();
         let email = $("#email").val();
-        let contact = $("#contact").val();
         let role = $("#role").val();
 
-
         if (formType === 'add') {
-            let result = users.add(national_id, username, firstname, lastname, email, contact, role);
+            let result = users.add(national_id, username, firstname, lastname, email, role);
             if (result != null) {
                 addedUsers++;
                 clearFields();

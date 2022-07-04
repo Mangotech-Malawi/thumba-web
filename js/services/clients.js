@@ -31,6 +31,12 @@ export function delClient(client_id, void_reason) {
   });
 }
 
+export function fetchClientJobs(params){
+  return apiClient("/api/v1/client_job", "GET", "json", false, false, 
+    params
+  );
+}
+
 function loadIndividualsTable(dataSet) {
   $("#individualsTable").DataTable({
     destroy: true,
@@ -73,7 +79,7 @@ function loadIndividualsTable(dataSet) {
 }
 
 function getIndividualViewBtn(data, type, row, meta) {
-  let dataFields = `data-del-client-id = "${data.id}"
+  let dataFields = `data-record-id = "${data.id}"
                     data-record-national-id  = "${data.national_id}" 
                     data-record-firstname  = "${data.firstname}" 
                     data-record-lastname = "${data.lastname}"
@@ -87,9 +93,10 @@ function getIndividualViewBtn(data, type, row, meta) {
                     data-record-current-village ="${data.current_village}"
                     data-record-nearest-landmark="${data.nearest_landmark}"
                     data-record-created-at = "${data.created_at}"
-                    `;
+                    data-client-type = "individual"`;
 
-  return getButton(dataFields, "client-record", "primary", "fa fa-file");
+  return `<button type='button' class="btn btn-primary recordBtn" 
+       ${dataFields} > <i class="fas fa-file" aria-hidden="true"></i></button>`;
 }
 
 function getIndividualEditBtn(data, type, row, meta) {
@@ -111,7 +118,7 @@ function getIndividualEditBtn(data, type, row, meta) {
               data-action-type = "edit"
               data-client-type = "individual"`;
 
-  return getButton(dataFields, "register-client", "default", "fas fa-edit");
+  return getButton(dataFields, "register-client", "default", "fas fa-edit ");
 }
 
 function getIndividualDelBtn(data, type, row, meta) {
@@ -122,8 +129,6 @@ function getIndividualDelBtn(data, type, row, meta) {
     "fa fa-trash"
   );
 }
-
-
 
 function loadOrganizationsTable(dataSet) {
   $("#organizationsTable").DataTable({
@@ -209,5 +214,5 @@ function getOrgDelBtn(data, type, row, metas) {
 
 function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
-          data-target="#modal-${modal}" ${dataFields} > <i class="${icon}" aria-hidden="true"s></i></button>`;
+          data-target="#modal-${modal}" ${dataFields} > <i class="${icon}" aria-hidden="true"></i></button>`;
 }
