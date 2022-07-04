@@ -32,9 +32,14 @@ export function delClient(client_id, void_reason) {
 }
 
 export function fetchClientJobs(params){
-  return apiClient("/api/v1/client_job", "GET", "json", false, false, 
+  let data = apiClient("/api/v1/client_job", "GET", "json", false, false, 
     params
   );
+
+  if(data != null ){
+    loadClientJobs(data);
+  }
+
 }
 
 function loadIndividualsTable(dataSet) {
@@ -212,7 +217,74 @@ function getOrgDelBtn(data, type, row, metas) {
   );
 }
 
+
+
+//Clients Jobs Code
+function loadClientJobs(dataset){
+  $("#jobsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "client_job_id" },
+      { data: "title" },
+      { data: "department" },
+      { data: "employer_type" },
+      { data: "employer_name" },
+      { data: "employment_type" },
+      { data: "date_started" },
+      { data: "contract_due" },
+      { data: "net_salary"},
+      { data: "gross_salary"},
+      { data: "pay_date"},
+      { data: "postal_address"},
+      { data: "email_address"},
+      { data: "phone_number"},
+      { data: "district"},
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getJobEditBtn,
+        data: null,
+        targets: [15],
+      },
+      {
+        render: getJobDelBtn,
+        data: null,
+        targets: [16],
+      },
+    ],
+  });
+}
+
+function getJobEditBtn(data, type, row, metas){
+  return getButton("", "register-client", "default", "fas fa-edit");
+}
+
+function getJobDelBtn(data, type, row, metas){
+  return getButton(
+    `data-id = "${data.client_job_id}" `,
+    "del-client",
+    "danger",
+    "fa fa-trash"
+  );
+}
+
+
 function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
           data-target="#modal-${modal}" ${dataFields} > <i class="${icon}" aria-hidden="true"></i></button>`;
 }
+
+
+
+
+
+
