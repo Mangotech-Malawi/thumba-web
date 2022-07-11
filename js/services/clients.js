@@ -31,6 +31,10 @@ export function delClient(client_id, void_reason) {
   });
 }
 
+export function addJob(params){
+  return apiClient("/api/v1/client_job", "POST", "json", false, false, params);
+}
+
 export function fetchClientJobs(params){
   let data = apiClient("/api/v1/client_job", "GET", "json", false, false, 
     params

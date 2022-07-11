@@ -16,9 +16,9 @@ $(function () {
     clientType = $(opener).attr("data-client-type");
 
     if (clientType === "organization") {
-      loadForm("clientRegistration","views/clients/organizationForm.html");
+      loadForm("clientRegistration", "views/clients/organizationForm.html");
     } else if (clientType === "individual") {
-      loadForm("clientRegistration","views/clients/individualForm.html");
+      loadForm("clientRegistration", "views/clients/individualForm.html");
     }
 
     if (actionType === "edit") {
@@ -96,37 +96,34 @@ $(function () {
     );
   });
 
-
- /// CLIENT JOBS
+  /// CLIENT JOBS
   $(document).on("click", "#btnJobs", function (e) {
     $.when(loadIndividualRecordView("views/clients/jobs.html")).done(
       function () {
-        
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
         );
 
-        console.log(currentDataset.recordId);
-
         client.fetchClientJobs({
           client_id: currentDataset.recordId,
         });
-        
       }
     );
   });
 
-
-//CLIENT JOB MODAL
+  //CLIENT JOB MODAL
   $(document).on("show.bs.modal", jobModal, function (e) {
     let opener = e.relatedTarget;
     let actionType = $(opener).attr("data-action-type");
-    loadForm("clientJobForm","views/clients/jobForm.html");
-
+    if(actionType === "add"){
+      $("#regJobTitle").text("Add Client Job");
+    }else if(actionType === "edit"){
+      $("#regJobTitle").text("Edit Client Job");
+    }
+    loadForm("clientJobForm", "views/clients/jobForm.html");
   });
 
-
-  $(document).on("click","#recordBackBtn", function(){
+  $(document).on("click", "#recordBackBtn", function () {
     clientType = this.dataset.clientType;
     if (clientType === "individual") {
       loadRecord("views/clients/individualRecord.html");
@@ -138,7 +135,54 @@ $(function () {
     }
   });
 
+  $(document).on("click", "#saveJobBtn", function (e) {
+    if ($("#regJobTitle").text() === "Add Client Job") {
+      client.addJob(clientJobParams());
+    } else if ($("#regJobTitle").text() === "Edit Client Job") {
+      client.addJob(clientJobParams());
+    }
+  });
 });
+
+function clientJobParams() {
+
+  let title = $("#title").val();
+  let department = $("#department").val();
+  let employerType = $("#employerType").val();
+  let employerName = $("#employerName").val();
+  let employementType = $("#employmentType").val();
+  let dateStarted = $("#dateStarted").val();
+  let contractDue = $("#contractDue").val();
+  let netSalary = $("#netSalary").val();
+  let grossSalary = $("#grossSalary").val();
+  let payDate = $("#payDate").val();
+  let postalAddress = $("#postalAddress").val();
+  let email = $("#emailAddress").val(); //Phone Number
+  let phoneNumber = $("#phoneNumber").val();
+  let district = $("#district").val();
+
+  let params = {
+    client_id: currentDataset.recordId,
+    title: title,
+    department: department,
+    employer_type: employerType,
+    employer_name: employerName,
+    employment_type: employementType,
+    date_started: dateStarted,
+    contract_due: contractDue,
+    net_salary: netSalary,
+    gross_salary: grossSalary,
+    pay_date: payDate,
+    postal_address: postalAddress,
+    email_address: email,
+    phone_number: phoneNumber,
+    district: district
+  };
+
+  return params;
+}
+
+//CLIENT REGISTRATION METHODS
 
 function individualParams() {
   let client_id = $("#id").val();
@@ -204,7 +248,8 @@ function organizationParams(type) {
   return params;
 }
 
-function loadForm(id,path) {
+//FORMS AND CLIENT RECORDS METHODS
+function loadForm(id, path) {
   $.when(loadContent(id, "", path)).done(function () {});
 }
 
@@ -215,6 +260,8 @@ function loadIndividualRecordView(path) {
 function loadRecord(path) {
   $.when(loadContent("mainContent", "", path)).done(function () {});
 }
+
+//========================>
 
 function updateNotification(resp) {
   if (resp.updated) {
