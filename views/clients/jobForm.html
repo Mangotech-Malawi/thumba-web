@@ -1,7 +1,7 @@
 <div class="row">
 
   <div class="input-group ">
-    <input id="id" type="hidden" name="id" class="form-control">
+    <input id="clientJobId" type="hidden" name="id" class="form-control">
   </div>
 
   <div class="input-group ">
@@ -199,25 +199,17 @@
 
   <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
     <div class="form-group">
-      <label>Estimated Pay Date</label>
-      <div
-        class="input-group date"
-        id="payDatePicker"
-        data-target-input="nearest"
-      >
-        <input
-          type="text"
+      <label>Pay Day:</label>
+      <div class="select2-primary">
+        <select
           id="payDate"
-          class="form-control datetimepicker-input"
-          data-target="#payDatePicker"
-        />
-        <div
-          class="input-group-append"
-          data-target="#payDatePicker"
-          data-toggle="datetimepicker"
+          class="form-control"
+          data-placeholder="Select Nearest Landmark"
+          data-dropdown-css-class="select2-primary"
+          style="width: 100%"
         >
-          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-        </div>
+       
+        </select>
       </div>
     </div>
   </div>
@@ -313,4 +305,10 @@
   $(".date").datetimepicker({
     format: "L",
   });
+
+  for(let i=1; i<= 31; i++){
+    $("#payDate").append(`<option value="${i}">${i}</option>`);
+  }
+
+ 
 </script>

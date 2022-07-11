@@ -35,6 +35,17 @@ export function addJob(params){
   return apiClient("/api/v1/client_job", "POST", "json", false, false, params);
 }
 
+export function updateJob(params){
+  return apiClient("/api/v1/client_job/update", "POST", "json", false, false, params);
+}
+
+export function delJob(client_job_id) {
+  return apiClient("/api/v1/client_job/delete", "POST", "json", false, false, {
+    id: client_job_id
+  });
+}
+
+
 export function fetchClientJobs(params){
   let data = apiClient("/api/v1/client_job", "GET", "json", false, false, 
     params
@@ -269,13 +280,31 @@ function loadClientJobs(dataset){
 }
 
 function getJobEditBtn(data, type, row, metas){
-  return getButton("", "register-client", "default", "fas fa-edit");
+
+  let dataFields = `data-client-job-id = "${data.client_job_id}"
+    data-title = "${data.title}" 
+    data-department  = "${data.department}" 
+    data-employer-type = "${data.employer_type}"
+    data-employer-name = "${data.employer_name}"
+    data-employment-type = "${data.employment_type}"
+    data-date-started = "${data.date_started}"
+    data-contract-due ="${data.contract_due}"
+    data-net-salary ="${data.net_salary}"
+    data-gross-salary ="${data.gross_salary}"
+    data-pay-date ="${data.pay_date}"
+    data-postal-address ="${data.postal_address}"
+    data-email-address ="${data.email_address}"
+    data-phone-number="${data.phone_number}"
+    data-spouse-id = "${data.district}"
+    data-action-type = "edit"`;
+   
+  return getButton(dataFields, "client-job", "default", "fas fa-edit");
 }
 
 function getJobDelBtn(data, type, row, metas){
   return getButton(
-    `data-id = "${data.client_job_id}" `,
-    "del-client",
+    `data-del-client-job-id = "${data.client_job_id}" `,
+    "del-client-job",
     "danger",
     "fa fa-trash"
   );
@@ -284,7 +313,7 @@ function getJobDelBtn(data, type, row, metas){
 
 function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
-          data-target="#modal-${modal}" ${dataFields} > <i class="${icon}" aria-hidden="true"></i></button>`;
+          data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
 
 

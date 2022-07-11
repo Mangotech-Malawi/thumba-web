@@ -40,9 +40,6 @@ $(document).ready(function () {
     selectContent("users");
   });
 
-  $("#users").on("click", function (e) {
-    selectContent("users");
-  });
 
   $("#interests").on("click", function (e) {
     selectContent("interests");
