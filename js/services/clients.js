@@ -31,30 +31,70 @@ export function delClient(client_id, void_reason) {
   });
 }
 
-export function addJob(params){
+export function addJob(params) {
   return apiClient("/api/v1/client_job", "POST", "json", false, false, params);
 }
 
-export function updateJob(params){
-  return apiClient("/api/v1/client_job/update", "POST", "json", false, false, params);
+export function updateJob(params) {
+  return apiClient(
+    "/api/v1/client_job/update",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
 }
 
 export function delJob(client_job_id) {
   return apiClient("/api/v1/client_job/delete", "POST", "json", false, false, {
-    id: client_job_id
+    id: client_job_id,
   });
 }
 
-
-export function fetchClientJobs(params){
-  let data = apiClient("/api/v1/client_job", "GET", "json", false, false, 
+export function fetchClientJobs(params) {
+  let data = apiClient(
+    "/api/v1/client_job",
+    "GET",
+    "json",
+    false,
+    false,
     params
   );
 
-  if(data != null ){
+  if (data != null) {
     loadClientJobs(data);
   }
+}
 
+
+export function addDependant(params) {
+  return apiClient("/api/v1/dependants", "POST", "json", false, false, params);
+}
+
+export function updateDependant(params){
+  return apiClient("/api/v1/dependants/update", "POST", "json", false, false, params);
+}
+
+export function delDependant(dependant_id) {
+  return apiClient("/api/v1/dependants/void", "POST", "json", false, false, {
+    id: dependant_id
+  });
+}
+
+export function fetchClientDependants(params) {
+  let data = apiClient(
+    "/api/v1/dependants/client",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  if (data != null) {
+    loadClientDependants(data);
+  }
 }
 
 function loadIndividualsTable(dataSet) {
@@ -232,10 +272,8 @@ function getOrgDelBtn(data, type, row, metas) {
   );
 }
 
-
-
 //Clients Jobs Code
-function loadClientJobs(dataset){
+function loadClientJobs(dataset) {
   $("#jobsTable").DataTable({
     destroy: true,
     responsive: true,
@@ -254,13 +292,13 @@ function loadClientJobs(dataset){
       { data: "employment_type" },
       { data: "date_started" },
       { data: "contract_due" },
-      { data: "net_salary"},
-      { data: "gross_salary"},
-      { data: "pay_date"},
-      { data: "postal_address"},
-      { data: "email_address"},
-      { data: "phone_number"},
-      { data: "district"},
+      { data: "net_salary" },
+      { data: "gross_salary" },
+      { data: "pay_date" },
+      { data: "postal_address" },
+      { data: "email_address" },
+      { data: "phone_number" },
+      { data: "district" },
       { data: null },
       { data: null },
     ],
@@ -279,8 +317,7 @@ function loadClientJobs(dataset){
   });
 }
 
-function getJobEditBtn(data, type, row, metas){
-
+function getJobEditBtn(data, type, row, metas) {
   let dataFields = `data-client-job-id = "${data.client_job_id}"
     data-title = "${data.title}" 
     data-department  = "${data.department}" 
@@ -297,14 +334,69 @@ function getJobEditBtn(data, type, row, metas){
     data-phone-number="${data.phone_number}"
     data-spouse-id = "${data.district}"
     data-action-type = "edit"`;
-   
+
   return getButton(dataFields, "client-job", "default", "fas fa-edit");
 }
 
-function getJobDelBtn(data, type, row, metas){
+function getJobDelBtn(data, type, row, metas) {
   return getButton(
     `data-del-client-job-id = "${data.client_job_id}" `,
     "del-client-job",
+    "danger",
+    "fa fa-trash"
+  );
+}
+
+function loadClientDependants(dataset) {
+  $("#dependantsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "dependancy" },
+      { data: "relationship" },
+      { data: "amount" },
+      { data: "frequency" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getDependantEditBtn,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getDependantDelBtn,
+        data: null,
+        targets: [6],
+      },
+    ],
+  });
+}
+
+
+function getDependantEditBtn(data, type, row, metas) {
+  let dataFields = `data-client-dependant-id = "${data.id}"
+    data-dependancy = "${data.dependancy}" 
+    data-relationship  = "${data.relationship}" 
+    data-amount = "${data.amount}"
+    data-frequency = "${data.frequency}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-dependant", "default", "fas fa-edit");
+}
+
+function getDependantDelBtn(data, type, row, metas) {
+  return getButton(
+    `data-del-dependant-id = "${data.id}" `,
+    "del-client-dependant",
     "danger",
     "fa fa-trash"
   );
@@ -315,9 +407,3 @@ function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
-
-
-
-
-
-

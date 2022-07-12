@@ -6,6 +6,7 @@ let modalId = "#modal-register-client";
 let clientType = null;
 let currentDataset = null;
 let jobModal = "#modal-client-job";
+let dependantModal = "#modal-client-dependant";
 
 localStorage;
 
@@ -118,7 +119,6 @@ $(function () {
     );
   });
 
-  /// CLIENT JOBS
   $(document).on("click", "#btnJobs", function (e) {
     $.when(loadIndividualRecordView("views/clients/jobs.html")).done(
       function () {
@@ -127,6 +127,20 @@ $(function () {
         );
 
         client.fetchClientJobs({
+          client_id: currentDataset.recordId,
+        });
+      }
+    );
+  });
+
+  $(document).on("click", "#btnDependants", function (e) {
+    $.when(loadIndividualRecordView("views/clients/dependants.html")).done(
+      function () {
+        $("#recordName").text(
+          `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
+        );
+
+        client.fetchClientDependants({
           client_id: currentDataset.recordId,
         });
       }
@@ -205,7 +219,7 @@ $(function () {
 
   $(document).on("click", "#delClientJobBtn", function () {
     let id = $("#delClientJobId").val();
-    
+
     deleteNotification(
       client.delJob(id),
       "job",
@@ -215,6 +229,59 @@ $(function () {
   });
 });
 
+// CLIENT DEPENDANT
+$(document).on("show.bs.modal", dependantModal, function (e) {
+  clearFields();
+  let opener = e.relatedTarget;
+  let actionType = $(opener).attr("data-action-type");
+
+  if (actionType === "add") {
+    $("#regDependantTitle").text("Add Client Dependant");
+  } else if (actionType === "edit") {
+    $("#regDependantTitle").text("Edit Client Dependant");
+
+    $.each(opener.dataset, function (key, value) {
+      $(dependantModal).find(`[id = '${key}']`).val(value);
+    });
+  }
+});
+
+$(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
+  let opener = e.relatedTarget;
+  $.each(opener.dataset, function (key, value) {
+    $("#modal-del-client-dependant").find(`[id = '${key}']`).val(value);
+  });
+});
+
+$(document).on("click", "#saveDependantBtn", function (e) {
+  if ($("#regDependantTitle").text() === "Add Client Dependant") {
+    addNotification(
+      client.addDependant(clientDependantParams()),
+      "dependant",
+      "Add Client Dependant",
+      "Client Depandant"
+    );
+  } else if ($("#regDependantTitle").text() === "Edit Client Dependant") {
+    updateNotification(
+      client.updateDependant(clientDependantParams()),
+      "dependant",
+      "Edit Client Dependant ",
+      "Client Dependant"
+    );
+  }
+});
+
+$(document).on("click", "#delClientDependantBtn", function () {
+  let id = $("#delDependantId").val();
+  deleteNotification(
+    client.delDependant(id),
+    "dependant",
+    "Delete Client Dependant",
+    "Client dependant"
+  );
+});
+
+///
 function clientJobParams() {
   let id = $("#clientJobId").val();
   let title = $("#title").val();
@@ -249,6 +316,25 @@ function clientJobParams() {
     email_address: email,
     phone_number: phoneNumber,
     district: district,
+  };
+
+  return params;
+}
+
+function clientDependantParams() {
+  let id = $("#clientDependantId").val();
+  let dependancy = $("#dependancy").val();
+  let amount = $("#amount").val();
+  let relationship = $("#relationship").val();
+  let frequency = $("#frequency").val();
+
+  let params = {
+    id: id,
+    client_id: currentDataset.recordId,
+    dependancy: dependancy,
+    amount: amount,
+    relationship: relationship,
+    frequency: frequency,
   };
 
   return params;
@@ -362,6 +448,15 @@ function updateNotification(resp, actionType, title, message) {
             $(jobModal).modal("hide");
           });
           break;
+        case "dependant":
+          $.when(
+            client.fetchClientDependants({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $(dependantModal).modal("hide");
+          });
+          break;
       }
     });
   }
@@ -394,6 +489,15 @@ function addNotification(resp, actionType, title, message) {
             $(jobModal).modal("hide");
           });
           break;
+        case "dependant":
+          $.when(
+            client.fetchClientDependants({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $(dependantModal).modal("hide");
+          });
+          break;
       }
     });
   }
@@ -405,7 +509,7 @@ function deleteNotification(resp, actionType, title, message) {
       notify(
         "center",
         "success",
-         title,
+        title,
         `${message} has been deleted successfully`,
         false,
         3000
@@ -428,7 +532,24 @@ function deleteNotification(resp, actionType, title, message) {
             $("#modal-del-client-job").modal("hide");
           });
           break;
+        case "dependant":
+          $.when(
+            client.fetchClientDependants({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $("#modal-del-client-dependant").modal("hide");
+          });
+          break;
       }
     });
   }
+}
+
+
+function clearFields() {
+  $("#dependancy").val("");
+  $("#amount").val("");
+  $("#frequency").val("");
+  $("#relationship").val("");
 }
