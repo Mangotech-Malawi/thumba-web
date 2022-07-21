@@ -147,6 +147,23 @@ $(function () {
     );
   });
 
+
+  $(document).on("click", "#btnBusinesses", function (e) {
+    $.when(loadIndividualRecordView("views/clients/businesses.html")).done(
+      function () {
+        $("#recordName").text(
+          `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
+        );
+
+        client.fetchClientBusinesses({
+          client_id: currentDataset.recordId,
+        });
+      }
+    );
+  });
+
+
+
   //CLIENT JOB MODAL
   $(document).on("show.bs.modal", jobModal, function (e) {
     let opener = e.relatedTarget;

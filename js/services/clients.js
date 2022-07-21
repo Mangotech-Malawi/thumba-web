@@ -68,6 +68,23 @@ export function fetchClientJobs(params) {
 }
 
 
+export function fetchClientBusinesses(params) {
+  let data = apiClient(
+    "/api/v1/business/client",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  if (data != null) {
+    loadBusinessesData(data);
+  }
+}
+
+
+
 export function addDependant(params) {
   return apiClient("/api/v1/dependants", "POST", "json", false, false, params);
 }
@@ -381,7 +398,6 @@ function loadClientDependants(dataset) {
   });
 }
 
-
 function getDependantEditBtn(data, type, row, metas) {
   let dataFields = `data-client-dependant-id = "${data.id}"
     data-dependancy = "${data.dependancy}" 
@@ -407,3 +423,52 @@ function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
+
+
+function loadBusinessesData(dataset){
+  $("#businessTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "industry" },
+      { data: "short_description" },
+      { data: "name" },
+      { data: "location" },
+      { data: "start_date" },
+      { data: "description" },
+      { data: "registered" },
+      { data: null },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getOrgEditBtn,
+        data: null,
+        targets: [8],
+      },
+      {
+        render: getOrgViewBtn,
+        data: null,
+        targets: [9],
+      },
+      {
+        render: getOrgDelBtn,
+        data: null,
+        targets: [10],
+      },
+      {
+        visible:false,
+        targets: [2,6],
+      }
+    ],
+  });
+}
+
