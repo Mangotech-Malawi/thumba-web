@@ -7,6 +7,7 @@ let clientType = null;
 let currentDataset = null;
 let jobModal = "#modal-client-job";
 let dependantModal = "#modal-client-dependant";
+let businessModal = "#modal-client-business";
 
 localStorage;
 
@@ -147,7 +148,6 @@ $(function () {
     );
   });
 
-
   $(document).on("click", "#btnBusinesses", function (e) {
     $.when(loadIndividualRecordView("views/clients/businesses.html")).done(
       function () {
@@ -161,8 +161,6 @@ $(function () {
       }
     );
   });
-
-
 
   //CLIENT JOB MODAL
   $(document).on("show.bs.modal", jobModal, function (e) {
@@ -298,6 +296,49 @@ $(document).on("click", "#delClientDependantBtn", function () {
   );
 });
 
+// CLIENT BUSINESS
+
+$(document).on("show.bs.modal", businessModal, function (e) {
+  clearFields();
+  let opener = e.relatedTarget;
+  let actionType = $(opener).attr("data-action-type");
+
+  if (actionType === "add") {
+    $("#regBusTitle").text("Add Client Business");
+  } else if (actionType === "edit") {
+    $("#regBusTitle").text("Edit Client Business");
+
+    $.each(opener.dataset, function (key, value) {
+      $(businessModal).find(`[id = '${key}']`).val(value);
+    });
+  }
+});
+
+$(document).on("show.bs.modal", businessModal, function (e) {
+  let opener = e.relatedTarget;
+  $.each(opener.dataset, function (key, value) {
+    $("#modal-client-business").find(`[id = '${key}']`).val(value);
+  });
+});
+
+$(document).on("click", "#saveBusinessBtn", function (e) {
+  if ($("#regBusTitle").text() === "Add Client Business") {
+    addNotification(
+      client.addBusiness(clientBusinessParams()),
+      "business",
+      "Add Client Business",
+      "Client Business"
+    );
+  } else if ($("#regBusTitle").text() === "Edit Client Business") {
+    updateNotification(
+      client.updateBusiness(clientBusinessParams()),
+      "business",
+      "Add Client Business",
+      "Client Business"
+    );
+  }
+});
+
 ///
 function clientJobParams() {
   let id = $("#clientJobId").val();
@@ -352,6 +393,30 @@ function clientDependantParams() {
     amount: amount,
     relationship: relationship,
     frequency: frequency,
+  };
+
+  return params;
+}
+
+function clientBusinessParams() {
+  let id = $("#clientBusinessId").val();
+  let name = $("#busName").val();
+  let industry = $("#busIndustry").val();
+  let startDate = $("#busStartDate").val();
+  let location = $("#busLocation").val();
+  let shortDescription = $("#busShortDesc").val();
+  let description = $("#busDesc").val();
+  let registered = $("#busRegistered").val();
+
+  let params = {
+    client_id: currentDataset.recordId,
+    name: name,
+    industry: industry,
+    start_date: startDate,
+    location: location,
+    short_description: shortDescription,
+    description: description,
+    registered: registered,
   };
 
   return params;
@@ -515,6 +580,15 @@ function addNotification(resp, actionType, title, message) {
             $(dependantModal).modal("hide");
           });
           break;
+        case "business":
+          $.when(
+            client.fetchClientBusinesses({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $(businessModal).modal("hide");
+          });
+          break;
       }
     });
   }
@@ -563,10 +637,11 @@ function deleteNotification(resp, actionType, title, message) {
   }
 }
 
-
 function clearFields() {
   $("#dependancy").val("");
   $("#amount").val("");
   $("#frequency").val("");
   $("#relationship").val("");
 }
+
+function clearBusinessFileds() {}

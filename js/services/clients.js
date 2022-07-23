@@ -68,6 +68,11 @@ export function fetchClientJobs(params) {
 }
 
 
+
+export function addBusiness(params) {
+  return apiClient("/api/v1//business", "POST", "json", false, false, params);
+}
+
 export function fetchClientBusinesses(params) {
   let data = apiClient(
     "/api/v1/business/client",
