@@ -57,33 +57,49 @@ $(function () {
     if (clientType != null) {
       if ($("#regModalTitle").text() === "Edit Client") {
         if (clientType === "individual")
-          updateNotification(
-            client.editClient(individualParams()),
+          notification(
+            client.editClient(individualParams()).updated,
+            "center",
+            "success",
             "registration",
             "Edit Individual Client",
-            "Client"
+            "Client has been updated successfully",
+            true,
+            3000
           );
         else
           updateNotification(
             client.editClient(organizationParams()),
+            "center",
+            "success",
             "registration",
             "Edit Organization Client",
-            "Client"
+            "Client has been updated successfully",
+            true,
+            3000
           );
       } else {
         if (clientType === "individual")
           addNotification(
             client.addClient(individualParams()),
+            "center",
+            "success",
             "registration",
             "Add Individual Client",
-            "Client"
+            "Client has been added successfully",
+            true,
+            3000
           );
         else
           addNotification(
             client.addClient(organizationParams()),
+            "center",
+            "success",
             "registration",
             "Add Organization Client",
-            "Client"
+            "Client has been added succefully",
+            true,
+            3000
           );
       }
     }
@@ -216,18 +232,26 @@ $(function () {
 
   $(document).on("click", "#saveJobBtn", function (e) {
     if ($("#regJobTitle").text() === "Add Client Job") {
-      addNotification(
-        client.addJob(clientJobParams()),
+      notification(
+        client.addJob(clientJobParams()).created,
+        "center",
+        "success",
         "job",
         "Add Client Job",
-        "Client"
+        "Client Job has been updated successfully",
+        true,
+        3000
       );
     } else if ($("#regJobTitle").text() === "Edit Client Job") {
-      updateNotification(
-        client.updateJob(clientJobParams()),
+      notification(
+        client.updateJob(clientJobParams()).updated,
+        "center",
+        "success",
         "job",
-        "Add Client Job",
-        "Client"
+        "Edit Client Job",
+        "Client Job has been updated successfully",
+        true,
+        3000
       );
     }
   });
@@ -235,11 +259,15 @@ $(function () {
   $(document).on("click", "#delClientJobBtn", function () {
     let id = $("#delClientJobId").val();
 
-    deleteNotification(
-      client.delJob(id),
+    notification(
+      client.delJob(id).deleted,
+      "center",
+      "danger",
       "job",
       "Delete Client Job",
-      "Client job"
+      "Client Job has been deleted successfully",
+      true,
+      3000
     );
   });
 });
@@ -270,18 +298,26 @@ $(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
 
 $(document).on("click", "#saveDependantBtn", function (e) {
   if ($("#regDependantTitle").text() === "Add Client Dependant") {
-    addNotification(
-      client.addDependant(clientDependantParams()),
+    notification(
+      client.addDependant(clientDependantParams()).created,
+      "center",
+      "success",
       "dependant",
       "Add Client Dependant",
-      "Client Depandant"
+      "Client Depandant has been updated successfully",
+      true,
+      3000
     );
   } else if ($("#regDependantTitle").text() === "Edit Client Dependant") {
-    updateNotification(
-      client.updateDependant(clientDependantParams()),
+    notification(
+      client.updateDependant(clientDependantParams()).updated,
+      "center",
+      "success",
       "dependant",
-      "Edit Client Dependant ",
-      "Client Dependant"
+      "Edit Client Dependant",
+      "Client Depandant has been updated successfully",
+      true,
+      3000
     );
   }
 });
@@ -289,17 +325,22 @@ $(document).on("click", "#saveDependantBtn", function (e) {
 $(document).on("click", "#delClientDependantBtn", function () {
   let id = $("#delDependantId").val();
   deleteNotification(
-    client.delDependant(id),
+    client.delDependant(id).deleted,
+    "center",
+    "success",
     "dependant",
     "Delete Client Dependant",
-    "Client dependant"
+    "Client dependant has been deleted successfully",
+    true,
+    3000
   );
 });
 
 // CLIENT BUSINESS
 
 $(document).on("show.bs.modal", businessModal, function (e) {
-  clearFields();
+  clearFields("#clientBusiness");
+
   let opener = e.relatedTarget;
   let actionType = $(opener).attr("data-action-type");
 
@@ -307,36 +348,61 @@ $(document).on("show.bs.modal", businessModal, function (e) {
     $("#regBusTitle").text("Add Client Business");
   } else if (actionType === "edit") {
     $("#regBusTitle").text("Edit Client Business");
-
     $.each(opener.dataset, function (key, value) {
-      $(businessModal).find(`[id = '${key}']`).val(value);
+      if (key !== "busRegistered")
+        $(businessModal).find(`[id = '${key}']`).val(value);
+      else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
     });
   }
 });
 
-$(document).on("show.bs.modal", businessModal, function (e) {
+$(document).on("show.bs.modal", "#modal-del-client-business", function (e) {
   let opener = e.relatedTarget;
   $.each(opener.dataset, function (key, value) {
-    $("#modal-client-business").find(`[id = '${key}']`).val(value);
+    $("#modal-del-client-business").find(`[id = '${key}']`).val(value);
   });
 });
 
 $(document).on("click", "#saveBusinessBtn", function (e) {
   if ($("#regBusTitle").text() === "Add Client Business") {
-    addNotification(
-      client.addBusiness(clientBusinessParams()),
+    notification(
+      client.addBusiness(clientBusinessParams()).created,
+      "center",
+      "success",
       "business",
       "Add Client Business",
-      "Client Business"
+      "Client Business has been added successfully",
+      true,
+      3000
     );
   } else if ($("#regBusTitle").text() === "Edit Client Business") {
-    updateNotification(
-      client.updateBusiness(clientBusinessParams()),
+    notification(
+      client.updateBusiness(clientBusinessParams()).updated,
+      "center",
+      "success",
       "business",
-      "Add Client Business",
-      "Client Business"
+      "Edit Client Business",
+      "Client Business has been updated successfully",
+      true,
+      3000
     );
   }
+});
+
+$(document).on("click", "#delClientBusBtn", function () {
+  let id = $("#delClientBusId").val();
+  notification(
+    client.deleteBusiness({ id: id }).deleted,
+    "center",
+    "success",
+    "business",
+    "Delete Client Business",
+    "Client business has been deleted successfully",
+    true,
+    3000
+  );
+
+  $("#modal-del-client-business").modal("hide");
 });
 
 ///
@@ -399,16 +465,17 @@ function clientDependantParams() {
 }
 
 function clientBusinessParams() {
-  let id = $("#clientBusinessId").val();
+  let id = $("#clientBusId").val();
   let name = $("#busName").val();
   let industry = $("#busIndustry").val();
   let startDate = $("#busStartDate").val();
   let location = $("#busLocation").val();
   let shortDescription = $("#busShortDesc").val();
-  let description = $("#busDesc").val();
-  let registered = $("#busRegistered").val();
+  let description = $("#busDescription").val();
+  let registered = $("#busRegistered").is(":checked");
 
   let params = {
+    id: id,
     client_id: currentDataset.recordId,
     name: name,
     industry: industry,
@@ -503,60 +570,28 @@ function loadRecord(path) {
 
 //========================>
 
-function updateNotification(resp, actionType, title, message) {
-  if (resp.updated) {
+function notification(
+  isDone,
+  position,
+  icon,
+  recordType,
+  title,
+  text,
+  showConfirmButton,
+  timer
+) {
+  if (isDone)
     $.when(
-      notify(
-        "center",
-        "success",
-        title,
-        `${message} has been updated successfully`,
-        false,
-        3000
-      )
+      Swal.fire({
+        position: position,
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: showConfirmButton,
+        timer: timer,
+      })
     ).done(function () {
-      switch (actionType) {
-        case "registration":
-          $.when(client.fetchClientsData(clientType)).done(function () {
-            $(modalId).modal("hide");
-          });
-          break;
-        case "job":
-          $.when(
-            client.fetchClientJobs({
-              client_id: currentDataset.recordId,
-            })
-          ).done(function () {
-            $(jobModal).modal("hide");
-          });
-          break;
-        case "dependant":
-          $.when(
-            client.fetchClientDependants({
-              client_id: currentDataset.recordId,
-            })
-          ).done(function () {
-            $(dependantModal).modal("hide");
-          });
-          break;
-      }
-    });
-  }
-}
-
-function addNotification(resp, actionType, title, message) {
-  if (resp.id != null) {
-    $.when(
-      notify(
-        "center",
-        "success",
-        title,
-        `${message} has been added successfully`,
-        false,
-        3000
-      )
-    ).done(function () {
-      switch (actionType) {
+      switch (recordType) {
         case "registration":
           $.when(client.fetchClientsData(clientType)).done(function () {
             $(modalId).modal("hide");
@@ -591,57 +626,14 @@ function addNotification(resp, actionType, title, message) {
           break;
       }
     });
-  }
 }
 
-function deleteNotification(resp, actionType, title, message) {
-  if (resp.deleted) {
-    $.when(
-      notify(
-        "center",
-        "success",
-        title,
-        `${message} has been deleted successfully`,
-        false,
-        3000
-      )
-    ).done(function () {
-      $.when(client.fetchClientsData(clientType)).done(function () {});
-
-      switch (actionType) {
-        case "registration":
-          $.when(client.fetchClientsData(clientType)).done(function () {
-            $("#modal-del-client").modal("hide");
-          });
-          break;
-        case "job":
-          $.when(
-            client.fetchClientJobs({
-              client_id: currentDataset.recordId,
-            })
-          ).done(function () {
-            $("#modal-del-client-job").modal("hide");
-          });
-          break;
-        case "dependant":
-          $.when(
-            client.fetchClientDependants({
-              client_id: currentDataset.recordId,
-            })
-          ).done(function () {
-            $("#modal-del-client-dependant").modal("hide");
-          });
-          break;
-      }
-    });
-  }
-}
-
-function clearFields() {
-  $("#dependancy").val("");
-  $("#amount").val("");
-  $("#frequency").val("");
-  $("#relationship").val("");
+function clearFields(formId) {
+  $(":input", formId)
+    .not(":button, :submit, :reset")
+    .val("")
+    .prop("checked", false)
+    .prop("selected", false);
 }
 
 function clearBusinessFileds() {}

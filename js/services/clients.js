@@ -67,11 +67,18 @@ export function fetchClientJobs(params) {
   }
 }
 
-
-
 export function addBusiness(params) {
-  return apiClient("/api/v1//business", "POST", "json", false, false, params);
+  return apiClient("/api/v1/business", "POST", "json", false, false, params);
 }
+
+export function updateBusiness(params) {
+  return apiClient("/api/v1/business/edit", "POST", "json", false, false, params);
+}
+
+export function deleteBusiness(params) {
+  return apiClient("/api/v1/business/delete", "POST", "json", false, false, params);
+}
+
 
 export function fetchClientBusinesses(params) {
   let data = apiClient(
@@ -88,19 +95,24 @@ export function fetchClientBusinesses(params) {
   }
 }
 
-
-
 export function addDependant(params) {
   return apiClient("/api/v1/dependants", "POST", "json", false, false, params);
 }
 
-export function updateDependant(params){
-  return apiClient("/api/v1/dependants/update", "POST", "json", false, false, params);
+export function updateDependant(params) {
+  return apiClient(
+    "/api/v1/dependants/update",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
 }
 
 export function delDependant(dependant_id) {
   return apiClient("/api/v1/dependants/void", "POST", "json", false, false, {
-    id: dependant_id
+    id: dependant_id,
   });
 }
 
@@ -423,14 +435,7 @@ function getDependantDelBtn(data, type, row, metas) {
   );
 }
 
-
-function getButton(dataFields, modal, color, icon) {
-  return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
-          data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
-}
-
-
-function loadBusinessesData(dataset){
+function loadBusinessesData(dataset) {
   $("#businessTable").DataTable({
     destroy: true,
     responsive: true,
@@ -455,25 +460,67 @@ function loadBusinessesData(dataset){
     ],
     columnDefs: [
       {
-        render: getOrgEditBtn,
+        render: getBusinessViewBtn,
         data: null,
         targets: [8],
       },
       {
-        render: getOrgViewBtn,
+        render: getBusinessEditBtn,
         data: null,
         targets: [9],
       },
       {
-        render: getOrgDelBtn,
+        render: getBusinessDelBtn,
         data: null,
         targets: [10],
       },
       {
-        visible:false,
-        targets: [2,6],
-      }
+        visible: false,
+        targets: [2, 6],
+      },
     ],
   });
 }
 
+function getBusinessEditBtn(data, type, row, metas) {
+  let dataFields = `data-client-bus-id = "${data.id}"
+    data-bus-name = "${data.name}" 
+    data-bus-industry = "${data.industry}" 
+    data-bus-start-date = "${data.start_date}"
+    data-bus-location = "${data.location}"
+    data-bus-short-desc = "${data.short_description}"
+    data-bus-description = "${data.description}"
+    data-bus-registered = "${data.registered}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+}
+
+function getBusinessDelBtn(data, type, row, metas) {
+  console.log(data.id);
+  return getButton(
+    `data-del-client-bus-id = "${data.id}" `,
+    "del-client-business",
+    "danger",
+    "fa fa-trash"
+  );
+}
+
+function getBusinessViewBtn(data, type, row, metas) {
+  let dataFields = `data-client-business-id = "${data.id}"
+    data-bus-name = "${data.name}" 
+    data-bus-industry  = "${data.industry}" 
+    data-bus-start-date = "${data.start_date}"
+    data-bus-location = "${data.location}"
+    data-bus-short-desc = "${data.short_description}"
+    data-bus-des = "${data.description}"
+    data-bus-registered = "${data.registered}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-business", "primary", "fas fa-eye");
+}
+
+function getButton(dataFields, modal, color, icon) {
+  return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
+          data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
+}

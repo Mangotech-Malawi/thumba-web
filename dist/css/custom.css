@@ -1,3 +1,7 @@
 .record{
     height: 100px;
 }
+
+.tr, td, th {
+  font-size: 1.3rem;
+}
