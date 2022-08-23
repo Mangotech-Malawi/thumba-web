@@ -72,13 +72,26 @@ export function addBusiness(params) {
 }
 
 export function updateBusiness(params) {
-  return apiClient("/api/v1/business/edit", "POST", "json", false, false, params);
+  return apiClient(
+    "/api/v1/business/edit",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
 }
 
 export function deleteBusiness(params) {
-  return apiClient("/api/v1/business/delete", "POST", "json", false, false, params);
+  return apiClient(
+    "/api/v1/business/delete",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
 }
-
 
 export function fetchClientBusinesses(params) {
   let data = apiClient(
@@ -497,7 +510,6 @@ function getBusinessEditBtn(data, type, row, metas) {
 }
 
 function getBusinessDelBtn(data, type, row, metas) {
-  console.log(data.id);
   return getButton(
     `data-del-client-bus-id = "${data.id}" `,
     "del-client-business",
@@ -523,4 +535,79 @@ function getBusinessViewBtn(data, type, row, metas) {
 function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
+}
+
+export function fetchClientAssets(params) {
+  let data = apiClient(
+    "/api/v1/assets/client",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  if (data != null) {
+    loadAssetsData(data);
+  }
+}
+
+function loadAssetsData(dataset) {
+  $("#assetsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "identifier" },
+      { data: "identifier_type" },
+      { data: "name" },
+      { data: "purchase_date" },
+      { data: "purchase_price" },
+      { data: "market_value" },
+      { data: "description" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getAssetEditBtn,
+        data: null,
+        targets: [8],
+      },
+      {
+        render: getAssetDelBtn,
+        data: null,
+        targets: [9],
+      },
+    ],
+  });
+}
+
+function getAssetEditBtn(data, type, row, metas) {
+  let dataFields = `data-client-bus-id = "${data.id}"
+  data-bus-name = "${data.name}" 
+  data-bus-industry = "${data.industry}" 
+  data-bus-start-date = "${data.start_date}"
+  data-bus-location = "${data.location}"
+  data-bus-short-desc = "${data.short_description}"
+  data-bus-description = "${data.description}"
+  data-bus-registered = "${data.registered}"
+  data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+}
+
+function getAssetDelBtn(data, type, row, metas) {
+  return getButton(
+    `data-del-client-bus-id = "${data.id}" `,
+    "del-client-business",
+    "danger",
+    "fa fa-trash"
+  );
 }

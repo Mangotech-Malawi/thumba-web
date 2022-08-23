@@ -178,6 +178,20 @@ $(function () {
     );
   });
 
+  $(document).on("click", "#btnAssets", function (e) {
+    $.when(loadIndividualRecordView("views/clients/assets.html")).done(
+      function () {
+        $("#recordName").text(
+          `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
+        );
+
+        client.fetchClientAssets({
+          client_id: currentDataset.recordId,
+        });
+      }
+    );
+  });
+
   //CLIENT JOB MODAL
   $(document).on("show.bs.modal", jobModal, function (e) {
     let opener = e.relatedTarget;
