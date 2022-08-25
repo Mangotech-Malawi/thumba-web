@@ -537,6 +537,11 @@ function getButton(dataFields, modal, color, icon) {
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
 
+
+export function addAsset(params){
+  return apiClient("/api/v1/assets", "POST", "json", false, false, params);
+}
+
 export function fetchClientAssets(params) {
   let data = apiClient(
     "/api/v1/assets/client",
@@ -590,17 +595,17 @@ function loadAssetsData(dataset) {
 }
 
 function getAssetEditBtn(data, type, row, metas) {
-  let dataFields = `data-client-bus-id = "${data.id}"
-  data-bus-name = "${data.name}" 
-  data-bus-industry = "${data.industry}" 
-  data-bus-start-date = "${data.start_date}"
-  data-bus-location = "${data.location}"
-  data-bus-short-desc = "${data.short_description}"
-  data-bus-description = "${data.description}"
-  data-bus-registered = "${data.registered}"
+  let dataFields = `data-client-asset-id = "${data.id}"
+  data-identifier = "${data.identifier}" 
+  data-identifier-type = "${data.identifier_type}" 
+  data-asset-name = "${data.name}"
+  data-purchase-date = "${data.purchase_date}"
+  data-purchase-price = "${data.purchase_price}"
+  data-market-value = "${data.market_value}"
+  data-asset-description = "${data.description}"
   data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+  return getButton(dataFields, "client-asset", "default", "fas fa-edit");
 }
 
 function getAssetDelBtn(data, type, row, metas) {

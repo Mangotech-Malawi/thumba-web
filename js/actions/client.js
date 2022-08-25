@@ -5,9 +5,10 @@ import { loadContent } from "../actions/contentLoader.js";
 let modalId = "#modal-register-client";
 let clientType = null;
 let currentDataset = null;
-let jobModal = "#modal-client-job";
-let dependantModal = "#modal-client-dependant";
-let businessModal = "#modal-client-business";
+const jobModal = "#modal-client-job";
+const dependantModal = "#modal-client-dependant";
+const businessModal = "#modal-client-business";
+const assetModal = "#modal-client-asset";
 
 localStorage;
 
@@ -419,6 +420,63 @@ $(document).on("click", "#delClientBusBtn", function () {
   $("#modal-del-client-business").modal("hide");
 });
 
+//CLient Assets
+
+$(document).on("click", "#saveAssetBtn", function (e) {
+  console.log("Am here")
+  if ($("#regAssetTitle").text() === "Add Client Asset") {
+    notification(
+      client.addAsset(clientAssetParams()).created,
+      "center",
+      "success",
+      "asset",
+      "Add Client Asset",
+      "Client Asset has been added successfully",
+      true,
+      3000
+    );
+  } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
+    notification(
+      client.updateAsset(clientAssetParams()).updated,
+      "center",
+      "success",
+      "asset",
+      "Edit Client Asset",
+      "Client Asset has been updated successfully",
+      true,
+      3000
+    );
+  }
+});
+
+///
+function clientAssetParams() {
+  let id = $("#clientAssetId").val();
+  let identifier = $("#identifier").val();
+  let identifierType = $("#identifierType").val();
+  let assetName = $("#assetName").val();
+  let purchaseName = $("#purchaseName").val();
+  let purchaseDate = $("#purchaseDate").val();
+  let purchasePrice = $("#purchasePrice").val();
+  let marketValue = $("#marketValue").val();
+  let description = $("#assetDescription").val();
+
+  let params = {
+    id: id,
+    client_id: currentDataset.recordId,
+    identifier: identifier,
+    identifier_type: identifierType,
+    name: assetName,
+    purchase_name: purchaseName,
+    purchase_date: purchaseDate,
+    purchase_price: purchasePrice,
+    market_value: marketValue,
+    description: description,
+  };
+
+  return params;
+}
+
 ///
 function clientJobParams() {
   let id = $("#clientJobId").val();
@@ -636,6 +694,15 @@ function notification(
             })
           ).done(function () {
             $(businessModal).modal("hide");
+          });
+          break;
+        case "asset":
+          $.when(
+            client.fetchClientAssets({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $(assetModal).modal("hide");
           });
           break;
       }
