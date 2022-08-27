@@ -420,10 +420,8 @@ $(document).on("click", "#delClientBusBtn", function () {
   $("#modal-del-client-business").modal("hide");
 });
 
-//CLient Assets
-
+//Client Assets
 $(document).on("click", "#saveAssetBtn", function (e) {
-  console.log("Am here")
   if ($("#regAssetTitle").text() === "Add Client Asset") {
     notification(
       client.addAsset(clientAssetParams()).created,
@@ -449,7 +447,46 @@ $(document).on("click", "#saveAssetBtn", function (e) {
   }
 });
 
-///
+$(document).on("show.bs.modal", assetModal, function (e) {
+  clearFields();
+  let opener = e.relatedTarget;
+  let actionType = $(opener).attr("data-action-type");
+
+  if (actionType === "add") {
+    $("#regAssetTitle").text("Add Client Asset");
+  } else if (actionType === "edit") {
+    $("#regAssetTitle").text("Edit Client Asset");
+    $.each(opener.dataset, function (key, value) {
+      $(assetModal).find(`[id = '${key}']`).val(value);
+    });
+  }
+});
+
+
+$(document).on("show.bs.modal", "#modal-del-client-asset", function (e) {
+  let opener = e.relatedTarget;
+  $.each(opener.dataset, function (key, value) {
+    $("#modal-del-client-asset").find(`[id = '${key}']`).val(value);
+  });
+});
+
+$(document).on("click", "#delClientAssetBtn", function (e) {
+  let id = $("#delAssetId").val();
+  $.when(notification(
+    client.delAsset(id).deleted,
+    "center",
+    "success",
+    "asset",
+    "Delete Client Asset",
+    "Client Asset has been deleted successfully",
+    true,
+    3000
+  )).done( function (){
+    $("#modal-del-client-asset").modal('hide');
+  });
+});
+
+//
 function clientAssetParams() {
   let id = $("#clientAssetId").val();
   let identifier = $("#identifier").val();

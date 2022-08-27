@@ -537,9 +537,18 @@ function getButton(dataFields, modal, color, icon) {
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
 
-
 export function addAsset(params){
   return apiClient("/api/v1/assets", "POST", "json", false, false, params);
+}
+
+export function updateAsset(params){
+  return apiClient("/api/v1/assets/edit", "POST", "json", false, false, params);
+}
+
+export function delAsset(assetId) {
+  return apiClient("/api/v1/assets/delete", "POST", "json", false, false, {
+    id: assetId,
+  });
 }
 
 export function fetchClientAssets(params) {
@@ -610,8 +619,8 @@ function getAssetEditBtn(data, type, row, metas) {
 
 function getAssetDelBtn(data, type, row, metas) {
   return getButton(
-    `data-del-client-bus-id = "${data.id}" `,
-    "del-client-business",
+    `data-del-asset-id = "${data.id}" `,
+    "del-client-asset",
     "danger",
     "fa fa-trash"
   );
