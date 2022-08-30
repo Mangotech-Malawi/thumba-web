@@ -193,6 +193,22 @@ $(function () {
     );
   });
 
+
+
+  $(document).on("click", "#btnOtherLoans", function (e) {
+    $.when(loadIndividualRecordView("views/clients/otherLoans.html")).done(
+      function () {
+        $("#recordName").text(
+          `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
+        );
+
+        client.fetchClientAssets({
+          client_id: currentDataset.recordId,
+        });
+      }
+    );
+  });
+
   //CLIENT JOB MODAL
   $(document).on("show.bs.modal", jobModal, function (e) {
     let opener = e.relatedTarget;
