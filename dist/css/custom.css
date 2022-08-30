@@ -2,6 +2,10 @@
     height: 100px;
 }
 
+.record :hover{
+   background-color: #3376a3;
+   cursor: pointer;
+}
 .tr, td, th {
   font-size: 1.3rem;
 }
