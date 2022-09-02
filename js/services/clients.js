@@ -625,3 +625,98 @@ function getAssetDelBtn(data, type, row, metas) {
     "fa fa-trash"
   );
 }
+
+
+export function addOtherLoans(params){
+  return apiClient("/api/v1/otherloans", "POST", "json", false, false, params);
+}
+
+export function updateOtherLoan(params){
+  return apiClient("/api/v1/otherloans/edit", "POST", "json", false, false, params);
+}
+
+export function delOtherLoan(assetId) {
+  return apiClient("/api/v1/otherloans/delete", "POST", "json", false, false, {
+    id: assetId,
+  });
+}
+
+export function fetchClientOtherLoans(params) {
+  let data = apiClient(
+    "/api/v1/otherloans/client",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  if (data != null) {
+    loadOtherLoansData(data);
+  }
+}
+
+function loadOtherLoansData(dataset) {
+  $("#otherLoansTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "institution" },
+      { data: "phone_number" },
+      { data: "amount" },
+      { data: "period" },
+      { data: "period_type" },
+      { data: "rate" },
+      { data: "purpose" },
+      { data: "loaned_date" },
+      { data: "amount_paid" },
+      { data: "closed" },
+      { data: "stopped" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getOtherLoanEditBtn,
+        data: null,
+        targets: [12],
+      },
+      {
+        render: getOtherLoanDelBtn,
+        data: null,
+        targets: [13],
+      },
+    ],
+  });
+}
+
+function getOtherLoanEditBtn(data, type, row, metas) {
+  let dataFields = `data-client-asset-id = "${data.id}"
+  data-identifier = "${data.identifier}" 
+  data-identifier-type = "${data.identifier_type}" 
+  data-asset-name = "${data.name}"
+  data-purchase-date = "${data.purchase_date}"
+  data-purchase-price = "${data.purchase_price}"
+  data-market-value = "${data.market_value}"
+  data-asset-description = "${data.description}"
+  data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-asset", "default", "fas fa-edit");
+}
+
+function getOtherLoanDelBtn(data, type, row, metas) {
+  return getButton(
+    `data-del-asset-id = "${data.id}" `,
+    "del-client-asset",
+    "danger",
+    "fa fa-trash"
+  );
+}
+

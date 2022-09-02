@@ -202,7 +202,7 @@ $(function () {
           `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
         );
 
-        client.fetchClientAssets({
+        client.fetchClientOtherLoans({
           client_id: currentDataset.recordId,
         });
       }
