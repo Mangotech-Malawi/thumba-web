@@ -193,8 +193,6 @@ $(function () {
     );
   });
 
-
-
   $(document).on("click", "#btnOtherLoans", function (e) {
     $.when(loadIndividualRecordView("views/clients/otherLoans.html")).done(
       function () {
