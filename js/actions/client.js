@@ -9,6 +9,7 @@ const jobModal = "#modal-client-job";
 const dependantModal = "#modal-client-dependant";
 const businessModal = "#modal-client-business";
 const assetModal = "#modal-client-asset";
+const otherloanModal = "#modal-client-otherloan";
 
 localStorage;
 
@@ -500,7 +501,79 @@ $(document).on("click", "#delClientAssetBtn", function (e) {
   });
 });
 
-//
+//Client Other Loans
+$(document).on("click", "#saveOtherLoanBtn", function (e) {
+  if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
+    notification(
+      client.addOtherLoan(clientOtherLoanParams()).created,
+      "center",
+      "success",
+      "otherloan",
+      "Add Client Other Loan",
+      "Client other loan has been added successfully",
+      true,
+      3000
+    );
+  } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
+    notification(
+      client.updateOtherLoan(clientOtherLoanParams()).updated,
+      "center",
+      "success",
+      "otherloan",
+      "Edit Client Other Loan",
+      "Client other loan has been updated successfully",
+      true,
+      3000
+    );
+  }
+});
+
+$(document).on("show.bs.modal", otherloanModal, function (e) {
+  clearFields();
+  let opener = e.relatedTarget;
+  let actionType = $(opener).attr("data-action-type");
+
+  if (actionType === "add") {
+    $("#regOtherLoanTitle").text("Add Client Other Loan");
+  } else if (actionType === "edit") {
+    $("#regOtherLoanTitle").text("Edit Client Asset");
+    $.each(opener.dataset, function (key, value) {
+      $(otherloanModal).find(`[id = '${key}']`).val(value);
+
+      if (key !== "busRegistered")
+        $(businessModal).find(`[id = '${key}']`).val(value);
+      else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+    });
+  }
+
+});
+
+
+$(document).on("show.bs.modal", "#modal-del-client-other-loan", function (e) {
+  let opener = e.relatedTarget;
+  $.each(opener.dataset, function (key, value) {
+    $("#modal-del-client-other-loan").find(`[id = '${key}']`).val(value);
+  });
+});
+
+$(document).on("click", "#delClientOtherLoanBtn", function (e) {
+  let id = $("#delOtherLoanId").val();
+  $.when(notification(
+    client.delOtherLoan(id).deleted,
+    "center",
+    "success",
+    "asset",
+    "Delete Client Other Loan",
+    "Client other loan has been deleted successfully",
+    true,
+    3000
+  )).done( function (){
+    $("#modal-del-client-asset").modal('hide');
+  });
+});
+
+
+//Params Methods ====================+++>
 function clientAssetParams() {
   let id = $("#clientAssetId").val();
   let identifier = $("#identifier").val();
@@ -673,6 +746,38 @@ function organizationParams(type) {
     office_location: officeLocation,
     postal_address: postalAddress,
     registered: registered,
+  };
+
+  return params;
+}
+
+
+function clientOtherLoanParams() {
+  let id = $("#clientOtherLoanId").val();
+  let instutition= $("#instutition").val();
+  let phoneNumber = $("#phoneNumber").val();
+  let amount = $("#amount").val();
+  let period = $("#period").val();
+  let periodType = $("#periodType option:selected").val();
+  let rate = $("#rate").val();
+  let loanedDate = $("#loanedDate").val();
+  let amountPaid = $("#amountPaid").val();
+  let closed = $("#loanClosed").val();
+  let stopped = $("#stopped").val();
+  let reasonForStopping = $("#reasonForStopping").val();
+
+  let params = {
+    id: id,
+    client_id: currentDataset.recordId,
+    instutition: instutition,
+    phone_number: phoneNumber,
+    amount: amount,
+    period: period,
+    rate: rate,
+    purpose: purpose,
+    purchase_price: purchasePrice,
+    market_value: marketValue,
+    description: description,
   };
 
   return params;

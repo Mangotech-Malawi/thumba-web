@@ -698,23 +698,27 @@ function loadOtherLoansData(dataset) {
 }
 
 function getOtherLoanEditBtn(data, type, row, metas) {
-  let dataFields = `data-client-asset-id = "${data.id}"
-  data-identifier = "${data.identifier}" 
-  data-identifier-type = "${data.identifier_type}" 
-  data-asset-name = "${data.name}"
-  data-purchase-date = "${data.purchase_date}"
-  data-purchase-price = "${data.purchase_price}"
-  data-market-value = "${data.market_value}"
-  data-asset-description = "${data.description}"
+  let dataFields = `data-client-other-loan-id = "${data.id}"
+  data-instutition = "${data.instutition}" 
+  data-phone-number = "${data.phone_number}" 
+  data-amount = "${data.amount}"
+  data-period = "${data.period}"
+  data-period-type = "${data.period_type}"
+  data-rate = "${data.rate}"
+  data-loaned-date = "${data.loaned_date}"
+  data-amount-paid = "${data.amount_paid}"
+  data-closed = "${data.closed}"
+  data-stopped = "${data.stopped}"
+  data-reason-for-stopping = "${data.reason_for_stopping}"
   data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-asset", "default", "fas fa-edit");
+  return getButton(dataFields, "client-otherloan", "default", "fas fa-edit");
 }
 
 function getOtherLoanDelBtn(data, type, row, metas) {
   return getButton(
-    `data-del-asset-id = "${data.id}" `,
-    "del-client-asset",
+    `data-del-other-loan-id = "${data.id}" `,
+    "del-client-other-loan",
     "danger",
     "fa fa-trash"
   );
