@@ -627,7 +627,7 @@ function getAssetDelBtn(data, type, row, metas) {
 }
 
 
-export function addOtherLoans(params){
+export function addOtherLoan(params){
   return apiClient("/api/v1/otherloans", "POST", "json", false, false, params);
 }
 
@@ -699,7 +699,7 @@ function loadOtherLoansData(dataset) {
 
 function getOtherLoanEditBtn(data, type, row, metas) {
   let dataFields = `data-client-other-loan-id = "${data.id}"
-  data-instutition = "${data.instutition}" 
+  data-institution = "${data.institution}" 
   data-phone-number = "${data.phone_number}" 
   data-amount = "${data.amount}"
   data-period = "${data.period}"
@@ -707,6 +707,7 @@ function getOtherLoanEditBtn(data, type, row, metas) {
   data-rate = "${data.rate}"
   data-loaned-date = "${data.loaned_date}"
   data-amount-paid = "${data.amount_paid}"
+  data-purpose = "${data.purpose}"
   data-closed = "${data.closed}"
   data-stopped = "${data.stopped}"
   data-reason-for-stopping = "${data.reason_for_stopping}"
@@ -718,9 +719,11 @@ function getOtherLoanEditBtn(data, type, row, metas) {
 function getOtherLoanDelBtn(data, type, row, metas) {
   return getButton(
     `data-del-other-loan-id = "${data.id}" `,
-    "del-client-other-loan",
+    "del-client-otherloan",
     "danger",
     "fa fa-trash"
   );
 }
+
+
 

@@ -477,7 +477,6 @@ $(document).on("show.bs.modal", assetModal, function (e) {
   }
 });
 
-
 $(document).on("show.bs.modal", "#modal-del-client-asset", function (e) {
   let opener = e.relatedTarget;
   $.each(opener.dataset, function (key, value) {
@@ -487,17 +486,19 @@ $(document).on("show.bs.modal", "#modal-del-client-asset", function (e) {
 
 $(document).on("click", "#delClientAssetBtn", function (e) {
   let id = $("#delAssetId").val();
-  $.when(notification(
-    client.delAsset(id).deleted,
-    "center",
-    "success",
-    "asset",
-    "Delete Client Asset",
-    "Client Asset has been deleted successfully",
-    true,
-    3000
-  )).done( function (){
-    $("#modal-del-client-asset").modal('hide');
+  $.when(
+    notification(
+      client.delAsset(id).deleted,
+      "center",
+      "success",
+      "asset",
+      "Delete Client Asset",
+      "Client Asset has been deleted successfully",
+      true,
+      3000
+    )
+  ).done(function () {
+    $("#modal-del-client-asset").modal("hide");
   });
 });
 
@@ -536,7 +537,7 @@ $(document).on("show.bs.modal", otherloanModal, function (e) {
   if (actionType === "add") {
     $("#regOtherLoanTitle").text("Add Client Other Loan");
   } else if (actionType === "edit") {
-    $("#regOtherLoanTitle").text("Edit Client Asset");
+    $("#regOtherLoanTitle").text("Edit Client Other Loan");
     $.each(opener.dataset, function (key, value) {
       $(otherloanModal).find(`[id = '${key}']`).val(value);
 
@@ -545,33 +546,32 @@ $(document).on("show.bs.modal", otherloanModal, function (e) {
       else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
     });
   }
-
 });
 
-
-$(document).on("show.bs.modal", "#modal-del-client-other-loan", function (e) {
+$(document).on("show.bs.modal", "#modal-del-client-otherloan", function (e) {
   let opener = e.relatedTarget;
   $.each(opener.dataset, function (key, value) {
-    $("#modal-del-client-other-loan").find(`[id = '${key}']`).val(value);
+    $("#modal-del-client-otherloan").find(`[id = '${key}']`).val(value);
   });
 });
 
 $(document).on("click", "#delClientOtherLoanBtn", function (e) {
   let id = $("#delOtherLoanId").val();
-  $.when(notification(
-    client.delOtherLoan(id).deleted,
-    "center",
-    "success",
-    "asset",
-    "Delete Client Other Loan",
-    "Client other loan has been deleted successfully",
-    true,
-    3000
-  )).done( function (){
-    $("#modal-del-client-asset").modal('hide');
+  $.when(
+    notification(
+      client.delOtherLoan(id).deleted,
+      "center",
+      "success",
+      "otherloan",
+      "Delete Client Other Loan",
+      "Client other loan has been deleted successfully",
+      true,
+      3000
+    )
+  ).done(function () {
+    $("#modal-del-client-otherloan").modal("hide");
   });
 });
-
 
 //Params Methods ====================+++>
 function clientAssetParams() {
@@ -751,17 +751,17 @@ function organizationParams(type) {
   return params;
 }
 
-
 function clientOtherLoanParams() {
   let id = $("#clientOtherLoanId").val();
-  let instutition= $("#instutition").val();
+  let institution = $("#institution").val();
   let phoneNumber = $("#phoneNumber").val();
-  let amount = $("#amount").val();
-  let period = $("#period").val();
+  let amount = $("#clientOtherLoan").find("[id = 'amount']").val();
+  let period = $("#clientOtherLoan").find("[id = 'period']").val();
   let periodType = $("#periodType option:selected").val();
-  let rate = $("#rate").val();
+  let rate =  $("#clientOtherLoan").find("[id = 'rate']").val();
   let loanedDate = $("#loanedDate").val();
   let amountPaid = $("#amountPaid").val();
+  let purpose =  $("#clientOtherLoan").find("[id = 'purpose']").val()
   let closed = $("#loanClosed").val();
   let stopped = $("#stopped").val();
   let reasonForStopping = $("#reasonForStopping").val();
@@ -769,15 +769,18 @@ function clientOtherLoanParams() {
   let params = {
     id: id,
     client_id: currentDataset.recordId,
-    instutition: instutition,
+    institution: institution,
     phone_number: phoneNumber,
     amount: amount,
     period: period,
+    period_type: periodType,
     rate: rate,
+    loaned_date: loanedDate,
+    amount_paid: amountPaid,
     purpose: purpose,
-    purchase_price: purchasePrice,
-    market_value: marketValue,
-    description: description,
+    closed: closed,
+    stopped: stopped,
+    reason_for_stopping: reasonForStopping,
   };
 
   return params;
@@ -859,6 +862,15 @@ function notification(
             })
           ).done(function () {
             $(assetModal).modal("hide");
+          });
+          break;
+        case "otherloan":
+          $.when(
+            client.fetchClientOtherLoans({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $(otherloanModal).modal("hide");
           });
           break;
       }
