@@ -5,6 +5,8 @@ import { fetchInterests } from "../services/interests.js";
 import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
+import * as dashboard from "../services/dashboard.js"
+
 
 let user_role = sessionStorage.getItem("role");
 
@@ -81,7 +83,7 @@ export function selectContent(state) {
   for (let index = 0; index < content_view.length; index++) {
     if (state === content_view[index].state) {
       if (user_role === "co-owner" && state === "dashboard") {
-        loadDashboard(adminDashboardIndex, state, index);
+        loadDashboard(coOwnerDashboardIndex, state, index);
         break;
       } else if (user_role === "finance" && state === "dashboard") {
         loadDashboard(financeDashboardIndex, state, index);
@@ -93,7 +95,9 @@ export function selectContent(state) {
         loadDashboard(loanOfficerDashboardIndex, state, index);
         break;
       } else if( user_role === "admin" &&  state === "dashboard"){
-        loadDashboard(coOwnerDashboardIndex , state, index);
+        $.when(loadDashboard(adminDashboardIndex , state, index)).done( function (){
+          dashboard.admin();
+        });
         break;
       } 
       else {
