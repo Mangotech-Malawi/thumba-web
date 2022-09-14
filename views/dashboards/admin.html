@@ -4,12 +4,12 @@
 
     <div class="row">
 
-        <div class="col-lg-3 col-sm-3">
+        <div class="col-lg">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3 id="num-of-users">0</h3>
-                    <p>Users</p>
+                    <h3 id="totalRevenue">0</h3>
+                    <p>Total Revenue</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -18,12 +18,29 @@
                 <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
             </div>
         </div>
-        <div class="col-lg-3  col-sm-3">
+
+
+        <div class="col-lg">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3 id="totalIncome">0</h3>
+                    <p>Total Income</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+
+                <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg">
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3 id="clients">0</h3>
-                    <p>Clients</p>
+                    <h3 id="totalExpenses">0</h3>
+                    <p>Total Expenses</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -33,14 +50,27 @@
             </div>
         </div>
 
+        <div class="col-lg">
+            <!-- small box -->
+            <div class="small-box bg-secondary">
+                <div class="inner">
+                    <h3 id="totalProfits">0</h3>
+                    <p>Total Profits</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
 
+                <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
+            </div>
+        </div>
 
-        <div class="col-lg-3 col-sm-3">
+        <div class="col-lg">
             <!-- small box -->
             <div class="small-box bg-primary">
                 <div class="inner">
-                    <h3 id="total-unassigned">0</h3>
-                    <p>Profits</p>
+                    <h3 id="totalClients">0</h3>
+                    <p>Total Clients</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -50,12 +80,12 @@
             </div>
         </div>
 
-        <div class="col-lg-3 col-sm-3">
+        <div class="col-lg">
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3 id="total-unassigned">0</h3>
-                    <p>Total Due</p>
+                    <h3 id="totalUsers">0</h3>
+                    <p>Users</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -64,8 +94,80 @@
                 <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
             </div>
         </div>
+
+
     </div>
 
 
+    <div class="row">
+        <!-- ./col -->
+
+        <div class="col-lg">
+          <div class="card h-100">
+            <div class="card-header">
+              <h4 id="connStatusTitle" class="card-title">
+                <i class="fas fa-chart-pie mr-1"></i>
+                Share Contribution Chart
+              </h4>
+
+              <div class="card-tools">
+                <ul class="nav nav-pills ml-auto">
+                  <li class="nav-item"> 
+                    <a id="sharesDonutLink"
+                      class="nav-link active"
+                      >Donut</a
+                    >
+                  </li>
+                  <li id="sharesContId" class="nav-item ml-4 mt-1 d-none">
+                    <h5 id="tabular-pin" class="text-secondary">
+                      <i class="fas fa-solid fa-map-pin"></i>
+                    </h5>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div id="shareCont" class="card-body col d-flex justify-content-center">
+          
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+
+
+        <div class="col-lg">
+          <div class="card h-100">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-chart-pie mr-1"></i>
+                Returns Growth
+              </h3>
+            </div>
+            <div class="card-body">
+              <div id="npid-status"></div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+
+        <section class="col-lg">
+          <div class="card h-100">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-chart-pie mr-1"></i>
+                Customer Feedback
+              </h3>
+              <div class="card-tools">
+                <ul class="nav nav-pills ml-auto"></ul>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div id="avg-consump"></div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </section>
+      </div>
 
 </div>
