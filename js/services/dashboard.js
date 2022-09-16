@@ -1,8 +1,9 @@
 import { apiClient } from "./api-client.js";
 import { sharesOptions } from "./charts.js";
 
+let nf =  new Intl.NumberFormat('en-US');
 let dashboardData;
-$(function (){
+$(function () {
   $(document).on("click", "#sharesDonutLink", function () {
     populateSharesChart(dashboardData.investors);
   });
@@ -11,13 +12,14 @@ $(function (){
 export function admin() {
   dashboardData = fetchClientsData();
   populateSharesChart(dashboardData.investors);
-  $("#totalClients").text(dashboardData.client_count);
-  $("#totalUsers").text(dashboardData.user_count);
-  $("#totalRevenue").text(`MK${dashboardData.total_revenue}`);
-  $("#totalIncome").text(`MK${dashboardData.total_income}`);
+  $("#totalClients").text(nf.format(dashboardData.client_count));
+  $("#totalUsers").text(nf.format(dashboardData.user_count));
+  $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
+  $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
 }
 
 function populateSharesChart(investors) {
+  $("#sharesContributionTitle").text("Shares & Contributions Chart");
   sharesOptions.series = [];
   sharesOptions.labels = [];
   investors.forEach(function (investor, index) {
@@ -30,7 +32,9 @@ function populateSharesChart(investors) {
       let investor = investors[config.dataPointIndex];
 
       $("#shareContribution").html(sharesContibutionTable());
-      $("#sharesContributionTitle").text(`${investor.firstname} ${investor.lastname} contributions`)
+      $("#sharesContributionTitle").text(
+        `${investor.firstname} ${investor.lastname} contributions`
+      );
 
       $.fn.DataTable.ext.pager.numbers_length = 5;
 
@@ -49,7 +53,7 @@ function populateSharesChart(investors) {
 
 function loadInvestorContributionData(investorIncomes) {
   $("#investorContributionTable").DataTable({
-    destroy: true,  
+    destroy: true,
     responsive: true,
     lengthChange: true,
     autoWidth: false,
@@ -70,16 +74,16 @@ function sharesContibutionTable() {
           <thead>
             <tr>
             <th>Id</th>
+              <th>Amount(MWK)</th>
               <th>Date</th>
-              <th>Amount</th>
             </tr>
           </thead>
           <tbody></tbody>
           <tfoot>
             <tr>
             <th>Id</th>
+            <th>Amount(MWK)</th>
             <th>Date</th>
-            <th>Amount</th>
             </tr>
           </tfoot>
         </table></div>`;
