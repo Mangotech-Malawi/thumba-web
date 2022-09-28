@@ -40,6 +40,8 @@ $(document).ready(function () {
 
   $("#users").on("click", function (e) {
     selectContent("users");
+  });  $("#applications").on("click", function (e) {
+    selectContent("applications");
   });
 
 
@@ -53,6 +55,14 @@ $(document).ready(function () {
 
   $("#income").on("click", function (e) {
     selectContent("income");
+  });
+
+  $("#applications").on("click", function (e) {
+    selectContent("applications");
+  });
+
+  $("#loans").on("click", function (e) {
+    selectContent("loans");
   });
 
   $("#logout").on("click", function (e) {
