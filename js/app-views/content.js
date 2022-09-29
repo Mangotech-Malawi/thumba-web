@@ -30,8 +30,13 @@ export const content_view = [
     state: "interests",
   },
   {
+    title: "Applications",
+    link: "views/loans/applications.html",
+    state: "applications",
+  },
+  {
     title: "Loans",
-    link: "views/loans.html",
+    link: "views/loans/loans.html",
     state: "loans",
   },
   {

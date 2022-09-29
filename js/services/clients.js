@@ -537,11 +537,11 @@ function getButton(dataFields, modal, color, icon) {
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
 
-export function addAsset(params){
+export function addAsset(params) {
   return apiClient("/api/v1/assets", "POST", "json", false, false, params);
 }
 
-export function updateAsset(params){
+export function updateAsset(params) {
   return apiClient("/api/v1/assets/edit", "POST", "json", false, false, params);
 }
 
@@ -626,13 +626,19 @@ function getAssetDelBtn(data, type, row, metas) {
   );
 }
 
-
-export function addOtherLoan(params){
+export function addOtherLoan(params) {
   return apiClient("/api/v1/otherloans", "POST", "json", false, false, params);
 }
 
-export function updateOtherLoan(params){
-  return apiClient("/api/v1/otherloans/edit", "POST", "json", false, false, params);
+export function updateOtherLoan(params) {
+  return apiClient(
+    "/api/v1/otherloans/edit",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
 }
 
 export function delOtherLoan(assetId) {
@@ -706,7 +712,7 @@ function getOtherLoanEditBtn(data, type, row, metas) {
   data-period-type = "${data.period_type}"
   data-rate = "${data.rate}"
   data-loaned-date = "${data.loaned_date}"
-  data-amount-paid = "${data.amount_paid}"
+  data-amount-paid = "${data.amount_paid}"1
   data-purpose = "${data.purpose}"
   data-closed = "${data.closed}"
   data-stopped = "${data.stopped}"
@@ -724,6 +730,3 @@ function getOtherLoanDelBtn(data, type, row, metas) {
     "fa fa-trash"
   );
 }
-
-
-
