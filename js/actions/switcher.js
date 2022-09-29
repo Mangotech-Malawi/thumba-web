@@ -2,6 +2,7 @@ import * as users from "../services/users.js";
 import { fetchIncomeData } from "../services/income.js";
 import { fetchClientsData } from "../services/clients.js";
 import { fetchInterests } from "../services/interests.js";
+import * as loans from "../services/loans.js"
 import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
@@ -155,6 +156,8 @@ function loadOtherContent(state, index) {
         case "investors":
           // fetchInterests(state);
           break;
+        case "applications":
+          loans.fetchLoanApplications();
         case "income":
           fetchIncomeData();
           break;
