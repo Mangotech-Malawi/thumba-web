@@ -1,0 +1,486 @@
+
+    <div class="modal fade" id="modal-loan-application">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <form id="addUser" action="" method="post"></form>
+            <div class="modal-header">
+              <h4 id="interestModalTitle" class="modal-title">Add Application</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="content">
+                  <div  class="row ">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                      <div class="input-group ">
+                        <input id="id" type="hidden" name="id" class="form-control">
+                      </div>
+                      <div class="form-group ">
+                          <label>Client ID/National ID:</label>
+                          <div class="input-group ">
+                            <input id="clientId" type="text" name="national_id" class="form-control"
+                              placeholder="">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-card"></span>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                      <div class="form-group ">
+                        <label>Firstname:</label>
+                        <div class="input-group ">
+                          <input id="firstname" type="text"  class="form-control"
+                            placeholder="Firstname">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-users"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Lastname:</label>
+                            <div class="input-group ">
+                              <input id="lastname" type="text" name="lastname" class="form-control"
+                                placeholder="Lastname">
+                              <div class="input-group-append">
+                                <div class="input-group-text">
+                                  <span class="fas fa-users"></span>
+                                </div>
+                              </div>
+                            </div>
+                  
+                          </div>
+                  
+                        </div>
+                  
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Gender:</label>
+                         
+                              <div class="select2-primary">
+                                <select id="gender" name="gender" data-placeholder="Select facility"
+                                  data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                  <option value="M">Male</option>
+                                  <option value="F">female</option>
+                                </select>
+                              </div>
+                  
+                            
+                          </div>
+                        </div>
+                  
+                  
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Application Date:</label>
+                            <div class="input-group date" id="applicationDatePicker" data-target-input="nearest">
+                              <input type="text" id="dateOfBirth" class="form-control datetimepicker-input" data-target="#applicationDatePicker"/>
+                              <div class="input-group-append" data-target="#applicationDatePicker" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
+                          </div>
+                          </div>
+                        </div>
+                  
+                  
+                  
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Interest Rate:</label>
+                           
+                              <div class="select2-primary">
+                                <select id="interestsRates"
+                                        name="interests[]"  class="form-control  interests"  data-placeholder="Select Interest"
+                                    data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                  </select>
+                                </div>
+                          </div>
+                        </div>
+
+                      
+
+                        <div class="col-lg-12 col-md-6 col-sm-6 mb-3">
+                          <div class="form-group">
+                            <label>Description</label>
+                            <div class="input-group">
+                              <textarea
+                                id="description"
+                                type="text"
+                                class="form-control"
+                                placeholder="Description"
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                  
+                  
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Amount:</label>
+                            <div class="input-group " >
+                              
+                              <input id="homeVillage" type="text"  class="form-control"
+                              placeholder="Amount">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-users"></span>
+                              </div>
+                            </div>
+                            </div>
+                  
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                          <div class="form-group">
+                            <label>Collaterals</label>
+            
+                            <div class="select2-primary">
+                              <select
+                                class="collaterals"
+                                name="collaterals[]"
+                                multiple="multiple"
+                                data-placeholder="Select collateral"
+                                data-dropdown-css-class="select2-primary"
+                                style="width: 100%"
+                              ></select>
+                            </div>
+                          </div>
+                        </div> 
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+              <button type="button" id="saveApplicationBtn" class="btn btn-primary">Next</button>
+            </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="modal-guarantors">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <form id="addUser" action="" method="post"></form>
+          <div class="modal-header">
+            <h4 id="guarantor" class="modal-title"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+              <div class="content">
+                <div class="row ">
+                  <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                    <div class="input-group ">
+                      <input id="id" type="hidden" name="id" class="form-control">
+                    </div>
+                    <div class="form-group ">
+                        <label>National ID:</label>
+                        <div class="input-group ">
+                          <input id="nationalId" type="text" name="national_id" class="form-control"
+                            placeholder="National ID">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-card"></span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                
+                  <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                    <div class="form-group ">
+                      <label>Firstname:</label>
+                      <div class="input-group ">
+                        <input id="firstname" type="text"  class="form-control"
+                          placeholder="Firstname">
+                        <div class="input-group-append">
+                          <div class="input-group-text">
+                            <span class="fas fa-users"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Lastname:</label>
+                          <div class="input-group ">
+                            <input id="lastname" type="text" name="lastname" class="form-control"
+                              placeholder="Lastname">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-users"></span>
+                              </div>
+                            </div>
+                          </div>
+                
+                        </div>
+                
+                      </div>
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Gender:</label>
+                       
+                            <div class="select2-primary">
+                              <select id="gender" name="gender" data-placeholder="Select facility"
+                                data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                <option value="M">Male</option>
+                                <option value="F">female</option>
+                              </select>
+                            </div>
+                
+                          
+                        </div>
+                      </div>
+                
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Date Of Birth:</label>
+                          <div class="input-group date" id="dateOfBirthPicker" data-target-input="nearest">
+                            <input type="text" id="dateOfBirth" class="form-control datetimepicker-input" data-target="#dateOfBirthPicker"/>
+                            <div class="input-group-append" data-target="#dateOfBirthPicker" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+                
+                
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Home District:</label>
+                         
+                            <div class="select2-primary">
+                              <select id="homeDistrict" name="district" class="form-control"  data-placeholder="Select District"
+                                  data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                  <option value="blantyre">Blantyre</option>
+                                  <option value="lilongwe">Lilongwe</option>
+                                  <option value="mzuzu">Mzuzu</option>
+                                </select>
+                              </div>
+                           
+                         
+                        </div>
+                      </div>
+                
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Home TA:</label>
+                          <div class="input-group " >
+                            
+                            <input id="homeTa" type="text"  class="form-control"
+                            placeholder="Home TA">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-users"></span>
+                            </div>
+                          </div>
+                          </div>
+                
+                        </div>
+                      </div>
+                
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Home Village:</label>
+                          <div class="input-group " >
+                            
+                            <input id="homeVillage" type="text"  class="form-control"
+                            placeholder="homve Village">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-users"></span>
+                            </div>
+                          </div>
+                          </div>
+                
+                        </div>
+                      </div>
+                
+                
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Current District:</label>
+                
+                          <div class="select2-primary">
+                            <select id="currentDistrict" name="district" class="form-control"  data-placeholder="Select District"
+                                data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                <option value="blantyre">Blantyre</option>
+                                <option value="lilongwe">Lilongwe</option>
+                                <option value="mzuzu">Mzuzu</option>
+                              </select>
+                            </div>
+                
+                        </div>
+                      </div>
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Current TA:</label>
+                          <div class="input-group " >
+                            
+                            <input id="currentTa" type="text" name="firstname" class="form-control"
+                            placeholder="Current TA">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-users"></span>
+                            </div>
+                          </div>
+                          </div>
+                
+                        </div>
+                      </div>
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Current Village:</label>
+                          <div class="input-group " >
+                            
+                            <input id="currentVillage" type="text" name="firstname" class="form-control"
+                            placeholder="Current Village">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-users"></span>
+                            </div>
+                          </div>
+                          </div>
+                
+                        </div>
+                      </div>
+                
+                
+                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="form-group ">
+                          <label>Nearest Landmark:</label>
+                
+                          <div class="select2-primary">
+                            <select id="nearestLandmark" name="district" class="form-control" 
+                             data-placeholder="Select Nearest Landmark"
+                                data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                <option value="Borehole">Borehole</option>
+                                <option value="CCAP Church">CCAP Church</option>
+                                <option value="Primary School">Primary School</option>
+                                <option value="Secondary School">Secondary School</option>
+                                <option value="Market">Market</option>
+                              </select>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6 col-md-12 col-sm-12 mb-3">                         
+                        <div class="form-group ">
+                          <label>Relationship</label>
+   
+                          <div class="select2-primary">
+                            <select id="relationship" class="form-control"  data-placeholder="Select Relationship"
+                                data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                <option value="grand parent">Grand Parent</option>
+                                <option value="mother">Mother</option>
+                                <option value="father">Father</option>
+                                <option value="brother">Brother</option>
+                                <option value="sister">Sister</option>
+                                <option value="son">Son</option>
+                                <option value="daughter">Daughter</option>
+                                <option value="In-Law">In Law</option>
+                                <option value="spouse">Spouse</option>
+                                <option value="own family">Own Family</option>
+                                <option value="distant relative">Distant Relative</option>
+                                <option value="friend">Friend</option>
+                                <option value="other">Other</option>
+                              </select>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+            <button type="button" id="saveApplicationBtn" class="btn btn-primary">Next</button>
+          </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+  
+  
+      <div class="modal fade " id="modal-del-interest">
+        <div class="modal-dialog modal-lg ">
+          <div class="modal-content">
+            <form id="addUser" action="" method="post"></form>
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Interest</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <input id="delInterestId" type="hidden"  class="form-control">
+              </div>
+  
+              <p id="del-user-message">Are you sure you want to delete</p>
+  
+            </div>
+  
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" id="delInterestBtn" class="btn btn-success">Yes</button>
+            </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
+<script>
+
+  $("#startDatePicker").datetimepicker({
+    format: "L",
+  });
+
+  $("#applicationDatePicker").datetimepicker({
+    format: "L",
+  });
+
+  $("#purchaseDatePicker").datetimepicker({
+    format: "L",
+  });
+
+  $('#gender').select2();
+  $('#currentDistrict').select2();
+  $('#interestsRates').select2();
+  $('.collaterals').select2();
+  $('#nearestLandmark').select2();
+
+</script>
+   
+  

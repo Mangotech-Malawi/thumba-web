@@ -1,11 +1,16 @@
 .record{
     height: 100px;
+    padding: 0.5em 0.5em;
+    border-radius: 2em;
+    text-align: center;
 }
 
 .record :hover{
-   background-color: #3376a3;
    cursor: pointer;
+   border-radius: 2em;
+   text-align: center;
 }
+
 .tr, td, th {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
 }

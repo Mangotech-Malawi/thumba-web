@@ -33,6 +33,7 @@ export const content_view = [
     title: "Applications",
     link: "views/loans/applications.html",
     state: "applications",
+    modals: "views/modals/loans.html"
   },
   {
     title: "Loans",

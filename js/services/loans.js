@@ -9,7 +9,7 @@ export function fetchLoanApplications() {
 }
 
 function loadLoanApplications(dataset) {
-  $("#loanApplicationsTable").DataTable({
+  $("#newLoanApplicationsTable").DataTable({
     destroy: true,
     responsive: true,
     searching: true,
@@ -124,6 +124,6 @@ function getApplicationDelBtn(data, type, row, metas) {
 }
 
 function getButton(dataFields, modal, color, icon) {
-  return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
+  return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
             data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
