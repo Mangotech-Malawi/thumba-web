@@ -8,6 +8,17 @@ export function fetchLoanApplications() {
   }
 }
 
+export function addApplication(params) {
+  return apiClient(
+    "/api/v1/applications/new",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
     destroy: true,
@@ -81,7 +92,7 @@ function getLastname(data, type, row, metas) {
 }
 
 function getPaymentsDetails(data, type, row, metas) {
-    let dataFields = `data-loan-application-id = "${data.id}"
+  let dataFields = `data-loan-application-id = "${data.id}"
     data-collaterals = "${data.collaterals}" 
     data-action-type = "edit"`;
 
@@ -103,21 +114,92 @@ function getCollateralsBtn(data, type, row, metas) {
 
 function getGuarantorsBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
-    data-collaterals = "${data.collaterals}" 
-    data-action-type = "edit"`;
+    data-firstname = "${data.borrower[0].firstname}"
+    data-lastname = "${data.borrower[0].lastname}" 
+    data-action-type = "gurantors"`;
 
-  return getButton(dataFields, "client-business", "success", "fas fa-users");
+  return getButton(dataFields, "guarantors", "success", "fas fa-users");
 }
 
 function getApplicationUpdateBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
 
-    data-action-type = "edit"`;
+  data-action-type = "edit"`;
 
   return getButton(dataFields, "client-business", "default", "fas fa-edit");
 }
 
 function getApplicationDelBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-action-type = "edit"`;
+  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+}
+
+export function fetchLoanGuarantors(params) {
+  let data = apiClient(
+    "/api/v1/applications/guarantors",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  if (data != null) {
+    loadLoanGuarantors(data);
+  }
+}
+
+function loadLoanGuarantors(dataset) {
+  $("#guarantorsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "firstname" },
+      { data: "lastname" },
+      { data: "gender" },
+      { data: "date_of_birth" },
+      { data: "home_district" },
+      { data: "home_ta" },
+      { data: "home_village" },
+      { data: "current_district" },
+      { data: "current_ta" },
+      { data: "current_village" },
+      { data: "nearest_landmark" },
+      { data: "relationship" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getGuarantorUpdateBtn,
+        data: null,
+        targets: [13],
+      },
+      {
+        render: getGuarantorDelBtn,
+        data: null,
+        targets: [14],
+      },
+    ],
+  });
+}
+
+function getGuarantorUpdateBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+}
+
+function getGuarantorDelBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-action-type = "edit"`;
   return getButton(dataFields, "client-business", "danger", "fas fa-trash");

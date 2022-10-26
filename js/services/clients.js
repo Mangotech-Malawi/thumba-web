@@ -31,6 +31,12 @@ export function delClient(client_id, void_reason) {
   });
 }
 
+export function getClientById(client_id) {
+  return apiClient("/api/v1/client/find_by_id", "GET", "json", false, false, {
+    client_id: client_id
+  });
+}
+
 export function addJob(params) {
   return apiClient("/api/v1/client_job", "POST", "json", false, false, params);
 }
