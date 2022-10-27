@@ -16,3 +16,27 @@
 }
 
 
+.xxl-modal {
+  padding: 0 !important;
+}
+.xxl-modal .xxl-modal-dialog {
+  width: 90%;
+  max-width: none;
+  height: 100%;
+  margin: auto;
+}
+.xxl-modal .xxl-modal-content {
+  height: 90%;
+  border: 0;
+  border-radius: 0;
+}
+.xxl-modal .xxl-modal-body {
+  overflow-y: auto;
+}
+
+.card {
+  cursor: pointer;
+}
+
+
+
