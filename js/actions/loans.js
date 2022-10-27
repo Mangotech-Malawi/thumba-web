@@ -113,8 +113,16 @@ $(function () {
    
   });
 
+  $(document).on("hide.bs.modal", guarantorModal, function (e) {
+
+      let someTabTriggerEl = document.querySelector('#custom-content-above-home-tab')
+      let tab  = new bootstrap.Tab(someTabTriggerEl);
+      tab.show();
+  });
+
   $(document).on("shown.bs.tab", "#custom-content-above-tab", function (e) {
     if (e.target.id === "custom-content-above-profile-tab") {
+     
       loans.fetchLoanGuarantors({loan_application_id: loanApplicationId});
     } else if (e.target.id === "custom-content-above-home-tab") {
     }
