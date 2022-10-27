@@ -2,10 +2,7 @@ import { apiClient } from "./api-client.js";
 
 export function fetchLoanApplications() {
   let data = apiClient("/api/v1/applications", "GET", "json", false, false, {});
-
-  if (data != null) {
-    loadLoanApplications(data);
-  }
+  loadLoanApplications(data);
 }
 
 export function addApplication(params) {
@@ -123,8 +120,7 @@ function getGuarantorsBtn(data, type, row, metas) {
 
 function getApplicationUpdateBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
-
-  data-action-type = "edit"`;
+                    data-action-type = "edit"`;
 
   return getButton(dataFields, "client-business", "default", "fas fa-edit");
 }
@@ -136,6 +132,7 @@ function getApplicationDelBtn(data, type, row, metas) {
 }
 
 export function fetchLoanGuarantors(params) {
+  console.log(params);
   let data = apiClient(
     "/api/v1/applications/guarantors",
     "GET",
@@ -145,9 +142,7 @@ export function fetchLoanGuarantors(params) {
     params
   );
 
-  if (data != null) {
-    loadLoanGuarantors(data);
-  }
+  loadLoanGuarantors(data);
 }
 
 function loadLoanGuarantors(dataset) {
@@ -162,6 +157,7 @@ function loadLoanGuarantors(dataset) {
     data: dataset,
     columns: [
       { data: "id" },
+      { data: "national_id" },
       { data: "firstname" },
       { data: "lastname" },
       { data: "gender" },
@@ -181,12 +177,12 @@ function loadLoanGuarantors(dataset) {
       {
         render: getGuarantorUpdateBtn,
         data: null,
-        targets: [13],
+        targets: [14],
       },
       {
         render: getGuarantorDelBtn,
         data: null,
-        targets: [14],
+        targets: [15],
       },
     ],
   });
