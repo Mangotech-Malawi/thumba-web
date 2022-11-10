@@ -28,38 +28,53 @@ $(function () {
     $("#interestsRates").html(interestsArray.join(""));
 
     if (actionType === "add") {
-      $("#appTitle").text("Add Loan application");
+      $("#loanApplicationTitle").text("Add Loan application");
     } else if (actionType === "edit") {
-      $("#appTitle").text("Edit Loan Application");
+      $("#loanApplicationTitle").text("Edit Loan Application");
+      let collaterals = JSON.parse($(opener).attr("data-collaterals"));
+
+      $.when(
+        client.getClientById(
+          JSON.parse($(opener).attr("data-loan-app-client-id"))
+        )
+      ).done(function (client) {
+        populateCollaterals(client.assets)
+      });
+
+      let collateralIds = new Array();
+      collaterals.forEach(function (collateral, index) {
+        //console.log(collateral.asset_id)
+        collateralIds.push(collateral.asset_id);
+      });
+
+      $("#corraterals").val(collateralIds);
+      $('#corraterals').trigger('change');
+
       $.each(opener.dataset, function (key, value) {
         $(applicationModal).find(`[id = '${key}']`).val(value);
+        $(applicationModal).find(`[id = '${key}']`).text(value);
       });
     }
+  });
+
+
+  $(document).on("hide.bs.modal", applicationModal, function (e) {
+    clearFields("#loanApplicationForm")
+    $("#applicantFirstname").text("");
+    $("#applicantLastname").text("");
+    $("#applicantGender").text("");
   });
 
   $(document).on("click", "#searchClientBtn", function (e) {
     let identifier = $("#loanAppClientId").val();
     if (identifier != null && identifier != "")
       $.when(client.getClientById(identifier)).done(function (client) {
-        let assetsArray = [];
         if (client != null && typeof client != undefined) {
-          client.assets.forEach(function (asset, index) {
-            assetsArray.push(
-              '<option value ="',
-              asset.id,
-              '">',
-              `${asset.name} | Market Value: MK${asset.market_value}`,
-              "</option>"
-            );
-          });
-
-          $("#corraterals").html(assetsArray.join(""));
-
+          populateCollaterals(client.assets);
           $("#applicantFirstname").text(client.demographics[0].firstname);
           $("#applicantLastname").text(client.demographics[0].lastname);
           $("#applicantGender").text(client.demographics[0].gender);
         } else {
-          $("#corraterals").html("");
           $("#applicantFirstname").text("");
           $("#applicantLastname").text("");
           $("#applicantGender").text("");
@@ -105,31 +120,64 @@ $(function () {
     }
   });
 
+  $(document).on("click", "#saveGuarantorBtn", function (e) {
+    notification(
+      loans.addGuarantor(loadLoanGuarantorParams()).created,
+      "center",
+      "success",
+      "guarantor",
+      "Add Loan Guarantor",
+      "Loan guarantor has been added successfully",
+      true,
+      3000
+    );
+  });
+
   $(document).on("show.bs.modal", guarantorModal, function (e) {
     clearFields();
     let opener = e.relatedTarget;
-    $("#guarantorModalTitle").text(`${$(opener).attr("data-firstname")} ${$(opener).attr("data-lastname")} Guarantors`);
+    $("#guarantorModalTitle").text(
+      `${$(opener).attr("data-firstname")} ${$(opener).attr(
+        "data-lastname"
+      )} Guarantors`
+    );
     loanApplicationId = $(opener).attr("data-loan-application-id");
-   
   });
 
   $(document).on("hide.bs.modal", guarantorModal, function (e) {
-
-      let someTabTriggerEl = document.querySelector('#custom-content-above-home-tab')
-      let tab  = new bootstrap.Tab(someTabTriggerEl);
-      tab.show();
+    let someTabTriggerEl = document.querySelector(
+      "#custom-content-above-home-tab"
+    );
+    let tab = new bootstrap.Tab(someTabTriggerEl);
+    tab.show();
   });
 
   $(document).on("shown.bs.tab", "#custom-content-above-tab", function (e) {
     if (e.target.id === "custom-content-above-profile-tab") {
-     
-      loans.fetchLoanGuarantors({loan_application_id: loanApplicationId});
+      loans.fetchLoanGuarantors({ loan_application_id: loanApplicationId });
     } else if (e.target.id === "custom-content-above-home-tab") {
     }
   });
 });
 
+function populateCollaterals(clientAssets) {
+  let assetsArray = [];
+  clientAssets.forEach(function (asset, index) {
+    assetsArray.push(
+      '<option value ="',
+      asset.id,
+      '">',
+      `${asset.name} | Market Value: MK${asset.market_value}`,
+      "</option>"
+    );
+  });
+
+  $("#corraterals").html("");
+  $("#corraterals").html(assetsArray.join(""));
+}
+
 function loanApplicationParams() {
+  let id =  $("#id").val();
   let client_id = $("#loanAppClientId").val();
   let amount = $("#amount").val();
   let interestId = $("#interestsRates option:selected").val();
@@ -138,15 +186,51 @@ function loanApplicationParams() {
   let collateralsArray = [];
 
   collaterals.forEach(function (collateral, index) {
-    collateralsArray.push({ asset_id: collateral });
+    collateralsArray.push(collateral);
   });
 
   let params = {
+    loan_application_id: id,
     client_id: client_id,
     amount: amount,
     interest_id: interestId,
     purpose: purpose,
     collaterals: collateralsArray,
+  };
+
+  return params;
+}
+
+function loadLoanGuarantorParams() {
+  let national_id = $("#nationalId").val();
+  let firstname = $("#firstname").val();
+  let lastname = $("#lastname").val();
+  let gender = $("#gender option:selected").val();
+  let date_of_birth = $("#dateOfBirth").val();
+  let home_district = $("#homeDistrict option:selected").val();
+  let home_ta = $("#homeTa").val();
+  let home_village = $("#homeVillage").val();
+  let current_district = $("#currentDistrict option:selected").val();
+  let current_ta = $("#currentTa").val();
+  let current_village = $("#currentVillage").val();
+  let nearest_landmark = $("#nearest_landmark option:selected").val();
+  let relationship = $("#relationship option:selected").val();
+
+  let params = {
+    loan_application_id: loanApplicationId,
+    national_id: national_id,
+    firstname: firstname,
+    lastname: lastname,
+    gender: gender,
+    date_of_birth: date_of_birth,
+    home_district: home_district,
+    home_ta: home_ta,
+    home_village: home_village,
+    current_district: current_district,
+    current_ta: current_ta,
+    current_village: current_village,
+    nearest_landmark: nearest_landmark,
+    relationship: relationship,
   };
 
   return params;
@@ -183,6 +267,9 @@ function notification(
             $(applicationModal).modal("hide");
           });
           break;
+        case "guarantor":
+          $.when(loans.fetchLoanGuarantors()).done(function () {});
+          break;
       }
     });
 }
@@ -192,5 +279,6 @@ function clearFields(formId) {
     .not(":button, :submit, :reset")
     .val("")
     .prop("checked", false)
-    .prop("selected", false);
+    .prop("selected", false)
+    .text("");
 }

@@ -16,6 +16,17 @@ export function addApplication(params) {
   );
 }
 
+export function updateApplication(params) {
+  return apiClient(
+    "/api/v1/applications/edit",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
     destroy: true,
@@ -119,10 +130,18 @@ function getGuarantorsBtn(data, type, row, metas) {
 }
 
 function getApplicationUpdateBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
+  let collaterals = JSON.stringify(data.collaterals);
+  let dataFields = `data-id = "${data.id}"
+                    data-loan-app-client-id = "${data.client_id}"
+                    data-applicant-firstname = "${data.borrower[0].firstname}"
+                    data-applicant-lastname = "${data.borrower[0].lastname}"
+                    data-applicant-gender = "${data.borrower[0].gender}"
+                    data-amount =  "${data.amount}"
+                    data-purpose = "${data.purpose}"
+                    data-collaterals = '${collaterals}'
                     data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+  return getButton(dataFields, "loan-application", "default", "fas fa-edit");
 }
 
 function getApplicationDelBtn(data, type, row, metas) {
@@ -131,8 +150,18 @@ function getApplicationDelBtn(data, type, row, metas) {
   return getButton(dataFields, "client-business", "danger", "fas fa-trash");
 }
 
+export function addGuarantor(params) {
+  return apiClient(
+    "/api/v1/applications/guarantor",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function fetchLoanGuarantors(params) {
-  console.log(params);
   let data = apiClient(
     "/api/v1/applications/guarantors",
     "GET",
