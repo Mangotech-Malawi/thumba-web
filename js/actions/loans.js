@@ -28,7 +28,7 @@ $(function () {
     $("#interestsRates").html(interestsArray.join(""));
 
     if (actionType === "add") {
-      $("#loanApplicationTitle").text("Add Loan application");
+      $("#loanApplicationTitle").text("Add Loan Application");
     } else if (actionType === "edit") {
       $("#loanApplicationTitle").text("Edit Loan Application");
       let collaterals = JSON.parse($(opener).attr("data-collaterals"));
@@ -183,7 +183,7 @@ function loanApplicationParams() {
   let interestId = $("#interestsRates option:selected").val();
   let purpose = $("#purpose").val();
   let collaterals = $("#corraterals").val();
-  let collateralsArray = [];
+  let collateralsArray = new Array();
 
   collaterals.forEach(function (collateral, index) {
     collateralsArray.push(collateral);
