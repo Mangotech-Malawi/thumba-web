@@ -1,5 +1,10 @@
+.loan-app-image{
+   height: 12rem;
+   width: 12rem;
+}
+
 .record{
-    height: 100px;
+    height: 18rem;
     padding: 0.5em 0.5em;
     border-radius: 2em;
     text-align: center;
