@@ -70,7 +70,7 @@ $(function () {
             3000
           );
         else
-          updateNotification(
+          notification(
             client.editClient(organizationParams()),
             "center",
             "success",
@@ -82,7 +82,7 @@ $(function () {
           );
       } else {
         if (clientType === "individual")
-          addNotification(
+          notification(
             client.addClient(individualParams()),
             "center",
             "success",
@@ -93,7 +93,7 @@ $(function () {
             3000
           );
         else
-          addNotification(
+          notification(
             client.addClient(organizationParams()),
             "center",
             "success",
