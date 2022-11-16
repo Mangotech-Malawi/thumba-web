@@ -49,7 +49,6 @@ function loadLoanApplications(dataset) {
       { data: null },
       { data: null },
       { data: null },
-      { data: null },
     ],
     columnDefs: [
       {
@@ -62,30 +61,26 @@ function loadLoanApplications(dataset) {
         data: null,
         targets: [3],
       },
+ 
       {
-        render: getPaymentsDetails,
+        render: getGuarantorsBtn,
         data: null,
         targets: [7],
       },
       {
-        render: getCollateralsBtn,
+        render: getAnalyseRiskBtn,
         data: null,
         targets: [8],
       },
       {
-        render: getGuarantorsBtn,
+        render: getApplicationUpdateBtn,
         data: null,
         targets: [9],
       },
       {
-        render: getApplicationUpdateBtn,
-        data: null,
-        targets: [10],
-      },
-      {
         render: getApplicationDelBtn,
         data: null,
-        targets: [11],
+        targets: [10],
       },
     ],
   });
@@ -99,26 +94,6 @@ function getLastname(data, type, row, metas) {
   return data.borrower[0].lastname;
 }
 
-function getPaymentsDetails(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
-    data-collaterals = "${data.collaterals}" 
-    data-action-type = "edit"`;
-
-  return getButton(dataFields, "client-business", "secondary", "fas fa-list");
-}
-
-function getCollateralsBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
-    data-collaterals = "${data.collaterals}" 
-    data-action-type = "edit"`;
-
-  return getButton(
-    dataFields,
-    "client-business",
-    "info",
-    "fas fa-hand-holding-usd"
-  );
-}
 
 function getGuarantorsBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
@@ -128,6 +103,20 @@ function getGuarantorsBtn(data, type, row, metas) {
 
   return getButton(dataFields, "guarantors", "success", "fas fa-users");
 }
+
+function getAnalyseRiskBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-collaterals = "${data.collaterals}" 
+    data-action-type = "edit"`;
+
+  return getButton(
+    dataFields,
+    "client-business",
+    "info",
+    "fas fa-chart-bar"
+  );
+}
+
 
 function getApplicationUpdateBtn(data, type, row, metas) {
   let collaterals = JSON.stringify(data.collaterals);

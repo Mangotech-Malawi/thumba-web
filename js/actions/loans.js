@@ -43,7 +43,6 @@ $(function () {
 
       let collateralIds = new Array();
       collaterals.forEach(function (collateral, index) {
-        //console.log(collateral.asset_id)
         collateralIds.push(collateral.asset_id);
       });
 
@@ -134,7 +133,7 @@ $(function () {
   });
 
   $(document).on("show.bs.modal", guarantorModal, function (e) {
-    clearFields();
+  
     let opener = e.relatedTarget;
     $("#guarantorModalTitle").text(
       `${$(opener).attr("data-firstname")} ${$(opener).attr(
@@ -153,6 +152,7 @@ $(function () {
   });
 
   $(document).on("shown.bs.tab", "#custom-content-above-tab", function (e) {
+    
     if (e.target.id === "custom-content-above-profile-tab") {
       loans.fetchLoanGuarantors({ loan_application_id: loanApplicationId });
     } else if (e.target.id === "custom-content-above-home-tab") {
