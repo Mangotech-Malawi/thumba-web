@@ -66,6 +66,18 @@ $(document).ready(function () {
     selectContent("loans");
   });
 
+
+  $("#grades").on("click", function (e) {
+    selectContent("grades");
+  });
+
+
+  $("#scores").on("click", function (e) {
+    selectContent("scores");
+  });
+
+
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
