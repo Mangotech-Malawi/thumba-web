@@ -57,4 +57,16 @@ export const content_view = [
     modals: "views/modals/user.html",
     state: "users",
   },
+  {
+    title: "Loan Analysis Scores Settings",
+    link: "views/settings/scores.html",
+    modals: "views/modals/settings.html",
+    state: "scores",
+  },
+  {
+    title:  "Loan Analysis Grades Settings",
+    link:   "views/settings/grades.html",
+    modals: "views/modals/settings.html",
+    state:  "grades",
+  },
 ];
