@@ -61,7 +61,7 @@ function loadLoanApplications(dataset) {
         data: null,
         targets: [3],
       },
- 
+
       {
         render: getGuarantorsBtn,
         data: null,
@@ -94,7 +94,6 @@ function getLastname(data, type, row, metas) {
   return data.borrower[0].lastname;
 }
 
-
 function getGuarantorsBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-firstname = "${data.borrower[0].firstname}"
@@ -109,14 +108,8 @@ function getAnalyseRiskBtn(data, type, row, metas) {
     data-collaterals = "${data.collaterals}" 
     data-action-type = "edit"`;
 
-  return getButton(
-    dataFields,
-    "client-business",
-    "info",
-    "fas fa-chart-bar"
-  );
+  return getButton(dataFields, "risk-calculator", "info", "fas fa-chart-bar");
 }
-
 
 function getApplicationUpdateBtn(data, type, row, metas) {
   let collaterals = JSON.stringify(data.collaterals);
