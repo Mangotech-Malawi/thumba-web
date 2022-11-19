@@ -110,7 +110,7 @@ export function loadUsersTable(dataset) {
 }
 
 function getDelButton(data, type, row, meta) {
-  return `<button  type="button"  class="btn btn-danger"
+  return `<button  type="button"  class="btn btn-block btn-danger"
     data-toggle="modal" data-target = "#modal-delete-user"
     data-id = "${data.id}"
     data-username = "${data.username}">
@@ -118,7 +118,7 @@ function getDelButton(data, type, row, meta) {
 }
 
 function getEditButton(data, type, row, meta) {
-  return `<button  type="button"  class="btn btn-default"
+  return `<button  type="button"  class="btn btn-block btn-default"
     data-toggle="modal" data-target = "#modal-edit-user"
     data-user-id = "${data.id}"
     data-national-id = "${data.national_id}"

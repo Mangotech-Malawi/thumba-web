@@ -2,14 +2,33 @@ import { apiClient } from "./api-client.js";
 
 export function fetchLoanApplications() {
   let data = apiClient("/api/v1/applications", "GET", "json", false, false, {});
+  loadLoanApplications(data);
+}
 
-  if (data != null) {
-    loadLoanApplications(data);
-  }
+export function addApplication(params) {
+  return apiClient(
+    "/api/v1/applications/new",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
+export function updateApplication(params) {
+  return apiClient(
+    "/api/v1/applications/edit",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
 }
 
 function loadLoanApplications(dataset) {
-  $("#loanApplicationsTable").DataTable({
+  $("#newLoanApplicationsTable").DataTable({
     destroy: true,
     responsive: true,
     searching: true,
@@ -30,7 +49,6 @@ function loadLoanApplications(dataset) {
       { data: null },
       { data: null },
       { data: null },
-      { data: null },
     ],
     columnDefs: [
       {
@@ -43,30 +61,26 @@ function loadLoanApplications(dataset) {
         data: null,
         targets: [3],
       },
+
       {
-        render: getPaymentsDetails,
+        render: getGuarantorsBtn,
         data: null,
         targets: [7],
       },
       {
-        render: getCollateralsBtn,
+        render: getAnalyseRiskBtn,
         data: null,
         targets: [8],
       },
       {
-        render: getGuarantorsBtn,
+        render: getApplicationUpdateBtn,
         data: null,
         targets: [9],
       },
       {
-        render: getApplicationUpdateBtn,
-        data: null,
-        targets: [10],
-      },
-      {
         render: getApplicationDelBtn,
         data: null,
-        targets: [11],
+        targets: [10],
       },
     ],
   });
@@ -80,41 +94,36 @@ function getLastname(data, type, row, metas) {
   return data.borrower[0].lastname;
 }
 
-function getPaymentsDetails(data, type, row, metas) {
-    let dataFields = `data-loan-application-id = "${data.id}"
-    data-collaterals = "${data.collaterals}" 
-    data-action-type = "edit"`;
-
-  return getButton(dataFields, "client-business", "secondary", "fas fa-list");
-}
-
-function getCollateralsBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
-    data-collaterals = "${data.collaterals}" 
-    data-action-type = "edit"`;
-
-  return getButton(
-    dataFields,
-    "client-business",
-    "info",
-    "fas fa-hand-holding-usd"
-  );
-}
-
 function getGuarantorsBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
+    data-firstname = "${data.borrower[0].firstname}"
+    data-lastname = "${data.borrower[0].lastname}" 
+    data-action-type = "gurantors"`;
+
+  return getButton(dataFields, "guarantors", "success", "fas fa-users");
+}
+
+function getAnalyseRiskBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
     data-collaterals = "${data.collaterals}" 
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-business", "success", "fas fa-users");
+  return getButton(dataFields, "risk-calculator", "info", "fas fa-chart-bar");
 }
 
 function getApplicationUpdateBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
+  let collaterals = JSON.stringify(data.collaterals);
+  let dataFields = `data-id = "${data.id}"
+                    data-loan-app-client-id = "${data.client_id}"
+                    data-applicant-firstname = "${data.borrower[0].firstname}"
+                    data-applicant-lastname = "${data.borrower[0].lastname}"
+                    data-applicant-gender = "${data.borrower[0].gender}"
+                    data-amount =  "${data.amount}"
+                    data-purpose = "${data.purpose}"
+                    data-collaterals = '${collaterals}'
+                    data-action-type = "edit"`;
 
-    data-action-type = "edit"`;
-
-  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+  return getButton(dataFields, "loan-application", "default", "fas fa-edit");
 }
 
 function getApplicationDelBtn(data, type, row, metas) {
@@ -123,7 +132,87 @@ function getApplicationDelBtn(data, type, row, metas) {
   return getButton(dataFields, "client-business", "danger", "fas fa-trash");
 }
 
+export function addGuarantor(params) {
+  return apiClient(
+    "/api/v1/applications/guarantor",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
+export function fetchLoanGuarantors(params) {
+  let data = apiClient(
+    "/api/v1/applications/guarantors",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  loadLoanGuarantors(data);
+}
+
+function loadLoanGuarantors(dataset) {
+  $("#guarantorsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "national_id" },
+      { data: "firstname" },
+      { data: "lastname" },
+      { data: "gender" },
+      { data: "date_of_birth" },
+      { data: "home_district" },
+      { data: "home_ta" },
+      { data: "home_village" },
+      { data: "current_district" },
+      { data: "current_ta" },
+      { data: "current_village" },
+      { data: "nearest_landmark" },
+      { data: "relationship" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getGuarantorUpdateBtn,
+        data: null,
+        targets: [14],
+      },
+      {
+        render: getGuarantorDelBtn,
+        data: null,
+        targets: [15],
+      },
+    ],
+  });
+}
+
+function getGuarantorUpdateBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "client-business", "default", "fas fa-edit");
+}
+
+function getGuarantorDelBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-action-type = "edit"`;
+  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+}
+
 function getButton(dataFields, modal, color, icon) {
-  return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
+  return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
             data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }

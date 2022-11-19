@@ -31,6 +31,12 @@ export function delClient(client_id, void_reason) {
   });
 }
 
+export function getClientById(client_id) {
+  return apiClient("/api/v1/client/find_by_id", "GET", "json", false, false, {
+    client_id: client_id
+  });
+}
+
 export function addJob(params) {
   return apiClient("/api/v1/client_job", "POST", "json", false, false, params);
 }
@@ -202,7 +208,7 @@ function getIndividualViewBtn(data, type, row, meta) {
                     data-record-created-at = "${data.created_at}"
                     data-client-type = "individual"`;
 
-  return `<button type='button' class="btn btn-primary recordBtn" 
+  return `<button type='button' class="btn btn-block btn-primary recordBtn" 
        ${dataFields} > <i class="fas fa-file" aria-hidden="true"></i></button>`;
 }
 
@@ -533,7 +539,7 @@ function getBusinessViewBtn(data, type, row, metas) {
 }
 
 function getButton(dataFields, modal, color, icon) {
-  return `<button type='button' class="btn btn-${color}" data-toggle="modal" 
+  return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
           data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
 

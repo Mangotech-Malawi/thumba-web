@@ -33,6 +33,7 @@ export const content_view = [
     title: "Applications",
     link: "views/loans/applications.html",
     state: "applications",
+    modals: "views/modals/loans.html"
   },
   {
     title: "Loans",
@@ -55,5 +56,17 @@ export const content_view = [
     link: "views/users.html",
     modals: "views/modals/user.html",
     state: "users",
+  },
+  {
+    title: "Loan Analysis Scores Settings",
+    link: "views/settings/scores.html",
+    modals: "views/modals/settings.html",
+    state: "scores",
+  },
+  {
+    title:  "Loan Analysis Grades Settings",
+    link:   "views/settings/grades.html",
+    modals: "views/modals/settings.html",
+    state:  "grades",
   },
 ];

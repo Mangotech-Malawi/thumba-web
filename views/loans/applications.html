@@ -1,58 +1,92 @@
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Applications</h3>
-            <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-12 text-right">
-                    <!-- Button for calling add organisation modal -->
-                    <button type="button" class="btn bg-gradient-success text-left" id="uploadClients"
-                        data-toggle="modal" data-target="#modal-income" data-button-type = "add">
-                        <i class="fa fa-plus-square"></i> Add Application
-                    </button>
-                </div>
-            </div>
-
+  <div class="card" style="height: 50rem;">
+    <div class="card-header">
+      <h3 id="recordName" class="card-title">Loans</h3>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-12 text-right">
+          <!-- Button for calling add organisation modal -->
+          <button
+            type="button"
+            class="btn bg-gradient-secondary text-left"
+            id="clientsBackBtn"
+            data-client-type="individual"
+          >
+            <i class="fa fa-arrow-left"></i> Back
+          </button>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table id="loanApplicationsTable" class="table  table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Status</th>
-                        <th>Amount (Mwk)</th>
-                        <th>Rate (%)</th>
-                        <th>Payments</th>
-                        <th>Collaterals</th>
-                        <th>Guarantors</th>
-                        <th>EDIT</th>
-                        <th>DELETE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Status</th>
-                    <th>Amount (Mwk)</th>
-                    <th>Rate (%)</th>
-                    <th>Payments</th>
-                    <th>Collaterals</th>
-                    <th>Guarantors</th>
-                    <th>EDIT</th>
-                    <th>DELETE</th>
-                </tfoot>
-            </table>
-        </div>
-        <!-- /.card-body -->
+      </div>
     </div>
-    <!-- /.card -->
+    <!-- /.card-header -->
+    <div class="card-body">
+      <div class="row">
+        <div id="statusNew"  class="col-lg-3 col-md-6 col-sm-12 p-3">
+          <div  class="card shadow-lg record img-rounded">
+            
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <img class="card-img-left loan-app-image"  src="dist/img/new.png" alt="Card image cap">
+                  <h4 class="text-center">New</h4>
+                </div>
+                <div class="col">
+                  <h3><span class="badge badge-pill badge-primary">400</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div id="statusWaiting" class="col-lg-3 col-md-6 col-sm-12 p-3">
+          <div class="card shadow-lg record   img-rounded">
+            <div class="card-body justify-content-center">
+              <div class="row">
+                <div class="col">
+                  <img class="card-img-left loan-app-image"  src="dist/img/time.png" alt="Card image cap">
+                  <h4 class="text-center">Waiting</h4>
+                </div>
+                <div class="col">
+                  <h3><span class="badge badge-pill badge-warning">4</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="statusCompleted" class="col-lg-3 col-md-6 col-sm-12 p-3">
+          <div class="card shadow-lg record">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <img class="card-img-left loan-app-image"  src="dist/img/completed.png" alt="Card image cap">
+                  <h4 class="text-center">Completed</h4>
+                </div>
+                <div class="col">
+                
+                  <h3><span class="badge badge-pill badge-success">4</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="statusDumped" class="col-lg-3 col-md-6 col-sm-12 p-3">
+          <div class="card shadow-lg  record">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <img class="card-img-left loan-app-image"  src="dist/img/trash.png" alt="Card image cap">
+                  <h4 class="text-center">Dumped</h4>
+                </div>
+                <div class="col">
+                  <h3><span class="badge badge-pill badge-danger">4</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
 </div>
-
-
