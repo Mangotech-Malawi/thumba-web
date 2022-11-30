@@ -93,14 +93,14 @@ $(function () {
 });
 
 function scoreParams() {
+  let scoreId = $("#scoreId").val();
   let code = $("#code").val();
   let name = $("#name").val();
   let description = $("#description").val();
   let score = $("#score").val();
 
-  console.log(score);
-
   let params = {
+    score_id: scoreId,
     code: code,
     name: name,
     description: description,
@@ -112,11 +112,13 @@ function scoreParams() {
 
 
 function gradeParams() {
+    let gradeId = $("#gradeId").val();
     let name = $("#name").val();
     let minimum = $("#minimum").val();
     let maximum = $("#maximum").val();
   
     let params = {
+      grade_id: gradeId,
       name: name,
       minimum: minimum,
       maximum: maximum,
