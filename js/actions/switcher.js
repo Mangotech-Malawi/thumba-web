@@ -2,12 +2,12 @@ import * as users from "../services/users.js";
 import { fetchIncomeData } from "../services/income.js";
 import { fetchClientsData } from "../services/clients.js";
 import { fetchInterests } from "../services/interests.js";
-import * as loans from "../services/loans.js"
+import * as loans from "../services/loans.js";
+import * as settings from "../services/settings.js";
 import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
-import * as dashboard from "../services/dashboard.js"
-
+import * as dashboard from "../services/dashboard.js";
 
 let user_role = sessionStorage.getItem("role");
 
@@ -41,10 +41,10 @@ $(document).ready(function () {
 
   $("#users").on("click", function (e) {
     selectContent("users");
-  });  $("#applications").on("click", function (e) {
+  });
+  $("#applications").on("click", function (e) {
     selectContent("applications");
   });
-
 
   $("#interests").on("click", function (e) {
     selectContent("interests");
@@ -66,17 +66,13 @@ $(document).ready(function () {
     selectContent("loans");
   });
 
-
   $("#grades").on("click", function (e) {
     selectContent("grades");
   });
 
-
   $("#scores").on("click", function (e) {
     selectContent("scores");
   });
-
-
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -117,13 +113,14 @@ export function selectContent(state) {
       } else if (user_role === "loan-officer" && state === "dashboard") {
         loadDashboard(loanOfficerDashboardIndex, state, index);
         break;
-      } else if( user_role === "admin" &&  state === "dashboard"){
-        $.when(loadDashboard(adminDashboardIndex , state, index)).done( function (){
-          dashboard.admin();
-        });
+      } else if (user_role === "admin" && state === "dashboard") {
+        $.when(loadDashboard(adminDashboardIndex, state, index)).done(
+          function () {
+            dashboard.admin();
+          }
+        );
         break;
-      } 
-      else {
+      } else {
         loadOtherContent(state, index);
         break;
       }
@@ -172,6 +169,12 @@ function loadOtherContent(state, index) {
           loans.fetchLoanApplications();
         case "income":
           fetchIncomeData();
+          break;
+        case "grades":
+          settings.fetchGrades();
+          break;
+        case "scores":
+          settings.fetchScores();
           break;
       }
     }

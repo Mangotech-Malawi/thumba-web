@@ -1,23 +1,23 @@
 import * as settings from "../services/settings.js";
 
-const scoresModal = "#modal-scores";
-const gradesModal = "#modal-grades";
+const scoresModal = "#modal-analysis-score";
+const gradesModal = "#modal-analysis-grade";
 
 $(function () {
   $(document).on("show.bs.modal", scoresModal, function (e) {
     let opener = e.relatedTarget;
 
     if ($(opener).attr("data-action-type") == "edit") {
-      $.each(opener.dataset, function (key, value) {
+      $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Edit Score");
+      scoreModalTitle  $.each(opener.dataset, function (key, value) {
         $(scoresModal).find(`[id = '${key}']`).val(value);
       });
     } else {
-      $(scoresModal).find(`[id = 'scoresModalTitle']`).text("Add Score");
+      $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Add Score");
     }
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
-    console.log("Am here");
     if ($("#scoreModalTitle").text() === "Add Score") {
       notification(
         settings.addScore(scoreParams()).created,
@@ -73,7 +73,7 @@ $(function () {
         true,
         3000
       );
-    } else if ($("#gradeModalTitle").text() === "Edit Score") {
+    } else if ($("#gradeModalTitle").text() === "Edit Grade") {
       notification(
         settings.editGrade(gradeParams()).updated,
         "center",
@@ -97,6 +97,8 @@ function scoreParams() {
   let name = $("#name").val();
   let description = $("#description").val();
   let score = $("#score").val();
+
+  console.log(score);
 
   let params = {
     code: code,
