@@ -62,18 +62,22 @@ function loadScores(dataset) {
   });
 }
 
-export function getScoreUpdateBtn() {
+export function getScoreUpdateBtn(data, type, row, metas) {
   let dataFields = `data-score-id = "${data.id}"
-    data-action-type = "edit"`;
+                    data-code = "${data.code}"
+                    data-name = "${data.name}"
+                    data-description ="${data.description}"
+                    data-score ="${data.score}"
+                    data-action-type = "edit"`;
 
-  return getButton(dataFields, "analysis-score", "default", "fas fa-edit");
+  return getButton(dataFields, "analysis-score", "success", "fas fa-edit");
 }
 
-export function getScoreDeleteBtn() {
+export function getScoreDelBtn(data, type, row, metas) {
   let dataFields = `data-score-del-id = "${data.id}"
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "analysis-score", "default", "fas fa-edit");
+  return getButton(dataFields, "analysis-score", "danger", "fas fa-trash");
 }
 
 export function addGrade(params) {
@@ -139,18 +143,19 @@ function loadGrades(dataset) {
     });
   }
   
-  export function getGradeUpdateBtn() {
+  export function getGradeUpdateBtn(data, type, row, metas) {
     let dataFields = `data-grade-id = "${data.id}"
-      data-action-type = "edit"`;
-  
-    return getButton(dataFields, "analysis-grade", "default", "fas fa-edit");
+                      data-name     = "${data.name}"
+                      data-maximum  = "${data.maximum}"
+                      data-minimum  = "${data.minimum}"
+                      data-action-type = "edit"`;
+    return getButton(dataFields, "analysis-grade", "success", "fas fa-edit");
   }
-  
-  export function getGradeDelBtn() {
+
+  export function getGradeDelBtn(data, type, row, metas) {
     let dataFields = `data-grade-del-id = "${data.id}"
-      data-action-type = "edit"`;
-  
-    return getButton(dataFields, "analysis-grade", "default", "fas fa-edit");
+    data-action-type = "edit"`;
+    return getButton(dataFields, "analysis-grade", "danger", "fas fa-trash");
   }
 
 function getButton(dataFields, modal, color, icon) {
