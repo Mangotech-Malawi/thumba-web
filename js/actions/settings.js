@@ -9,7 +9,7 @@ $(function () {
 
     if ($(opener).attr("data-action-type") == "edit") {
       $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Edit Score");
-      scoreModalTitle  $.each(opener.dataset, function (key, value) {
+      $.each(opener.dataset, function (key, value) {
         $(scoresModal).find(`[id = '${key}']`).val(value);
       });
     } else {
