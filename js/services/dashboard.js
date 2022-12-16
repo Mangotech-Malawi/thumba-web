@@ -1,5 +1,5 @@
 import { apiClient } from "./api-client.js";
-import { sharesOptions } from "./charts.js";
+import { sharesOptions } from "../services/chartsOptions/shares.js";
 
 let nf =  new Intl.NumberFormat('en-US');
 let dashboardData;
