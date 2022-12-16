@@ -1,9 +1,28 @@
 import * as settings from "../services/settings.js";
+import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
+const riskCalculatorModal = "#modal-risk-calculator";
+
 
 $(function () {
+
+  $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
+    let opener = e.relatedTarget;
+    let loanApplicationId = $(opener).attr("data-loan-application-id");
+
+    let  automaticScores =  settings.calculateAutomaticScores({
+                                loan_application_id: loanApplicationId,
+                               });
+
+                               
+    
+    populateAutomaticScoreChart(automaticScores);
+
+
+  });
+
   $(document).on("show.bs.modal", scoresModal, function (e) {
     let opener = e.relatedTarget;
 
@@ -43,11 +62,7 @@ $(function () {
     }
   });
 
-
-
-
-
-  $(document).on("show.bs.modal", gradesModal, function (e) { 
+  $(document).on("show.bs.modal", gradesModal, function (e) {
     let opener = e.relatedTarget;
 
     if ($(opener).attr("data-action-type") == "edit") {
@@ -58,8 +73,6 @@ $(function () {
       $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Add Grade");
     }
   });
-
-
 
   $(document).on("click", "#saveGradeBtn", function () {
     if ($("#gradeModalTitle").text() === "Add Grade") {
@@ -86,10 +99,6 @@ $(function () {
       );
     }
   });
-
-
-
-
 });
 
 function scoreParams() {
@@ -110,56 +119,65 @@ function scoreParams() {
   return params;
 }
 
-
 function gradeParams() {
-    let gradeId = $("#gradeId").val();
-    let name = $("#name").val();
-    let minimum = $("#minimum").val();
-    let maximum = $("#maximum").val();
-  
-    let params = {
-      grade_id: gradeId,
-      name: name,
-      minimum: minimum,
-      maximum: maximum,
-    };
-  
-    return params;
+  let gradeId = $("#gradeId").val();
+  let name = $("#name").val();
+  let minimum = $("#minimum").val();
+  let maximum = $("#maximum").val();
+
+  let params = {
+    grade_id: gradeId,
+    name: name,
+    minimum: minimum,
+    maximum: maximum,
+  };
+
+  return params;
 }
+
+function populateAutomaticScoreChart(automatic_score){
+  automaticScoreOptions.series[0] = automatic_score.score_percentage
   
+  let automaticScoreChart = new ApexCharts(
+    document.querySelector("#automatic-score-chart"),
+    automaticScoreOptions
+  )
+
+  automaticScoreChart.render();
+}
 
 function notification(
-    isDone,
-    position,
-    icon,
-    recordType,
-    title,
-    text,
-    showConfirmButton,
-    timer
-  ) {
-    if (isDone)
-      $.when(
-        Swal.fire({
-          position: position,
-          icon: icon,
-          title: title,
-          text: text,
-          showConfirmButton: showConfirmButton,
-          timer: timer,
-        })
-      ).done(function () {
-        switch (recordType) {
-          case "score":
-            $.when(loans.fetchScores()).done(function () {
-              $(scoreModal).modal("hide");
-            });
-            break;
-          case "grade":
-            $.when(settings.fetchGrades()).done(function () {
-                $(gradeModal).modal("hide");
-            });
-            break;
-        }
-      });
-  }
+  isDone,
+  position,
+  icon,
+  recordType,
+  title,
+  text,
+  showConfirmButton,
+  timer
+) {
+  if (isDone)
+    $.when(
+      Swal.fire({
+        position: position,
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: showConfirmButton,
+        timer: timer,
+      })
+    ).done(function () {
+      switch (recordType) {
+        case "score":
+          $.when(loans.fetchScores()).done(function () {
+            $(scoreModal).modal("hide");
+          });
+          break;
+        case "grade":
+          $.when(settings.fetchGrades()).done(function () {
+            $(gradeModal).modal("hide");
+          });
+          break;
+      }
+    });
+}
