@@ -16,11 +16,7 @@ $(function () {
                                 loan_application_id: loanApplicationId,
                                });
 
-                               
-    
     populateAutomaticScoreChart(automaticScores);
-
-
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -34,6 +30,8 @@ $(function () {
     } else {
       $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Add Score");
     }
+
+    populateScoreNames(settings.fetchScoresNames());
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
@@ -102,17 +100,11 @@ $(function () {
 });
 
 function scoreParams() {
-  let scoreId = $("#scoreId").val();
-  let code = $("#code").val();
-  let name = $("#name").val();
-  let description = $("#description").val();
-  let score = $("#score").val();
+  let scoreNameId = $("#scoreName").val();
+  let score =   $("#score").val();
 
   let params = {
-    score_id: scoreId,
-    code: code,
-    name: name,
-    description: description,
+    score_name_id: scoreNameId,
     score: score,
   };
 
@@ -144,6 +136,23 @@ function populateAutomaticScoreChart(automatic_score){
   )
 
   automaticScoreChart.render();
+}
+
+function populateScoreNames(scoreNames){
+  let scoreNamesArray = []
+
+  scoreNames.forEach(function (scoreName, index){
+    scoreNamesArray.push(
+      '<option value ="',
+        scoreName.id,
+        '">',
+        `${scoreName.code} | ${scoreName.description}`,
+        "</option>"
+    );
+  });
+
+  $("#scoreName").html(scoreNamesArray.join(""));
+
 }
 
 function notification(
