@@ -42,7 +42,7 @@ function loadScores(dataset) {
     columns: [
       { data: "id" },
       { data: "code" },
-      { data: "name" },
+      { data: "score_type" },
       { data: "description" },
       { data: "score" },
       { data: null },
@@ -71,7 +71,7 @@ export function getScoreUpdateBtn(data, type, row, metas) {
                     data-score ="${data.score}"
                     data-action-type = "edit"`;
 
-  return getButton(dataFields, "analysis-score", "success", "fas fa-edit");
+  return getButton(dataFields, "analysis-score", "default", "fas fa-edit");
 }
 
 export function getScoreDelBtn(data, type, row, metas) {
