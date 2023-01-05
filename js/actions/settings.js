@@ -16,7 +16,7 @@ $(function () {
                                 loan_application_id: loanApplicationId,
                                });
 
-    populateAutomaticScoreChart(automaticScores);
+    //populateAutomaticScoreChart(automaticScores);
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -78,6 +78,7 @@ $(function () {
     let opener = e.relatedTarget;
 
     if ($(opener).attr("data-action-type") == "edit") {
+      $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Edit Grade");
       $.each(opener.dataset, function (key, value) {
         $(gradesModal).find(`[id = '${key}']`).val(value);
       });
@@ -90,7 +91,7 @@ $(function () {
   $(document).on("click", "#saveGradeBtn", function () {
     if ($("#gradeModalTitle").text() === "Add Grade") {
       notification(
-        settings.editGrade(gradeParams()).created,
+        settings.addGrade(gradeParams()).created,
         "center",
         "success",
         "grade",
