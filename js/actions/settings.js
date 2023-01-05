@@ -16,22 +16,36 @@ $(function () {
                                 loan_application_id: loanApplicationId,
                                });
 
-    populateAutomaticScoreChart(automaticScores);
+    //populateAutomaticScoreChart(automaticScores);
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
     let opener = e.relatedTarget;
+    
 
     if ($(opener).attr("data-action-type") == "edit") {
       $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Edit Score");
+     
+      let code = $(opener).attr("data-code");
+      let id = $(opener).attr("data-score-id");
+      let description =  $(opener).attr("data-description");
+
+      //Populating score names multiselect 
+      populateScoreNames(new Array({
+         id: id,
+         code: code,
+         description: description
+      }))
+
       $.each(opener.dataset, function (key, value) {
         $(scoresModal).find(`[id = '${key}']`).val(value);
       });
+
     } else {
       $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Add Score");
+      //Populating score names multiselect 
+      populateScoreNames(settings.fetchScoresNames());
     }
-
-    populateScoreNames(settings.fetchScoresNames());
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
@@ -48,7 +62,7 @@ $(function () {
       );
     } else if ($("#scoreModalTitle").text() === "Edit Score") {
       notification(
-        seetings.editScore(scoreParams()).updated,
+        settings.editScore(scoreParams()).updated,
         "center",
         "success",
         "score",
@@ -64,18 +78,20 @@ $(function () {
     let opener = e.relatedTarget;
 
     if ($(opener).attr("data-action-type") == "edit") {
+      $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Edit Grade");
       $.each(opener.dataset, function (key, value) {
         $(gradesModal).find(`[id = '${key}']`).val(value);
       });
     } else {
       $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Add Grade");
     }
+
   });
 
   $(document).on("click", "#saveGradeBtn", function () {
     if ($("#gradeModalTitle").text() === "Add Grade") {
       notification(
-        settings.editGrade(gradeParams()).created,
+        settings.addGrade(gradeParams()).created,
         "center",
         "success",
         "grade",
@@ -100,10 +116,12 @@ $(function () {
 });
 
 function scoreParams() {
+  let scoreId  = $("#scoreId").val(); //Has value when updating scores
   let scoreNameId = $("#scoreName").val();
   let score =   $("#score").val();
 
   let params = {
+    score_id: scoreId,
     score_name_id: scoreNameId,
     score: score,
   };
@@ -178,13 +196,13 @@ function notification(
     ).done(function () {
       switch (recordType) {
         case "score":
-          $.when(loans.fetchScores()).done(function () {
-            $(scoreModal).modal("hide");
+          $.when(settings.fetchScores()).done(function () {
+            $(scoresModal).modal("hide");
           });
           break;
         case "grade":
           $.when(settings.fetchGrades()).done(function () {
-            $(gradeModal).modal("hide");
+            $(gradesModal).modal("hide");
           });
           break;
       }
