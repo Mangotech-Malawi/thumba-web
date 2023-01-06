@@ -10,7 +10,7 @@ export function editScore(params) {
 
 export function calculateAutomaticScores(params) {
   return apiClient(
-    "/api/v1//applications/calculate_risk",
+    "/api/v1/applications/calculate_risk",
     "GET",
     "json",
     false,
@@ -18,6 +18,18 @@ export function calculateAutomaticScores(params) {
     params
   );
 }
+
+export function fetchManualScores(){
+   return apiClient(
+    "/api/v1/scores/manual",
+    "GET",
+    "json",
+    false,
+    false,
+    {}
+  );
+}
+
 
 export function fetchScoresNames() {
   return apiClient("/api/v1/score_names", "GET", "json", false, false, {});
