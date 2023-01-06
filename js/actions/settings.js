@@ -5,48 +5,51 @@ const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const riskCalculatorModal = "#modal-risk-calculator";
 
-
 $(function () {
-
   $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
     let opener = e.relatedTarget;
     let loanApplicationId = $(opener).attr("data-loan-application-id");
 
-    let  automaticScores =  settings.calculateAutomaticScores({
-                                loan_application_id: loanApplicationId,
-                               });
-
+    let automaticScores = settings.calculateAutomaticScores({
+      loan_application_id: loanApplicationId,
+    });
+    createManualScoresCheckBoxes(settings.fetchManualScores());
     populateAutomaticScoreChart(automaticScores);
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
     let opener = e.relatedTarget;
-    
 
     if ($(opener).attr("data-action-type") == "edit") {
       $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Edit Score");
-     
+
       let code = $(opener).attr("data-code");
       let id = $(opener).attr("data-score-id");
-      let description =  $(opener).attr("data-description");
+      let description = $(opener).attr("data-description");
 
-      //Populating score names multiselect 
-      populateScoreNames(new Array({
-         id: id,
-         code: code,
-         description: description
-      }))
+      //Populating score names multiselect
+      populateScoreNames(
+        new Array({
+          id: id,
+          code: code,
+          description: description,
+        })
+      );
 
       $.each(opener.dataset, function (key, value) {
         $(scoresModal).find(`[id = '${key}']`).val(value);
       });
-
     } else {
       $(scoresModal).find(`[id = 'scoreModalTitle']`).text("Add Score");
-      //Populating score names multiselect 
+      //Populating score names multiselect
       populateScoreNames(settings.fetchScoresNames());
     }
   });
+
+  $(document).on("change", ".manual-score-chkbox", function (e) {
+      console.log(this.checked);
+  });
+
 
   $(document).on("click", "#saveScoreBtn", function () {
     if ($("#scoreModalTitle").text() === "Add Score") {
@@ -85,7 +88,6 @@ $(function () {
     } else {
       $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Add Grade");
     }
-
   });
 
   $(document).on("click", "#saveGradeBtn", function () {
@@ -116,9 +118,9 @@ $(function () {
 });
 
 function scoreParams() {
-  let scoreId  = $("#scoreId").val(); //Has value when updating scores
+  let scoreId = $("#scoreId").val(); //Has value when updating scores
   let scoreNameId = $("#scoreName").val();
-  let score =   $("#score").val();
+  let score = $("#score").val();
 
   let params = {
     score_id: scoreId,
@@ -145,13 +147,13 @@ function gradeParams() {
   return params;
 }
 
-function populateAutomaticScoreChart(automatic_score){
-  automaticScoreOptions.series[0] = automatic_score.score_percentage
-  
+function populateAutomaticScoreChart(automatic_score) {
+  automaticScoreOptions.series[0] = automatic_score.score_percentage;
+
   let automaticScoreChart = new ApexCharts(
     document.querySelector("#automatic-score-chart"),
     automaticScoreOptions
-  )
+  );
 
   automaticScoreChart.render();
 
@@ -160,28 +162,49 @@ function populateAutomaticScoreChart(automatic_score){
   $("#analysis-score-percentage").text(automatic_score.score_percentage);
   $("#installment-amount").text(automatic_score.installment_amount);
   $("#monthly-salary").text(automatic_score.total_monthly_salary);
-  $("#dependants-expense").text(automatic_score.total_monthly_dependants_expenses);
+  $("#dependants-expense").text(
+    automatic_score.total_monthly_dependants_expenses
+  );
   $("#monthly-otherloans").text(automatic_score.total_monthly_otherloans);
   $("#business-profits").text(automatic_score.total_monthly_business_profits);
-
-
 }
 
-function populateScoreNames(scoreNames){
-  let scoreNamesArray = []
+function populateScoreNames(scoreNames) {
+  let scoreNamesArray = [];
 
-  scoreNames.forEach(function (scoreName, index){
+  scoreNames.forEach(function (scoreName, index) {
     scoreNamesArray.push(
       '<option value ="',
-        scoreName.id,
-        '">',
-        `${scoreName.code} | ${scoreName.description}`,
-        "</option>"
+      scoreName.id,
+      '">',
+      `${scoreName.code} | ${scoreName.description}`,
+      "</option>"
     );
   });
 
   $("#scoreName").html(scoreNamesArray.join(""));
+}
 
+function createManualScoresCheckBoxes(scores) {
+  $("#scores-checkbox-row").html("");
+    scores.forEach(function (score, index) {
+      $("#scores-checkbox-row").append(
+        '<div class="col-lg-6 col-sm-6">' +
+          '<div class="card"><div class="card-body">' +
+          '<div class="icheck-primary  icheck-inline ">' +
+          '<input class="manual-score-chkbox" type="checkbox" value="' +
+          score.score +
+          '" id="' +
+          score.id +
+          score.code +
+          '" /><label for="' +
+          score.id +
+          score.code +
+          '">' +
+          score.description +
+          "</label></div></div></div></div"
+      );
+    });
 }
 
 function notification(
