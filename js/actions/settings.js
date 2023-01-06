@@ -16,7 +16,7 @@ $(function () {
                                 loan_application_id: loanApplicationId,
                                });
 
-    //populateAutomaticScoreChart(automaticScores);
+    populateAutomaticScoreChart(automaticScores);
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -154,6 +154,17 @@ function populateAutomaticScoreChart(automatic_score){
   )
 
   automaticScoreChart.render();
+
+  $("#available-score").text(automatic_score.total_available_score);
+  $("#analysis-score").text(automatic_score.score);
+  $("#analysis-score-percentage").text(automatic_score.score_percentage);
+  $("#installment-amount").text(automatic_score.installment_amount);
+  $("#monthly-salary").text(automatic_score.total_monthly_salary);
+  $("#dependants-expense").text(automatic_score.total_monthly_dependants_expenses);
+  $("#monthly-otherloans").text(automatic_score.total_monthly_otherloans);
+  $("#business-profits").text(automatic_score.total_monthly_business_profits);
+
+
 }
 
 function populateScoreNames(scoreNames){
