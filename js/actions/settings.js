@@ -1,11 +1,17 @@
 import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
+import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
 
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const riskCalculatorModal = "#modal-risk-calculator";
+let totalManualScore = 0.0;
+let availableManualScore = 0.0;
 
 $(function () {
+  //Restting manual score to zero
+  totalManualScore = 0;
+
   $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
     let opener = e.relatedTarget;
     let loanApplicationId = $(opener).attr("data-loan-application-id");
@@ -47,9 +53,17 @@ $(function () {
   });
 
   $(document).on("change", ".manual-score-chkbox", function (e) {
-      console.log(this.checked);
-  });
+    if (this.checked) {
+      totalManualScore = (parseFloat(totalManualScore) + parseFloat(this.value))
+    } else {
+      totalManualScore = (parseFloat(totalManualScore) - parseFloat(this.value));
+    }
 
+    totalManualScore = parseFloat(Number(totalManualScore).toFixed(1))
+
+    updateManualScoreChart(totalManualScore);
+  
+  });
 
   $(document).on("click", "#saveScoreBtn", function () {
     if ($("#scoreModalTitle").text() === "Add Score") {
@@ -169,10 +183,23 @@ function populateAutomaticScoreChart(automatic_score) {
   $("#business-profits").text(automatic_score.total_monthly_business_profits);
 }
 
+function updateManualScoreChart(score){
+  $("#manual-score-chart").html("");
+  manualScoreOptions.series[0] =  (score * 100) / availableManualScore;
+
+  let manualScoreChart = new ApexCharts(
+    document.querySelector("#manual-score-chart"),
+    manualScoreOptions
+  );
+
+  manualScoreChart.render();
+}
+
 function populateScoreNames(scoreNames) {
   let scoreNamesArray = [];
 
   scoreNames.forEach(function (scoreName, index) {
+    availableManualScore =
     scoreNamesArray.push(
       '<option value ="',
       scoreName.id,
@@ -187,24 +214,26 @@ function populateScoreNames(scoreNames) {
 
 function createManualScoresCheckBoxes(scores) {
   $("#scores-checkbox-row").html("");
-    scores.forEach(function (score, index) {
-      $("#scores-checkbox-row").append(
-        '<div class="col-lg-6 col-sm-6">' +
-          '<div class="card"><div class="card-body">' +
-          '<div class="icheck-primary  icheck-inline ">' +
-          '<input class="manual-score-chkbox" type="checkbox" value="' +
-          score.score +
-          '" id="' +
-          score.id +
-          score.code +
-          '" /><label for="' +
-          score.id +
-          score.code +
-          '">' +
-          score.description +
-          "</label></div></div></div></div"
-      );
-    });
+  scores.forEach(function (score, index) {
+    $("#scores-checkbox-row").append(
+      '<div class="col-lg-6 col-sm-6">' +
+        '<div class="card"><div class="card-body">' +
+        '<div class="icheck-primary  icheck-inline ">' +
+        '<input class="manual-score-chkbox" type="checkbox" value="' +
+        score.score +
+        '" id="' +
+        score.id +
+        score.code +
+        '" /><label for="' +
+        score.id +
+        score.code +
+        '">' +
+        score.description +
+        "</label></div></div></div></div"
+    );
+
+    availableManualScore += score.score;
+  });
 }
 
 function notification(
