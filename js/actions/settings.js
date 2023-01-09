@@ -1,26 +1,36 @@
 import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
+import { riskResultOptions } from "../services/chartsOptions/risk_results.js"
 
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const riskCalculatorModal = "#modal-risk-calculator";
 let totalManualScore = 0.0;
+let totalAutomaticScore = 0.0;
 let availableManualScore = 0.0;
+let availableAutomaticScore = 0.0;
+let selectedManualScoreIds = new Array();
+let totalScore = 0.0;
+
+
 
 $(function () {
   //Restting manual score to zero
-  totalManualScore = 0;
 
   $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
+    totalManualScore = 0.0;
+    availableManualScore = 0.0;
     let opener = e.relatedTarget;
     let loanApplicationId = $(opener).attr("data-loan-application-id");
 
     let automaticScores = settings.calculateAutomaticScores({
       loan_application_id: loanApplicationId,
     });
+
     createManualScoresCheckBoxes(settings.fetchManualScores());
     populateAutomaticScoreChart(automaticScores);
+    updateManualScoreChart(totalManualScore);
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -54,15 +64,19 @@ $(function () {
 
   $(document).on("change", ".manual-score-chkbox", function (e) {
     if (this.checked) {
-      totalManualScore = (parseFloat(totalManualScore) + parseFloat(this.value))
+      totalManualScore = parseFloat(totalManualScore) + parseFloat(this.value);
+      selectedManualScoreIds.push(parseInt(this.dataset.id));
     } else {
-      totalManualScore = (parseFloat(totalManualScore) - parseFloat(this.value));
+      totalManualScore = parseFloat(totalManualScore) - parseFloat(this.value);
+      selectedManualScoreIds.splice(
+        selectedManualScoreIds.indexOf(parseInt(this.dataset.id)),
+        1
+      );
     }
 
-    totalManualScore = parseFloat(Number(totalManualScore).toFixed(1))
-
+    totalManualScore = parseFloat(Number(totalManualScore).toFixed(1));
     updateManualScoreChart(totalManualScore);
-  
+    updateRiskResultsChart();
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
@@ -171,7 +185,10 @@ function populateAutomaticScoreChart(automatic_score) {
 
   automaticScoreChart.render();
 
-  $("#available-score").text(automatic_score.total_available_score);
+  availableAutomaticScore =  automatic_score.total_available_score;
+  totalAutomaticScore = automatic_score.score;
+
+  $("#available-score").text(availableAutomaticScore);
   $("#analysis-score").text(automatic_score.score);
   $("#analysis-score-percentage").text(automatic_score.score_percentage);
   $("#installment-amount").text(automatic_score.installment_amount);
@@ -183,9 +200,9 @@ function populateAutomaticScoreChart(automatic_score) {
   $("#business-profits").text(automatic_score.total_monthly_business_profits);
 }
 
-function updateManualScoreChart(score){
+function updateManualScoreChart(score) {
   $("#manual-score-chart").html("");
-  manualScoreOptions.series[0] =  (score * 100) / availableManualScore;
+  manualScoreOptions.series[0] = (score * 100) / availableManualScore;
 
   let manualScoreChart = new ApexCharts(
     document.querySelector("#manual-score-chart"),
@@ -195,12 +212,24 @@ function updateManualScoreChart(score){
   manualScoreChart.render();
 }
 
+function updateRiskResultsChart(){
+  $("#risk-result-chart").html("");
+  riskResultOptions.series[0] = 100.0 - (parseFloat(Number(((totalManualScore + totalAutomaticScore) * 100) / 
+                                  ( availableAutomaticScore + availableManualScore)).toFixed(1)));
+
+  let automatedScoreChart = new ApexCharts(
+    document.querySelector("#risk-result-chart"),
+    riskResultOptions
+  );
+
+  automatedScoreChart.render();
+}
+
 function populateScoreNames(scoreNames) {
   let scoreNamesArray = [];
 
   scoreNames.forEach(function (scoreName, index) {
-    availableManualScore =
-    scoreNamesArray.push(
+    availableManualScore = scoreNamesArray.push(
       '<option value ="',
       scoreName.id,
       '">',
@@ -217,13 +246,15 @@ function createManualScoresCheckBoxes(scores) {
   scores.forEach(function (score, index) {
     $("#scores-checkbox-row").append(
       '<div class="col-lg-6 col-sm-6">' +
-        '<div class="card"><div class="card-body">' +
+        '<div class="card "><div class="card-body">' +
         '<div class="icheck-primary  icheck-inline ">' +
         '<input class="manual-score-chkbox" type="checkbox" value="' +
         score.score +
         '" id="' +
         score.id +
         score.code +
+        '" data-id ="' +
+        score.id +
         '" /><label for="' +
         score.id +
         score.code +
