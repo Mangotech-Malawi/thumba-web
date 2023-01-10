@@ -20,6 +20,9 @@ $(function () {
   $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
     totalManualScore = 0.0;
     availableManualScore = 0.0;
+    risk_percentage = 0.0;
+    totalManualScore = 0.0;
+    
     let opener = e.relatedTarget;
     let loanApplicationId = $(opener).attr("data-loan-application-id");
 
@@ -30,6 +33,8 @@ $(function () {
     createManualScoresCheckBoxes(settings.fetchManualScores());
     populateAutomaticScoreChart(automaticScores);
     updateManualScoreChart(totalManualScore);
+    updateRiskResultsChart();
+    updateGradesLabel();
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
