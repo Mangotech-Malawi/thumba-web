@@ -30,7 +30,6 @@ export function fetchManualScores(){
   );
 }
 
-
 export function fetchScoresNames() {
   return apiClient("/api/v1/score_names", "GET", "json", false, false, {});
 }
@@ -105,6 +104,12 @@ export function fetchGrades() {
   let data = apiClient("/api/v1/grades", "GET", "json", false, false, {});
 
   loadGrades(data);
+}
+
+export function fetchGrade(params){
+  let data = apiClient("/api/v1/analysis_grade", "GET", 
+            "json", false, false, params);
+  return data;
 }
 
 function loadGrades(dataset) {
