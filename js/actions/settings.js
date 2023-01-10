@@ -1,7 +1,7 @@
 import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
-import { riskResultOptions } from "../services/chartsOptions/risk_results.js"
+import { riskResultOptions } from "../services/chartsOptions/risk_results.js";
 
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
@@ -12,8 +12,7 @@ let availableManualScore = 0.0;
 let availableAutomaticScore = 0.0;
 let selectedManualScoreIds = new Array();
 let totalScore = 0.0;
-
-
+let risk_percentage = 0.0;
 
 $(function () {
   //Restting manual score to zero
@@ -77,6 +76,7 @@ $(function () {
     totalManualScore = parseFloat(Number(totalManualScore).toFixed(1));
     updateManualScoreChart(totalManualScore);
     updateRiskResultsChart();
+    updateGradesLabel();
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
@@ -119,7 +119,7 @@ $(function () {
   });
 
   $(document).on("click", "#saveGradeBtn", function () {
-    if ($("#gradeModalTitle").text() === "Add Grade") {
+    if ($("#gradesModalTitle").text() === "Add Grade") {
       notification(
         settings.addGrade(gradeParams()).created,
         "center",
@@ -130,7 +130,7 @@ $(function () {
         true,
         3000
       );
-    } else if ($("#gradeModalTitle").text() === "Edit Grade") {
+    } else if ($("#gradesModalTitle").text() === "Edit Grade") {
       notification(
         settings.editGrade(gradeParams()).updated,
         "center",
@@ -161,7 +161,7 @@ function scoreParams() {
 
 function gradeParams() {
   let gradeId = $("#gradeId").val();
-  let name = $("#name").val();
+  let name    = $("#name").val();
   let minimum = $("#minimum").val();
   let maximum = $("#maximum").val();
 
@@ -185,7 +185,7 @@ function populateAutomaticScoreChart(automatic_score) {
 
   automaticScoreChart.render();
 
-  availableAutomaticScore =  automatic_score.total_available_score;
+  availableAutomaticScore = automatic_score.total_available_score;
   totalAutomaticScore = automatic_score.score;
 
   $("#available-score").text(availableAutomaticScore);
@@ -212,17 +212,26 @@ function updateManualScoreChart(score) {
   manualScoreChart.render();
 }
 
-function updateRiskResultsChart(){
+function updateRiskResultsChart() {
   $("#risk-result-chart").html("");
-  riskResultOptions.series[0] = 100.0 - (parseFloat(Number(((totalManualScore + totalAutomaticScore) * 100) / 
-                                  ( availableAutomaticScore + availableManualScore)).toFixed(1)));
+  risk_percentage = 100.0 - parseFloat(Number(((totalManualScore + totalAutomaticScore) * 100) /
+                        (availableAutomaticScore + availableManualScore)).toFixed(1));
 
+  riskResultOptions.series[0] = risk_percentage
+    
   let automatedScoreChart = new ApexCharts(
     document.querySelector("#risk-result-chart"),
     riskResultOptions
   );
 
   automatedScoreChart.render();
+}
+
+function updateGradesLabel(){
+   let grade = settings.fetchGrade({risk_percentage: risk_percentage});
+   console.log(grade.name);
+   $("#loan-risk-grade").text(grade[0].name);
+   $("#loan-risk-grade-range").text(`${grade[0].minimum} - ${grade[0].maximum}  `);
 }
 
 function populateScoreNames(scoreNames) {

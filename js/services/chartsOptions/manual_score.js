@@ -65,7 +65,7 @@ export const manualScoreOptions = {
       shade: "dark",
       type: "horizontal",
       shadeIntensity: 0.5,
-      gradientToColors: ["#ABE5A1"],
+      gradientToColors: ["#FFFF00"],
       inverseColors: true,
       opacityFrom: 1,
       opacityTo: 1,
