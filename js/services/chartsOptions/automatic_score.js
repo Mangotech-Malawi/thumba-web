@@ -1,57 +1,81 @@
-export const  automaticScoreOptions = {
-    series: [0],
-    chart: {
-    type: 'radialBar',
-    offsetY: -20,
-    sparkline: {
-      enabled: true
-    }
+export const  automaticScoreOptions =  {
+  series: [75],
+  chart: {
+    height: 350,
+    type: "radialBar",
+    toolbar: {
+      show: true,
+    },
   },
   plotOptions: {
     radialBar: {
-      startAngle: -90,
-      endAngle: 90,
-      track: {
-        background: "#e7e7e7",
-        strokeWidth: '97%',
-        margin: 5, // margin is in pixels
+      startAngle: -135,
+      endAngle: 225,
+      hollow: {
+        margin: 0,
+        size: "70%",
+        background: "#fff",
+        image: undefined,
+        imageOffsetX: 0,
+        imageOffsetY: 0,
+        position: "front",
         dropShadow: {
           enabled: true,
-          top: 2,
+          top: 3,
           left: 0,
-          color: '#999',
-          opacity: 1,
-          blur: 2
-        }
+          blur: 4,
+          opacity: 0.24,
+        },
       },
+      track: {
+        background: "#fff",
+        strokeWidth: "67%",
+        margin: 0, // margin is in pixels
+        dropShadow: {
+          enabled: true,
+          top: -3,
+          left: 0,
+          blur: 4,
+          opacity: 0.35,
+        },
+      },
+
       dataLabels: {
+        show: true,
         name: {
-          show: false
+          offsetY: -10,
+          show: true,
+          color: "#888",
+          fontSize: "17px",
         },
         value: {
-          offsetY: -2,
-          fontSize: '30px'
-        }
-      }
-    }
-  },
-  grid: {
-    padding: {
-      top: -10
-    }
-  },
-  fill: {
-    type: 'gradient',
-    gradient: {
-      shade: 'light',
-      shadeIntensity: 0.4,
-      inverseColors: false,
-      opacityFrom: 1,
-      opacityTo: 1,
-      stops: [0, 50, 53, 91]
+          formatter: function (val) {
+            return parseInt(val);
+          },
+          color: "#111",
+          fontSize: "36px",
+          show: true,
+        },
+      },
     },
   },
-  labels: ['Average Results'],
-  };
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "dark",
+      type: "horizontal",
+      shadeIntensity: 0.5,
+      gradientToColors: ["#FF0000"],
+      inverseColors: true,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 100],
+    },
+  },
+  stroke: {
+    lineCap: "round",
+  },
+  labels: ["Percent"],
+};
 
   export default automaticScoreOptions;
