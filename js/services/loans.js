@@ -1,8 +1,29 @@
 import { apiClient } from "./api-client.js";
 
-export function fetchLoanApplications() {
-  let data = apiClient("/api/v1/applications", "GET", "json", false, false, {});
+export function fetchLoanApplications(params) {
+  let data = apiClient(
+    "/api/v1/applications",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+  
   loadLoanApplications(data);
+}
+
+export function fetchLoanApplicationsStatuses(params){
+  let data = apiClient(
+    "/api/v1/applications/statuses_stats",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+  
+  return data;
 }
 
 export function addApplication(params) {

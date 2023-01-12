@@ -1,3 +1,4 @@
+import * as loans from "../services/loans.js";
 import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
@@ -13,6 +14,8 @@ let availableAutomaticScore = 0.0;
 let selectedManualScoreIds = new Array();
 let totalScore = 0.0;
 let risk_percentage = 0.0;
+let gradeId;
+let loanApplicationId;
 
 $(function () {
   //Restting manual score to zero
@@ -20,8 +23,12 @@ $(function () {
   $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
     totalManualScore = 0.0;
     availableManualScore = 0.0;
+    risk_percentage = 0.0;
+    totalManualScore = 0.0;
+    selectedManualScoreIds = new Array();
+
     let opener = e.relatedTarget;
-    let loanApplicationId = $(opener).attr("data-loan-application-id");
+    loanApplicationId = $(opener).attr("data-loan-application-id");
 
     let automaticScores = settings.calculateAutomaticScores({
       loan_application_id: loanApplicationId,
@@ -30,6 +37,8 @@ $(function () {
     createManualScoresCheckBoxes(settings.fetchManualScores());
     populateAutomaticScoreChart(automaticScores);
     updateManualScoreChart(totalManualScore);
+    updateRiskResultsChart();
+    updateGradesLabel();
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -143,6 +152,23 @@ $(function () {
       );
     }
   });
+
+  $(document).on("click", "#saveLoanAnalyisBtn", function () {
+    notification(
+      settings.addAnalysis({
+        loan_application_id: loanApplicationId,
+        grade_id: gradeId,
+        score_ids: selectedManualScoreIds,
+      }).created,
+      "center",
+      "success",
+      "analysis",
+      "Record loan application analysis",
+      "Analysis has been done successfully",
+      true,
+      3000
+    );
+  });
 });
 
 function scoreParams() {
@@ -161,7 +187,7 @@ function scoreParams() {
 
 function gradeParams() {
   let gradeId = $("#gradeId").val();
-  let name    = $("#name").val();
+  let name = $("#name").val();
   let minimum = $("#minimum").val();
   let maximum = $("#maximum").val();
 
@@ -198,6 +224,8 @@ function populateAutomaticScoreChart(automatic_score) {
   );
   $("#monthly-otherloans").text(automatic_score.total_monthly_otherloans);
   $("#business-profits").text(automatic_score.total_monthly_business_profits);
+
+  selectedManualScoreIds.push(automatic_score.score_id);
 }
 
 function updateManualScoreChart(score) {
@@ -214,11 +242,17 @@ function updateManualScoreChart(score) {
 
 function updateRiskResultsChart() {
   $("#risk-result-chart").html("");
-  risk_percentage = 100.0 - parseFloat(Number(((totalManualScore + totalAutomaticScore) * 100) /
-                        (availableAutomaticScore + availableManualScore)).toFixed(1));
+  risk_percentage =
+    100.0 -
+    parseFloat(
+      Number(
+        ((totalManualScore + totalAutomaticScore) * 100) /
+          (availableAutomaticScore + availableManualScore)
+      ).toFixed(1)
+    );
 
-  riskResultOptions.series[0] = risk_percentage
-    
+  riskResultOptions.series[0] = risk_percentage;
+
   let automatedScoreChart = new ApexCharts(
     document.querySelector("#risk-result-chart"),
     riskResultOptions
@@ -227,11 +261,13 @@ function updateRiskResultsChart() {
   automatedScoreChart.render();
 }
 
-function updateGradesLabel(){
-   let grade = settings.fetchGrade({risk_percentage: risk_percentage});
-   console.log(grade.name);
-   $("#loan-risk-grade").text(grade[0].name);
-   $("#loan-risk-grade-range").text(`${grade[0].minimum} - ${grade[0].maximum}  `);
+function updateGradesLabel() {
+  let grade = settings.fetchGrade({ risk_percentage: risk_percentage });
+  gradeId = grade[0].id;
+  $("#loan-risk-grade").text(grade[0].name);
+  $("#loan-risk-grade-range").text(
+    `${grade[0].minimum} - ${grade[0].maximum}  `
+  );
 }
 
 function populateScoreNames(scoreNames) {
@@ -306,6 +342,11 @@ function notification(
         case "grade":
           $.when(settings.fetchGrades()).done(function () {
             $(gradesModal).modal("hide");
+          });
+          break;
+        case "analysis":
+          $.when(loans.fetchLoanApplications({status_name: "NEW"})).done(function () {
+            $(riskCalculatorModal).modal("hide");
           });
           break;
       }
