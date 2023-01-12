@@ -9,6 +9,8 @@ const guarantorModal = "#modal-guarantors";
 let loanApplicationId;
 
 $(function () {
+
+
   $(document).on("show.bs.modal", applicationModal, function (e) {
     let interests = interest.fetchInterests();
     let opener = e.relatedTarget;
@@ -83,7 +85,7 @@ $(function () {
 
   $(document).on("click", "#statusNew", function (e) {
     $.when(loadApplicationStatusView("views/loans/new.html")).done(function () {
-      loans.fetchLoanApplications();
+      loans.fetchLoanApplications({status_name: "NEW"});
     });
   });
 
@@ -263,7 +265,7 @@ function notification(
     ).done(function () {
       switch (recordType) {
         case "application":
-          $.when(loans.fetchLoanApplications()).done(function () {
+          $.when(loans.fetchLoanApplications({status_name: "NEW"})).done(function () {
             $(applicationModal).modal("hide");
           });
           break;
