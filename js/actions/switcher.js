@@ -74,6 +74,10 @@ $(document).ready(function () {
     selectContent("scores");
   });
 
+  $(document).on("click", "#applicationBackBtn", function (e) {
+    selectContent("applications");
+  });
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
@@ -166,7 +170,9 @@ function loadOtherContent(state, index) {
           // fetchInterests(state);
           break;
         case "applications":
-          loans.fetchLoanApplications();
+          populateApplicationStatusesStats(
+            loans.fetchLoanApplicationsStatuses()
+          );
         case "income":
           fetchIncomeData();
           break;
@@ -179,4 +185,18 @@ function loadOtherContent(state, index) {
       }
     }
   );
+}
+
+function populateApplicationStatusesStats(statuses_stats) {
+  statuses_stats.forEach(function (status_stat, index) {
+    if (status_stat.name === "NEW") {
+      $("#status-new").text(status_stat.num_of_applications);
+    } else if (status_stat.name === "WAITING") {
+      $("#status-waiting").text(status_stat.num_of_applications);
+    } else if (status_stat.name === "COMPLETED") {
+      $("#status-completed").text(status_stat.num_of_applications);
+    } else if (status_stat.name === "DUMPED") {
+      $("#status-dumped").text(status_stat.num_of_applications);
+    }
+  });
 }
