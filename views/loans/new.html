@@ -1,57 +1,66 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">New Applications</h3>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-12 text-right">
+          <!-- Button for calling add organisation modal -->
+          <button
+            type="button"
+            class="btn bg-gradient-success text-right"
+            id="uploadClients"
+            data-toggle="modal"
+            data-target="#modal-loan-application"
+            data-action-type="add"
+          >
+            <i class="fa fa-plus-square"></i> Add Application
+          </button>
 
-  <div class="container-fluid">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">New Applications</h3>
-            <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-12 text-right">
-                    <!-- Button for calling add organisation modal -->
-                    <button type="button" class="btn bg-gradient-success text-right" id="uploadClients"
-                        data-toggle="modal" data-target="#modal-loan-application" data-action-type = "add">
-                        <i class="fa fa-plus-square"></i> Add Application
-                    </button>
-                </div>
-            </div>
-
+          <button
+            type="button"
+            class="btn bg-gradient-secondary text-left"
+            id="applicationBackBtn"
+          >
+            <i class="fa fa-arrow-left"></i> Back
+          </button>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table id="newLoanApplicationsTable" class="table  table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Status</th>
-                        <th>Amount (Mwk)</th>
-                        <th>Rate (%)</th>
-                        <th>Guarantors</th>
-                        <th>Analyse Risk</th>
-                        <th>EDIT</th>
-                        <th>DELETE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Status</th>
-                    <th>Amount (Mwk)</th>
-                    <th>Rate (%)</th>
-                    <th>Guarantors</th>
-                    <th>Analyse Risk</th>
-                    <th>EDIT</th>
-                    <th>DELETE</th>
-                </tfoot>
-            </table>
-        </div>
-        <!-- /.card-body -->
+      </div>
     </div>
-    <!-- /.card -->
+    <!-- /.card-header -->
+    <div class="card-body">
+      <table id="newLoanApplicationsTable" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Status</th>
+            <th>Amount (Mwk)</th>
+            <th>Rate (%)</th>
+            <th>Guarantors</th>
+            <th>Analyse Risk</th>
+            <th>EDIT</th>
+            <th>DELETE</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Status</th>
+          <th>Amount (Mwk)</th>
+          <th>Rate (%)</th>
+          <th>Guarantors</th>
+          <th>Analyse Risk</th>
+          <th>EDIT</th>
+          <th>DELETE</th>
+        </tfoot>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
 </div>
-
-
