@@ -1,5 +1,16 @@
 import { apiClient } from "./api-client.js";
 
+export function addAnalysis(params) {
+  return apiClient(
+    "/api/v1/applications/analyse",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function addScore(params) {
   return apiClient("/api/v1/score/new", "POST", "json", false, false, params);
 }
@@ -19,15 +30,8 @@ export function calculateAutomaticScores(params) {
   );
 }
 
-export function fetchManualScores(){
-   return apiClient(
-    "/api/v1/scores/manual",
-    "GET",
-    "json",
-    false,
-    false,
-    {}
-  );
+export function fetchManualScores() {
+  return apiClient("/api/v1/scores/manual", "GET", "json", false, false, {});
 }
 
 export function fetchScoresNames() {
@@ -106,9 +110,15 @@ export function fetchGrades() {
   loadGrades(data);
 }
 
-export function fetchGrade(params){
-  let data = apiClient("/api/v1/analysis_grade", "GET", 
-            "json", false, false, params);
+export function fetchGrade(params) {
+  let data = apiClient(
+    "/api/v1/analysis_grade",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
   return data;
 }
 
