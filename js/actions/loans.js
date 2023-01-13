@@ -89,10 +89,11 @@ $(function () {
     });
   });
 
-  $(document).on("click", "#statusFirstApproved", function (e) {
-    $.when(loadApplicationStatusView("views/loans/firstApproval.html")).done(
-      function () {}
-    );
+  $(document).on("click", "#statusWaiting", function (e) {
+    $.when(loadApplicationStatusView("views/loans/waiting.html")).done(
+      function () {
+        loans.fetchLoanApplications({status_name: "WAITING"});
+      });
   });
 
   $(document).on("click", "#saveApplicationBtn", function (e) {
