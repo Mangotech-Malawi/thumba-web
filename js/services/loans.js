@@ -9,11 +9,15 @@ export function fetchLoanApplications(params) {
     false,
     params
   );
-  
-  loadLoanApplications(data);
+
+  if (params.status_name === "NEW") {
+    loadLoanApplications(data);
+  } else if (params.status_name === "WAITING") {
+    loadWaitingApplications(data);
+  }
 }
 
-export function fetchLoanApplicationsStatuses(params){
+export function fetchLoanApplicationsStatuses(params) {
   let data = apiClient(
     "/api/v1/applications/statuses_stats",
     "GET",
@@ -22,7 +26,7 @@ export function fetchLoanApplicationsStatuses(params){
     false,
     params
   );
-  
+
   return data;
 }
 
@@ -151,6 +155,86 @@ function getApplicationDelBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-action-type = "edit"`;
   return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+}
+
+function loadWaitingApplications(dataset) {
+  $("#waitingApplicationsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "interest_name" },
+      { data: null },
+      { data: null },
+      { data: "amount" },
+      { data: "rate" },
+      { data: null },
+      { data: null },
+      { data: null },
+      { data: null }
+    ],
+    columnDefs: [
+      {
+        render: getFirstname,
+        data: null,
+        targets: [2],
+      },
+      {
+        render: getLastname,
+        data: null,
+        targets: [3],
+      },
+      {
+        render: getGrade,
+        data: null,
+        targets: [6],
+      },
+      {
+        render: getRisk,
+        data: null,
+        targets: [7],
+      },
+      {
+        render: getApproveBtn,
+        data: null,
+        targets: [8],
+      },
+      {
+        render: getDumpBtn,
+        data: null,
+        targets: [9],
+      }
+    ]
+  });
+}
+
+function getGrade(data, type, row, metas) {
+  return data.analysis.analysis[0].name;
+}
+
+function getRisk(data, type, row, metas) {
+  return data.analysis.score_details.risk_percentage;
+}
+
+function getApproveBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-firstname = "${data.borrower[0].firstname}"
+    data-lastname = "${data.borrower[0].lastname}" 
+    data-action-type = "approve"`;
+
+  return getButton(dataFields, "approve", "success", "fas fa-users");
+}
+
+function getDumpBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+  data-action-type = "edit"`;
+  return getButton(dataFields, "dump", "danger", "fas fa-trash");
 }
 
 export function addGuarantor(params) {
