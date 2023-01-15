@@ -223,10 +223,19 @@ function getRisk(data, type, row, metas) {
 }
 
 function getApproveBtn(data, type, row, metas) {
+  let grade = data.analysis.analysis[0];
   let dataFields = `data-loan-application-id = "${data.id}"
-    data-firstname = "${data.borrower[0].firstname}"
-    data-lastname = "${data.borrower[0].lastname}" 
-    data-action-type = "approve"`;
+                    data-approve-firstname = "${data.borrower[0].firstname}"
+                    data-approve-lastname = "${data.borrower[0].lastname}" 
+                    data-applicant-gender = "${data.borrower[0].gender}"
+                    data-amount =  "${data.amount}"
+                    data-rate = "${data.rate}"
+                    data-purpose = "${data.purpose}"
+                    data-collaterals = "${data.collaterals}"
+                    data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
+                    data-grade-name = "${grade.name}"
+                    date-grade-range ="${grade.maximum} - ${grade.minimum}"
+                    data-scores = ${data.analysis.score_details.scores}"`;
 
   return getButton(dataFields, "approve", "success", "fas fa-users");
 }
