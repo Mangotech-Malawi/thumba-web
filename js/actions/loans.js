@@ -6,6 +6,7 @@ import * as client from "../services/clients.js";
 
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
+const approveModal  = "#modal-approve";
 let loanApplicationId;
 
 $(function () {
@@ -160,6 +161,11 @@ $(function () {
       loans.fetchLoanGuarantors({ loan_application_id: loanApplicationId });
     } else if (e.target.id === "custom-content-above-home-tab") {
     }
+  });
+
+  $(document).on("show.bs.modal", approveModal, function (e) {
+    let opener = e.relatedTarget;
+    console.log(opener);
   });
 });
 
