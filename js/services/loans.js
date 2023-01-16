@@ -226,9 +226,9 @@ function getApproveBtn(data, type, row, metas) {
   let grade = data.analysis.analysis[0];
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-loan-application-id = "${data.id}"
-                    data-approve-firstname = "${data.borrower[0].firstname}"
-                    data-approve-lastname = "${data.borrower[0].lastname}" 
-                    data-applicant-gender = "${data.borrower[0].gender}"
+                    data-firstname = "${data.borrower[0].firstname}"
+                    data-lastname = "${data.borrower[0].lastname}" 
+                    data-gender = "${data.borrower[0].gender}"
                     data-amount =  "${data.amount}"
                     data-rate = "${data.rate}"
                     data-purpose = "${data.purpose}"
