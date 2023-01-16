@@ -165,7 +165,33 @@ $(function () {
 
   $(document).on("show.bs.modal", approveModal, function (e) {
     let opener = e.relatedTarget;
-    console.log(opener);
+    let loanApplicationId = $(opener).attr("data-loan-application-id");
+    let firstname =  $(opener).attr("data-firstname");
+    let lastname = $(opener).attr("data-lastname");
+    let gender  = $(opener).attr("data-gender");
+    let amount  = $(opener).attr("data-amount");
+    let rate = $(opener).attr("data-rate");
+    let purpose = $(opener).attr("data-purpose");
+    let collaterals = JSON.parse($(opener).attr("data-collaterals"));
+    let riskPercentage = $(opener).attr("data-risk-percentage");
+    let gradeName = $(opener).attr("data-grade-name");
+    let gradeRange = $(opener).attr("data-grade-range");
+    let scores = $(opener).attr("data-scores");
+    let interest = (parseFloat(rate) * parseFloat(amount))/100
+    let repaymentAmount = interest + parseFloat(amount)
+
+    $("#approveLoanAppId").val(loanApplicationId);
+    $("#approve-fullname").text(`${firstname} ${lastname}`);
+    $("#approve-gender").text(gender);
+    $("#approve-amount").text(amount);
+    $("#approve-rate").text(rate); 
+    $("#approve-interest").text(interest);
+    $("#approve-repayment-amount").text(repaymentAmount);
+    $("#approve-purpose").text(purpose);
+
+    populateCollateralsRow(collaterals);
+
+   
   });
 });
 
@@ -291,3 +317,36 @@ function clearFields(formId) {
     .prop("selected", false)
     .text("");
 }
+
+function populateCollateralsRow(collaterals){
+  $("#approve-collaterals").html("");
+  collaterals.forEach( function (collateral, index){
+   $("#approve-collaterals").append(`
+    <div class="col-sm-4 border-right">                   
+      <div class="description-block">
+        <h5  class="description-header">${collateral.name}</h5>
+        <span class="description-text">(${index + 1 }) COLLATERAL NAME</span>
+      </div>
+      <!-- /.description-block -->
+    </div>
+
+    <div class="col-sm-4 border-right">                   
+      <div class="description-block">
+        <h5  class="description-header">${collateral.purchase_price}</h5>
+        <span class="description-text">(${index + 1 }) PURCHASE PRICE</span>
+      </div>
+      <!-- /.description-block -->
+    </div>
+
+    <div class="col-sm-4 border-right">                   
+    <div class="description-block">
+      <h5  class="description-header">${collateral.market_value}</h5>
+      <span class="description-text">(${index + 1 }) MARKET VALUE</span>
+    </div>
+    <!-- /.description-block -->
+    </div>
+
+   `);
+   console.log(collateral)
+  });
+} 
