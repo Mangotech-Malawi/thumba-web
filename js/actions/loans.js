@@ -165,7 +165,20 @@ $(function () {
 
   $(document).on("show.bs.modal", approveModal, function (e) {
     let opener = e.relatedTarget;
-    console.log(opener);
+    let loanApplicationId = $(opener).attr("data-loan-application-id");
+    let firstname =  $(opener).attr("data-firstname");
+    let lastname = $(opener).attr("data-lastname");
+    let gender  = $(opener).attr("data-gender");
+    let amount  = $(opener).attr("data-amount");
+    let rate = $(opener).attr("data-rate");
+    let purpose = $(opener).attr("data-purpose");
+    let collaterals = $(opener).attr("data-collaterals");
+    let riskPercentage = $(opener).attr("data-risk-percentage");
+    let gradeName = $(opener).attr("data-grade-name");
+    let gradeRange = $(opener).attr("data-grade-range");
+    let scores = $(opener).attr("data-scores");
+
+    console.log(JSON.parse(scores));
   });
 });
 
