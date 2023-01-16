@@ -1,86 +1,83 @@
+<div class="modal  fade " id="modal-loan-application">
+  <div class="modal-dialog  modal-dialog-centered  modal-xl">
+    <div class="modal-content ">
+      <form id="loanApplicationForm" action="" method="post">
+        <div class="modal-header">
+          <h4 id="loanApplicationTitle" class="modal-title">Add Loan Application</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body ">
 
-    <div class="modal  fade " id="modal-loan-application">
-        <div class="modal-dialog  modal-dialog-centered  modal-xl">
-          <div class="modal-content ">
-            <form id="loanApplicationForm" action="" method="post">
-            <div class="modal-header">
-              <h4 id="loanApplicationTitle" class="modal-title">Add Loan Application</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body ">
+          <div class="content">
+            <div class="row ">
 
-                <div class="content">
-                  <div  class="row ">
+              <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                <div class="input-group ">
+                  <input id="id" type="hidden" name="id" class="form-control">
+                </div>
+                <div class="form-group ">
+                  <label>Client ID</label>
+                  <div class="input-group ">
+                    <input id="loanAppClientId" type="text" class="form-control" placeholder="">
+                    <div class="input-group-append">
 
-                    <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                      <div class="input-group ">
-                        <input id="id" type="hidden" name="id" class="form-control">
-                      </div>
-                      <div class="form-group ">
-                          <label>Client ID</label>
-                          <div class="input-group ">
-                            <input id="loanAppClientId" type="text"  class="form-control"
-                              placeholder="">
-                            <div class="input-group-append">
-                          
-                              <button type="button" id="searchClientBtn" class="btn btn-success">
-                                <span><i class="fas fa-search"></i></span>
-                              </button>
-                            </div>
-                          </div>
-                      </div>
-                    
+                      <button type="button" id="searchClientBtn" class="btn btn-success">
+                        <span><i class="fas fa-search"></i></span>
+                      </button>
                     </div>
+                  </div>
+                </div>
+
+              </div>
 
 
-                    <div class="col-lg-4 col-md-4 col-sm-4  mb-3">
-                      <div class="form-group ">
-                        <label>Firstname:</label>
-                        <div class="input-group ">
-                          <label id="applicantFirstname"></label>
-                        </div>
-                      </div>
-                    </div>
-                  
-                    <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
-                      <div class="form-group ">
-                        <label >Lastname:</label>
-                        <div class="input-group ">
-                          <label id="applicantLastname"></label>
-                        </div>
-                      </div>
-                    </div>
+              <div class="col-lg-4 col-md-4 col-sm-4  mb-3">
+                <div class="form-group ">
+                  <label>Firstname:</label>
+                  <div class="input-group ">
+                    <label id="applicantFirstname"></label>
+                  </div>
+                </div>
+              </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-4  mb-3">
-                      <div class="form-group ">
-                        <label>Gender:</label>
-                        <div class="input-group ">
-                          <label id="applicantGender"></label>
-                        </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
+                <div class="form-group ">
+                  <label>Lastname:</label>
+                  <div class="input-group ">
+                    <label id="applicantLastname"></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-4  mb-3">
+                <div class="form-group ">
+                  <label>Gender:</label>
+                  <div class="input-group ">
+                    <label id="applicantGender"></label>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Amount:</label>
+                  <div class="input-group ">
+
+                    <input id="amount" type="text" class="form-control" placeholder="Amount">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
                       </div>
                     </div>
-                  
-                
-                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                          <div class="form-group ">
-                            <label>Amount:</label>
-                            <div class="input-group " >
-                              
-                              <input id="amount" type="text"  class="form-control"
-                              placeholder="Amount">
-                            <div class="input-group-append">
-                              <div class="input-group-text">
-                                <span class="fas fa-users"></span>
-                              </div>
-                            </div>
-                            </div>
-                  
-                          </div>
-                        </div>
-                  
-                        <!--<div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                  </div>
+
+                </div>
+              </div>
+
+              <!--<div class="col-lg-4 col-md-6 col-sm-12 mb-3">
                           <div class="form-group ">
                             <label>Application Date:</label>
                             <div class="input-group date" id="applicationDatePicker" data-target-input="nearest">
@@ -90,735 +87,798 @@
                               </div>
                           </div>
                           </div>
-                        </div>--> 
-                
-                  
-                  
-                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                          <div class="form-group ">
-                            <label>Interest Rate:</label>
-                           
-                              <div class="select2-primary">
-                                <select id="interestsRates"
-                                        name="interests[]"  class="form-control  interests"  data-placeholder="Select Interest"
-                                    data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                  </select>
-                                </div>
-                          </div>
-                        </div>
+                        </div>-->
 
-                
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                          <div class="form-group">
-                            <label>Purpose</label>
-                            <div class="input-group">
-                              <textarea
-                                id="purpose"
-                                type="text"
-                                class="form-control"
-                                placeholder="Enter purpose of loan"
-                              ></textarea>
-                            </div>
-                          </div>
-                        </div>
-                  
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                          <div class="form-group">
-                            <label>Collaterals</label>
-                            <div class="select2-primary">
-                              <select
-                                id="corraterals"
-                                class="collaterals"
-                                name="collaterals[]"
-                                multiple="multiple"
-                                data-placeholder="Select collateral"
-                                data-dropdown-css-class="select2-secondary"
-                                style="width: 100%"
-                              ></select>
-                            </div>
-                          </div>
-                        </div> 
+
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Interest Rate:</label>
+
+                  <div class="select2-primary">
+                    <select id="interestsRates" name="interests[]" class="form-control  interests"
+                      data-placeholder="Select Interest" data-dropdown-css-class="select2-primary" style="width: 100%;">
+                    </select>
                   </div>
                 </div>
+              </div>
+
+
+              <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                <div class="form-group">
+                  <label>Purpose</label>
+                  <div class="input-group">
+                    <textarea id="purpose" type="text" class="form-control"
+                      placeholder="Enter purpose of loan"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label>Collaterals</label>
+                  <div class="select2-primary">
+                    <select id="corraterals" class="collaterals" name="collaterals[]" multiple="multiple"
+                      data-placeholder="Select collateral" data-dropdown-css-class="select2-secondary"
+                      style="width: 100%"></select>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
-              <button type="button" id="saveApplicationBtn" class="btn btn-primary">Save</button>
-            </div>
-            </form>
           </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+          <button type="button" id="saveApplicationBtn" class="btn btn-primary">Save</button>
+        </div>
+      </form>
     </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 
-    <div class="modal xxl-modal fade" id="modal-guarantors">
-      <div class="modal-dialog  modal-dialog-centered xxl-modal-dialog modal-xl">
-        <div class="modal-content xxl-modal-content ">
-          <form id="guarantorForm" action="" method="post"></form>
-          <div class="modal-header">
-            <h4 id="guarantorModalTitle" class="modal-title">Add Guarantors</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+<div class="modal xxl-modal fade" id="modal-guarantors">
+  <div class="modal-dialog  modal-dialog-centered xxl-modal-dialog modal-xl">
+    <div class="modal-content xxl-modal-content ">
+      <form id="guarantorForm" action="" method="post"></form>
+      <div class="modal-header">
+        <h4 id="guarantorModalTitle" class="modal-title">Add Guarantors</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body xxl-modal-body">
+        <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="custom-content-above-home-tab" data-toggle="pill"
+              href="#custom-content-above-home" role="tab" aria-controls="custom-content-above-home"
+              aria-selected="true">Guarantor Form</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="custom-content-above-profile-tab" data-toggle="pill"
+              href="#custom-content-above-profile" role="tab" aria-controls="custom-content-above-profile"
+              aria-selected="false">Guarantors</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="custom-content-above-tabContent">
+          <div class="tab-pane bg-white fade show active p-5" id="custom-content-above-home" role="tabpanel"
+            aria-labelledby="custom-content-above-home-tab">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="input-group ">
+                  <input id="id" type="hidden" name="id" class="form-control">
+                </div>
+                <div class="form-group ">
+                  <label>National ID:</label>
+                  <div class="input-group ">
+                    <input id="nationalId" type="text" name="national_id" class="form-control"
+                      placeholder="National ID">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-card"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Firstname:</label>
+                  <div class="input-group ">
+                    <input id="firstname" type="text" class="form-control" placeholder="Firstname">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Lastname:</label>
+                  <div class="input-group ">
+                    <input id="lastname" type="text" name="lastname" class="form-control" placeholder="Lastname">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Gender:</label>
+
+                  <div class="select2-primary">
+                    <select id="gender" name="gender" data-placeholder="Select facility"
+                      data-dropdown-css-class="select2-primary" style="width: 100%;">
+                      <option value="M">Male</option>
+                      <option value="F">female</option>
+                    </select>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Date Of Birth:</label>
+                  <div class="input-group date" id="dateOfBirthPicker" data-target-input="nearest">
+                    <input type="text" id="dateOfBirth" class="form-control datetimepicker-input"
+                      data-target="#dateOfBirthPicker" />
+                    <div class="input-group-append" data-target="#dateOfBirthPicker" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Home District:</label>
+
+                  <div class="select2-primary">
+                    <select id="homeDistrict" name="district" class="form-control" data-placeholder="Select District"
+                      data-dropdown-css-class="select2-primary" style="width: 100%;">
+                      <option value="blantyre">Blantyre</option>
+                      <option value="lilongwe">Lilongwe</option>
+                      <option value="mzuzu">Mzuzu</option>
+                    </select>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Home TA:</label>
+                  <div class="input-group ">
+
+                    <input id="homeTa" type="text" class="form-control" placeholder="Home TA">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Home Village:</label>
+                  <div class="input-group ">
+
+                    <input id="homeVillage" type="text" class="form-control" placeholder="homve Village">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Current District:</label>
+
+                  <div class="select2-primary">
+                    <select id="currentDistrict" name="district" class="form-control" data-placeholder="Select District"
+                      data-dropdown-css-class="select2-primary" style="width: 100%;">
+                      <option value="blantyre">Blantyre</option>
+                      <option value="lilongwe">Lilongwe</option>
+                      <option value="mzuzu">Mzuzu</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Current TA:</label>
+                  <div class="input-group ">
+
+                    <input id="currentTa" type="text" name="firstname" class="form-control" placeholder="Current TA">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Current Village:</label>
+                  <div class="input-group ">
+
+                    <input id="currentVillage" type="text" name="firstname" class="form-control"
+                      placeholder="Current Village">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-users"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Nearest Landmark:</label>
+
+                  <div class="select2-primary">
+                    <select id="nearestLandmark" name="district" class="form-control"
+                      data-placeholder="Select Nearest Landmark" data-dropdown-css-class="select2-primary"
+                      style="width: 100%;">
+                      <option value="Borehole">Borehole</option>
+                      <option value="CCAP Church">CCAP Church</option>
+                      <option value="Primary School">Primary School</option>
+                      <option value="Secondary School">Secondary School</option>
+                      <option value="Market">Market</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="form-group ">
+                  <label>Relationship</label>
+
+                  <div class="select2-primary">
+                    <select id="relationship" class="form-control" data-placeholder="Select Relationship"
+                      data-dropdown-css-class="select2-primary" style="width: 100%;">
+                      <option value="grand parent">Grand Parent</option>
+                      <option value="mother">Mother</option>
+                      <option value="father">Father</option>
+                      <option value="brother">Brother</option>
+                      <option value="sister">Sister</option>
+                      <option value="son">Son</option>
+                      <option value="daughter">Daughter</option>
+                      <option value="In-Law">In Law</option>
+                      <option value="spouse">Spouse</option>
+                      <option value="own family">Own Family</option>
+                      <option value="distant relative">Distant Relative</option>
+                      <option value="friend">Friend</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="modal-body xxl-modal-body">
-            <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="custom-content-above-home-tab" data-toggle="pill" href="#custom-content-above-home" role="tab" aria-controls="custom-content-above-home" aria-selected="true">Guarantor Form</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="custom-content-above-profile-tab" data-toggle="pill" href="#custom-content-above-profile" role="tab" aria-controls="custom-content-above-profile" aria-selected="false">Guarantors</a>
-              </li>
-            </ul>
-       
-            <div class="tab-content" id="custom-content-above-tabContent">
-              <div class="tab-pane bg-white fade show active p-5" id="custom-content-above-home" role="tabpanel" aria-labelledby="custom-content-above-home-tab">
+          <div class="tab-pane bg-white fade p-5" id="custom-content-above-profile" role="tabpanel"
+            aria-labelledby="custom-content-above-profile-tab">
+            <div class="content">
+              <table id="guarantorsTable" class="table   table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>National ID</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Home District</th>
+                    <th>Home TA</th>
+                    <th>Home Village</th>
+                    <th>Current District</th>
+                    <th>Current TA</th>
+                    <th>Current Village</th>
+                    <th>Nearest Landmark</th>
+                    <th>Relationship</th>
+                    <th>EDIT</th>
+                    <th>DELETE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>ID</th>
+                    <th>National ID</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Home District</th>
+                    <th>Home TA</th>
+                    <th>Home Village</th>
+                    <th>Current District</th>
+                    <th>Current TA</th>
+                    <th>Current Village</th>
+                    <th>Nearest Landmark</th>
+                    <th>Relationship</th>
+                    <th>EDIT</th>
+                    <th>DELETE</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+        <button type="button" id="saveGuarantorBtn" class="btn btn-primary">Save</button>
+      </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal xxl-modal fade" id="modal-risk-calculator">
+  <div class="modal-dialog  modal-dialog-centered xxl-modal-dialog modal-xl">
+    <div class="modal-content xxl-modal-content ">
+      <form id="guarantorForm" action="" method="post"></form>
+      <div class="modal-header">
+        <h4 id="guarantorModalTitle" class="modal-title">Risk Calculator</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body xxl-modal-body">
+        <div class="row">
+          <div id="manualScores" class="col-sm-12 col-lg-4 col-md-4 ">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4 id="sharesContributionTitle" class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Manual Score Check
+                </h4>
+
+                <div class="card-tools">
+
+                </div>
+              </div>
+
+              <div class="card-body ">
                 <div class="row">
-                  <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                    <div class="input-group ">
-                      <input id="id" type="hidden" name="id" class="form-control">
-                    </div>
-                    <div class="form-group ">
-                        <label>National ID:</label>
-                        <div class="input-group ">
-                          <input id="nationalId" type="text" name="national_id" class="form-control"
-                            placeholder="National ID">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-card"></span>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
-                
-                  <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                    <div class="form-group ">
-                      <label>Firstname:</label>
-                      <div class="input-group ">
-                        <input id="firstname" type="text"  class="form-control"
-                          placeholder="Firstname">
-                        <div class="input-group-append">
-                          <div class="input-group-text">
-                            <span class="fas fa-users"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Lastname:</label>
-                          <div class="input-group ">
-                            <input id="lastname" type="text" name="lastname" class="form-control"
-                              placeholder="Lastname">
-                            <div class="input-group-append">
-                              <div class="input-group-text">
-                                <span class="fas fa-users"></span>
-                              </div>
-                            </div>
-                          </div>
-                
-                        </div>
-                
-                      </div>
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Gender:</label>
-                       
-                            <div class="select2-primary">
-                              <select id="gender" name="gender" data-placeholder="Select facility"
-                                data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                <option value="M">Male</option>
-                                <option value="F">female</option>
-                              </select>
-                            </div>
-                
-                          
-                        </div>
-                      </div>
-                
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Date Of Birth:</label>
-                          <div class="input-group date" id="dateOfBirthPicker" data-target-input="nearest">
-                            <input type="text" id="dateOfBirth" class="form-control datetimepicker-input" data-target="#dateOfBirthPicker"/>
-                            <div class="input-group-append" data-target="#dateOfBirthPicker" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                        </div>
-                      </div>
-                
-                
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Home District:</label>
-                         
-                            <div class="select2-primary">
-                              <select id="homeDistrict" name="district" class="form-control"  data-placeholder="Select District"
-                                  data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                  <option value="blantyre">Blantyre</option>
-                                  <option value="lilongwe">Lilongwe</option>
-                                  <option value="mzuzu">Mzuzu</option>
-                                </select>
-                              </div>
-                           
-                         
-                        </div>
-                      </div>
-                
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Home TA:</label>
-                          <div class="input-group " >
-                            
-                            <input id="homeTa" type="text"  class="form-control"
-                            placeholder="Home TA">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-users"></span>
-                            </div>
-                          </div>
-                          </div>
-                
-                        </div>
-                      </div>
-                
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Home Village:</label>
-                          <div class="input-group " >
-                            
-                            <input id="homeVillage" type="text"  class="form-control"
-                            placeholder="homve Village">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-users"></span>
-                            </div>
-                          </div>
-                          </div>
-                
-                        </div>
-                      </div>
-                
-                
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Current District:</label>
-                
-                          <div class="select2-primary">
-                            <select id="currentDistrict" name="district" class="form-control"  data-placeholder="Select District"
-                                data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                <option value="blantyre">Blantyre</option>
-                                <option value="lilongwe">Lilongwe</option>
-                                <option value="mzuzu">Mzuzu</option>
-                              </select>
-                            </div>
-                
-                        </div>
-                      </div>
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Current TA:</label>
-                          <div class="input-group " >
-                            
-                            <input id="currentTa" type="text" name="firstname" class="form-control"
-                            placeholder="Current TA">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-users"></span>
-                            </div>
-                          </div>
-                          </div>
-                
-                        </div>
-                      </div>
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Current Village:</label>
-                          <div class="input-group " >
-                            
-                            <input id="currentVillage" type="text" name="firstname" class="form-control"
-                            placeholder="Current Village">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-users"></span>
-                            </div>
-                          </div>
-                          </div>
-                
-                        </div>
-                      </div>
-                
-                
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                        <div class="form-group ">
-                          <label>Nearest Landmark:</label>
-                
-                          <div class="select2-primary">
-                            <select id="nearestLandmark" name="district" class="form-control" 
-                             data-placeholder="Select Nearest Landmark"
-                                data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                <option value="Borehole">Borehole</option>
-                                <option value="CCAP Church">CCAP Church</option>
-                                <option value="Primary School">Primary School</option>
-                                <option value="Secondary School">Secondary School</option>
-                                <option value="Market">Market</option>
-                              </select>
-                            </div>
-                        </div>
-                      </div>
+                  <div id="manual-score-chart" class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center">
 
-                      <div class="col-lg-4 col-md-6 col-sm-12 mb-3">                         
-                        <div class="form-group ">
-                          <label>Relationship</label>
-   
-                          <div class="select2-primary">
-                            <select id="relationship" class="form-control"  data-placeholder="Select Relationship"
-                                data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                <option value="grand parent">Grand Parent</option>
-                                <option value="mother">Mother</option>
-                                <option value="father">Father</option>
-                                <option value="brother">Brother</option>
-                                <option value="sister">Sister</option>
-                                <option value="son">Son</option>
-                                <option value="daughter">Daughter</option>
-                                <option value="In-Law">In Law</option>
-                                <option value="spouse">Spouse</option>
-                                <option value="own family">Own Family</option>
-                                <option value="distant relative">Distant Relative</option>
-                                <option value="friend">Friend</option>
-                                <option value="other">Other</option>
-                              </select>
-                            </div>
-                        </div>
-                     </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 ">
+                    <div id="scores-checkbox-row" class="row">
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="card-footer p-2">
+
+              </div>
+
+
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+          <div id="manualScores" class="col-sm-12 col-lg-4 col-md-4 ">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4 id="sharesContributionTitle" class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Automated Score Check
+                </h4>
+              </div>
+              <div class="card-body col d-flex justify-content-center">
+                <div class="row">
+                  <div id="automatic-score-chart" class="col-lg-12 col-md-12 col-sm-12">
+
+                  </div>
+                  <hr />
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Available Score <p class="h4"><span id="available-score" class=" badge bg-primary"></span></p>
+                    </a>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Score <p class="h4"><span id="analysis-score" class=" badge bg-info"></span></p>
+                    </a>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Score(%) <p class="h4"><span id="analysis-score-percentage" class=" badge bg-success"></span></p>
+                    </a>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Installement Amount <p class="h4"><span id="installment-amount" class=" badge bg-danger"></span>
+                      </p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Monthly Salary <p class="h4"><span id="monthly-salary" class=" badge bg-danger"></span></p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Dependants Expense <p class="h4"><span id="dependants-expense" class="badge bg-danger"></span></p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Monthly Otherloans <p class="h4"><span id="monthly-otherloans" class="badge bg-danger"></span></p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Monthly Business Profits <p class="h4"><span id="business-profits" class="badge bg-danger"></span>
+                      </p>
+                    </a>
+                  </div>
                 </div>
               </div>
-              <div class="tab-pane bg-white fade p-5" id="custom-content-above-profile" role="tabpanel" aria-labelledby="custom-content-above-profile-tab">
-                <div class="content">
-                  <table id="guarantorsTable" class="table   table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>National ID</th>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Gender</th>
-                            <th>DOB</th>
-                            <th>Home District</th>
-                            <th>Home TA</th>
-                            <th>Home Village</th>
-                            <th>Current District</th>
-                            <th>Current TA</th>
-                            <th>Current Village</th>
-                            <th>Nearest Landmark</th>
-                            <th>Relationship</th>
-                            <th>EDIT</th>
-                            <th>DELETE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>National ID</th>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Gender</th>
-                            <th>DOB</th>
-                            <th>Home District</th>
-                            <th>Home TA</th>
-                            <th>Home Village</th>
-                            <th>Current District</th>
-                            <th>Current TA</th>
-                            <th>Current Village</th>
-                            <th>Nearest Landmark</th>
-                            <th>Relationship</th>
-                            <th>EDIT</th>
-                            <th>DELETE</th>
-                        </tr>
-                    </tfoot>
-                </table>  
+
+
+
+              <div class="card-footer p-0">
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <div id="manualScores" class="col-sm-12 col-lg-4 col-md-4 ">
+
+            <div class="card h-100 ">
+              <div class="card-header ">
+                <h4 id="sharesContributionTitle" class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Risk Analysis Result
+                </h4>
+
+                <div class="card-tools">
+                  <ul class="nav nav-pills ml-auto">
+
+                  </ul>
                 </div>
+              </div>
+
+              <div class="card-body col d-flex ">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 justify-content-center">
+                    <div id="risk-result-chart">
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a href="#" class="nav-link">
+                          <p class="h3">Grade <span id="loan-risk-grade" class="float-right badge bg-primary"></span>
+                          </p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="#" class="nav-link h-4">
+                          <p class="h3">Range <span id="loan-risk-grade-range"
+                              class=" float-right badge bg-info"></span></p>
+                        </a>
+                      </li>
+
+                    </ul>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer p-2 ">
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+        <button type="button" id="saveLoanAnalyisBtn" class="btn btn-primary">Save</button>
+      </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal xxl-modal fade" id="modal-approve">
+  <div class="modal-dialog  modal-dialog-centered xxl-modal-dialog modal-xl">
+    <div class="modal-content xxl-modal-content ">
+      <form id="guarantorForm" action="" method="post"></form>
+      <div class="modal-header">
+        <h4 class="modal-title">Approve Loan Application</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body xxl-modal-body">
+        <div class="row">
+
+          <div class="col-sm-12 col-lg-6 col-md-6 ">
+            <div class="input-group ">
+              <input id="approveLoanAppId" type="hidden" name="id" class="form-control">
+            </div>
+            <div class="card h-100">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Loan Details
+                </h4>
+
+                <div class="card-tools">
+
+                </div>
+              </div>
+
+              <div class="card-body ">
+                <!-- Widget: user widget style 1 -->
+                <div class="card card-widget widget-user">
+                  <!-- Add the bg color to the header using any of the bg-* classes -->
               
-              </div>
-       
-            </div>
-
-
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
-            <button type="button" id="saveGuarantorBtn" class="btn btn-primary">Save</button>
-          </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-
-
-    <div class="modal xxl-modal fade" id="modal-risk-calculator">
-      <div class="modal-dialog  modal-dialog-centered xxl-modal-dialog modal-xl">
-        <div class="modal-content xxl-modal-content ">
-          <form id="guarantorForm" action="" method="post"></form>
-          <div class="modal-header">
-            <h4 id="guarantorModalTitle" class="modal-title">Risk Calculator</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div  class="modal-body xxl-modal-body">
-              <div class="row">
-                  <div id ="manualScores" class="col-sm-12 col-lg-4 col-md-4 ">
-                    <div class="card h-100">
-                      <div class="card-header">
-                        <h4 id="sharesContributionTitle" class="card-title">
-                          <i class="fas fa-chart-pie mr-1"></i>
-                            Manual Score Check
-                        </h4>
-          
-                        <div class="card-tools">
-                          
+                  <div class="card-footer">
+                    <div class="row">
+                      <div class="col-sm-4 border-right">
+                        <div class="description-block">
+                          <h5 id="approve-fullname" class="description-header"></h5>
+                          <span class="description-text">FULLNAME</span>
                         </div>
                       </div>
-
-                      <div  class="card-body ">
-                        <div class="row">
-                          <div id="manual-score-chart" class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center">
-
-                          </div>
-                          <div class="col-lg-12 col-md-12 col-sm-12 ">
-                            <div id="scores-checkbox-row" class="row">
-
-                            </div>
-                          </div>
-                        </div>
-                         
-                      </div>
-
-                      <div  class="card-footer p-2">
-                     
-                      </div>
-          
                       
-                      <!-- /.card-body -->
-                    </div>
-                 </div>
-             
-                 <div id ="manualScores" class="col-sm-12 col-lg-4 col-md-4 ">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <h4 id="sharesContributionTitle" class="card-title">
-                        <i class="fas fa-chart-pie mr-1"></i>
-                         Automated Score Check
-                      </h4>
-                    </div>
-                    <div  class="card-body col d-flex justify-content-center">
-                      <div class="row">
-                        <div id="automatic-score-chart" class="col-lg-12 col-md-12 col-sm-12">
-                      
+                      <div class="col-sm-4 border-right">
+                       
+                        <div class="description-block">
+                          <h5 id="approve-gender" class="description-header"></h5>
+                          <span class="description-text">GENDER</span>
                         </div>
-                        <hr/>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Available Score <p class="h4"><span id="available-score" class=" badge bg-primary"></span></p>
-                            </a>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Score <p class="h4"><span id="analysis-score" class=" badge bg-info"></span></p>
-                          </a>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Score(%) <p class="h4"><span id="analysis-score-percentage" class=" badge bg-success"></span></p>
-                          </a>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Installement Amount <p class="h4"><span id="installment-amount" class=" badge bg-danger"></span></p>
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Monthly Salary <p class="h4"><span id="monthly-salary" class=" badge bg-danger"></span></p>
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Dependants Expense <p class="h4"><span id="dependants-expense"  class="badge bg-danger"></span></p> 
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Monthly Otherloans <p class="h4"><span id="monthly-otherloans" class="badge bg-danger"></span></p> 
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Monthly Business Profits  <p class="h4"><span id = "business-profits" class="badge bg-danger"></span></p>
-                          </a>
-                        </div>
+                        <!-- /.description-block -->
                       </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4 border-right">
+                        <div class="description-block">
+                          <h5 id="approve-amount" class="description-header"></h5>
+                          <span class="description-text">AMOUNT</span>
+                        </div>
+                        <!-- /.description-block -->
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4">
+                        <div class="description-block">
+                          <h5 id="approve-rate" class="description-header"></h5>
+                          <span class="description-text">RATE</span>
+                        </div>
+                        <!-- /.description-block -->
+                      </div>
+
+                      <div class="col-sm-4 border-right">
+                        <div class="description-block">
+                          <h5 id="approve-interest" class="description-header"></h5>
+                          <span class="description-text">INTEREST</span>
+                        </div>
+                        <!-- /.description-block -->
+                      </div>
+
+                      <div class="col-sm-4 border-right">
+                        <div class="description-block">
+                          <h5 id="approve-repayment-amount" class="description-header"></h5>
+                          <span class="description-text">REPAYMENT AMOUNT</span>
+                        </div>
+                        <!-- /.description-block -->
+                      </div>
+
+                      <div class="col-sm-4 border-right">
+                        <div class="description-block">
+                          <h5 id="approve-purpose" class="description-header"></h5>
+                          <span class="description-text">PURPOSE</span>
+                        </div>
+                        <!-- /.description-block -->
+                      </div>
+                   
+                      <!-- /.col -->
                     </div>
 
-                     
+                    <div id = "approve-collaterals"class="row mt-4">
 
-                    <div  class="card-footer p-0">
-                      
                     </div>
-                    <!-- /.card-body -->
+                    <!-- /.row -->
                   </div>
-                 </div>
-                 <div id ="manualScores" class="col-sm-12 col-lg-4 col-md-4 ">
-             
-                  <div class="card h-100 ">
-                    <div class="card-header ">
-                      <h4 id="sharesContributionTitle" class="card-title">
-                        <i class="fas fa-chart-pie mr-1"></i>
-                         Risk Analysis Result
-                      </h4>
-        
-                      <div class="card-tools">
-                        <ul class="nav nav-pills ml-auto">
-                        
-                        </ul>
-                      </div>
-                    </div>
-        
-                    <div  class="card-body col d-flex ">
-                        <div class="row">
-                          <div class="col-lg-12 col-md-12 col-sm-12 justify-content-center">
-                            <div id="risk-result-chart" >
-                            </div>
-                          </div>
-                          <div class="col-lg-12 col-md-12 col-sm-12">
-                          
-                                <ul class="nav flex-column">
-                                  <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                      <p class="h3">Grade <span id="loan-risk-grade" class="float-right badge bg-primary"></span></p>
-                                    </a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a href="#" class="nav-link h-4">
-                                      <p class="h3">Range <span id="loan-risk-grade-range" class=" float-right badge bg-info"></span></p>
-                                    </a>
-                                  </li>
-          
-                                </ul>
-                           
-                          </div>
-                        </div>
-                    </div> 
+                </div>
+                <!-- /.widget-user -->
 
-                    <div  class="card-footer p-2 ">
-                      
-                    </div>
-                    <!-- /.card-body -->
+              </div>
+
+              <div class="card-footer p-2">
+
+              </div>
+
+
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-lg-6 col-md-6 ">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4 id="sharesContributionTitle" class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Loan Risk Details
+                </h4>
+              </div>
+              <div class="card-body col d-flex justify-content-center">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+
                   </div>
-             </div> 
-                 
-              </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
-            <button type="button" id="saveLoanAnalyisBtn" class="btn btn-primary">Save</button>
-          </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal xxl-modal fade" id="modal-approve">
-      <div class="modal-dialog  modal-dialog-centered xxl-modal-dialog modal-xl">
-        <div class="modal-content xxl-modal-content ">
-          <form id="guarantorForm" action="" method="post"></form>
-          <div class="modal-header">
-            <h4  class="modal-title">Approve Loan Application</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div  class="modal-body xxl-modal-body">
-              <div class="row">
-                  <div  class="col-sm-12 col-lg-6 col-md-6 ">
-                    <div class="card h-100">
-                      <div class="card-header">
-                        <h4  class="card-title">
-                          <i class="fas fa-chart-pie mr-1"></i>
-                            Loan Details
-                        </h4>
-          
-                        <div class="card-tools">
-                          
-                        </div>
-                      </div>
-
-                      <div  class="card-body ">
-                        <div class="row">
-                          <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center">
-
-                          </div>
-                          <div class="col-lg-12 col-md-12 col-sm-12 ">
-                            <div id="scores-checkbox-row" class="row">
-
-                            </div>
-                          </div>
-                        </div>
-                         
-                      </div>
-
-                      <div  class="card-footer p-2">
-                     
-                      </div>
-          
-                      
-                      <!-- /.card-body -->
-                    </div>
-                 </div>
-             
-                 <div  class="col-sm-12 col-lg-6 col-md-6 ">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <h4 id="sharesContributionTitle" class="card-title">
-                        <i class="fas fa-chart-pie mr-1"></i>
-                         Loan Risk Details
-                      </h4>
-                    </div>
-                    <div  class="card-body col d-flex justify-content-center">
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                      
-                        </div>
-                        <hr/>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Available Score <p class="h4"><span id="available-score" class=" badge bg-primary"></span></p>
-                            </a>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Score <p class="h4"><span id="analysis-score" class=" badge bg-info"></span></p>
-                          </a>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Score(%) <p class="h4"><span id="analysis-score-percentage" class=" badge bg-success"></span></p>
-                          </a>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Installement Amount <p class="h4"><span id="installment-amount" class=" badge bg-danger"></span></p>
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Monthly Salary <p class="h4"><span id="monthly-salary" class=" badge bg-danger"></span></p>
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Dependants Expense <p class="h4"><span id="dependants-expense"  class="badge bg-danger"></span></p> 
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Monthly Otherloans <p class="h4"><span id="monthly-otherloans" class="badge bg-danger"></span></p> 
-                          </a>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-                          <a href="#" class="nav-link">
-                            Monthly Business Profits  <p class="h4"><span id = "business-profits" class="badge bg-danger"></span></p>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-
-                     
-
-                    <div  class="card-footer p-0">
-                      
-                    </div>
-                    <!-- /.card-body -->
+                  <hr />
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Available Score <p class="h4"><span id="available-score" class=" badge bg-primary"></span></p>
+                    </a>
                   </div>
-                 </div>
-          
-                 
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Score <p class="h4"><span id="analysis-score" class=" badge bg-info"></span></p>
+                    </a>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Score(%) <p class="h4"><span id="analysis-score-percentage" class=" badge bg-success"></span></p>
+                    </a>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Installement Amount <p class="h4"><span id="installment-amount" class=" badge bg-danger"></span>
+                      </p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Monthly Salary <p class="h4"><span id="monthly-salary" class=" badge bg-danger"></span></p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Dependants Expense <p class="h4"><span id="dependants-expense" class="badge bg-danger"></span></p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Monthly Otherloans <p class="h4"><span id="monthly-otherloans" class="badge bg-danger"></span></p>
+                    </a>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="#" class="nav-link">
+                      Monthly Business Profits <p class="h4"><span id="business-profits" class="badge bg-danger"></span>
+                      </p>
+                    </a>
+                  </div>
+                </div>
               </div>
+
+
+
+              <div class="card-footer p-0">
+
+              </div>
+              <!-- /.card-body -->
+            </div>
           </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
-            <button type="button" id="appproveLoanBtn" class="btn btn-primary">Approve Loan</button>
-          </div>
-          </form>
+
+
         </div>
-        <!-- /.modal-content -->
       </div>
-      <!-- /.modal-dialog -->
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+        <button type="button" id="appproveLoanBtn" class="btn btn-primary">Approve Loan</button>
+      </div>
+      </form>
     </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 
-  
-  
-      <div class="modal fade " id="modal-del-interest">
-        <div class="modal-dialog modal-lg ">
-          <div class="modal-content">
-            <form id="addUser" action="" method="post"></form>
-            <div class="modal-header">
-              <h4 class="modal-title">Delete Interest</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <input id="delInterestId" type="hidden"  class="form-control">
-              </div>
-  
-              <p id="del-user-message">Are you sure you want to delete</p>
-  
-            </div>
-  
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="button" id="delInterestBtn" class="btn btn-success">Yes</button>
-            </div>
-            </form>
-          </div>
-          <!-- /.modal-content -->
+
+
+<div class="modal fade " id="modal-del-interest">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content">
+      <form id="addUser" action="" method="post"></form>
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Interest</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <input id="delInterestId" type="hidden" class="form-control">
         </div>
-        <!-- /.modal-dialog -->
+
+        <p id="del-user-message">Are you sure you want to delete</p>
+
       </div>
 
-        
-     
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" id="delInterestBtn" class="btn btn-success">Yes</button>
+      </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+
 
 <script>
 
@@ -846,5 +906,3 @@
   $('#nearestLandmark').select2();
 
 </script>
-   
-  
