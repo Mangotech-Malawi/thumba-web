@@ -6,7 +6,7 @@ import * as client from "../services/clients.js";
 
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
-const approveModal  = "#modal-approve";
+const approveModal = "#modal-approve";
 let loanApplicationId;
 
 $(function () {
@@ -86,14 +86,14 @@ $(function () {
 
   $(document).on("click", "#statusNew", function (e) {
     $.when(loadApplicationStatusView("views/loans/new.html")).done(function () {
-      loans.fetchLoanApplications({status_name: "NEW"});
+      loans.fetchLoanApplications({ status_name: "NEW" });
     });
   });
 
   $(document).on("click", "#statusWaiting", function (e) {
     $.when(loadApplicationStatusView("views/loans/waiting.html")).done(
       function () {
-        loans.fetchLoanApplications({status_name: "WAITING"});
+        loans.fetchLoanApplications({ status_name: "WAITING" });
       });
   });
 
@@ -137,7 +137,7 @@ $(function () {
   });
 
   $(document).on("show.bs.modal", guarantorModal, function (e) {
-  
+
     let opener = e.relatedTarget;
     $("#guarantorModalTitle").text(
       `${$(opener).attr("data-firstname")} ${$(opener).attr(
@@ -156,7 +156,7 @@ $(function () {
   });
 
   $(document).on("shown.bs.tab", "#custom-content-above-tab", function (e) {
-    
+
     if (e.target.id === "custom-content-above-profile-tab") {
       loans.fetchLoanGuarantors({ loan_application_id: loanApplicationId });
     } else if (e.target.id === "custom-content-above-home-tab") {
@@ -165,11 +165,11 @@ $(function () {
 
   $(document).on("show.bs.modal", approveModal, function (e) {
     let opener = e.relatedTarget;
-    let loanApplicationId = $(opener).attr("data-loan-application-id");
-    let firstname =  $(opener).attr("data-firstname");
+    loanApplicationId = $(opener).attr("data-loan-application-id");
+    let firstname = $(opener).attr("data-firstname");
     let lastname = $(opener).attr("data-lastname");
-    let gender  = $(opener).attr("data-gender");
-    let amount  = $(opener).attr("data-amount");
+    let gender = $(opener).attr("data-gender");
+    let amount = $(opener).attr("data-amount");
     let rate = $(opener).attr("data-rate");
     let purpose = $(opener).attr("data-purpose");
     let collaterals = JSON.parse($(opener).attr("data-collaterals"));
@@ -177,22 +177,37 @@ $(function () {
     let gradeName = $(opener).attr("data-grade-name");
     let gradeRange = $(opener).attr("data-grade-range");
     let scores = $(opener).attr("data-scores");
-    let interest = (parseFloat(rate) * parseFloat(amount))/100
+    let interest = (parseFloat(rate) * parseFloat(amount)) / 100
     let repaymentAmount = interest + parseFloat(amount)
 
     $("#approveLoanAppId").val(loanApplicationId);
     $("#approve-fullname").text(`${firstname} ${lastname}`);
     $("#approve-gender").text(gender);
     $("#approve-amount").text(amount);
-    $("#approve-rate").text(rate); 
+    $("#approve-rate").text(rate);
     $("#approve-interest").text(interest);
     $("#approve-repayment-amount").text(repaymentAmount);
     $("#approve-purpose").text(purpose);
+    $("#grade-name").text(gradeName);
+    $("#score-grade-range").text(gradeRange);
+    $("#score-percentage").text(riskPercentage);
 
     populateCollateralsRow(collaterals);
-
-   
   });
+
+  $(document).on("click", "#approveLoanBtn", function (e) {
+    notification(
+      loans.updateApplicationStatus({ loan_application_id: loanApplicationId }).updated,
+      "center",
+      "success",
+      "approve",
+      "Appprov Loan Application",
+      "Loan application has been approved successfully",
+      true,
+      3000
+    );
+  });
+
 });
 
 function populateCollaterals(clientAssets) {
@@ -212,7 +227,7 @@ function populateCollaterals(clientAssets) {
 }
 
 function loanApplicationParams() {
-  let id =  $("#id").val();
+  let id = $("#id").val();
   let client_id = $("#loanAppClientId").val();
   let amount = $("#amount").val();
   let interestId = $("#interestsRates option:selected").val();
@@ -272,7 +287,7 @@ function loadLoanGuarantorParams() {
 }
 
 function loadApplicationStatusView(path) {
-  $.when(loadContent("mainContent", "", path)).done(function () {});
+  $.when(loadContent("mainContent", "", path)).done(function () { });
 }
 
 function notification(
@@ -298,12 +313,17 @@ function notification(
     ).done(function () {
       switch (recordType) {
         case "application":
-          $.when(loans.fetchLoanApplications({status_name: "NEW"})).done(function () {
+          $.when(loans.fetchLoanApplications({ status_name: "NEW" })).done(function () {
             $(applicationModal).modal("hide");
           });
           break;
         case "guarantor":
-          $.when(loans.fetchLoanGuarantors()).done(function () {});
+          $.when(loans.fetchLoanGuarantors()).done(function () { });
+          break;
+        case "approve":
+          $.when(loans.fetchLoanApplications({ status_name: "WAITING" })).done(function () {
+            $(approveModal).modal("hide");
+          });
           break;
       }
     });
@@ -318,14 +338,14 @@ function clearFields(formId) {
     .text("");
 }
 
-function populateCollateralsRow(collaterals){
+function populateCollateralsRow(collaterals) {
   $("#approve-collaterals").html("");
-  collaterals.forEach( function (collateral, index){
-   $("#approve-collaterals").append(`
+  collaterals.forEach(function (collateral, index) {
+    $("#approve-collaterals").append(`
     <div class="col-sm-4 border-right">                   
       <div class="description-block">
         <h5  class="description-header">${collateral.name}</h5>
-        <span class="description-text">(${index + 1 }) COLLATERAL NAME</span>
+        <span class="description-text">(${index + 1}) COLLATERAL NAME</span>
       </div>
       <!-- /.description-block -->
     </div>
@@ -333,7 +353,7 @@ function populateCollateralsRow(collaterals){
     <div class="col-sm-4 border-right">                   
       <div class="description-block">
         <h5  class="description-header">${collateral.purchase_price}</h5>
-        <span class="description-text">(${index + 1 }) PURCHASE PRICE</span>
+        <span class="description-text">(${index + 1}) PURCHASE PRICE</span>
       </div>
       <!-- /.description-block -->
     </div>
@@ -341,12 +361,12 @@ function populateCollateralsRow(collaterals){
     <div class="col-sm-4 border-right">                   
     <div class="description-block">
       <h5  class="description-header">${collateral.market_value}</h5>
-      <span class="description-text">(${index + 1 }) MARKET VALUE</span>
+      <span class="description-text">(${index + 1}) MARKET VALUE</span>
     </div>
     <!-- /.description-block -->
     </div>
 
    `);
-   console.log(collateral)
+
   });
 } 
