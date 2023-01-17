@@ -52,6 +52,17 @@ export function updateApplication(params) {
   );
 }
 
+export function updateApplicationStatus(params){
+  return apiClient(
+    "/api/v1/application/update_status",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
     destroy: true,
@@ -235,7 +246,7 @@ function getApproveBtn(data, type, row, metas) {
                     data-collaterals = '${collaterals}'
                     data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
                     data-grade-name = "${grade.name}"
-                    date-grade-range ="${grade.maximum} - ${grade.minimum}"
+                    data-grade-range ="${grade.minimum} - ${grade.maximum}"
                     data-scores = '${JSON.stringify(data.analysis.score_details.scores)}'`;
 
   return getButton(dataFields, "approve", "success", "fas fa-users");
