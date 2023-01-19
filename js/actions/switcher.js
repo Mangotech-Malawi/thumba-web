@@ -193,7 +193,7 @@ function populateApplicationStatusesStats(statuses_stats) {
       $("#status-new").text(status_stat.num_of_applications);
     } else if (status_stat.name === "WAITING") {
       $("#status-waiting").text(status_stat.num_of_applications);
-    } else if (status_stat.name === "COMPLETED") {
+    } else if (status_stat.name === "DONE") {
       $("#status-completed").text(status_stat.num_of_applications);
     } else if (status_stat.name === "DUMPED") {
       $("#status-dumped").text(status_stat.num_of_applications);
