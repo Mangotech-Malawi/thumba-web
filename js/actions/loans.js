@@ -8,6 +8,7 @@ const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
 let loanApplicationId;
+let paymentDate;
 
 $(function () {
 
@@ -97,6 +98,14 @@ $(function () {
       });
   });
 
+  $(document).on("click", "#statusCompleted", function (e) {
+    $.when(loadApplicationStatusView("views/loans/waiting.html")).done(
+      function () {
+        loans.fetchLoanApplications({ status_name: "done.html" });
+      });
+  });
+
+
   $(document).on("click", "#saveApplicationBtn", function (e) {
     if ($("#loanApplicationTitle").text() === "Add Loan Application") {
       notification(
@@ -172,6 +181,7 @@ $(function () {
     let amount = $(opener).attr("data-amount");
     let rate = $(opener).attr("data-rate");
     let purpose = $(opener).attr("data-purpose");
+    paymentDate =  addWeeks(new Date(), parseInt($(opener).attr("data-period")));
     let collaterals = JSON.parse($(opener).attr("data-collaterals"));
     let riskPercentage = $(opener).attr("data-risk-percentage");
     let gradeName = $(opener).attr("data-grade-name");
@@ -187,6 +197,7 @@ $(function () {
     $("#approve-rate").text(rate);
     $("#approve-interest").text(interest);
     $("#approve-repayment-amount").text(repaymentAmount);
+    $("#approve-payment-date").text(paymentDate);
     $("#approve-purpose").text(purpose);
     $("#grade-name").text(gradeName);
     $("#score-grade-range").text(gradeRange);
@@ -197,7 +208,8 @@ $(function () {
 
   $(document).on("click", "#approveLoanBtn", function (e) {
     notification(
-      loans.updateApplicationStatus({ loan_application_id: loanApplicationId }).updated,
+      loans.addLoan({ loan_application_id: loanApplicationId, 
+                      due_date: paymentDate}).created,
       "center",
       "success",
       "approve",
@@ -370,3 +382,9 @@ function populateCollateralsRow(collaterals) {
 
   });
 } 
+
+function addWeeks(date, weeks) {
+  date.setDate(date.getDate() + 7 * weeks);  
+  let options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
