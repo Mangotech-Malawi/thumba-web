@@ -52,9 +52,9 @@ export function updateApplication(params) {
   );
 }
 
-export function updateApplicationStatus(params){
+export function addLoan(params){
   return apiClient(
-    "/api/v1/application/update_status",
+    "/api/v1/loans/new",
     "POST",
     "json",
     false,
@@ -242,6 +242,7 @@ function getApproveBtn(data, type, row, metas) {
                     data-gender = "${data.borrower[0].gender}"
                     data-amount =  "${data.amount}"
                     data-rate = "${data.rate}"
+                    data-period = "${data.period}"
                     data-purpose = "${data.purpose}"
                     data-collaterals = '${collaterals}'
                     data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
