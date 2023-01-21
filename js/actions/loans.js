@@ -99,9 +99,16 @@ $(function () {
   });
 
   $(document).on("click", "#statusCompleted", function (e) {
-    $.when(loadApplicationStatusView("views/loans/waiting.html")).done(
+    $.when(loadApplicationStatusView("views/loans/done.html")).done(
       function () {
-        loans.fetchLoanApplications({ status_name: "done.html" });
+        loans.fetchLoanApplications({ status_name: "DONE" });
+      });
+  });
+
+  $(document).on("click", "#statusDumped", function (e) {
+    $.when(loadApplicationStatusView("views/loans/dumped.html")).done(
+      function () {
+        loans.fetchLoanApplications({ status_name: "DUMPED" });
       });
   });
 

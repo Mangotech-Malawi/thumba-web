@@ -10,11 +10,15 @@ export function fetchLoanApplications(params) {
     params
   );
 
-  if (params.status_name === "NEW") {
+  if (params.status_name === "NEW") 
     loadLoanApplications(data);
-  } else if (params.status_name === "WAITING") {
+  else if (params.status_name === "WAITING") 
     loadWaitingApplications(data);
-  }
+  else if (params.status_name === "DONE")
+    loadDoneApplications(data)
+  else if (params.status_name === "DUMP")
+    loadDumpedApplications(data)
+
 }
 
 export function fetchLoanApplicationsStatuses(params) {
@@ -258,6 +262,100 @@ function getDumpBtn(data, type, row, metas) {
   data-action-type = "edit"`;
   return getButton(dataFields, "dump", "danger", "fas fa-trash");
 }
+
+
+function loadDoneApplications(dataset) {
+  $("#doneApplicationsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "interest_name" },
+      { data: null },
+      { data: null },
+      { data: "amount" },
+      { data: "rate" },
+      { data: null },
+      { data: null }
+    ],
+    columnDefs: [
+      {
+        render: getFirstname,
+        data: null,
+        targets: [2],
+      },
+      {
+        render: getLastname,
+        data: null,
+        targets: [3],
+      },
+      {
+        render: getGrade,
+        data: null,
+        targets: [6],
+      },
+      {
+        render: getRisk,
+        data: null,
+        targets: [7],
+      }
+    ]
+  });
+}
+
+
+function loadDumpedApplications(dataset) {
+  $("#dumpedApplicationsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "interest_name" },
+      { data: null },
+      { data: null },
+      { data: "amount" },
+      { data: "rate" },
+      { data: null },
+      { data: null }
+    ],
+    columnDefs: [
+      {
+        render: getFirstname,
+        data: null,
+        targets: [2],
+      },
+      {
+        render: getLastname,
+        data: null,
+        targets: [3],
+      },
+      {
+        render: getGrade,
+        data: null,
+        targets: [6],
+      },
+      {
+        render: getRisk,
+        data: null,
+        targets: [7],
+      }
+    ]
+  });
+}
+
+
 
 export function addGuarantor(params) {
   return apiClient(
