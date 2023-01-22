@@ -10,15 +10,28 @@ export function fetchLoanApplications(params) {
     params
   );
 
-  if (params.status_name === "NEW") 
+  if (params.status_name === "NEW")
     loadLoanApplications(data);
-  else if (params.status_name === "WAITING") 
+  else if (params.status_name === "WAITING")
     loadWaitingApplications(data);
   else if (params.status_name === "DONE")
     loadDoneApplications(data)
   else if (params.status_name === "DUMP")
     loadDumpedApplications(data)
+}
 
+
+export function fetchLoans(params) {
+  let data = apiClient(
+    "/api/v1/loans",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  )
+
+  loadLoans(data);
 }
 
 export function fetchLoanApplicationsStatuses(params) {
@@ -56,7 +69,7 @@ export function updateApplication(params) {
   );
 }
 
-export function addLoan(params){
+export function addLoan(params) {
   return apiClient(
     "/api/v1/loans/new",
     "POST",
@@ -354,6 +367,52 @@ function loadDumpedApplications(dataset) {
     ]
   });
 }
+
+function loadLoans(dataset) {
+  $("#loansTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "interest_name" },
+      { data: null },
+      { data: null },
+      { data: "amount" },
+      { data: "rate" },
+      { data: null },
+      { data: null }
+    ],
+    columnDefs: [
+      {
+        render: getFirstname,
+        data: null,
+        targets: [2],
+      },
+      {
+        render: getLastname,
+        data: null,
+        targets: [3],
+      },
+      {
+        render: getGrade,
+        data: null,
+        targets: [6],
+      },
+      {
+        render: getRisk,
+        data: null,
+        targets: [7],
+      }
+    ]
+  });
+}
+
 
 
 
