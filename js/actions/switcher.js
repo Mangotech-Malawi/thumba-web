@@ -182,6 +182,9 @@ function loadOtherContent(state, index) {
         case "scores":
           settings.fetchScores();
           break;
+        case "loans":
+          loans.fetchLoans();
+          break;
       }
     }
   );
