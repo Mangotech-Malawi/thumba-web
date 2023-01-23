@@ -21,14 +21,14 @@ export function fetchLoanApplications(params) {
 }
 
 
-export function fetchLoans(params) {
+export function fetchLoans() {
   let data = apiClient(
     "/api/v1/loans",
     "GET",
     "json",
     false,
     false,
-    params
+    {}
   )
 
   loadLoans(data);
@@ -369,7 +369,7 @@ function loadDumpedApplications(dataset) {
 }
 
 function loadLoans(dataset) {
-  $("#loansTable").DataTable({
+  $("#clientsLoansTable").DataTable({
     destroy: true,
     responsive: true,
     searching: true,
@@ -379,39 +379,57 @@ function loadLoans(dataset) {
     info: true,
     data: dataset,
     columns: [
-      { data: "id" },
-      { data: "interest_name" },
+      { data: "loan_id" },
       { data: null },
       { data: null },
-      { data: "amount" },
       { data: "rate" },
+      { data: "amount" },
+      { data: "payment" },
+      { data: "profit" },
       { data: null },
+      { data: null },
+      { data: "loaned_date" },
+      { data: "due_date" },
       { data: null }
     ],
     columnDefs: [
       {
         render: getFirstname,
         data: null,
-        targets: [2],
+        targets: [1],
       },
       {
         render: getLastname,
         data: null,
-        targets: [3],
+        targets: [2],
       },
       {
         render: getGrade,
         data: null,
-        targets: [6],
+        targets: [7],
       },
       {
         render: getRisk,
         data: null,
-        targets: [7],
-      }
+        targets: [8],
+      },
+      {
+        render: getPayBtn,
+        data: null,
+        targets: [11],
+      },
     ]
   });
 }
+
+
+function getPayBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.loans_id}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "loan-payment", "success", "fas fa-handshake");
+}
+
 
 
 
