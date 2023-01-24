@@ -427,7 +427,7 @@ function getPayBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.loans_id}"
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "loan-payment", "success", "fas fa-handshake");
+  return getButton(dataFields, "loan-payments", "success", "fas fa-handshake");
 }
 
 
