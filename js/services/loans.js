@@ -80,6 +80,17 @@ export function addLoan(params) {
   );
 }
 
+export function addLoanPayment(params){
+  return apiClient(
+    "/api/v1/loans/add_payment",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
     destroy: true,
@@ -424,15 +435,12 @@ function loadLoans(dataset) {
 
 
 function getPayBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.loans_id}"
-    data-action-type = "edit"`;
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-firstname = "${data.borrower[0].firstname}"
+                    data-lastname = "${data.borrower[0].lastname}"`;
 
   return getButton(dataFields, "loan-payments", "success", "fas fa-handshake");
 }
-
-
-
-
 
 export function addGuarantor(params) {
   return apiClient(
