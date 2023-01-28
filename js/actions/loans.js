@@ -7,6 +7,7 @@ import * as client from "../services/clients.js";
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
+const loanPaymentModal = "#modal-loan-payments";
 let loanApplicationId;
 let paymentDate;
 
@@ -226,6 +227,39 @@ $(function () {
       3000
     );
   });
+
+  $(document).on("show.bs.modal", loanPaymentModal , function (e) {
+      let opener =  e.relatedTarget;
+      $("#paymentLoanId").val($(opener).attr("data-loan-id"));
+      $("#paymentModalTitle").text(`Loan Payments for ${$(opener).attr("data-firstname")} 
+                                    ${$(opener).attr("data-lastname")}`);
+
+  });
+  
+  $(document).on("click", "#saveLoanPaymentBtn",function(e){
+      let amount       = $("#amount").val();
+      let paymentDate  =  $("#paymentDate").val();
+      let loanId       = $("#paymentLoanId").val();
+      
+      notification(
+        loans.addLoanPayment({ loan_id: loanId, 
+                                paid_amount: amount,
+                                payment_date: paymentDate
+                              }).created,
+        "center",
+        "success",
+        "approve",
+        "Add Loan Payment",
+        "Loan payment has been done successfully",
+        true,
+        3000
+      );
+
+  });
+
+  
+
+
 
 });
 
