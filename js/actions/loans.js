@@ -9,7 +9,9 @@ const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
 const loanPaymentModal = "#modal-loan-payments";
 let loanApplicationId;
+let selectedLoanPaymentId = null; 
 let paymentDate;
+let loan_id;
 
 $(function () {
 
@@ -189,7 +191,7 @@ $(function () {
     let amount = $(opener).attr("data-amount");
     let rate = $(opener).attr("data-rate");
     let purpose = $(opener).attr("data-purpose");
-    paymentDate =  addWeeks(new Date(), parseInt($(opener).attr("data-period")));
+    paymentDate = addWeeks(new Date(), parseInt($(opener).attr("data-period")));
     let collaterals = JSON.parse($(opener).attr("data-collaterals"));
     let riskPercentage = $(opener).attr("data-risk-percentage");
     let gradeName = $(opener).attr("data-grade-name");
@@ -216,8 +218,10 @@ $(function () {
 
   $(document).on("click", "#approveLoanBtn", function (e) {
     notification(
-      loans.addLoan({ loan_application_id: loanApplicationId, 
-                      due_date: paymentDate}).created,
+      loans.addLoan({
+        loan_application_id: loanApplicationId,
+        due_date: paymentDate
+      }).created,
       "center",
       "success",
       "approve",
@@ -228,38 +232,66 @@ $(function () {
     );
   });
 
-  $(document).on("show.bs.modal", loanPaymentModal , function (e) {
-      let opener =  e.relatedTarget;
-      $("#paymentLoanId").val($(opener).attr("data-loan-id"));
-      $("#paymentModalTitle").text(`Loan Payments for ${$(opener).attr("data-firstname")} 
+  $(document).on("show.bs.modal", loanPaymentModal, function (e) {
+    let opener = e.relatedTarget;
+    $("#paymentLoanId").val($(opener).attr("data-loan-id"));
+    $("#paymentModalTitle").text(`Loan Payments for ${$(opener).attr("data-firstname")} 
                                     ${$(opener).attr("data-lastname")}`);
 
+    loan_id = $(opener).attr("data-loan-id");
+
+    loans.fetchLoanPayments({ loan_id: $(opener).attr("data-loan-id") });
+
   });
-  
-  $(document).on("click", "#saveLoanPaymentBtn",function(e){
-      let amount       = $("#amount").val();
-      let paymentDate  =  $("#paymentDate").val();
-      let loanId       = $("#paymentLoanId").val();
-      
+
+  $(document).on("click", "#saveLoanPaymentBtn", function (e) {
+    let amount = $("#amount").val();
+    let paymentDate = $("#paymentDate").val();
+    let loanId = $("#paymentLoanId").val();
+
+    if(selectedLoanPaymentId != null){
       notification(
-        loans.addLoanPayment({ loan_id: loanId, 
-                                paid_amount: amount,
-                                payment_date: paymentDate
-                              }).created,
+        loans.updateLoanPayment({
+          loan_id: loanId,
+          loan_payment_id: selectedLoanPaymentId,
+          paid_amount: amount,
+          payment_date: paymentDate
+        }).created,
         "center",
         "success",
-        "approve",
+        "loan-payment",
+        "Edit Loan Payment",
+        "Loan payment has updated been updated successfully",
+        true,
+        3000
+      );
+    }else{
+      notification(
+        loans.Payment({
+          loan_id: loanId,
+          paid_amount: amount,
+          payment_date: paymentDate
+        }).created,
+        "center",
+        "success",
+        "loan-payment",
         "Add Loan Payment",
         "Loan payment has been done successfully",
         true,
         3000
       );
-
+    } 
   });
 
-  
-
-
+  $(document).on("click", ".edit-loan-payment", function (e) {
+    let table = $("#loanPaymentsTable").DataTable();
+    let data = table.row( $(this).parents('tr') ).data();
+    selectedLoanPaymentId = data.id
+    
+    $("#amount").val(data.paid_amount);
+    $("#paymentDate").val(data.payment_date);
+    
+  });
 
 });
 
@@ -378,6 +410,13 @@ function notification(
             $(approveModal).modal("hide");
           });
           break;
+        case "loan-payment":
+          $(loans.fetchLoanPayments({ loan_id: loan_id })).done( function (){
+              clearFields("#addPaymentForm");
+              selectedLoanPaymentId = null;
+          });
+      
+          break;
       }
     });
 }
@@ -422,10 +461,10 @@ function populateCollateralsRow(collaterals) {
    `);
 
   });
-} 
+}
 
 function addWeeks(date, weeks) {
-  date.setDate(date.getDate() + 7 * weeks);  
+  date.setDate(date.getDate() + 7 * weeks);
   let options = { day: '2-digit', month: '2-digit', year: 'numeric' };
   return date.toLocaleDateString('en-US', options);
 }

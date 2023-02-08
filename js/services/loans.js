@@ -80,7 +80,7 @@ export function addLoan(params) {
   );
 }
 
-export function addLoanPayment(params){
+export function addLoanPayment(params) {
   return apiClient(
     "/api/v1/loans/add_payment",
     "POST",
@@ -89,6 +89,31 @@ export function addLoanPayment(params){
     false,
     params
   );
+}
+
+export function updateLoanPayment(params) {
+  return apiClient(
+    "/api/v1/loans/edit_payment",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
+
+export function fetchLoanPayments(params) {
+  let data = apiClient(
+    "/api/v1/loan/payments",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  populatePaymentsTable(data)
 }
 
 function loadLoanApplications(dataset) {
@@ -149,6 +174,8 @@ function loadLoanApplications(dataset) {
     ],
   });
 }
+
+
 
 function getFirstname(data, type, row, metas) {
   return data.borrower[0].firstname;
@@ -521,6 +548,56 @@ function getGuarantorDelBtn(data, type, row, metas) {
     data-action-type = "edit"`;
   return getButton(dataFields, "client-business", "danger", "fas fa-trash");
 }
+
+
+function populatePaymentsTable(dataset) {
+  $("#loanPaymentsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "paid_amount" },
+      { data: "total_paid" },
+      { data: "balance" },
+      { data: "payment_date"},
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getPaymentUpdateBtn,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getPaymentDelBtn,
+        data: null,
+        targets: [6],
+      },
+    ],
+  });
+}
+
+function getPaymentUpdateBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "", "default edit-loan-payment", "fas fa-edit");
+}
+
+function getPaymentDelBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+    data-action-type = "edit"`;
+  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+}
+
+
 
 function getButton(dataFields, modal, color, icon) {
   return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
