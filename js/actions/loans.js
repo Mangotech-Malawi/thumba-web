@@ -293,6 +293,25 @@ $(function () {
     
   });
 
+  $(document).on("click", ".delete-loan-payment", function(e){
+    let table = $("#loanPaymentsTable").DataTable();
+    let data = table.row( $(this).parents('tr') ).data();
+    selectedLoanPaymentId = data.id
+    
+    notification(
+      loans.deletePayment({
+        loan_payment_id: selectedLoanPaymentId,
+      }).deleted,
+      "center",
+      "success",
+      "loan-payment",
+      "Delete Loan Payment",
+      "Loan payment has been deleted successfully",
+      true,
+      3000
+    );
+  })
+
 });
 
 function populateCollaterals(clientAssets) {
