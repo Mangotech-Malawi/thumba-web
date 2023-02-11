@@ -103,6 +103,18 @@ export function updateLoanPayment(params) {
 }
 
 
+export function deletePayment(params){  
+  return apiClient(
+    "/api/v1/loan/payment/delete",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+
+}
+
 export function fetchLoanPayments(params) {
   let data = apiClient(
     "/api/v1/loan/payments",
@@ -594,7 +606,7 @@ function getPaymentUpdateBtn(data, type, row, metas) {
 function getPaymentDelBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-action-type = "edit"`;
-  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+  return getButton(dataFields, "", "danger delete-loan-payment", "fas fa-trash");
 }
 
 
