@@ -103,6 +103,18 @@ export function updateLoanPayment(params) {
 }
 
 
+export function deletePayment(params){  
+  return apiClient(
+    "/api/v1/loan/payment/delete",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+
+}
+
 export function fetchLoanPayments(params) {
   let data = apiClient(
     "/api/v1/loan/payments",
@@ -428,6 +440,7 @@ function loadLoans(dataset) {
       { data: null },
       { data: "loaned_date" },
       { data: "due_date" },
+      { data: null },
       { data: null }
     ],
     columnDefs: [
@@ -456,17 +469,30 @@ function loadLoans(dataset) {
         data: null,
         targets: [11],
       },
+      {
+        render: getSeizeCollaterBtn,
+        data: null,
+        targets: [12]
+      }
     ]
   });
 }
-
 
 function getPayBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
                     data-firstname = "${data.borrower[0].firstname}"
                     data-lastname = "${data.borrower[0].lastname}"`;
 
-  return getButton(dataFields, "loan-payments", "success", "fas fa-handshake");
+  return getButton(dataFields, "loan-payments", "secondary", "fas fa-handshake");
+}
+
+function  getSeizeCollaterBtn(data, type, row, metas){
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-firstname = "${data.borrower[0].firstname}
+                    data-lastname = "${data.borrower[0].lastname}
+                    `;
+
+  return getButton(dataFields, "seized-collateral", "warning", "fas fa-building");
 }
 
 export function addGuarantor(params) {
@@ -594,7 +620,7 @@ function getPaymentUpdateBtn(data, type, row, metas) {
 function getPaymentDelBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-action-type = "edit"`;
-  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+  return getButton(dataFields, "", "danger delete-loan-payment", "fas fa-trash");
 }
 
 
