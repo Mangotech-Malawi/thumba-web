@@ -440,6 +440,7 @@ function loadLoans(dataset) {
       { data: null },
       { data: "loaned_date" },
       { data: "due_date" },
+      { data: null },
       { data: null }
     ],
     columnDefs: [
@@ -468,17 +469,30 @@ function loadLoans(dataset) {
         data: null,
         targets: [11],
       },
+      {
+        render: getSeizeCollaterBtn,
+        data: null,
+        targets: [12]
+      }
     ]
   });
 }
-
 
 function getPayBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
                     data-firstname = "${data.borrower[0].firstname}"
                     data-lastname = "${data.borrower[0].lastname}"`;
 
-  return getButton(dataFields, "loan-payments", "success", "fas fa-handshake");
+  return getButton(dataFields, "loan-payments", "secondary", "fas fa-handshake");
+}
+
+function  getSeizeCollaterBtn(data, type, row, metas){
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-firstname = "${data.borrower[0].firstname}
+                    data-lastname = "${data.borrower[0].lastname}
+                    `;
+
+  return getButton(dataFields, "seized-collateral", "warning", "fas fa-building");
 }
 
 export function addGuarantor(params) {
