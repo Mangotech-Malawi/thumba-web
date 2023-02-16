@@ -234,15 +234,14 @@ $(function () {
   });
 
   $(document).on("show.bs.modal", loanPaymentModal, function (e) {
+
     let opener = e.relatedTarget;
     $("#paymentLoanId").val($(opener).attr("data-loan-id"));
     $("#paymentModalTitle").text(`Loan Payments for ${$(opener).attr("data-firstname")} 
                                     ${$(opener).attr("data-lastname")}`);
 
     loan_id = $(opener).attr("data-loan-id");
-
     loans.fetchLoanPayments({ loan_id: $(opener).attr("data-loan-id") });
-
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
