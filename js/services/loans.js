@@ -128,6 +128,30 @@ export function fetchLoanPayments(params) {
   populatePaymentsTable(data)
 }
 
+export function addCollateralSeizure(params){
+  return apiClient(
+    "/api/v1/collateral_seizure",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
+export function fetchCollateralSeizures(){
+  let data = apiClient(
+    "/api/v1/collateral_seizures",
+    "GET",
+    "json",
+    false,
+    false,
+    {}
+  );
+
+  populateSeizedCollateralsTable(data);
+}
+
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
     destroy: true,
@@ -487,9 +511,11 @@ function getPayBtn(data, type, row, metas) {
 }
 
 function  getSeizeCollaterBtn(data, type, row, metas){
+  let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-loan-id = "${data.loan_id}"
-                    data-firstname = "${data.borrower[0].firstname}
-                    data-lastname = "${data.borrower[0].lastname}
+                    data-collaterals = '${collaterals}'
+                    data-firstname = "${data.borrower[0].firstname}"
+                    data-lastname = "${data.borrower[0].lastname}"
                     `;
 
   return getButton(dataFields, "seized-collateral", "warning", "fas fa-building");
@@ -623,6 +649,58 @@ function getPaymentDelBtn(data, type, row, metas) {
   return getButton(dataFields, "", "danger delete-loan-payment", "fas fa-trash");
 }
 
+
+function populateSeizedCollateralsTable(dataset) {
+  $("#seizedCollateralsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "identifier" },
+      { data: "identifier_type" },
+      { data: "name" },
+      { data: "purchase_date"},
+      { data: "purchase_price"},
+      { data: "market_value"},
+      { data: "seized_date"},
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getSellBtn,
+        data: null,
+        targets: [8],
+      },
+      {
+        render: getReturnBtn,
+        data: null,
+        targets: [9],
+      },
+    ],
+  });
+}
+
+function getSellBtn(data, type, row, metas) {
+  let dataFields = `data-id = "${data.id}"
+                    data-action-type = "sell"`;
+
+  return getButton(dataFields, "sell-collateral", "default ", "fas fa-money-bill-alt");
+}
+
+function getReturnBtn(data, type, row, metas) {
+  let dataFields = `data-id = "${data.id}"
+                    data-collateral-id = "${data.collateral_id}"
+                    data-action-type = "edit"`;
+
+  return getButton(dataFields, "", "secondary return-collateral", "fas fa-handshake");
+}
 
 
 function getButton(dataFields, modal, color, icon) {
