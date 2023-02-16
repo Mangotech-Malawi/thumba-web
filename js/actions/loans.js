@@ -8,6 +8,7 @@ const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
 const loanPaymentModal = "#modal-loan-payments";
+const collateralSeizureModal ="#modal-seized-collateral";
 let loanApplicationId;
 let selectedLoanPaymentId = null; 
 let paymentDate;
@@ -310,24 +311,55 @@ $(function () {
       true,
       3000
     );
-  })
+  });
+
+  $(document).on("show.bs.modal", collateralSeizureModal, function (e) {
+    let opener = e.relatedTarget;
+    let collaterals = JSON.parse($(opener).attr("data-collaterals"));
+
+    populateCollaterals(collaterals);
+
+  });
+
+  $(document).on("click", "#seizeCollateralBtn", function(e){
+      let collaterals = $("#corraterals").val();
+      let collateralsArray = new Array();
+
+      collaterals.forEach(function (collateral, index) {
+        collateralsArray.push(collateral);
+      });
+
+      notification(
+        loans.addCollateralSeizure({
+          collateral_ids: collateralsArray,
+        }).created,
+        "center",
+        "success",
+        "collateral-seizure",
+        "Add Loan Collateral Seizure",
+        "Collateral Seizure has been added successfully",
+        true,
+        3000
+      );
+  });
+
 
 });
 
-function populateCollaterals(clientAssets) {
-  let assetsArray = [];
-  clientAssets.forEach(function (asset, index) {
-    assetsArray.push(
+function populateCollaterals(collaterals) {
+  let collateralArray = [];
+  collaterals.forEach(function (collateral, index) {
+    collateralArray.push(
       '<option value ="',
-      asset.id,
+      collateral.id,
       '">',
-      `${asset.name} | Market Value: MK${asset.market_value}`,
+      `${collateral.name} | Market Value: MK${collateral.market_value}`,
       "</option>"
     );
   });
 
   $("#corraterals").html("");
-  $("#corraterals").html(assetsArray.join(""));
+  $("#corraterals").html(collateralArray.join(""));
 }
 
 function loanApplicationParams() {
@@ -434,7 +466,9 @@ function notification(
               clearFields("#addPaymentForm");
               selectedLoanPaymentId = null;
           });
-      
+          break;
+        case "collateral-seizure":
+            $(collateralSeizureModal).modal("hide");
           break;
       }
     });
