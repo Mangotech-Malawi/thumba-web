@@ -139,6 +139,28 @@ export function addCollateralSeizure(params){
   );
 }
 
+export function removeCollateralSeizure(params){
+  return apiClient(
+    "/api/v1/collateral_seizure/edit",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
+export function sellCollateral(params){
+  return apiClient(
+    "/api/v1/collateral_seizure/edit",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function fetchCollateralSeizures(){
   let data = apiClient(
     "/api/v1/collateral_seizures",
@@ -688,7 +710,14 @@ function populateSeizedCollateralsTable(dataset) {
 }
 
 function getSellBtn(data, type, row, metas) {
-  let dataFields = `data-id = "${data.id}"
+  let dataFields = `data-seizure-id = "${data.id}"
+                    data-identifier = "${data.identifier}"
+                    data-name = "${data.name}"
+                    data-identifier-type = "${data.identifier_type}"
+                    data-purchase-date = "${data.purchase_date}"
+                    data-purchase-price = "${data.purchase_price}"
+                    data-market-value = "${data.market_value}"
+                    data-seized-date = "${data.seized_date}"
                     data-action-type = "sell"`;
 
   return getButton(dataFields, "sell-collateral", "default ", "fas fa-money-bill-alt");
