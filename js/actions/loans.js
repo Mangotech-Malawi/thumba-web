@@ -9,6 +9,8 @@ const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
 const loanPaymentModal = "#modal-loan-payments";
 const collateralSeizureModal ="#modal-seized-collateral";
+const sellCollateralModal = "#modal-sell-collateral";
+
 let loanApplicationId;
 let selectedLoanPaymentId = null; 
 let paymentDate;
@@ -342,6 +344,52 @@ $(function () {
       );
   });
 
+  $(document).on("show.bs.modal", sellCollateralModal, function (e) {
+    let opener = e.relatedTarget;
+    $.each(opener.dataset, function (key, value) {
+      $(sellCollateralModal).find(`[id = '${key}']`).text(value);
+      $(sellCollateralModal).find(`[id = '${key}']`).val(value);
+    });
+  });
+
+  $(document).on("click", ".return-collateral", function (e) {
+    let seizure_id = $(this).data().id;
+    
+    notification(
+      loans.removeCollateralSeizure({
+        seizure_id: seizure_id,
+      }).unseized,
+      "center",
+      "success",
+      "remove-seizure",
+      "Remove Collateral Seizure",
+      "Collateral Seizure has been removed successfully",
+      true,
+      3000
+    );
+  });
+
+  $(document).on("click", "#sellCollateralBtn", function (e) {
+      let seizureId = $("#seizureId").val();
+      let sellingPrice  = $("#sellingPrice").val();
+      let soldDate = $("#soldDate").val(); 
+
+      notification(
+        loans.sellCollateral({
+          seizure_id: seizureId,
+          selling_price: sellingPrice,
+          sold_date: soldDate
+        }).collateral_sold,
+        "center",
+        "success",
+        "sell-collateral",
+        "Sell Collateral",
+        "Collateral sale has been recorded successfully",
+        true,
+        3000
+      );
+      
+  });
 
 });
 
@@ -468,6 +516,14 @@ function notification(
           break;
         case "collateral-seizure":
             $(collateralSeizureModal).modal("hide");
+          break;
+        case "remove-seizure":
+          loans.fetchCollateralSeizures();
+          break;
+        case "sell-collateral":
+          $.when(loans.fetchCollateralSeizures()).done(function(){
+            $(sellCollateralModal).modal("hide");
+          });
           break;
       }
     });
