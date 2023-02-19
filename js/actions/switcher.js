@@ -78,6 +78,11 @@ $(document).ready(function () {
     selectContent("seized_collaterals");
   })
 
+
+  $("#collateral-sales").on("click", function (e) {
+    selectContent("collateral_sales");
+  })
+
   $(document).on("click", "#applicationBackBtn", function (e) {
     selectContent("applications");
   });
@@ -192,6 +197,9 @@ function loadOtherContent(state, index) {
         case "seized_collaterals":
           loans.fetchCollateralSeizures();
           break;
+        case "collateral_sales":
+          loans.fetchCollateralSales();
+        break;
       }
     }
   );

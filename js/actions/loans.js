@@ -9,6 +9,8 @@ const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
 const loanPaymentModal = "#modal-loan-payments";
 const collateralSeizureModal ="#modal-seized-collateral";
+const sellCollateralModal = "#modal-sell-collateral";
+
 let loanApplicationId;
 let selectedLoanPaymentId = null; 
 let paymentDate;
@@ -342,6 +344,91 @@ $(function () {
       );
   });
 
+  $(document).on("show.bs.modal", sellCollateralModal, function (e) {
+    let opener = e.relatedTarget;
+    $.each(opener.dataset, function (key, value) {
+      $(sellCollateralModal).find(`[id = '${key}']`).text(value);
+      $(sellCollateralModal).find(`[id = '${key}']`).val(value);
+    });
+  });
+
+  $(document).on("click", ".return-collateral", function (e) {
+    let seizure_id = $(this).data().id;
+    
+    notification(
+      loans.removeCollateralSeizure({
+        seizure_id: seizure_id,
+      }).unseized,
+      "center",
+      "success",
+      "remove-seizure",
+      "Remove Collateral Seizure",
+      "Collateral Seizure has been removed successfully",
+      true,
+      3000
+    );
+  });
+
+  $(document).on("click", "#sellCollateralBtn", function (e) {
+   
+      let soldPrice  = $("#sellingPrice").val();
+      let soldDate = $("#soldDate").val(); 
+
+      if ($("#collateralSaleModalTitle").text() === "Add Collateral Sale") {
+        let seizureId = $("#seizureId").val();
+
+        notification(
+          loans.sellCollateral({
+            collateral_seizure_id: seizureId,
+            sold_price: soldPrice,
+            sold_date: soldDate
+          }).created,
+          "center",
+          "success",
+          "sell-collateral",
+          "Sell Collateral",
+          "Collateral sale has been recorded successfully",
+          true,
+          3000
+        );
+      }else{
+        let collateralSaleId =  $("#collateralSaleId").val();
+
+        notification(
+          loans.editCollateralSale({
+            collateral_sale_id: collateralSaleId,
+            sold_price: soldPrice,
+            sold_date: soldDate
+          }).updated,
+          "center",
+          "success",
+          "collateral-sale",
+          "Edit Collateral Sale",
+          "Collateral sale has been updated successfully",
+          true,
+          3000
+        );
+      }
+      
+  });
+
+
+  $(document).on("click", ".delete-collateral-sale", function (e) {
+    let collateralSaleId = $(this).data().id;
+
+    notification(
+      loans.deleteCollateralSale({
+        collateral_sale_id: collateralSaleId
+      }).deleted,
+      "center",
+      "success",
+      "collateral-sale",
+      "Delete Collateral Sale",
+      "Collateral sale has been deleted successfully",
+      true,
+      3000
+    );
+  });
 
 });
 
@@ -469,6 +556,20 @@ function notification(
         case "collateral-seizure":
             $(collateralSeizureModal).modal("hide");
           break;
+        case "remove-seizure":
+          loans.fetchCollateralSeizures();
+          break;
+        case "sell-collateral":
+          $.when(loans.fetchCollateralSeizures()).done(function(){
+            $(sellCollateralModal).modal("hide");
+          });
+          break;
+        case "collateral-sale":
+          $.when(loans.fetchCollateralSales()).done( function(){
+            $(sellCollateralModal).modal("hide");
+          });
+          break;
+        
       }
     });
 }

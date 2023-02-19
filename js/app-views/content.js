@@ -44,8 +44,14 @@ export const content_view = [
   {
     title:  "Seized Collaterals",
     link:   "views/loans/seized_collaterals.html",
-    modals: "views/modals/loan_payments.html",
+    modals: "views/modals/seized_collaterals.html",
     state:  "seized_collaterals",
+  },
+  {
+    title:  "Collaterals Sales",
+    link:   "views/loans/collateral_sales.html",
+    modals: "views/modals/seized_collaterals.html",
+    state:  "collateral_sales",
   },
   {
     title: "Investors",
