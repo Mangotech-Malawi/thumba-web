@@ -3,7 +3,7 @@
         <div class="modal-content  ">
             <form id="addPaymentForm" action="" method="post"></form>
             <div class="modal-header">
-                <h4 id="collateralSeizureModalTitle" class="modal-title">Sell Seized Collateral</h4>
+                <h4 id="collateralSaleModalTitle" class="modal-title">Sell Seized Collateral</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,7 +11,6 @@
             <div class="modal-body">
 
                 <div class="content">
-
 
                     <div class="card card-widget widget-user">
                         <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -86,6 +85,7 @@
                     <div class="row">
 
                         <input id="seizureId" type="hidden"  class="form-control">
+                        <input id="collateralSaleId" type="hidden"  class="form-control">
 
                         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                             <div class="form-group ">
@@ -122,7 +122,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
-                <button id="sellCollateralBtn" type="button" class="btn btn-primary alt-btn">Sell</button>
+                <button id="sellCollateralBtn" type="button" class="btn btn-primary alt-btn">Save</button>
             </div>
             </form>
         </div>
