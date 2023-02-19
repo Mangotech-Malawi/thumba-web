@@ -370,25 +370,64 @@ $(function () {
   });
 
   $(document).on("click", "#sellCollateralBtn", function (e) {
-      let seizureId = $("#seizureId").val();
-      let sellingPrice  = $("#sellingPrice").val();
+   
+      let soldPrice  = $("#sellingPrice").val();
       let soldDate = $("#soldDate").val(); 
 
-      notification(
-        loans.sellCollateral({
-          seizure_id: seizureId,
-          selling_price: sellingPrice,
-          sold_date: soldDate
-        }).collateral_sold,
-        "center",
-        "success",
-        "sell-collateral",
-        "Sell Collateral",
-        "Collateral sale has been recorded successfully",
-        true,
-        3000
-      );
+      if ($("#collateralSaleModalTitle").text() === "Add Collateral Sale") {
+        let seizureId = $("#seizureId").val();
+
+        notification(
+          loans.sellCollateral({
+            collateral_seizure_id: seizureId,
+            sold_price: soldPrice,
+            sold_date: soldDate
+          }).created,
+          "center",
+          "success",
+          "sell-collateral",
+          "Sell Collateral",
+          "Collateral sale has been recorded successfully",
+          true,
+          3000
+        );
+      }else{
+        let collateralSaleId =  $("#collateralSaleId").val();
+
+        notification(
+          loans.editCollateralSale({
+            collateral_sale_id: collateralSaleId,
+            sold_price: soldPrice,
+            sold_date: soldDate
+          }).updated,
+          "center",
+          "success",
+          "collateral-sale",
+          "Edit Collateral Sale",
+          "Collateral sale has been updated successfully",
+          true,
+          3000
+        );
+      }
       
+  });
+
+
+  $(document).on("click", ".delete-collateral-sale", function (e) {
+    let collateralSaleId = $(this).data().id;
+
+    notification(
+      loans.deleteCollateralSale({
+        collateral_sale_id: collateralSaleId
+      }).deleted,
+      "center",
+      "success",
+      "collateral-sale",
+      "Delete Collateral Sale",
+      "Collateral sale has been deleted successfully",
+      true,
+      3000
+    );
   });
 
 });
@@ -525,6 +564,12 @@ function notification(
             $(sellCollateralModal).modal("hide");
           });
           break;
+        case "collateral-sale":
+          $.when(loans.fetchCollateralSales()).done( function(){
+            $(sellCollateralModal).modal("hide");
+          });
+          break;
+        
       }
     });
 }
