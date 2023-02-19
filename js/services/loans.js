@@ -209,6 +209,7 @@ export function deleteCollateralSale(params){
   ); 
 }
 
+
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
     destroy: true,
