@@ -269,7 +269,7 @@ $(function () {
       );
     }else{
       notification(
-        loans.Payment({
+        loans.addLoanPayment({
           loan_id: loanId,
           paid_amount: amount,
           payment_date: paymentDate
