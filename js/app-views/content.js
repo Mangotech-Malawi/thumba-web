@@ -88,4 +88,71 @@ export const content_view = [
     modals: ["views/modals/user.html","views/modals/settings.html"],
     state: "grades",
   },
+  {
+    title: "Client Records",
+    link: "views/clients/individualRecord.html",
+    state: "client_records",
+  },
+  {
+    title: "Completed Applications",
+    link: "views/loans/new.html",
+    state: "new_applications",
+    modals: ["views/modals/user.html","views/modals/loans.html"]
+  },
+  {
+    title: "Completed Applications",
+    link: "views/loans/waiting.html",
+    state: "waiting_applications",
+    modals: ["views/modals/user.html","views/modals/loans.html"]
+  },
+  {
+    title: "Completed Applications",
+    link: "views/loans/done.html",
+    state: "completed_applications",
+    modals: ["views/modals/user.html","views/modals/loans.html"]
+  },
+  {
+    title: "Dumped Applications",
+    link: "views/loans/done.html",
+    state: "dumped_applications",
+    modals: ["views/modals/user.html","views/modals/loans.html"]
+  },
+  {
+    title: "Client Demographics",
+    link: "views/clients/demographics.html",
+    state: "demographics",
+    modals: ["views/modals/client.html", "views/modals/user.html"],
+  },
+  {
+    title: "Client Jobs",
+    link: "views/clients/jobs.html",
+    state: "jobs",
+    modals: ["views/modals/client.html", "views/modals/user.html"]
+  },
+  {
+    title: "Client Dependants",
+    link: "views/clients/dependants.html",
+    state: "dependants",
+    modals: ["views/modals/client.html", "views/modals/user.html"],
+  },
+  {
+    title: "Client Businesses",
+    link: "views/clients/businesses.html",
+    state: "businesses",
+    modals: ["views/modals/client.html", "views/modals/user.html"],
+  },
+  {
+    title: "Client Assets",
+    link: "views/clients/assets.html",
+    state: "assets",
+    modals: ["views/modals/assets.html", "views/modals/user.html"],
+  },
+  {
+    title: "Client Otheloans",
+    link: "views/clients/otherLoans.html",
+    state: "other_loans",
+    modals: ["views/modals/client.html", "views/modals/user.html"],
+  }
+  
+  
 ];
