@@ -92,27 +92,27 @@ $(function () {
   });
 
   $(document).on("click", "#statusNew", function (e) {
-    $.when(loadApplicationStatusView("views/loans/new.html")).done(function () {
+    $.when(loadApplicationStatusView("views/loans/new.html", "new_applications")).done(function () {
       loans.fetchLoanApplications({ status_name: "NEW" });
     });
   });
 
   $(document).on("click", "#statusWaiting", function (e) {
-    $.when(loadApplicationStatusView("views/loans/waiting.html")).done(
+    $.when(loadApplicationStatusView("views/loans/waiting.html", "waiting_applications")).done(
       function () {
         loans.fetchLoanApplications({ status_name: "WAITING" });
       });
   });
 
   $(document).on("click", "#statusCompleted", function (e) {
-    $.when(loadApplicationStatusView("views/loans/done.html")).done(
+    $.when(loadApplicationStatusView("views/loans/done.html", "completed_applications")).done(
       function () {
         loans.fetchLoanApplications({ status_name: "DONE" });
       });
   });
 
   $(document).on("click", "#statusDumped", function (e) {
-    $.when(loadApplicationStatusView("views/loans/dumped.html")).done(
+    $.when(loadApplicationStatusView("views/loans/dumped.html"), "dumped_applications").done(
       function () {
         loans.fetchLoanApplications({ status_name: "DUMPED" });
       });
@@ -508,8 +508,8 @@ function loadLoanGuarantorParams() {
   return params;
 }
 
-function loadApplicationStatusView(path) {
-  $.when(loadContent("mainContent", "", path)).done(function () { });
+function loadApplicationStatusView(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
 }
 
 function notification(
