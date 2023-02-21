@@ -14,6 +14,11 @@ const otherloanModal = "#modal-client-otherloan";
 localStorage;
 
 $(function () {
+
+  if(localStorage.getItem("clientDataSet") != null){
+    currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+  }
+
   $(document).on("show.bs.modal", modalId, function (e) {
     let opener = e.relatedTarget;
     let actionType = $(opener).attr("data-action-type");
@@ -111,21 +116,22 @@ $(function () {
     let opener = e.relatedTarget;
 
     currentDataset = this.dataset;
+    localStorage.setItem("clientDataSet", JSON.stringify(currentDataset));
 
     let clientType = this.dataset.clientType;
 
     if (clientType === "individual") {
-      loadRecord("views/clients/individualRecord.html");
+      loadRecord("views/clients/individualRecord.html", "client_records");
       $("#recordName").text(
         `${this.dataset.recordFirstname} ${this.dataset.recordLastname} Records`
       );
     } else if (clientType === "organization") {
-      loadRecord("views/clients/organizationRecord.html");
+      loadRecord("views/clients/organizationRecord.html", "organization_records");
     }
   });
 
   $(document).on("click", "#btnDemographics", function (e) {
-    $.when(loadIndividualRecordView("views/clients/demographics.html")).done(
+    $.when(loadIndividualRecordView("views/clients/demographics.html", "demographics")).done(
       function () {
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);
@@ -139,7 +145,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnJobs", function (e) {
-    $.when(loadIndividualRecordView("views/clients/jobs.html")).done(
+    $.when(loadIndividualRecordView("views/clients/jobs.html", "jobs")).done(
       function () {
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
@@ -153,7 +159,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnDependants", function (e) {
-    $.when(loadIndividualRecordView("views/clients/dependants.html")).done(
+    $.when(loadIndividualRecordView("views/clients/dependants.html", "dependants")).done(
       function () {
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
@@ -167,7 +173,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnBusinesses", function (e) {
-    $.when(loadIndividualRecordView("views/clients/businesses.html")).done(
+    $.when(loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
       function () {
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
@@ -181,7 +187,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnAssets", function (e) {
-    $.when(loadIndividualRecordView("views/clients/assets.html")).done(
+    $.when(loadIndividualRecordView("views/clients/assets.html", "assets")).done(
       function () {
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
@@ -195,7 +201,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnOtherLoans", function (e) {
-    $.when(loadIndividualRecordView("views/clients/otherLoans.html")).done(
+    $.when(loadIndividualRecordView("views/clients/otherLoans.html","other_loans")).done(
       function () {
         $("#recordName").text(
           `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
@@ -238,23 +244,23 @@ $(function () {
   $(document).on("click", "#recordBackBtn", function () {
     clientType = currentDataset.clientType;
     if (clientType === "individual") {
-      loadRecord("views/clients/individualRecord.html");
+      loadRecord("views/clients/individualRecord.html","client_records");
       $("#recordName").text(
         `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Records`
       );
     } else if (clientType === "organization") {
-      loadRecord("views/clients/organizationRecord.html");
+      loadRecord("views/clients/organizationRecord.html","organization_records");
     }
   });
 
   $(document).on("click", "#clientsBackBtn", function () {
     clientType = this.dataset.clientType;
     if (clientType === "individual") {
-      $.when(loadRecord("views/clients/individuals.html")).done(function () {
+      $.when(loadRecord("views/clients/individuals.html","individual")).done(function () {
         client.fetchClientsData(clientType);
       });
     } else if (clientType === "organization") {
-      $.when(loadRecord("views/clients/organizations.html")).done(function () {
+      $.when(loadRecord("views/clients/organizations.html","organization")).done(function () {
         client.fetchClientsData(clientType);
       });
     }
@@ -758,10 +764,10 @@ function clientOtherLoanParams() {
   let amount = $("#clientOtherLoan").find("[id = 'amount']").val();
   let period = $("#clientOtherLoan").find("[id = 'period']").val();
   let periodType = $("#periodType option:selected").val();
-  let rate =  $("#clientOtherLoan").find("[id = 'rate']").val();
+  let rate = $("#clientOtherLoan").find("[id = 'rate']").val();
   let loanedDate = $("#loanedDate").val();
   let amountPaid = $("#amountPaid").val();
-  let purpose =  $("#clientOtherLoan").find("[id = 'purpose']").val()
+  let purpose = $("#clientOtherLoan").find("[id = 'purpose']").val()
   let closed = $("#loanClosed").val();
   let stopped = $("#stopped").val();
   let reasonForStopping = $("#reasonForStopping").val();
@@ -788,17 +794,16 @@ function clientOtherLoanParams() {
 
 //FORMS AND CLIENT RECORDS METHODS
 function loadForm(id, path) {
-  $.when(loadContent(id, "", path)).done(function () {});
+  $.when(loadContent(id, "contentRecord", path)).done(function () { });
 }
 
-function loadIndividualRecordView(path) {
-  $.when(loadContent("mainContent", "", path)).done(function () {});
+function loadIndividualRecordView(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
 }
 
-function loadRecord(path) {
-  $.when(loadContent("mainContent", "", path)).done(function () {});
+function loadRecord(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
 }
-
 //========================>
 
 function notification(
@@ -885,4 +890,4 @@ function clearFields(formId) {
     .prop("selected", false);
 }
 
-function clearBusinessFileds() {}
+function clearBusinessFileds() { }
