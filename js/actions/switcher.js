@@ -1,6 +1,6 @@
 import * as users from "../services/users.js";
 import { fetchIncomeData } from "../services/income.js";
-import { fetchClientsData } from "../services/clients.js";
+import * as client from "../services/clients.js";
 import { fetchInterests } from "../services/interests.js";
 import * as loans from "../services/loans.js";
 import * as settings from "../services/settings.js";
@@ -143,15 +143,22 @@ export function selectContent(state) {
 
 function loadDashboard(linkIndex, state, index) {
   $(`#${mainContent}`).html(""); //
+
   $.when(
     loadContent(mainContent, state, content_view[index].links[linkIndex])
   ).done(function () {
-    //load dashboard datas
+    $(`#${modalContent}`).html("");
+
+    $.each(content_view[index].modals, function (key, modal_path) {
+      $.when(loadContent(modalContent, "", modal_path)).done(
+        function () { }
+      );
+    });
   });
 }
 
 function loadOtherContent(state, index) {
-  $(`#${mainContent}`).html(""); //
+
   $.when(loadContent(mainContent, state, content_view[index].link)).done(
     function () {
       if (
@@ -166,7 +173,7 @@ function loadOtherContent(state, index) {
             function () { }
           );
         });
-   
+
       }
 
       switch (state) {
@@ -174,11 +181,10 @@ function loadOtherContent(state, index) {
           users.loadUsersTable(users.fetchUsers());
           break;
         case "individual":
-          1;
-          fetchClientsData(state);
+          client.fetchClientsData(state);
           break;
         case "organization":
-          fetchClientsData(state);
+          client.fetchClientsData(state);
           break;
         case "interests":
           fetchInterests(state);
@@ -208,6 +214,39 @@ function loadOtherContent(state, index) {
         case "collateral_sales":
           loans.fetchCollateralSales();
           break;
+        case "collateral_sales":
+          loans.fetchCollateralSales();
+          break;
+        case "demographics":
+          loadDemographics();
+          break;
+        case "jobs":
+          loadClientJobs();
+          break;
+        case "dependants":
+          loadClientDependants();
+          break;
+        case "businesses":
+          loadClientBusinesses();
+          break;
+        case "assets":
+          loadClientAssets();
+          break;
+        case "other_loans":
+          loadClientOtherLoans();
+          break;
+        case "new_applications":
+          loans.fetchLoanApplications({ status_name: "NEW" });
+          break;
+        case "waiting_applications":
+          loans.fetchLoanApplications({ status_name: "WAITING" });
+          break;
+        case "completed_applications":
+          loans.fetchLoanApplications({ status_name: "DONE" });
+          break;
+        case "dumped_applications":
+          loans.fetchLoanApplications({ status_name: "DUMPED" });
+          break;
       }
     }
   );
@@ -225,4 +264,78 @@ function populateApplicationStatusesStats(statuses_stats) {
       $("#status-dumped").text(status_stat.num_of_applications);
     }
   });
+}
+
+function loadDemographics() {
+  $.each(getCurrentClientDatatSet(), function (key, value) {
+    $("#demographics").find(`[id = '${key}']`).text(value);
+  });
+
+  $("#recordName").text(
+    `${clientDataSet.recordFirstname} ${clientDataSet.recordLastname} Demographics`
+  );
+}
+
+function loadClientJobs() {
+  let currentDataset = getCurrentClientDatatSet();
+
+  $("#recordName").text(
+    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
+  );
+
+  client.fetchClientJobs({
+    client_id: currentDataset.recordId,
+  });
+}
+
+function loadClientDependants() {
+  let currentDataset = getCurrentClientDatatSet();
+  $("#recordName").text(
+    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
+  );
+
+  client.fetchClientDependants({
+    client_id: currentDataset.recordId,
+  });
+}
+
+function loadClientBusinesses() {
+  let currentDataset = getCurrentClientDatatSet();
+  $("#recordName").text(
+    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
+  );
+
+  client.fetchClientBusinesses({
+    client_id: currentDataset.recordId,
+  });
+}
+
+function loadClientAssets() {
+  let currentDataset = getCurrentClientDatatSet();
+  $("#recordName").text(
+    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
+  );
+
+  client.fetchClientAssets({
+    client_id: currentDataset.recordId,
+  });
+}
+
+function loadClientOtherLoans() {
+  let currentDataset = getCurrentClientDatatSet();
+
+  $("#recordName").text(
+    `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
+  );
+
+  client.fetchClientOtherLoans({
+    client_id: currentDataset.recordId,
+  });
+}
+
+
+
+
+function getCurrentClientDatatSet() {
+  return JSON.parse(localStorage.getItem("clientDataSet"));
 }
