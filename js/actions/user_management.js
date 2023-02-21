@@ -78,14 +78,7 @@ $(document).ready(function () {
         clearFields();
     });
 
-    function clearFields() {
-        $("#username").val("");
-        $("#firstname").val("");
-        $("#lastname").val("");
-        $("#nationalId").val("");
-        $("#email").val("");
-        
-    }
+
 
     $(document).on('show.bs.modal', '#modal-delete-user', function (e) {
 
@@ -107,4 +100,20 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', '#settings-link', function (e) {
+        $.when($("#modal-profile").modal("show")).done( function(){
+            $("#profileUsername").val(sessionStorage.getItem("username"));
+        });
+    ;
+    });
+
 });
+
+function clearFields() {
+    $("#username").val("");
+    $("#firstname").val("");
+    $("#lastname").val("");
+    $("#nationalId").val("");
+    $("#email").val("");
+    
+}

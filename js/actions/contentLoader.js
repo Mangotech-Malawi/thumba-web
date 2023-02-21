@@ -5,7 +5,6 @@ export function loadContent(containerId, newState, urlPath) {
       type: "GET",
       async: false,
       success: function (resp) {
-        $(`#${containerId}`).html("");
   
         $(`#${containerId}`).append(resp);
   
@@ -21,4 +20,3 @@ export function loadContent(containerId, newState, urlPath) {
       },
     });
   }
-  

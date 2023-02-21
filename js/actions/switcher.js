@@ -142,6 +142,7 @@ export function selectContent(state) {
 }
 
 function loadDashboard(linkIndex, state, index) {
+  $(`#${mainContent}`).html(""); //
   $.when(
     loadContent(mainContent, state, content_view[index].links[linkIndex])
   ).done(function () {
@@ -150,15 +151,22 @@ function loadDashboard(linkIndex, state, index) {
 }
 
 function loadOtherContent(state, index) {
+  $(`#${mainContent}`).html(""); //
   $.when(loadContent(mainContent, state, content_view[index].link)).done(
     function () {
       if (
         content_view[index].modals != null &&
         typeof content_view[index].modals != undefined
       ) {
-        $.when(loadContent(modalContent, "", content_view[index].modals)).done(
-          function () {}
-        );
+
+        $(`#${modalContent}`).html("");
+
+        $.each(content_view[index].modals, function (key, modal_path) {
+          $.when(loadContent(modalContent, "", modal_path)).done(
+            function () { }
+          );
+        });
+   
       }
 
       switch (state) {
@@ -199,7 +207,7 @@ function loadOtherContent(state, index) {
           break;
         case "collateral_sales":
           loans.fetchCollateralSales();
-        break;
+          break;
       }
     }
   );
