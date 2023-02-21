@@ -5,7 +5,10 @@ export function loadContent(containerId, newState, urlPath) {
       type: "GET",
       async: false,
       success: function (resp) {
-  
+
+        if (newState != null && newState !== "")
+          $(`#${containerId}`).html(""); //
+
         $(`#${containerId}`).append(resp);
   
         /*$("#pageTitle").text("");
