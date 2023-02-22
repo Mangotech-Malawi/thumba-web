@@ -51,6 +51,7 @@ export function login(formData) {
   ).done(function (data) {
     if (data != null) {
       token = data.token;
+      sessionStorage.setItem("user_id", data.user_id)
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("username", data.username);
       sessionStorage.setItem("email", data.email);
@@ -61,6 +62,18 @@ export function login(formData) {
       //Display an error here
     }
   });
+}
+
+export function verifyCurPasword(params){
+  return apiClient("/api/v1/verify_password", 
+                   "POST", "json", false, false,
+                    params);
+}
+
+export function updateProfile(params){
+  return apiClient("/api/v1/update_profile", 
+                   "POST", "json", false, false,
+                    params);
 }
 
 export function delete_user(user_id) {
