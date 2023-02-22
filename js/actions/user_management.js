@@ -3,6 +3,7 @@ import * as users from "../services/users.js";
 import { selectContent } from "../actions/switcher.js"
 
 import { notify } from "../services/utils.js"
+import { fetchLoans } from "../services/loans.js";
 
 let formType;
 let addedUsers = 0;
@@ -30,7 +31,7 @@ $(document).ready(function () {
             let user_id = $("#userId").val();
             let resp = users.edit(user_id, national_id, username, firstname, lastname, email, role);
             if (resp != null) {
-                if(resp.updated){
+                if (resp.updated) {
                     $("#modal-edit-user").modal('hide');
                     notify("center", "success", "Edit user", "User has been edited successfully", false, 3000);
                     users.loadUsersTable(users.fetchUsers());
@@ -57,7 +58,7 @@ $(document).ready(function () {
             $('.modal-title').text("Edit User");
             let $userModal = $('#modal-edit-user');
 
-            $.each(opener.dataset, function(key, value){
+            $.each(opener.dataset, function (key, value) {
                 $userModal.find(`[id = '${key}']`).val(value);
             });
         }
@@ -101,13 +102,95 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#settings-link', function (e) {
-        $.when($("#modal-profile").modal("show")).done( function(){
+        $.when($("#modal-profile").modal("show")).done(function () {
+            $("#profileUsername").attr('disabled', true);
             $("#profileUsername").val(sessionStorage.getItem("username"));
+            $("#saveProfile").attr('disabled', true);
+            $("#newPassword").attr('disabled', true);
+            $("#confirmPassword").attr('disabled', true);
+
         });
-    ;
+    });
+
+    $(document).on('blur', '#curPassword', function (e) {
+        let curPassword = $("#curPassword").val();
+        let email = sessionStorage.getItem("email");
+        let user_id = sessionStorage.getItem("user_id");
+
+        $("#invalidPassword").text("");
+        $("#newPassword").attr('disabled', true);
+
+        if (curPassword !== "" && curPassword !== null) {
+            $.when(users.verifyCurPasword({
+                user_id: user_id,
+                email: email,
+                cur_password: curPassword
+            })).done(function (data) {
+                if (!data.valid_password) {
+                    $("#invalidPassword").text(`Invalid Password`);
+                } else {
+                    $("#newPassword").attr('disabled', false);
+                }
+            });
+        }
+    });
+
+    $(document).on('blur', '#newPassword', function (e) {
+        let newPassword = $("#newPassword").val();
+        $("#wrongPassword").text("");
+        $("#confirmPassword").attr('disabled', true);
+
+        if (newPassword !== "" && newPassword !== null) {
+            if (!validatePassword(newPassword)) {
+                $("#wrongPassword").text(`Password should have at 
+                least 6 characters, containing at least
+                 one alphanumeric character, one number, 
+                 and one special character`);
+            } else {
+                $("#confirmPassword").attr('disabled', false);
+            }
+        }
+    });
+
+    $(document).on('blur', '#confirmPassword', function (e) {
+        let confirmPassword = $("#confirmPassword").val();
+        let newPassword = $("#newPassword").val();
+
+        $("#wrongPasswordMatch").text("");
+
+        if ((newPassword !== "" && newPassword !== null) && (confirmPassword !== "" && confirmPassword !== null)) {
+            if (!(newPassword === confirmPassword)) {
+                $("#wrongPasswordMatch").text(`Does match with new password`);
+                $("#saveProfile").attr('disabled', true);
+            } else {
+                $("#saveProfile").attr('disabled', false);
+            }
+        }
+    });
+
+    $(document).on('click', '#saveProfile', function (e) {
+        let user_id = sessionStorage.getItem("user_id");
+        let newPassword = $("#newPassword").val();
+
+        $.when(users.updateProfile({ user_id: user_id, new_password: newPassword })).done(
+            function (data) {
+                if (data.updated) {
+                    notify("center", "success", "Updated Profile", "User has been deleted successfully", false, 1500);
+                    $("#modal-profile").modal("hide");
+                } else {
+                    notify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
+                    $("#modal-profile").modal("hide");
+                }
+
+            });
     });
 
 });
+
+function validatePassword(password) {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+    return regex.test(password)
+}
 
 function clearFields() {
     $("#username").val("");
@@ -115,5 +198,5 @@ function clearFields() {
     $("#lastname").val("");
     $("#nationalId").val("");
     $("#email").val("");
-    
+
 }
