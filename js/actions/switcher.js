@@ -3,6 +3,7 @@ import { fetchIncomeData } from "../services/income.js";
 import * as client from "../services/clients.js";
 import { fetchInterests } from "../services/interests.js";
 import * as loans from "../services/loans.js";
+import * as investment from "../services/investments.js";
 import * as settings from "../services/settings.js";
 import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
@@ -86,6 +87,15 @@ $(document).ready(function () {
   $(document).on("click", "#applicationBackBtn", function (e) {
     selectContent("applications");
   });
+
+  $(document).on("click", "#investment-packages", function (e) {
+    selectContent("investment_packages");
+  });
+  
+  $(document).on("click", "#investments", function (e) {
+    selectContent("investments");
+  });
+
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -246,6 +256,9 @@ function loadOtherContent(state, index) {
           break;
         case "dumped_applications":
           loans.fetchLoanApplications({ status_name: "DUMPED" });
+          break;
+        case "investment_packages":
+          investment.fetchInvestimentPackages();
           break;
       }
     }
