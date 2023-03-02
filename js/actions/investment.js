@@ -1,6 +1,6 @@
 import * as investment from "../services/investments.js";
 
-const investmentModal = "#modal-investment-modal";
+const investmentModal = "#modal-investment";
 $(function () {
     $(document).on("click", "#saveInvestmentPackageBtn", function (e) {
         if ($("#investmentPackageModalTitle").text() === "Add Investment Package") {
@@ -44,21 +44,23 @@ function getInvestmentPackageParams() {
     let payout_schedule = $("#payoutSchedule").val();
     let risk_level = $("#riskLevel option:selected").val();
 
-    return {
-        investiment_package_id: id,
-        package_name: package_name,
-        package_type: package_type,
-        min_amount: min_amount,
-        max_amount: max_amount,
-        interest_rate: interest_rate,
-        interest_frequency: interest_rate_frequency,
-        duration: duration,
-        currency: currency,
-        requirements: requirements,
-        term_and_conditions: terms_and_conditions,
-        payout_schedule: payout_schedule,
-        risk_level: risk_level
-    }
+    let params = {
+                investiment_package_id: id,
+                package_name: package_name,
+                package_type: package_type,
+                min_amount: min_amount,
+                max_amount: max_amount,
+                interest_rate: interest_rate,
+                interest_frequency: interest_rate_frequency,
+                duration: duration,
+                currency: currency,
+                requirements: requirements,
+                term_and_conditions: terms_and_conditions,
+                payout_schedule: payout_schedule,
+                risk_level: risk_level
+                }
+    console.log(params);
+    return params;
 }
 
 function notification(
