@@ -15,7 +15,7 @@ export function fetchInvestimentPackages() {
 
 export function addInvestmentPackage(params){
     return apiClient(
-        "/api/v1/investiment_packag/add",
+        "/api/v1/investiment_package/add",
         "POST",
         "json",
         false,
@@ -26,7 +26,7 @@ export function addInvestmentPackage(params){
 
 export function editInvestmentPackage(params){
     return apiClient(
-        "/api/v1/investiment_packag/edit",
+        "/api/v1/investiment_package/edit",
         "POST",
         "json",
         false,
