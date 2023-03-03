@@ -91,7 +91,7 @@ $(document).ready(function () {
   $(document).on("click", "#investment-packages", function (e) {
     selectContent("investment_packages");
   });
-  
+
   $(document).on("click", "#investments", function (e) {
     selectContent("investments");
   });
@@ -259,6 +259,9 @@ function loadOtherContent(state, index) {
           break;
         case "investment_packages":
           investment.fetchInvestimentPackages();
+          break;
+        case "investments":
+          investment.fetchInvestments();
           break;
       }
     }
