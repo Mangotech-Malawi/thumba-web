@@ -169,6 +169,58 @@ function getDelInvestmentPackageBtn(data, type, row, metas) {
 }
 
 
+export function fetchInvestments() {
+    let data = apiClient(
+        "/api/v1/investiments",
+        "GET",
+        "json",
+        false,
+        false,
+        {}
+    )
+
+    populateInvestmentsTable(data);
+}
+
+
+
+function populateInvestmentsTable(dataSet) {
+    $("#investmentsTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: "id" },
+            { data: "firstname" },
+            { data: "lastname" },
+            { data: "package_name" },
+            { data: "amount" },
+            { data: "investment_date" },
+            { data: null },
+            { data: null }
+        ],
+        columnDefs: [
+            {
+                render: getRequirementsBtn,
+                data: null,
+                targets: [6],
+            },
+            {
+                render: getTermsAndConditionsBtn,
+                data: null,
+                targets: [7],
+            }
+        ],
+    });
+}
+
+
+
 function getButton(dataFields, modal, color, icon) {
     return `<button type='button' class="btn btn-lgbtn-block btn-${color}" data-toggle="modal" 
               data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
