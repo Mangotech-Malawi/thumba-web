@@ -1,6 +1,8 @@
 import * as investment from "../services/investments.js";
 
 const investmentModal = "#modal-investment";
+const investmentPackageModal = "#modal-investiment-package";
+
 $(function () {
     $(document).on("click", "#saveInvestmentPackageBtn", function (e) {
         if ($("#investmentPackageModalTitle").text() === "Add Investment Package") {
@@ -16,7 +18,7 @@ $(function () {
             );
         } else if ($("#investmentPackageModalTitle").text() === "Edit Investment Package") {
             notification(
-                investment.editInvestmentPackage(getInvestPackageParams()).updated,
+                investment.editInvestmentPackage(getInvestmentPackageParams()).updated,
                 "center",
                 "success",
                 "investment_package",
@@ -26,6 +28,38 @@ $(function () {
                 3000
             );
         }
+    });
+
+    $(document).on("show.bs.modal", investmentPackageModal, function (e) {
+        let opener = e.relatedTarget;
+
+        if ($(opener).attr("data-action-type") === "edit") {
+            $(investmentPackageModal).find(`[id = 'investmentPackageModalTitle']`).text("Edit Investment Package");
+
+            $.each(opener.dataset, function (key, value) {
+                $(investmentPackageModal).find(`[id = '${key}']`).val(value);
+            });
+        } else {
+            $(investmentPackageModal).find(`[id = 'investmentPackageModalTitle']`).text("Add Investment Package");
+        }
+    });
+
+    $(document).on("click", ".delete-investment-package", function (e) {
+        let id = $(this).data().id;
+
+        notification(
+            investment.deleteInvestmentPackage({
+              investiment_package_id: id
+            }).deleted,
+            "center",
+            "success",
+            "investment_package",
+            "Delete Investment Package",
+            "Investment package has been deleted successfully",
+            true,
+            3000
+          );
+
     });
 });
 
@@ -45,21 +79,21 @@ function getInvestmentPackageParams() {
     let risk_level = $("#riskLevel option:selected").val();
 
     let params = {
-                investiment_package_id: id,
-                package_name: package_name,
-                package_type: package_type,
-                min_amount: min_amount,
-                max_amount: max_amount,
-                interest_rate: interest_rate,
-                interest_frequency: interest_rate_frequency,
-                duration: duration,
-                currency: currency,
-                requirements: requirements,
-                term_and_conditions: terms_and_conditions,
-                payout_schedule: payout_schedule,
-                risk_level: risk_level
-                }
-    console.log(params);
+        investiment_package_id: id,
+        package_name: package_name,
+        package_type: package_type,
+        min_amount: min_amount,
+        max_amount: max_amount,
+        interest_rate: interest_rate,
+        interest_frequency: interest_rate_frequency,
+        duration: duration,
+        currency: currency,
+        requirements: requirements,
+        term_and_conditions: terms_and_conditions,
+        payout_schedule: payout_schedule,
+        risk_level: risk_level
+    }
+
     return params;
 }
 
@@ -86,12 +120,14 @@ function notification(
         ).done(function () {
             switch (recordType) {
                 case "investment_package":
-                    $.when(investment.fetchInvestimentPackages()).done(function () { 
-                        $(investmentModal).modal("hide");
-                    }); 
+                    $.when(investment.fetchInvestimentPackages()).done(function () {
+                        $(investmentPackageModal).modal("hide");
+                    });
                     break;
-                case "guarantor":
-                    $.when(loans.fetchLoanGuarantors()).done(function () { });
+                case "investment":
+                    $.when(investment.fetchInvestments()).done(function () {
+                        $(investmentModal).modal("hide");
+                    });
                     break;
             }
         });
