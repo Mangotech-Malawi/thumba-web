@@ -13,7 +13,7 @@ export function fetchInvestimentPackages() {
     populateInvestmentPackagesTable(data);
 }
 
-export function addInvestmentPackage(params){
+export function addInvestmentPackage(params) {
     return apiClient(
         "/api/v1/investiment_package/add",
         "POST",
@@ -24,9 +24,20 @@ export function addInvestmentPackage(params){
     )
 }
 
-export function editInvestmentPackage(params){
+export function editInvestmentPackage(params) {
     return apiClient(
         "/api/v1/investiment_package/edit",
+        "POST",
+        "json",
+        false,
+        false,
+        params
+    )
+}
+
+export function deleteInvestmentPackage(params) {
+    return apiClient(
+        "/api/v1/investiment_package/delete",
         "POST",
         "json",
         false,
@@ -58,114 +69,74 @@ function populateInvestmentPackagesTable(dataSet) {
             { data: "risk_level" },
             { data: null },
             { data: null },
-            { data: null },
-            { data: null },
             { data: null }
         ],
         columnDefs: [
             {
-                render: getRequirementsBtn,
+                render: getMoreBtn,
                 data: null,
                 targets: [10],
             },
             {
-                render: getTermsAndConditionsBtn,
+                render: getEditInvestmentPackageBtn,
                 data: null,
                 targets: [11],
             },
             {
-                render: getPayoutScheduleBtn,
-                data: null,
-                targets: [12],
-            },
-
-            {
-                render: getEditInvestmentPackageBtn,
-                data: null,
-                targets: [13],
-            },
-            {
                 render: getDelInvestmentPackageBtn,
                 data: null,
-                targets: [14],
+                targets: [12],
             },
         ],
     });
 }
 
 
-function getRequirementsBtn(data, type, row, metas) {
-    let dataFields = `data-collateral-sale-id = "${data.id}"
-                      data-identifier = "${data.identifier}"
-                      data-name = "${data.name}"
-                      data-identifier-type = "${data.identifier_type}"
-                      data-purchase-price = "${data.purchase_price}"
-                      data-market-value = "${data.market_value}"
-                      data-seized-date = "${data.seized_date}"
-                      data-selling-price = "${data.sold_price}"
-                      data-sold-date = "${data.sold_date}"
-                      data-collateral-sale-modal-title = "Edit Collateral Sale"`;
-
-    return getButton(dataFields, "sell-collateral", "default ",
-        "fas fa-eye");
-}
-
-
-function getTermsAndConditionsBtn(data, type, row, metas) {
-    let dataFields = `data-collateral-sale-id = "${data.id}"
-                      data-identifier = "${data.identifier}"
-                      data-name = "${data.name}"
-                      data-identifier-type = "${data.identifier_type}"
-                      data-purchase-price = "${data.purchase_price}"
-                      data-market-value = "${data.market_value}"
-                      data-seized-date = "${data.seized_date}"
-                      data-selling-price = "${data.sold_price}"
-                      data-sold-date = "${data.sold_date}"
-                      data-collateral-sale-modal-title = "Edit Collateral Sale"`;
+function getMoreBtn(data, type, row, metas) {
+    let dataFields = `data-investment-package-id = "${data.id}"
+                      data-package-name = "${data.package_name}"
+                      data-min-amount = "${data.min_amount}"
+                      data-max-amount = "${data.max_amount}"
+                      data-interest-rate = "${data.interest_rate}"
+                      data-interest-frequency = "${data.market_value}"
+                      data-duration = "${data.duration}"
+                      data-currency = "${data.currency}"
+                      data-risk-level = "${data.risk_level}"
+                      data-requirements = "${data.requirements}"
+                      data-terms-and-conditions = "${data.term_and_conditions}"
+                      data-payout-schedule = "${data.payout_schedule}"
+                      data-inves = "Edit Collateral Sale"`;
 
     return getButton(dataFields, "sell-collateral", "warning ",
-        "fas fa-eye");
-}
-
-function getPayoutScheduleBtn(data, type, row, metas) {
-    let dataFields = `data-collateral-sale-id = "${data.id}"
-                      data-identifier = "${data.identifier}"
-                      data-name = "${data.name}"
-                      data-identifier-type = "${data.identifier_type}"
-                      data-purchase-price = "${data.purchase_price}"
-                      data-market-value = "${data.market_value}"
-                      data-seized-date = "${data.seized_date}"
-                      data-selling-price = "${data.sold_price}"
-                      data-sold-date = "${data.sold_date}"
-                      data-collateral-sale-modal-title = "Edit Collateral Sale"`;
-
-    return getButton(dataFields, "sell-collateral", "success ",
-        "fas fa-money-bill-alt");
+        "fas fa-list");
 }
 
 
 function getEditInvestmentPackageBtn(data, type, row, metas) {
-    let dataFields = `data-collateral-sale-id = "${data.id}"
-                      data-identifier = "${data.identifier}"
-                      data-name = "${data.name}"
-                      data-identifier-type = "${data.identifier_type}"
-                      data-purchase-price = "${data.purchase_price}"
-                      data-market-value = "${data.market_value}"
-                      data-seized-date = "${data.seized_date}"
-                      data-selling-price = "${data.sold_price}"
-                      data-sold-date = "${data.sold_date}"
-                      data-collateral-sale-modal-title = "Edit Collateral Sale"`;
+    let dataFields = `data-investment-package-id = "${data.id}"
+                      data-package-name = "${data.package_name}"
+                      data-package-type = "${data.package_type}"
+                      data-min-amount = "${data.min_amount}"
+                      data-max-amount = "${data.max_amount}"
+                      data-interest-rate = "${data.interest_rate}"
+                      data-interest-frequency = "${data.market_value}"
+                      data-duration = "${data.duration}"
+                      data-currency = "${data.currency}"
+                      data-risk-level = "${data.risk_level}"
+                      data-requirements = "${data.requirements}"
+                      data-terms-and-conditions = "${data.term_and_conditions}"
+                      data-payout-schedule = "${data.payout_schedule}"
+                      data-action-type = "edit"`;
 
-    return getButton(dataFields, "sell-collateral", "primary ",
-        "fas fa-edit");
+    return getButton(dataFields, "investiment-package", "primary ", "fas fa-edit");
 }
 
 
 function getDelInvestmentPackageBtn(data, type, row, metas) {
     let dataFields = `data-id = "${data.id}"
-                    data-action-type = "edit"`;
+                      data-action-type = "edit"`;
 
-    return getButton(dataFields, "", "danger delete-collateral-sale", "fas fa-trash");
+    return getButton(dataFields, "", "danger delete-investment-package", "fas fa-trash");
 }
 
 
@@ -181,7 +152,6 @@ export function fetchInvestments() {
 
     populateInvestmentsTable(data);
 }
-
 
 
 function populateInvestmentsTable(dataSet) {
@@ -206,12 +176,12 @@ function populateInvestmentsTable(dataSet) {
         ],
         columnDefs: [
             {
-                render: getRequirementsBtn,
+                render: getEditInvestmentBtn,
                 data: null,
                 targets: [6],
             },
             {
-                render: getTermsAndConditionsBtn,
+                render: getDelInvestmentBtn,
                 data: null,
                 targets: [7],
             }
@@ -219,6 +189,31 @@ function populateInvestmentsTable(dataSet) {
     });
 }
 
+function getEditInvestmentBtn(data, type, row, metas) {
+    let dataFields = `data-collateral-sale-id = "${data.id}"
+                      data-identifier = "${data.identifier}"
+                      data-sold-date = "${data.sold_date}"
+                      data-collateral-sale-modal-title = "Edit Collateral Sale"`;
+
+    return getButton(dataFields, "sell-collateral", "primary ",
+        "fas fa-edit");
+}
+
+function getDelInvestmentBtn(data, type, row, metas) {
+    let dataFields = `data-collateral-sale-id = "${data.id}"
+    data-identifier = "${data.identifier}"
+    data-name = "${data.name}"
+    data-identifier-type = "${data.identifier_type}"
+    data-purchase-price = "${data.purchase_price}"
+    data-market-value = "${data.market_value}"
+    data-seized-date = "${data.seized_date}"
+    data-selling-price = "${data.sold_price}"
+    data-sold-date = "${data.sold_date}"
+    data-collateral-sale-modal-title = "Edit Collateral Sale"`;
+
+    return getButton(dataFields, "sell-collateral", "danger ",
+        "fas fa-trash")
+}
 
 
 function getButton(dataFields, modal, color, icon) {
