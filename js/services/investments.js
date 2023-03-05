@@ -157,6 +157,41 @@ export function fetchInvestments() {
 }
 
 
+export function addInvestment(params) {
+    return apiClient(
+        "/api/v1/investiment/new",
+        "POST",
+        "json",
+        false,
+        false,
+        params
+    )
+}
+
+
+export function editInvestment(params) {
+    return apiClient(
+        "/api/v1/investiment/edit",
+        "POST",
+        "json",
+        false,
+        false,
+        params
+    )
+}
+
+
+export function deleteInvestment(params) {
+    return apiClient(
+        "/api/v1/investiment/delete",
+        "POST",
+        "json",
+        false,
+        false,
+        params
+    )
+}
+
 function populateInvestmentsTable(dataSet) {
     $("#investmentsTable").DataTable({
         destroy: true,
@@ -193,33 +228,28 @@ function populateInvestmentsTable(dataSet) {
 }
 
 function getEditInvestmentBtn(data, type, row, metas) {
-    let dataFields = `data-collateral-sale-id = "${data.id}"
-                      data-identifier = "${data.identifier}"
-                      data-sold-date = "${data.sold_date}"
-                      data-collateral-sale-modal-title = "Edit Collateral Sale"`;
+    let dataFields = `data-investment-id = "${data.id}"
+                      data-investor-id = "${data.user_id}"
+                      data-investment-package-id = "${data.investiment_package_id}"
+                      data-amount = "${data.amount}"
+                      data-description = "${data.description}"
+                      data-investment-date = "${data.investment_date}"
+                      data-action-type = "edit"`;
 
-    return getButton(dataFields, "sell-collateral", "primary ",
+    return getButton(dataFields, "investment", "primary ",
         "fas fa-edit");
 }
 
 function getDelInvestmentBtn(data, type, row, metas) {
-    let dataFields = `data-collateral-sale-id = "${data.id}"
-    data-identifier = "${data.identifier}"
-    data-name = "${data.name}"
-    data-identifier-type = "${data.identifier_type}"
-    data-purchase-price = "${data.purchase_price}"
-    data-market-value = "${data.market_value}"
-    data-seized-date = "${data.seized_date}"
-    data-selling-price = "${data.sold_price}"
-    data-sold-date = "${data.sold_date}"
-    data-collateral-sale-modal-title = "Edit Collateral Sale"`;
+    let dataFields = `data-id = "${data.id}"
+                      data-action-type = "edit"`;
 
-    return getButton(dataFields, "sell-collateral", "danger ",
+    return getButton(dataFields, "", "danger  delete-investment ",
         "fas fa-trash")
 }
 
 
 function getButton(dataFields, modal, color, icon) {
-    return `<button type='button' class="btn btn-lgbtn-block btn-${color}" data-toggle="modal" 
+    return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
               data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
