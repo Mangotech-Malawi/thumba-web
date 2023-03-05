@@ -1,6 +1,6 @@
 import { apiClient } from "./api-client.js";
 
-export function fetchInvestimentPackages() {
+export function fetchInvestimentPackages(...args) {
     let data = apiClient(
         "/api/v1/investiment_packages",
         "GET",
@@ -10,7 +10,10 @@ export function fetchInvestimentPackages() {
         {}
     )
 
-    populateInvestmentPackagesTable(data);
+    if (args[0] === "load-none")
+         return data  
+    else 
+        populateInvestmentPackagesTable(data);
 }
 
 export function addInvestmentPackage(params) {
