@@ -248,6 +248,46 @@ function getDelInvestmentBtn(data, type, row, metas) {
         "fas fa-trash")
 }
 
+export function fetchReturnsOnInvestments(params) {
+
+    let data = apiClient(
+        "/api/v1/return_on_investments",
+        "GET",
+        "json",
+        false,
+        false,
+        {}
+    )
+
+    populateReturnsOnInvestmentsTable(data);
+}
+
+function populateReturnsOnInvestmentsTable(dataSet) {
+    $("#returnOnInvestmentsTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: "firstname" },
+            { data: "lastname" },
+            { data: "package_name" },
+            { data: "interest_rate" },
+            { data: "amount" },
+            { data: "roi" }
+          
+        ],
+        columnDefs: [
+        ],
+    });
+}
+
+
+
 
 function getButton(dataFields, modal, color, icon) {
     return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
