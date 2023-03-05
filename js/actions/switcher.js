@@ -96,6 +96,14 @@ $(document).ready(function () {
     selectContent("investments");
   });
 
+  $(document).on("click", "#returnOfInvestiments", function (e) {
+    selectContent("return_on_investments");
+  });
+
+
+
+
+
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -262,6 +270,9 @@ function loadOtherContent(state, index) {
           break;
         case "investments":
           investment.fetchInvestments();
+          break;
+        case "return_on_investments":
+          investment.fetchReturnsOnInvestments()
           break;
       }
     }
