@@ -1,4 +1,5 @@
 import * as investment from "../services/investments.js";
+import * as user from "../services/users.js";
 
 const investmentModal = "#modal-investment";
 const investmentPackageModal = "#modal-investiment-package";
@@ -49,7 +50,7 @@ $(function () {
 
         notification(
             investment.deleteInvestmentPackage({
-              investiment_package_id: id
+                investiment_package_id: id
             }).deleted,
             "center",
             "success",
@@ -58,8 +59,57 @@ $(function () {
             "Investment package has been deleted successfully",
             true,
             3000
-          );
+        );
 
+    });
+
+    $(document).on("show.bs.modal", investmentModal, function (e) {
+        let users = user.fetchUsers();
+        let opener = e.relatedTarget;
+        let investors = [];
+        let investmentPackagesArray = [];
+        let investmentPackages = investment.fetchInvestimentPackages("load-none");
+
+        if (investmentPackages !== null) {
+            investmentPackages.forEach(function (investment_package, index) {
+                investmentPackagesArray.push(
+                    '<option value ="',
+                    investment_package.id,
+                    '">',
+                    `${investment_package.package_name} | ${investment_package.interest_rate}%`,
+                    "</option>"
+                )
+            });
+
+            $("#investmentPackageId").html(investmentPackagesArray.join(""));
+        }
+
+        if (users !== null) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].role === "investor" || users[i].role === "co-owner") {
+                    investors.push(
+                        '<option value ="',
+                        users[i].id,
+                        '">',
+                        `${users[i].firstname} ${users[i].lastname} `,
+                        "</option>"
+                    );
+                }
+
+                $("#investorId").html(investors.join(""));
+            }
+        }
+
+
+        if ($(opener).attr("data-button-type") === "edit") {
+            $(investmentModal).find(`[id = 'investmentModalTitle']`).text("Edit Investment");
+
+            $.each(opener.dataset, function (key, value) {
+                $(investmentModal).find(`[id = '${key}']`).val(value);
+            });
+        } else {
+            $(investmentModal).find(`[id = 'investmentModalTitle']`).text("Add Investment");
+        }
     });
 });
 
