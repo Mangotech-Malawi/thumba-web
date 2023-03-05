@@ -33,6 +33,7 @@ $(function () {
 
     $(document).on("show.bs.modal", investmentPackageModal, function (e) {
         let opener = e.relatedTarget;
+    
 
         if ($(opener).attr("data-action-type") === "edit") {
             $(investmentPackageModal).find(`[id = 'investmentPackageModalTitle']`).text("Edit Investment Package");
@@ -64,6 +65,8 @@ $(function () {
     });
 
     $(document).on("show.bs.modal", investmentModal, function (e) {
+        clearFields("#investmentForm");
+
         let users = user.fetchUsers();
         let opener = e.relatedTarget;
         let investors = [];
@@ -101,7 +104,7 @@ $(function () {
         }
 
 
-        if ($(opener).attr("data-button-type") === "edit") {
+        if ($(opener).attr("data-action-type") === "edit") {
             $(investmentModal).find(`[id = 'investmentModalTitle']`).text("Edit Investment");
 
             $.each(opener.dataset, function (key, value) {
@@ -110,6 +113,49 @@ $(function () {
         } else {
             $(investmentModal).find(`[id = 'investmentModalTitle']`).text("Add Investment");
         }
+    });
+
+    $(document).on("click", "#saveInvestmentBtn", function (e) {
+        if ($("#investmentModalTitle").text() === "Add Investment") {
+            notification(
+                investment.addInvestment(getInvestmentParams()).created,
+                "center",
+                "success",
+                "investment",
+                "Add Investment",
+                "Investment has been added successfully",
+                true,
+                3000
+            );
+        } else if ($("#investmentModalTitle").text() === "Edit Investment") {
+            notification(
+                investment.editInvestment(getInvestmentParams()).updated,
+                "center",
+                "success",
+                "investment",
+                "Edit Investment",
+                "Investment has been edited successfully",
+                true,
+                3000
+            );
+        }
+    });
+
+    $(document).on("click", ".delete-investment", function (e) {
+        let id = $(this).data().id;
+
+        notification(
+            investment.deleteInvestment({
+                id: id
+            }).deleted,
+            "center",
+            "success",
+            "investment",
+            "Delete Investment",
+            "Investment has been deleted successfully",
+            true,
+            3000
+        );
     });
 });
 
@@ -142,6 +188,26 @@ function getInvestmentPackageParams() {
         term_and_conditions: terms_and_conditions,
         payout_schedule: payout_schedule,
         risk_level: risk_level
+    }
+
+    return params;
+}
+
+function getInvestmentParams(){
+    let investment_id = $("#investmentId").val();
+    let user_id = $("#investorId").val();
+    let investment_package_id = $("#investmentPackageId").val();
+    let amount = $("#amount").val();
+    let description =  $("#description").val();
+    let investment_date =  $("#investmentDate").val();
+
+    let params = {
+        id: investment_id,
+        user_id: user_id,
+        investiment_package_id: investment_package_id,
+        amount: amount,
+        description: description,
+        investment_date: investment_date
     }
 
     return params;
@@ -181,4 +247,13 @@ function notification(
                     break;
             }
         });
+}
+
+function clearFields(formId) {
+    $(":input", formId)
+      .not(":button, :submit, :reset")
+      .val("")
+      .prop("checked", false)
+      .prop("selected", false)
+      .text("");
 }
