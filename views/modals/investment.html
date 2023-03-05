@@ -1,10 +1,10 @@
 
-<div class="modal fade" id="modal-investiment">
+<div class="modal fade" id="modal-investment">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <form id="addUser" action="" method="post"></form>
         <div class="modal-header">
-          <h4 id="incomeModalTitle" class="modal-title">Add Income</h4>
+          <h4 id="investmentModalTitle" class="modal-title">Add Investiment</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -17,11 +17,11 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
                           
                           <div class="input-group ">
-                            <input id="incomeId" type="hidden"  class="form-control">
+                            <input id="investmentId" type="hidden"  class="form-control">
                           </div>
                           
                           <div class="form-group ">
-                            <label>Investor Name</label>
+                            <label>Investors</label>
      
                             <div class="select2-primary">
                               <select id="investorId" name="district" class="form-control"  data-placeholder="Select investor"
@@ -32,8 +32,20 @@
 
                     </div>
 
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                      <div class="form-group ">
+                        <label>Investment Packages</label>
+ 
+                        <div class="select2-primary">
+                          <select id="investmentPackageId" name="investmentPackage" class="form-control"  data-placeholder="Select Investiment Package"
+                              data-dropdown-css-class="select2-primary" style="width: 100%;">
+                            </select>
+                          </div>
+                      </div>
+                   </div>
 
-                    <div class="col-lg-6s col-md-6 col-sm-12 mb-3">
+                  
+                    <div class="col-lg-12 col-md-6 col-sm-12 mb-3">
                         <div class="form-group ">
                         <label>Amount</label>
                         <div class="input-group " >
@@ -50,20 +62,6 @@
                     </div>
 
 
-                    <div class="col-lg-6 col-md-12 col-sm-12 mb-3">                         
-                        <div class="form-group ">
-                          <label>Category</label>
-   
-                          <div class="select2-primary">
-                            <select id="category" class="form-control"  data-placeholder="Select Category"
-                                data-dropdown-css-class="select2-primary" style="width: 100%;">
-                                <option value="mbi">MBI</option>
-                                <option value="external">External</option>
-                              </select>
-                            </div>
-                        </div>
-                  </div>
-
                   <div class="col-lg-12 col-md-6 col-sm-12 mb-3">
                     <div class="form-group">
                       <label>Description</label>
@@ -78,6 +76,9 @@
                       </div>
                     </div>
                   </div>
+
+                  
+      
                 </div>
             </div>
 
@@ -137,8 +138,7 @@
   </div>
   <script src="js/actions/income.js" type="module"></script>
   <script>
-
       $("#investorId").select2();
+      $("#investmentPackageId").select2();
 
-      $("#category").select2();
   </script>
