@@ -100,10 +100,13 @@ $(document).ready(function () {
     selectContent("return_on_investments");
   });
 
+  $(document).on("click", "#my-investments", function (e) {
+    selectContent("my_investments");
+  });
 
-
-
-
+  $(document).on("click", "#my-rois", function (e) {
+    selectContent("my_return_on_investments");
+  });
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -140,6 +143,7 @@ export function selectContent(state) {
         break;
       } else if (user_role === "investor" && state === "dashboard") {
         loadDashboard(investorDashboardIndex, state, index);
+        console.log("Loaded investor dashboard");
         break;
       } else if (user_role === "loan-officer" && state === "dashboard") {
         loadDashboard(loanOfficerDashboardIndex, state, index);
@@ -193,6 +197,8 @@ function loadOtherContent(state, index) {
         });
 
       }
+
+      let user_id = sessionStorage.getItem("user_id");
 
       switch (state) {
         case "users":
@@ -273,6 +279,12 @@ function loadOtherContent(state, index) {
           break;
         case "return_on_investments":
           investment.fetchReturnsOnInvestments()
+          break;
+        case "my_investments":
+          investment.fetchMyInvestments({user_id: user_id});
+          break;
+        case "my_return_on_investments":
+          investment.fetchMyReturnOnInvestments({user_id: user_id});
           break;
       }
     }
@@ -359,9 +371,6 @@ function loadClientOtherLoans() {
     client_id: currentDataset.recordId,
   });
 }
-
-
-
 
 function getCurrentClientDatatSet() {
   return JSON.parse(localStorage.getItem("clientDataSet"));

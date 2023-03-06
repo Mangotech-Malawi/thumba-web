@@ -11,8 +11,8 @@ export function fetchInvestimentPackages(...args) {
     )
 
     if (args[0] === "load-none")
-         return data  
-    else 
+        return data
+    else
         populateInvestmentPackagesTable(data);
 }
 
@@ -168,7 +168,6 @@ export function addInvestment(params) {
     )
 }
 
-
 export function editInvestment(params) {
     return apiClient(
         "/api/v1/investiment/edit",
@@ -251,12 +250,12 @@ function getDelInvestmentBtn(data, type, row, metas) {
 export function fetchReturnsOnInvestments(params) {
 
     let data = apiClient(
-        "/api/v1/return_on_investments",
+        "/api/v1/investor/investiments",
         "GET",
         "json",
         false,
         false,
-        {}
+        params
     )
 
     populateReturnsOnInvestmentsTable(data);
@@ -279,7 +278,7 @@ function populateReturnsOnInvestmentsTable(dataSet) {
             { data: "interest_rate" },
             { data: "amount" },
             { data: "roi" }
-          
+
         ],
         columnDefs: [
         ],
@@ -287,7 +286,76 @@ function populateReturnsOnInvestmentsTable(dataSet) {
 }
 
 
+export function fetchMyInvestments(params) {
 
+    let data = apiClient(
+            "/api/v1/investor/investiments",
+            "GET",
+            "json",
+            false,
+            false,
+            params
+            );
+
+    populateMyInvestmentsTable(data);
+}
+
+function populateMyInvestmentsTable(dataSet) {
+    $("#myInvestmentsTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: "id" },
+            { data: "package_name" },
+            { data: "amount" },
+            { data: "investment_date" }
+        ],
+        columnDefs: [
+        ],
+    });
+}
+
+
+export function fetchMyReturnOnInvestments(params) {
+    let data = apiClient(
+        "/api/v1/investor_returns",
+        "GET",
+        "json",
+        false,
+        false,
+        params
+    )
+
+    populateReturnOnInvestmentsTable(data);
+}
+
+
+function populateReturnOnInvestmentsTable(dataSet) {
+    $("#myReturnOnInvestmentsTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: "package_name" },
+            { data: "interest_rate" },
+            { data: "amount" },
+            { data: "roi" }
+        ],
+        columnDefs: [
+        ],
+    });
+}
 
 function getButton(dataFields, modal, color, icon) {
     return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
