@@ -142,8 +142,11 @@ export function selectContent(state) {
         loadDashboard(financeDashboardIndex, state, index);
         break;
       } else if (user_role === "investor" && state === "dashboard") {
-        loadDashboard(investorDashboardIndex, state, index);
-        console.log("Loaded investor dashboard");
+         $.when(loadDashboard(investorDashboardIndex, state, index)).done(
+            function () {
+              dashboard.investor();
+            }
+         );
         break;
       } else if (user_role === "loan-officer" && state === "dashboard") {
         loadDashboard(loanOfficerDashboardIndex, state, index);
