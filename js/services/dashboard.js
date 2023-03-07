@@ -1,5 +1,6 @@
 import { apiClient } from "./api-client.js";
 import { sharesOptions } from "../services/chartsOptions/shares.js";
+import { returns_and_investments } from "../services/chartsOptions/returns_and_investments.js"
 
 let nf =  new Intl.NumberFormat('en-US');
 let dashboardData;
@@ -16,6 +17,10 @@ export function admin() {
   $("#totalUsers").text(nf.format(dashboardData.user_count));
   $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
   $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
+}
+
+export function investor(){
+  populateReturnsInvestmentChart();
 }
 
 function populateSharesChart(investors) {
@@ -87,6 +92,16 @@ function sharesContibutionTable() {
             </tr>
           </tfoot>
         </table></div>`;
+}
+
+function populateReturnsInvestmentChart(){
+
+  let sharesChart = new ApexCharts(
+    document.querySelector("#returnsAndInvestments"),
+    returns_and_investments 
+  );
+
+  sharesChart.render();
 }
 
 function fetchClientsData() {
