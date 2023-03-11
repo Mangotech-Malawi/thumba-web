@@ -1,6 +1,7 @@
 import { apiClient } from "./api-client.js";
 import { sharesOptions } from "../services/chartsOptions/shares.js";
-import { returns_and_investments } from "../services/chartsOptions/returns_and_investments.js"
+import { returnsInvestmentsOptions } from "../services/chartsOptions/returns_and_investments.js"
+import { myInvestmentOptions } from "../services/chartsOptions/my_investments.js"
 
 let nf =  new Intl.NumberFormat('en-US');
 let dashboardData;
@@ -20,8 +21,12 @@ export function admin() {
 }
 
 export function investor(){
-  populateReturnsInvestmentChart();
-}
+  dashboardData = fetchClientsData();
+  populateReturnsInvestmentChart(dashboardData.return_on_investments);
+  $("#totalInvestiments").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].amount)}`);
+  $("#totalReturns").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].roi)}`);
+  $("#totalPackages").text(`${nf.format(dashboardData.investment_packages_count)}`);
+} 
 
 function populateSharesChart(investors) {
   $("#sharesContributionTitle").text("Shares & Contributions Chart");
@@ -94,14 +99,36 @@ function sharesContibutionTable() {
         </table></div>`;
 }
 
-function populateReturnsInvestmentChart(){
+function populateReturnsInvestmentChart(returns_investments){
+  returnsInvestmentsOptions.series = [];
+  myInvestmentOptions.series = [];
+
+  returns_investments.forEach(function (return_investment, index) {
+     returnsInvestmentsOptions.series.push({
+       name: `${return_investment.name} Returns`,
+       data: return_investment.rois
+     })
+
+     myInvestmentOptions.series.push({
+      name: `${return_investment.name} Investments`,
+      data: return_investment.total_investment_amounts
+    });
+  })
+  
 
   let sharesChart = new ApexCharts(
     document.querySelector("#returnsAndInvestments"),
-    returns_and_investments 
+    returnsInvestmentsOptions 
   );
 
   sharesChart.render();
+
+  let myInvestmentChart = new ApexCharts(
+    document.querySelector("#myInvestmentsChart"),
+    myInvestmentOptions 
+  );
+
+  myInvestmentChart.render();
 }
 
 function fetchClientsData() {
