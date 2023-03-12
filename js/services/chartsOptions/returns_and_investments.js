@@ -15,7 +15,7 @@ stroke: {
   curve: 'smooth'
 },
 title: {
-  text: 'Product Trends by Month',
+  text: 'Returns On Investments Progress',
   align: 'left'
 },
 grid: {

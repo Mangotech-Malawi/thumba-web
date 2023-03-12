@@ -108,6 +108,14 @@ $(document).ready(function () {
     selectContent("my_return_on_investments");
   });
 
+  $(document).on("click", "#view-my-returns", function (e) {
+    selectContent("my_return_on_investments");
+  });
+
+  $(document).on("click", "#view-my-investments", function (e) {
+    selectContent("my_investments");
+  });
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
