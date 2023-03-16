@@ -182,5 +182,11 @@ export const content_view = [
     link: "views/investments/my-rois.html",
     state: "my_return_on_investments",
     modals: []
+  },
+  {
+    title: "Expenses",
+    link: "views/accounts/expenses.html",
+    state: "expenses",
+    modals: []
   }
 ];
