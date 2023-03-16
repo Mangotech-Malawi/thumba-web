@@ -7,6 +7,7 @@ export const sharesOptions = {
   chart: {
     type: "donut",
     width: 500,
+    height: 500,
     align: "center",
   },
   legend: {
