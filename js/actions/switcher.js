@@ -116,6 +116,10 @@ $(document).ready(function () {
     selectContent("my_investments");
   });
 
+  $(document).on("click", "#expenses", function (e) {
+    selectContent("expenses");
+  });
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
