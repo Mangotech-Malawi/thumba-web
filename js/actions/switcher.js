@@ -5,6 +5,7 @@ import { fetchInterests } from "../services/interests.js";
 import * as loans from "../services/loans.js";
 import * as investment from "../services/investments.js";
 import * as settings from "../services/settings.js";
+import * as expense from "../services/expenses.js";
 import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
@@ -300,6 +301,9 @@ function loadOtherContent(state, index) {
           break;
         case "my_return_on_investments":
           investment.fetchMyReturnOnInvestments({user_id: user_id});
+          break;
+        case "expenses":
+          expense.fetchExpensesData();
           break;
       }
     }
