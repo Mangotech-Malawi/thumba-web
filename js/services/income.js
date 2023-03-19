@@ -36,32 +36,10 @@ function populateIncomeTable(dataSet) {
     data: dataSet,
     columns: [
       { data: "id" },
-      { data: "firstname" },
-      { data: "lastname" },
       { data: "amount" },
       { data: "category" },
       { data: "created_at" },
-      { data: null },
-      { data: null },
-      { data: null },
-    ],
-    columnDefs: [
-      {
-        render: getViewBtn,
-        data: null,
-        targets: [6],
-      },
-      {
-        render: getEditBtn,
-        data: null,
-        targets: [7],
-      },
-      {
-        render: getDelBtn,
-        data: null,
-        targets: [8],
-      },
-    ],
+    ]
   });
 }
 
