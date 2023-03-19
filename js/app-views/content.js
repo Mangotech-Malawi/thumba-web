@@ -187,6 +187,6 @@ export const content_view = [
     title: "Expenses",
     link: "views/accounts/expenses.html",
     state: "expenses",
-    modals: []
+    modals: ["views/modals/expense.html"]
   }
 ];
