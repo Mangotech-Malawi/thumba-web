@@ -2,12 +2,12 @@ export const sharesOptions = {
   series: [],
   labels: [],
   theme: {
-    palette: "palette5", // upto palette10
+    palette: "palette", // upto palette10
   },
   chart: {
     type: "donut",
-    width: 500,
-    height: 500,
+    width: 400,
+    height: 400,
     align: "center",
   },
   legend: {
