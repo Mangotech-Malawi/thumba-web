@@ -18,6 +18,8 @@ export function admin() {
   $("#totalUsers").text(nf.format(dashboardData.user_count));
   $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
   $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
+  $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
+  $("#expectedProfit").text(`MK${nf.format(dashboardData.expected_profit)}`);
 }
 
 export function investor(){

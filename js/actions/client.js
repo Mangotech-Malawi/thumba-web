@@ -15,7 +15,7 @@ localStorage;
 
 $(function () {
 
-  if(localStorage.getItem("clientDataSet") != null){
+  if (localStorage.getItem("clientDataSet") != null) {
     currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
   }
 
@@ -57,7 +57,22 @@ $(function () {
     let client_id = $("#delClientId").val();
     let void_reason = $("#reason").val();
 
-    deleteNotification(client.delClient(client_id, void_reason));
+    $.when(
+      notification(
+        client.delClient(client_id, void_reason).deleted,
+        "center",
+        "success",
+        "client",
+        "Delete Client",
+        "Client has been deleted successfully",
+        true,
+        3000
+      )
+    ).done(function () {
+      $.when(client.fetchClientsData(clientType)).done(function () {
+        $("#modal-del-client").modal("hide");
+      });
+    });
   });
 
   $(document).on("click", "#registerBtn", function (e) {
@@ -201,7 +216,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnOtherLoans", function (e) {
-    $.when(loadIndividualRecordView("views/clients/otherLoans.html","other_loans")).done(
+    $.when(loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
       function () {
         $("#recordName").text(
           `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
@@ -244,23 +259,23 @@ $(function () {
   $(document).on("click", "#recordBackBtn", function () {
     clientType = currentDataset.clientType;
     if (clientType === "individual") {
-      loadRecord("views/clients/individualRecord.html","client_records");
+      loadRecord("views/clients/individualRecord.html", "client_records");
       $("#recordName").text(
         `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Records`
       );
     } else if (clientType === "organization") {
-      loadRecord("views/clients/organizationRecord.html","organization_records");
+      loadRecord("views/clients/organizationRecord.html", "organization_records");
     }
   });
 
   $(document).on("click", "#clientsBackBtn", function () {
     clientType = this.dataset.clientType;
     if (clientType === "individual") {
-      $.when(loadRecord("views/clients/individuals.html","individual")).done(function () {
+      $.when(loadRecord("views/clients/individuals.html", "individual")).done(function () {
         client.fetchClientsData(clientType);
       });
     } else if (clientType === "organization") {
-      $.when(loadRecord("views/clients/organizations.html","organization")).done(function () {
+      $.when(loadRecord("views/clients/organizations.html", "organization")).done(function () {
         client.fetchClientsData(clientType);
       });
     }
