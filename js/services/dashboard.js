@@ -22,6 +22,8 @@ export function admin() {
   $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
   $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
   $("#expectedProfit").text(`MK${nf.format(dashboardData.expected_profit)}`);
+  $("#totalAvailable").text(`MK${nf.format(dashboardData.total_available)}`);
+  $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);
 }
 
 export function investor() {
