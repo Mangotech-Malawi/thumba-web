@@ -2,8 +2,9 @@ import { apiClient } from "./api-client.js";
 import { sharesOptions } from "../services/chartsOptions/shares.js";
 import { returnsInvestmentsOptions } from "../services/chartsOptions/returns_and_investments.js"
 import { myInvestmentOptions } from "../services/chartsOptions/my_investments.js"
+import { returnsGrowthOptions } from "../services/chartsOptions/returns_growth.js"
 
-let nf =  new Intl.NumberFormat('en-US');
+let nf = new Intl.NumberFormat('en-US');
 let dashboardData;
 $(function () {
   $(document).on("click", "#sharesDonutLink", function () {
@@ -14,21 +15,24 @@ $(function () {
 export function admin() {
   dashboardData = fetchClientsData();
   populateSharesChart(dashboardData.investors);
+  populateReturnsGrowthChart();
   $("#totalClients").text(nf.format(dashboardData.client_count));
   $("#totalUsers").text(nf.format(dashboardData.user_count));
   $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
   $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
   $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
   $("#expectedProfit").text(`MK${nf.format(dashboardData.expected_profit)}`);
+  $("#totalAvailable").text(`MK${nf.format(dashboardData.total_available)}`);
+  $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);
 }
 
-export function investor(){
+export function investor() {
   dashboardData = fetchClientsData();
   populateReturnsInvestmentChart(dashboardData.return_on_investments);
   $("#totalInvestiments").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].amount)}`);
   $("#totalReturns").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].roi)}`);
   $("#totalPackages").text(`${nf.format(dashboardData.investment_packages_count)}`);
-} 
+}
 
 function populateSharesChart(investors) {
   $("#sharesContributionTitle").text("Shares & Contributions Chart");
@@ -61,6 +65,15 @@ function populateSharesChart(investors) {
   );
 
   sharesChart.render();
+}
+
+function populateReturnsGrowthChart() {
+  let myInvestmentChart = new ApexCharts(
+    document.querySelector("#returns-growth"),
+    returnsGrowthOptions 
+  );
+
+  myInvestmentChart.render();
 }
 
 function loadInvestorContributionData(investorIncomes) {
@@ -101,33 +114,33 @@ function sharesContibutionTable() {
         </table></div>`;
 }
 
-function populateReturnsInvestmentChart(returns_investments){
+function populateReturnsInvestmentChart(returns_investments) {
   returnsInvestmentsOptions.series = [];
   myInvestmentOptions.series = [];
 
   returns_investments.forEach(function (return_investment, index) {
-     returnsInvestmentsOptions.series.push({
-       name: `${return_investment.name} Returns`,
-       data: return_investment.rois
-     })
+    returnsInvestmentsOptions.series.push({
+      name: `${return_investment.name} Returns`,
+      data: return_investment.rois
+    })
 
-     myInvestmentOptions.series.push({
+    myInvestmentOptions.series.push({
       name: `${return_investment.name} Investments`,
       data: return_investment.total_investment_amounts
     });
   })
-  
+
 
   let sharesChart = new ApexCharts(
     document.querySelector("#returnsAndInvestments"),
-    returnsInvestmentsOptions 
+    returnsInvestmentsOptions
   );
 
   sharesChart.render();
 
   let myInvestmentChart = new ApexCharts(
     document.querySelector("#myInvestmentsChart"),
-    myInvestmentOptions 
+    myInvestmentOptions
   );
 
   myInvestmentChart.render();
