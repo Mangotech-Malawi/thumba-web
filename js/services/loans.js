@@ -1,23 +1,24 @@
 import { apiClient } from "./api-client.js";
 
 export function fetchLoanApplications(params) {
-  let data = apiClient(
+  $.when(apiClient(
     "/api/v1/applications",
     "GET",
     "json",
     false,
     false,
     params
-  );
+  )).done(function (data) {
+    if (params.status_name === "NEW")
+      loadLoanApplications(data);
+    else if (params.status_name === "WAITING")
+      loadWaitingApplications(data);
+    else if (params.status_name === "DONE")
+      loadDoneApplications(data)
+    else if (params.status_name === "DUMP")
+      loadDumpedApplications(data)
+  });
 
-  if (params.status_name === "NEW")
-    loadLoanApplications(data);
-  else if (params.status_name === "WAITING")
-    loadWaitingApplications(data);
-  else if (params.status_name === "DONE")
-    loadDoneApplications(data)
-  else if (params.status_name === "DUMP")
-    loadDumpedApplications(data)
 }
 
 
@@ -103,7 +104,7 @@ export function updateLoanPayment(params) {
 }
 
 
-export function deletePayment(params){  
+export function deletePayment(params) {
   return apiClient(
     "/api/v1/loan/payment/delete",
     "POST",
@@ -128,7 +129,7 @@ export function fetchLoanPayments(params) {
   populatePaymentsTable(data)
 }
 
-export function addCollateralSeizure(params){
+export function addCollateralSeizure(params) {
   return apiClient(
     "/api/v1/collateral_seizure",
     "POST",
@@ -139,7 +140,7 @@ export function addCollateralSeizure(params){
   );
 }
 
-export function removeCollateralSeizure(params){
+export function removeCollateralSeizure(params) {
   return apiClient(
     "/api/v1/collateral_seizure/edit",
     "POST",
@@ -150,7 +151,7 @@ export function removeCollateralSeizure(params){
   );
 }
 
-export function sellCollateral(params){
+export function sellCollateral(params) {
   return apiClient(
     "/api/v1/collateral_sale/new",
     "POST",
@@ -161,7 +162,7 @@ export function sellCollateral(params){
   );
 }
 
-export function fetchCollateralSeizures(){
+export function fetchCollateralSeizures() {
   let data = apiClient(
     "/api/v1/collateral_seizures",
     "GET",
@@ -174,7 +175,7 @@ export function fetchCollateralSeizures(){
   populateSeizedCollateralsTable(data);
 }
 
-export function fetchCollateralSales(){
+export function fetchCollateralSales() {
   let data = apiClient(
     "/api/v1/collateral_sales",
     "GET",
@@ -184,10 +185,10 @@ export function fetchCollateralSales(){
     {}
   );
 
-  populateCollateralSalesTable(data); 
+  populateCollateralSalesTable(data);
 }
 
-export function editCollateralSale(params){
+export function editCollateralSale(params) {
   return apiClient(
     "/api/v1/collateral_sale/edit",
     "POST",
@@ -195,10 +196,10 @@ export function editCollateralSale(params){
     false,
     false,
     params
-  ); 
+  );
 }
 
-export function deleteCollateralSale(params){
+export function deleteCollateralSale(params) {
   return apiClient(
     "/api/v1/collateral_sale/delete",
     "POST",
@@ -206,7 +207,7 @@ export function deleteCollateralSale(params){
     false,
     false,
     params
-  ); 
+  );
 }
 
 
@@ -270,19 +271,32 @@ function loadLoanApplications(dataset) {
 }
 
 
-
 function getFirstname(data, type, row, metas) {
-  return data.borrower[0].firstname;
+  if (data == null || data.borrower == null) {
+    return "N/A"; // or some other default value
+  }
+  let firstname = data.borrower.firstname;
+  if (typeof firstname === "undefined") {
+    return "N/A"; // or some other default value
+  }
+  return firstname;
 }
 
 function getLastname(data, type, row, metas) {
-  return data.borrower[0].lastname;
+  if (data == null || data.borrower == null) {
+    return "N/A"; // or some other default value
+  }
+  let lastname = data.borrower.lastname;
+  if (typeof lastname === "undefined") {
+    return "N/A"; // or some other default value
+  }
+  return lastname
 }
 
 function getGuarantorsBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
-    data-firstname = "${data.borrower[0].firstname}"
-    data-lastname = "${data.borrower[0].lastname}" 
+    data-firstname = "${data.borrower.firstname}"
+    data-lastname = "${data.borrower.lastname}" 
     data-action-type = "gurantors"`;
 
   return getButton(dataFields, "guarantors", "success", "fas fa-users");
@@ -300,9 +314,9 @@ function getApplicationUpdateBtn(data, type, row, metas) {
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-id = "${data.id}"
                     data-loan-app-client-id = "${data.client_id}"
-                    data-applicant-firstname = "${data.borrower[0].firstname}"
-                    data-applicant-lastname = "${data.borrower[0].lastname}"
-                    data-applicant-gender = "${data.borrower[0].gender}"
+                    data-applicant-firstname = "${data.borrower.firstname}"
+                    data-applicant-lastname = "${data.borrower.lastname}"
+                    data-applicant-gender = "${data.borrower.gender}"
                     data-amount =  "${data.amount}"
                     data-purpose = "${data.purpose}"
                     data-collaterals = '${collaterals}'
@@ -386,9 +400,9 @@ function getApproveBtn(data, type, row, metas) {
   let grade = data.analysis.analysis[0];
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-loan-application-id = "${data.id}"
-                    data-firstname = "${data.borrower[0].firstname}"
-                    data-lastname = "${data.borrower[0].lastname}" 
-                    data-gender = "${data.borrower[0].gender}"
+                    data-firstname = "${data.borrower.firstname}"
+                    data-lastname = "${data.borrower.lastname}" 
+                    data-gender = "${data.borrower.gender}"
                     data-amount =  "${data.amount}"
                     data-rate = "${data.rate}"
                     data-period = "${data.period}"
@@ -433,12 +447,12 @@ function loadDoneApplications(dataset) {
       {
         render: getFirstname,
         data: null,
-        targets: [2],
+        targets: [2]
       },
       {
         render: getLastname,
         data: null,
-        targets: [3],
+        targets: [3]
       },
       {
         render: getGrade,
@@ -562,18 +576,18 @@ function loadLoans(dataset) {
 
 function getPayBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
-                    data-firstname = "${data.borrower[0].firstname}"
-                    data-lastname = "${data.borrower[0].lastname}"`;
+                    data-firstname = "${data.borrower.firstname}"
+                    data-lastname = "${data.borrower.lastname}"`;
 
   return getButton(dataFields, "loan-payments", "secondary", "fas fa-handshake");
 }
 
-function  getSeizeCollaterBtn(data, type, row, metas){
+function getSeizeCollaterBtn(data, type, row, metas) {
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-loan-id = "${data.loan_id}"
                     data-collaterals = '${collaterals}'
-                    data-firstname = "${data.borrower[0].firstname}"
-                    data-lastname = "${data.borrower[0].lastname}"
+                    data-firstname = "${data.borrower.firstname}"
+                    data-lastname = "${data.borrower.lastname}"
                     `;
 
   return getButton(dataFields, "seized-collateral", "warning", "fas fa-building");
@@ -675,7 +689,7 @@ function populatePaymentsTable(dataset) {
       { data: "paid_amount" },
       { data: "total_paid" },
       { data: "balance" },
-      { data: "payment_date"},
+      { data: "payment_date" },
       { data: null },
       { data: null },
     ],
@@ -723,10 +737,10 @@ function populateSeizedCollateralsTable(dataset) {
       { data: "identifier" },
       { data: "identifier_type" },
       { data: "name" },
-      { data: "purchase_date"},
-      { data: "purchase_price"},
-      { data: "market_value"},
-      { data: "seized_date"},
+      { data: "purchase_date" },
+      { data: "purchase_price" },
+      { data: "market_value" },
+      { data: "seized_date" },
       { data: null },
       { data: null },
     ],
@@ -784,11 +798,11 @@ function populateCollateralSalesTable(dataset) {
       { data: "identifier" },
       { data: "identifier_type" },
       { data: "name" },
-      { data: "purchase_price"},
-      { data: "market_value"},
-      { data: "sold_price"},  
-      { data: "sold_date"},
-      { data: "seized_date"},
+      { data: "purchase_price" },
+      { data: "market_value" },
+      { data: "sold_price" },
+      { data: "sold_date" },
+      { data: "seized_date" },
       { data: null },
       { data: null },
     ],
@@ -819,8 +833,8 @@ function getEditCollateralSaleBtn(data, type, row, metas) {
                     data-sold-date = "${data.sold_date}"
                     data-collateral-sale-modal-title = "Edit Collateral Sale"`;
 
-  return getButton(dataFields, "sell-collateral", "default ", 
-                          "fas fa-money-bill-alt");
+  return getButton(dataFields, "sell-collateral", "default ",
+    "fas fa-money-bill-alt");
 }
 
 function getDeleteCollateralSaleBtn(data, type, row, metas) {
