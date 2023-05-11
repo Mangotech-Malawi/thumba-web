@@ -56,7 +56,16 @@ export function login(formData) {
       sessionStorage.setItem("username", data.username);
       sessionStorage.setItem("email", data.email);
       sessionStorage.setItem("role", data.role);
-      localStorage.setItem("state", "dashboard");
+
+      if (data.role === "admin") {
+        localStorage.setItem("state", "admin_dashboard");
+      }
+      else if (data.role === "investor") {
+        localStorage.setItem("state", "investor_dashboard");
+      } else if (data.role === "co-owner") {
+        localStorage.setItem("state", "admin_dashboard");
+      }
+
       window.location = "thumba.html";
     } else {
       //Display an error here
@@ -64,16 +73,16 @@ export function login(formData) {
   });
 }
 
-export function verifyCurPasword(params){
-  return apiClient("/api/v1/verify_password", 
-                   "POST", "json", false, false,
-                    params);
+export function verifyCurPasword(params) {
+  return apiClient("/api/v1/verify_password",
+    "POST", "json", false, false,
+    params);
 }
 
-export function updateProfile(params){
-  return apiClient("/api/v1/update_profile", 
-                   "POST", "json", false, false,
-                    params);
+export function updateProfile(params) {
+  return apiClient("/api/v1/update_profile",
+    "POST", "json", false, false,
+    params);
 }
 
 export function delete_user(user_id) {

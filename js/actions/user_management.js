@@ -79,8 +79,6 @@ $(document).ready(function () {
         clearFields();
     });
 
-
-
     $(document).on('show.bs.modal', '#modal-delete-user', function (e) {
 
         let opener = e.relatedTarget;
