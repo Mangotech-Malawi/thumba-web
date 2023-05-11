@@ -24,8 +24,13 @@ $(document).ready(function () {
   }
 
   //The folloing are cases links
-  $("#dashboard-link").on("click", function (e) {
-    selectContent("dashboard");
+  $("#admin-dashboard").on("click", function (e) {
+    selectContent("admin_dashboard");
+  });
+
+  //The folloing are cases links
+  $("#investor-dashboard").on("click", function (e) {
+    selectContent("investor_dashboard");
   });
 
   $("#individualClient").on("click", function (e) {
@@ -140,59 +145,13 @@ function loadLinks(user_role) {
 }
 
 export function selectContent(state) {
-  const adminDashboardIndex = 0;
-  const financeDashboardIndex = 1;
-  const investorDashboardIndex = 2;
-  const loanOfficerDashboardIndex = 3;
-  const coOwnerDashboardIndex = 4;
 
   for (let index = 0; index < content_view.length; index++) {
     if (state === content_view[index].state) {
-      if (user_role === "co-owner" && state === "dashboard") {
-        loadDashboard(coOwnerDashboardIndex, state, index);
-        break;
-      } else if (user_role === "finance" && state === "dashboard") {
-        loadDashboard(financeDashboardIndex, state, index);
-        break;
-      } else if (user_role === "investor" && state === "dashboard") {
-         $.when(loadDashboard(investorDashboardIndex, state, index)).done(
-            function () {
-              dashboard.investor();
-            }
-         );
-        break;
-      } else if (user_role === "loan-officer" && state === "dashboard") {
-        loadDashboard(loanOfficerDashboardIndex, state, index);
-        break;
-      } else if (user_role === "admin" && state === "dashboard") {
-        $.when(loadDashboard(adminDashboardIndex, state, index)).done(
-          function () {
-            dashboard.admin();
-          }
-        );
-        break;
-      } else {
-        loadOtherContent(state, index);
-        break;
-      }
+      loadOtherContent(state, index)
+      break;
     }
   }
-}
-
-function loadDashboard(linkIndex, state, index) {
-  $(`#${mainContent}`).html(""); //
-
-  $.when(
-    loadContent(mainContent, state, content_view[index].links[linkIndex])
-  ).done(function () {
-    $(`#${modalContent}`).html("");
-
-    $.each(content_view[index].modals, function (key, modal_path) {
-      $.when(loadContent(modalContent, "", modal_path)).done(
-        function () { }
-      );
-    });
-  });
 }
 
 function loadOtherContent(state, index) {
@@ -297,13 +256,19 @@ function loadOtherContent(state, index) {
           investment.fetchReturnsOnInvestments()
           break;
         case "my_investments":
-          investment.fetchMyInvestments({user_id: user_id});
+          investment.fetchMyInvestments({ user_id: user_id });
           break;
         case "my_return_on_investments":
-          investment.fetchMyReturnOnInvestments({user_id: user_id});
+          investment.fetchMyReturnOnInvestments({ user_id: user_id });
           break;
         case "expenses":
           expense.fetchExpensesData();
+          break;
+        case "investor_dashboard":
+          dashboard.investor();
+          break;
+        case "admin_dashboard":
+          dashboard.admin();
           break;
       }
     }
