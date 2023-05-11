@@ -2,14 +2,14 @@ export const content_view = [
   //Clients
   {
     title: "Dashboard",
-    state: "dashboard",
-    links: [
-      "views/dashboards/admin.html",
-      "views/dashboards/finance.html",
-      "views/dashboards/investor.html",
-      "views/dashboards/loan-officer.html",
-      "views/dashboards/co-owner.html",
-    ],
+    state: "admin_dashboard",
+    link: "views/dashboards/admin.html",
+    modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Dashboard",
+    state: "investor_dashboard",
+    link: "views/dashboards/investor.html",
     modals: ["views/modals/user.html"]
   },
   {
