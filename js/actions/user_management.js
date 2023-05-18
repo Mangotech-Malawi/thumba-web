@@ -22,18 +22,26 @@ $(document).ready(function () {
         let role = $("#role").val();
 
         if (formType === 'add') {
-            let result = users.add(national_id, username, firstname, lastname, email, role);
-            if (result != null) {
-                addedUsers++;
-                clearFields();
-            }
+            $.when(users.add(national_id, username, firstname, lastname, email, role)).done(
+                function (result) {
+                    if (result != null ) {
+                        clearFields();
+                        users.loadUsersTable(users.fetchUsers());
+                        notify("center", "success", "Added User", 
+                            `User has been deleted successfully (Keep the following default
+                                 password   ${result.password} `, true, 50000);
+                        $("#modal-edit-user").modal("hide");
+                      
+                    }
+                }
+            )
         } else {
             let user_id = $("#userId").val();
             let resp = users.edit(user_id, national_id, username, firstname, lastname, email, role);
             if (resp != null) {
                 if (resp.updated) {
                     $("#modal-edit-user").modal('hide');
-                    notify("center", "success", "Edit user", "User has been edited successfully", false, 3000);
+                    notify("center", "success", "Edit user", "User has been edited successfully", true, 50000);
                     users.loadUsersTable(users.fetchUsers());
                 }
             }
