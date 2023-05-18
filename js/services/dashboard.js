@@ -13,7 +13,7 @@ $(function () {
 });
 
 export function admin() {
-  dashboardData = fetchClientsData();
+  dashboardData = fetchAdminDashboardData();
   populateSharesChart(dashboardData.investors);
   populateReturnsGrowthChart();
   $("#totalClients").text(nf.format(dashboardData.client_count));
@@ -27,7 +27,7 @@ export function admin() {
 }
 
 export function investor() {
-  dashboardData = fetchClientsData();
+  dashboardData = fetchInvestorDashboardData();
   populateReturnsInvestmentChart(dashboardData.return_on_investments);
   $("#totalInvestiments").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].amount)}`);
   $("#totalReturns").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].roi)}`);
@@ -146,8 +146,15 @@ function populateReturnsInvestmentChart(returns_investments) {
   myInvestmentChart.render();
 }
 
-function fetchClientsData() {
-  let data = apiClient("/api/v1/dashboard", "GET", "json", false, false, {});
+function fetchAdminDashboardData() {
+  let data = apiClient("/api/v1/admin_dashboard_stats", "GET", "json", false, false, { });
+  if (data != null) {
+    return data;
+  }
+}
+
+function fetchInvestorDashboardData() {
+  let data = apiClient("/api/v1/investor_dashboard_stats", "GET", "json", false, false, { });
   if (data != null) {
     return data;
   }
