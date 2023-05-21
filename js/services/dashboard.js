@@ -21,7 +21,7 @@ export function admin() {
   $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
   $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
   $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
-  $("#expectedProfit").text(`MK${nf.format(dashboardData.expected_profit)}`);
+  $("#totalProfits").text(`MK${nf.format(dashboardData.expected_profit)}`);
   $("#totalAvailable").text(`MK${nf.format(dashboardData.total_available)}`);
   $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);
 }
