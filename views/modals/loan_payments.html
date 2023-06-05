@@ -23,12 +23,6 @@
                   <div class="form-group ">
                     <label>Amount</label>
                       <input id="amount" type="text" class="form-control" placeholder="Amount">
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <span class="fas fa-coins"></span>
-                        </div>
-                      </div>
-
                   </div>
                 </div>
             
@@ -56,34 +50,43 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <div class="content">
-                <table id="loanPaymentsTable" class="table  table-striped">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Payment</th>
-                      <th>Total Paid</th>
-                      <th>Balance</th>
-                      <th>Payment Date</th>
-                      <th>Edit</th>
-                      <th>Remove</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>Id</th>
-                      <th>Payment</th>
-                      <th>Total Paid</th>
-                      <th>Balance</th>
-                      <th>Payment Date</th>
-                      <th>Edit</th>
-                      <th>Remove</th>
-                    </tr>
-                  </tfoot>
-                </table>
+              <div class="container-fluid">
+                <div class="card">
+                  <div class="card-header">
+                    <h3  class="card-title">Loan Payments Breakdown</h3>
+                  </div>
+                  <div class="card-body p-5">
+                    <table id="loanPaymentsTable" class="table  table-striped">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Payment</th>
+                          <th>Total Paid</th>
+                          <th>Balance</th>
+                          <th>Payment Date</th>
+                          <th>Edit</th>
+                          <th>Remove</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Id</th>
+                          <th>Payment</th>
+                          <th>Total Paid</th>
+                          <th>Balance</th>
+                          <th>Payment Date</th>
+                          <th>Edit</th>
+                          <th>Remove</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
               </div>
+              
+      
 
             </div>
             <!-- /.card-body -->
@@ -141,9 +144,7 @@
 </div>
 
 <script>
-  $("#paymentDatePicker").datetimepicker({
-    format: "L",
-  });
+
 
   $('.collaterals').select2();
 

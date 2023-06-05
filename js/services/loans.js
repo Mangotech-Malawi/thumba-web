@@ -579,7 +579,7 @@ function getPayBtn(data, type, row, metas) {
                     data-firstname = "${data.borrower.firstname}"
                     data-lastname = "${data.borrower.lastname}"`;
 
-  return getButton(dataFields, "loan-payments", "secondary", "fas fa-handshake");
+  return getButton(dataFields, "", "secondary loan-payments", "fas fa-handshake");
 }
 
 function getSeizeCollaterBtn(data, type, row, metas) {

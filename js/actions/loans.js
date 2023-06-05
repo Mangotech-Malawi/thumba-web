@@ -8,17 +8,18 @@ const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
 const loanPaymentModal = "#modal-loan-payments";
-const collateralSeizureModal ="#modal-seized-collateral";
+const collateralSeizureModal = "#modal-seized-collateral";
 const sellCollateralModal = "#modal-sell-collateral";
 
 let loanApplicationId;
-let selectedLoanPaymentId = null; 
+let selectedLoanPaymentId = null;
 let paymentDate;
 let loan_id;
+let localStorage;
+let currentLoanPaymentDataset;
 
 $(function () {
-
-
+  
   $(document).on("show.bs.modal", applicationModal, function (e) {
     let interests = interest.fetchInterests();
     let opener = e.relatedTarget;
@@ -235,15 +236,23 @@ $(function () {
     );
   });
 
-  $(document).on("show.bs.modal", loanPaymentModal, function (e) {
+  $(document).on("click", ".loan-payments", function (e) {
+    currentLoanPaymentDataset = this.dataset;
+    localStorage.setItem("loanPaymentDataset", 
+                          JSON.stringify(currentLoanPaymentDataset));
 
-    let opener = e.relatedTarget;
-    $("#paymentLoanId").val($(opener).attr("data-loan-id"));
-    $("#paymentModalTitle").text(`Loan Payments for ${$(opener).attr("data-firstname")} 
-                                    ${$(opener).attr("data-lastname")}`);
+    loan_id = $(this).data().loanId;
+    let headerText = `Loan Payments for ${$(this).data().firstname} ${$(this).data().lastname}`;
+    
+    $.when(loadRecord("views/loans/loan_payments.html", "loan_payments")).done(
+      function () {
+        $("#paymentLoanId").val(loan_id);
+        $("#paymentTitle").text(headerText);
 
-    loan_id = $(opener).attr("data-loan-id");
-    loans.fetchLoanPayments({ loan_id: $(opener).attr("data-loan-id") });
+        $.when(loans.fetchLoanPayments({loan_id: loan_id})).done(function () {});
+    });
+
+
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
@@ -251,7 +260,7 @@ $(function () {
     let paymentDate = $("#paymentDate").val();
     let loanId = $("#paymentLoanId").val();
 
-    if(selectedLoanPaymentId != null){
+    if (selectedLoanPaymentId != null) {
       notification(
         loans.updateLoanPayment({
           loan_id: loanId,
@@ -267,7 +276,7 @@ $(function () {
         true,
         3000
       );
-    }else{
+    } else {
       notification(
         loans.addLoanPayment({
           loan_id: loanId,
@@ -282,24 +291,24 @@ $(function () {
         true,
         3000
       );
-    } 
+    }
   });
 
   $(document).on("click", ".edit-loan-payment", function (e) {
     let table = $("#loanPaymentsTable").DataTable();
-    let data = table.row( $(this).parents('tr') ).data();
+    let data = table.row($(this).parents('tr')).data();
     selectedLoanPaymentId = data.id
-    
+
     $("#amount").val(data.paid_amount);
     $("#paymentDate").val(data.payment_date);
-    
+
   });
 
-  $(document).on("click", ".delete-loan-payment", function(e){
+  $(document).on("click", ".delete-loan-payment", function (e) {
     let table = $("#loanPaymentsTable").DataTable();
-    let data = table.row( $(this).parents('tr') ).data();
+    let data = table.row($(this).parents('tr')).data();
     selectedLoanPaymentId = data.id
-    
+
     notification(
       loans.deletePayment({
         loan_payment_id: selectedLoanPaymentId,
@@ -322,26 +331,26 @@ $(function () {
 
   });
 
-  $(document).on("click", "#seizeCollateralBtn", function(e){
-      let collaterals = $("#corraterals").val();
-      let collateralsArray = new Array();
+  $(document).on("click", "#seizeCollateralBtn", function (e) {
+    let collaterals = $("#corraterals").val();
+    let collateralsArray = new Array();
 
-      collaterals.forEach(function (collateral, index) {
-        collateralsArray.push(collateral);
-      });
+    collaterals.forEach(function (collateral, index) {
+      collateralsArray.push(collateral);
+    });
 
-      notification(
-        loans.addCollateralSeizure({
-          collateral_ids: collateralsArray,
-        }).created,
-        "center",
-        "success",
-        "collateral-seizure",
-        "Add Loan Collateral Seizure",
-        "Collateral Seizure has been added successfully",
-        true,
-        3000
-      );
+    notification(
+      loans.addCollateralSeizure({
+        collateral_ids: collateralsArray,
+      }).created,
+      "center",
+      "success",
+      "collateral-seizure",
+      "Add Loan Collateral Seizure",
+      "Collateral Seizure has been added successfully",
+      true,
+      3000
+    );
   });
 
   $(document).on("show.bs.modal", sellCollateralModal, function (e) {
@@ -354,7 +363,7 @@ $(function () {
 
   $(document).on("click", ".return-collateral", function (e) {
     let seizure_id = $(this).data().id;
-    
+
     notification(
       loans.removeCollateralSeizure({
         seizure_id: seizure_id,
@@ -370,46 +379,46 @@ $(function () {
   });
 
   $(document).on("click", "#sellCollateralBtn", function (e) {
-   
-      let soldPrice  = $("#sellingPrice").val();
-      let soldDate = $("#soldDate").val(); 
 
-      if ($("#collateralSaleModalTitle").text() === "Add Collateral Sale") {
-        let seizureId = $("#seizureId").val();
+    let soldPrice = $("#sellingPrice").val();
+    let soldDate = $("#soldDate").val();
 
-        notification(
-          loans.sellCollateral({
-            collateral_seizure_id: seizureId,
-            sold_price: soldPrice,
-            sold_date: soldDate
-          }).created,
-          "center",
-          "success",
-          "sell-collateral",
-          "Sell Collateral",
-          "Collateral sale has been recorded successfully",
-          true,
-          3000
-        );
-      }else{
-        let collateralSaleId =  $("#collateralSaleId").val();
+    if ($("#collateralSaleModalTitle").text() === "Add Collateral Sale") {
+      let seizureId = $("#seizureId").val();
 
-        notification(
-          loans.editCollateralSale({
-            collateral_sale_id: collateralSaleId,
-            sold_price: soldPrice,
-            sold_date: soldDate
-          }).updated,
-          "center",
-          "success",
-          "collateral-sale",
-          "Edit Collateral Sale",
-          "Collateral sale has been updated successfully",
-          true,
-          3000
-        );
-      }
-      
+      notification(
+        loans.sellCollateral({
+          collateral_seizure_id: seizureId,
+          sold_price: soldPrice,
+          sold_date: soldDate
+        }).created,
+        "center",
+        "success",
+        "sell-collateral",
+        "Sell Collateral",
+        "Collateral sale has been recorded successfully",
+        true,
+        3000
+      );
+    } else {
+      let collateralSaleId = $("#collateralSaleId").val();
+
+      notification(
+        loans.editCollateralSale({
+          collateral_sale_id: collateralSaleId,
+          sold_price: soldPrice,
+          sold_date: soldDate
+        }).updated,
+        "center",
+        "success",
+        "collateral-sale",
+        "Edit Collateral Sale",
+        "Collateral sale has been updated successfully",
+        true,
+        3000
+      );
+    }
+
   });
 
 
@@ -512,6 +521,10 @@ function loadApplicationStatusView(path, state) {
   $.when(loadContent("mainContent", state, path)).done(function () { });
 }
 
+function loadRecord(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
+}
+
 function notification(
   isDone,
   position,
@@ -548,28 +561,27 @@ function notification(
           });
           break;
         case "loan-payment":
-          $(loans.fetchLoanPayments({ loan_id: loan_id })).done( function (){
-              clearFields("#addPaymentForm");
-              selectedLoanPaymentId = null;
+          $(loans.fetchLoanPayments({ loan_id: loan_id })).done( function () {
+            selectedLoanPaymentId = null;
           });
           break;
         case "collateral-seizure":
-            $(collateralSeizureModal).modal("hide");
+          $(collateralSeizureModal).modal("hide");
           break;
         case "remove-seizure":
           loans.fetchCollateralSeizures();
           break;
         case "sell-collateral":
-          $.when(loans.fetchCollateralSeizures()).done(function(){
+          $.when(loans.fetchCollateralSeizures()).done(function () {
             $(sellCollateralModal).modal("hide");
           });
           break;
         case "collateral-sale":
-          $.when(loans.fetchCollateralSales()).done( function(){
+          $.when(loans.fetchCollateralSales()).done(function () {
             $(sellCollateralModal).modal("hide");
           });
           break;
-        
+
       }
     });
 }
