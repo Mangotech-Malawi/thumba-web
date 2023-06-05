@@ -31,7 +31,13 @@
   margin: auto;
 }
 .xxl-modal .xxl-modal-content {
-  height: 90%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+.xxl-modal .xxl-modal-footer {
+  height: 100%;
   border: 0;
   border-radius: 0;
 }
