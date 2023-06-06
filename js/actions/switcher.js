@@ -207,6 +207,9 @@ function loadOtherContent(state, index) {
         case "loans":
           loans.fetchLoans();
           break;
+        case "loan_payments":
+          loadLoanPayments();
+          break;
         case "seized_collaterals":
           loans.fetchCollateralSeizures();
           break;
@@ -290,7 +293,7 @@ function populateApplicationStatusesStats(statuses_stats) {
 }
 
 function loadDemographics() {
-  $.each(getCurrentClientDatatSet(), function (key, value) {
+  $.each(getDataset("clientDataSet"), function (key, value) {
     $("#demographics").find(`[id = '${key}']`).text(value);
   });
 
@@ -300,7 +303,7 @@ function loadDemographics() {
 }
 
 function loadClientJobs() {
-  let currentDataset = getCurrentClientDatatSet();
+  let currentDataset = getDataset("clientDataSet");
 
   $("#recordName").text(
     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
@@ -312,7 +315,7 @@ function loadClientJobs() {
 }
 
 function loadClientDependants() {
-  let currentDataset = getCurrentClientDatatSet();
+  let currentDataset = getDataset("clientDataSet");
   $("#recordName").text(
     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
   );
@@ -323,7 +326,7 @@ function loadClientDependants() {
 }
 
 function loadClientBusinesses() {
-  let currentDataset = getCurrentClientDatatSet();
+  let currentDataset = getDataset("clientDataSet");
   $("#recordName").text(
     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
   );
@@ -345,7 +348,7 @@ function loadClientAssets() {
 }
 
 function loadClientOtherLoans() {
-  let currentDataset = getCurrentClientDatatSet();
+  let currentDataset = getDataset("clientDataSet");
 
   $("#recordName").text(
     `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
@@ -356,6 +359,14 @@ function loadClientOtherLoans() {
   });
 }
 
-function getCurrentClientDatatSet() {
-  return JSON.parse(localStorage.getItem("clientDataSet"));
+function loadLoanPayments(){
+  let currentDataset = getDataset("loanPaymentDataset");
+  $("#paymentLoanId").val(currentDataset.loanId);
+  $("#paymentTitle").text(`Loan Payments for ${currentDataset.firstname} ${currentDataset.lastname}`);
+  $.when(loans.fetchLoanPayments({loan_id: currentDataset.loanId})).done(function () {});
+  
+}
+
+function getDataset(datasetName) {
+  return JSON.parse(localStorage.getItem(datasetName));
 }
