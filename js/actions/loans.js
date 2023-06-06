@@ -15,11 +15,15 @@ let loanApplicationId;
 let selectedLoanPaymentId = null;
 let paymentDate;
 let loan_id;
-let localStorage;
+localStorage;
 let currentLoanPaymentDataset;
 
 $(function () {
-  
+
+  if (localStorage.getItem("loanPaymentDataset") != null || typeof localStorage != undefined) {
+    currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
+  }
+
   $(document).on("show.bs.modal", applicationModal, function (e) {
     let interests = interest.fetchInterests();
     let opener = e.relatedTarget;
@@ -167,6 +171,7 @@ $(function () {
         "data-lastname"
       )} Guarantors`
     );
+
     loanApplicationId = $(opener).attr("data-loan-application-id");
   });
 
@@ -238,21 +243,29 @@ $(function () {
 
   $(document).on("click", ".loan-payments", function (e) {
     currentLoanPaymentDataset = this.dataset;
-    localStorage.setItem("loanPaymentDataset", 
-                          JSON.stringify(currentLoanPaymentDataset));
+    localStorage.setItem("loanPaymentDataset",
+      JSON.stringify(currentLoanPaymentDataset));
 
     loan_id = $(this).data().loanId;
     let headerText = `Loan Payments for ${$(this).data().firstname} ${$(this).data().lastname}`;
-    
+
     $.when(loadRecord("views/loans/loan_payments.html", "loan_payments")).done(
       function () {
         $("#paymentLoanId").val(loan_id);
         $("#paymentTitle").text(headerText);
 
-        $.when(loans.fetchLoanPayments({loan_id: loan_id})).done(function () {});
-    });
+        $.when(loans.fetchLoanPayments({ loan_id: loan_id })).done(function () { });
+      });
 
 
+  });
+
+  $(document).on("click", "#backToLoansBtn", function (e) {
+    $.when(loadRecord("views/loans/loans.html", "loans")).done(
+      function () {
+        loans.fetchLoans();
+      }
+    );
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
@@ -561,7 +574,7 @@ function notification(
           });
           break;
         case "loan-payment":
-          $(loans.fetchLoanPayments({ loan_id: loan_id })).done( function () {
+          $(loans.fetchLoanPayments({ loan_id: loan_id })).done(function () {
             selectedLoanPaymentId = null;
           });
           break;
