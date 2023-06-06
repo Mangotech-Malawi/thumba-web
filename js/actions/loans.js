@@ -280,7 +280,7 @@ $(function () {
           loan_payment_id: selectedLoanPaymentId,
           paid_amount: amount,
           payment_date: paymentDate
-        }).created,
+        }).updated,
         "center",
         "success",
         "loan-payment",
@@ -574,7 +574,7 @@ function notification(
           });
           break;
         case "loan-payment":
-          $(loans.fetchLoanPayments({ loan_id: loan_id })).done(function () {
+          $.when(loans.fetchLoanPayments({ loan_id: loan_id })).done(function () {
             selectedLoanPaymentId = null;
           });
           break;
