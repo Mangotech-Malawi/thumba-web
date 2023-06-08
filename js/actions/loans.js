@@ -22,6 +22,7 @@ $(function () {
 
   if (localStorage.getItem("loanPaymentDataset") != null || typeof localStorage != undefined) {
     currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
+    loan_id =  currentLoanPaymentDataset.loanId;
   }
 
   $(document).on("show.bs.modal", applicationModal, function (e) {
@@ -269,9 +270,9 @@ $(function () {
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
-    let amount = $("#amount").val();
-    let paymentDate = $("#paymentDate").val();
-    let loanId = $("#paymentLoanId").val();
+      let amount = $("#amount").val();
+      let paymentDate = $("#paymentDate").val();
+      let loanId = $("#paymentLoanId").val();
 
     if (selectedLoanPaymentId != null) {
       notification(
@@ -576,6 +577,8 @@ function notification(
         case "loan-payment":
           $.when(loans.fetchLoanPayments({ loan_id: loan_id })).done(function () {
             selectedLoanPaymentId = null;
+            $("#amount").val("");
+            $("#paymentDate").val("");
           });
           break;
         case "collateral-seizure":
