@@ -20,8 +20,9 @@ let currentLoanPaymentDataset;
 
 $(function () {
 
-  if (localStorage.getItem("loanPaymentDataset") != null || typeof localStorage != undefined) {
+  if (localStorage.getItem("loanPaymentDataset") != null && typeof localStorage != undefined) {
     currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
+    console.log(currentLoanPaymentDataset);
     loan_id =  currentLoanPaymentDataset.loanId;
   }
 
@@ -29,7 +30,7 @@ $(function () {
     let interests = interest.fetchInterests();
     let opener = e.relatedTarget;
     let actionType = $(opener).attr("data-action-type");
-    let interestsArray = [];
+    let interestsArray = [];2
 
     interests.forEach(function (interest, index) {
       interestsArray.push(
