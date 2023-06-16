@@ -22,7 +22,6 @@ $(function () {
 
   if (localStorage.getItem("loanPaymentDataset") != null && typeof localStorage != undefined) {
     currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
-    console.log(currentLoanPaymentDataset);
     loan_id =  currentLoanPaymentDataset.loanId;
   }
 
