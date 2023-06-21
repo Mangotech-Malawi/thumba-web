@@ -1,6 +1,7 @@
 import * as client from "../services/clients.js";
-import { notify } from "../services/utils.js";
 import { loadContent } from "../actions/contentLoader.js";
+import * as form from "../utils/forms.js";
+
 
 let modalId = "#modal-register-client";
 let clientType = null;
@@ -76,55 +77,58 @@ $(function () {
   });
 
   $(document).on("click", "#registerBtn", function (e) {
-    if (clientType != null) {
-      if ($("#regModalTitle").text() === "Edit Client") {
-        if (clientType === "individual")
-          notification(
-            client.editClient(individualParams()).updated,
-            "center",
-            "success",
-            "registration",
-            "Edit Individual Client",
-            "Client has been updated successfully",
-            true,
-            3000
-          );
-        else
-          notification(
-            client.editClient(organizationParams()),
-            "center",
-            "success",
-            "registration",
-            "Edit Organization Client",
-            "Client has been updated successfully",
-            true,
-            3000
-          );
-      } else {
-        if (clientType === "individual")
-          notification(
-            client.addClient(individualParams()),
-            "center",
-            "success",
-            "registration",
-            "Add Individual Client",
-            "Client has been added successfully",
-            true,
-            3000
-          );
-        else
-          notification(
-            client.addClient(organizationParams()),
-            "center",
-            "success",
-            "registration",
-            "Add Organization Client",
-            "Client has been added succefully",
-            true,
-            3000
-          );
+    if(form.validClientFormData()){
+      if (clientType != null) {
+        if ($("#regModalTitle").text() === "Edit Client") {
+          if (clientType === "individual")
+            notification(
+              client.editClient(individualParams()).updated,
+              "center",
+              "success",
+              "registration",
+              "Edit Individual Client",
+              "Client has been updated successfully",
+              true,
+              3000
+            );
+          else
+            notification(
+              client.editClient(organizationParams()),
+              "center",
+              "success",
+              "registration",
+              "Edit Organization Client",
+              "Client has been updated successfully",
+              true,
+              3000
+            );
+        } else {
+          if (clientType === "individual")
+            notification(
+              client.addClient(individualParams()),
+              "center",
+              "success",
+              "registration",
+              "Add Individual Client",
+              "Client has been added successfully",
+              true,
+              3000
+            );
+          else
+            notification(
+              client.addClient(organizationParams()),
+              "center",
+              "success",
+              "registration",
+              "Add Organization Client",
+              "Client has been added succefully",
+              true,
+              3000
+            );
+        }
       }
     }
+
   });
 
   $(document).on("click", ".recordBtn", function (e) {
