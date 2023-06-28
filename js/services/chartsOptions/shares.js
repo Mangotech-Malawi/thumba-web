@@ -6,8 +6,8 @@ export const sharesOptions = {
   },
   chart: {
     type: "donut",
-    width: 400,
-    height: 400,
+    width: 350,
+    height: 350,
     align: "center",
   },
   legend: {
@@ -20,7 +20,7 @@ export const sharesOptions = {
       donut: {
         labels: {
           show: true,
-          fontSize: "20px"
+          fontSize: "12px"
          
         },
         options: {

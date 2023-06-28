@@ -1,11 +1,26 @@
 export const returnsGrowthOptions = {
-    series: [{
-    name: 'Sales',
-    data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
-  }],
-    chart: {
+  series: [
+    {
+      name: 'Money',
+      data: [
+        40000.0,
+        3000.0,
+        10000.0,
+        8000.0,
+        1000.0,
+        19000.0,
+        6000.0,
+        7000.0,
+        6688.0,
+        8300.0,
+        7600.0,
+        5000.0
+      ]
+    }
+  ],
+  chart: {
     height: 350,
-    type: 'line',
+    type: 'line'
   },
   forecastDataPoints: {
     count: 7
@@ -15,20 +30,14 @@ export const returnsGrowthOptions = {
     curve: 'smooth'
   },
   xaxis: {
-    type: 'datetime',
-    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000', '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001','4/11/2001' ,'5/11/2001' ,'6/11/2001'],
-    tickAmount: 10,
-    labels: {
-      formatter: function(value, timestamp, opts) {
-        return opts.dateFormatter(new Date(timestamp), 'dd MMM')
-      }
-    }
+    categories: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+    tickAmount: 10
   },
   title: {
-    text: 'Forecast',
+    text: 'Returns Growth',
     align: 'left',
     style: {
-      fontSize: "16px",
+      fontSize: '16px',
       color: '#666'
     }
   },
@@ -36,18 +45,26 @@ export const returnsGrowthOptions = {
     type: 'gradient',
     gradient: {
       shade: 'dark',
-      gradientToColors: [ '#FDD835'],
+      gradientToColors: ['#FDD835'],
       shadeIntensity: 1,
       type: 'horizontal',
       opacityFrom: 1,
       opacityTo: 1,
       stops: [0, 100, 100, 100]
-    },
+    }
   },
   yaxis: {
     min: -10,
-    max: 40
+    max: 50000,
+    forceNiceScale: false // Allow decimal values
+  },
+  tooltip: {
+    y: {
+      formatter: function (val) {
+        return `MK${val.toFixed(1)}`; // Display decimal places
+      }
+    }
   }
-  };
+};
 
 export default returnsGrowthOptions;
