@@ -1,23 +1,5 @@
 export const returnsGrowthOptions = {
-  series: [
-    {
-      name: 'Money',
-      data: [
-        40000.0,
-        3000.0,
-        10000.0,
-        8000.0,
-        1000.0,
-        19000.0,
-        6000.0,
-        7000.0,
-        6688.0,
-        8300.0,
-        7600.0,
-        5000.0
-      ]
-    }
-  ],
+  series: [],
   chart: {
     height: 350,
     type: 'line'
@@ -55,7 +37,7 @@ export const returnsGrowthOptions = {
   },
   yaxis: {
     min: -10,
-    max: 50000,
+    max: 500000,
     forceNiceScale: false // Allow decimal values
   },
   tooltip: {
