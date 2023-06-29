@@ -15,7 +15,7 @@ $(function () {
 export function admin() {
   dashboardData = fetchAdminDashboardData();
   populateSharesChart(dashboardData.investors);
-  populateReturnsGrowthChart();
+  populateReturnsGrowthChart(dashboardData.all_returns);
   $("#totalClients").text(nf.format(dashboardData.client_count));
   $("#totalUsers").text(nf.format(dashboardData.user_count));
   $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
@@ -67,7 +67,12 @@ function populateSharesChart(investors) {
   sharesChart.render();
 }
 
-function populateReturnsGrowthChart() {
+function populateReturnsGrowthChart(all_returns) {
+
+  returnsGrowthOptions.series = all_returns.packages_returns;
+  returnsGrowthOptions.yaxis.min = all_returns.max_min.min_rio;
+  returnsGrowthOptions.yaxis.max = all_returns.max_min.max_rio;
+
   let myInvestmentChart = new ApexCharts(
     document.querySelector("#returns-growth"),
     returnsGrowthOptions 
