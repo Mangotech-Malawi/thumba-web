@@ -8,9 +8,9 @@ export function validClientFormData(){
   pushFormElements("personName", "#firstname", true, "Firstname");
   pushFormElements("personName", "#lastname", true, "Lastname");
   pushFormElements("dateOfBirth", "#dateOfBirth", true, "Date Of Birth");
-  pushFormElements("ta", "#curentTa", true, "Current TA");
   pushFormElements("ta", "#homeTa", true, "Home TA");
   pushFormElements("village", "#homeVillage", true, "Home Village");
+  pushFormElements("ta", "#currentTa", true, "Current TA");
   pushFormElements("village", "#currentVillage", true, "Current Village");
  
   return validate(formElements);
