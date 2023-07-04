@@ -43,7 +43,7 @@ export const returnsGrowthOptions = {
   tooltip: {
     y: {
       formatter: function (val) {
-        return `MK${val.toFixed(1)}`; // Display decimal places
+        return `MK${val}`; // Display decimal places
       }
     }
   }
