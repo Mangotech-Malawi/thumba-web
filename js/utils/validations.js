@@ -5,81 +5,103 @@ export function validate(formElements) {
     let validationMessages = [];
 
     //Check for different validations
-    
-    formElements.reverse().forEach(element => {
 
+    formElements.some(element => {
         let inputVal = $(element.id).val();
 
         if (element.checkIsFilled) {
-            if (inputVal === '') {
+            if (inputVal === '' || typeof inputVal == undefined || typeof inputVal == "undefined") {
                 showError(element.name, `Please fill ${element.name}`);
-                return false;
+                return true; // Break the loop if validation fails
             }
         }
 
-        /*
-        if (element.type === "email") {
-            if (!checkMail(inputVal))
-                return `Please enter valid email address`;
-        }
 
-        if (element.type === "phoneNumber") {
-            if (!validateMalawianPhoneNumber(inputVal))
-                return `Please enter valid phone number`
-        }
+        if (typeof inputVal !== '' && typeof inputVal !== undefined) {
+            if (element.type === "email") {
+                if (!checkMail(inputVal)) {
+                    showError(element.name, `Please enter valid email address`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "personName") {
-            if (!validatePersonName(inputVal))
-                return `Please enter valid person name`
-        }
+            if (element.type === "phoneNumber") {
+                if (!validateMalawianPhoneNumber(inputVal)) {
+                    showError(element.name, `Please enter valid phone number`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "moneyAmount") {
-            if (!validateMoneyAmount(inputVal))
-                return `Please enter valid entry for money`
-        }
+            if (element.type === "personName") {
+                if (!validatePersonName(inputVal)) {
+                    showError(element.name, `Please enter valid person name`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "dateOfBirth") {
-            if (!validateDateOfBirth(inputVal))
-                return `Please enter valid date`
-        }
+            if (element.type === "moneyAmount") {
+                if (!validateMoneyAmount(inputVal)) {
+                    showError(element.name, `Please enter correct monetary value`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "village") {
-            if (!validateVillage(inputVal))
-                return `Please enter valid village`
-        }
+            if (element.type === "dateOfBirth") {
+                if (!validateDateOfBirth(inputVal)) {
+                    showError(element.name, `Date Of Birth can only be 18 years ago and above`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "ta") {
-            if (!validateTraditionalAuthority(inputVal))
-                return `Please enter valid tradionality authority`
+            if (element.type === "village") {
+                if (!validateVillage(inputVal)) {
+                    showError(element.name, `Enter valid village name`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        }
+            if (element.type === "ta") {
+                if (!validateTraditionalAuthority(inputVal)) {
+                    showError(element.name, `Please enter valid traditional authority`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "alphanum") {
-            if (!validateAlphanumeric(inputVal))
-                return `Please enter valid ${name}`
-        }
+            if (element.type === "alphanum") {
+                if (!validateAlphanumeric(inputVal)) {
+                    showError(element.name, `Please enter only alphanumerics for ${element.name}`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "description") {
-            if (!validateDescription(inputVal))
-                return `Please enter valid ${name}`
-        }
+            if (element.type === "description") {
+                if (!validateDescription(inputVal)) {
+                    showError(element.name, `Please enter correct description for ${element.name}`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "startDate") {
-            if (!validateStartDate(inputVal))
-                return `${name} Date cannot be in the future`
-        }
+            if (element.type === "startDate") {
+                if (!validateStartDate(inputVal)) {
+                    showError(element.name, `${element.name} Date cannot be in the future`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "alphabeticStringWithSpace") {
-            if (!validateAlphabeticStringWithSpace(inputVal))
-                return `Please enter valid ${name}`
-        }
+            if (element.type === "alphabeticStringWithSpace") {
+                if (!validateAlphabeticStringWithSpace(inputVal)) {
+                    showError(element.name, `${element.name} should have only alphabetics with spaces`);
+                    return true; // Break the loop if validation fails
+                }
+            }
 
-        if (element.type === "futureDate") {
-            if (!validateFutureDate(inputVal))
-                return `${name} can only be a future date`;
+            if (element.type === "futureDate") {
+                if (!validateFutureDate(inputVal)) {
+                    showError(element.name, `${element.name} cannot be in the future`);
+                    return true; // Break the loop if validation fails
+                }
+            }
         }
-        */
-        //return true
 
     });
 }
@@ -114,12 +136,7 @@ function validateMoneyAmount(amount) {
 
 function validateDateOfBirth(dateString) {
     // Create a regular expression to match the date format "YYYY-MM-DD"
-    var regex = /^\d{4}-\d{2}-\d{2}$/;
 
-    // Check if the date string matches the required format
-    if (!regex.test(dateString)) {
-        return false; // Invalid date format
-    }
 
     // Create a Date object from the date string
     var dateOfBirth = new Date(dateString);
@@ -135,6 +152,7 @@ function validateDateOfBirth(dateString) {
 
     // Check if the age is less than 18
     if (age < 18) {
+        console.log(age);
         return false; // Age is less than 18
     }
 
