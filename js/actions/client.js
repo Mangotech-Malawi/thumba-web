@@ -77,7 +77,7 @@ $(function () {
   });
 
   $(document).on("click", "#registerBtn", function (e) {
-    if(form.validClientFormData()){
+    if (form.validClientFormData()) {
       if (clientType != null) {
         if ($("#regModalTitle").text() === "Edit Client") {
           if (clientType === "individual")
@@ -286,28 +286,30 @@ $(function () {
   });
 
   $(document).on("click", "#saveJobBtn", function (e) {
-    if ($("#regJobTitle").text() === "Add Client Job") {
-      notification(
-        client.addJob(clientJobParams()).created,
-        "center",
-        "success",
-        "job",
-        "Add Client Job",
-        "Client Job has been updated successfully",
-        true,
-        3000
-      );
-    } else if ($("#regJobTitle").text() === "Edit Client Job") {
-      notification(
-        client.updateJob(clientJobParams()).updated,
-        "center",
-        "success",
-        "job",
-        "Edit Client Job",
-        "Client Job has been updated successfully",
-        true,
-        3000
-      );
+    if (form.validClientJobFormData()) {
+      if ($("#regJobTitle").text() === "Add Client Job") {
+        notification(
+          client.addJob(clientJobParams()).created,
+          "center",
+          "success",
+          "job",
+          "Add Client Job",
+          "Client Job has been updated successfully",
+          true,
+          3000
+        );
+      } else if ($("#regJobTitle").text() === "Edit Client Job") {
+        notification(
+          client.updateJob(clientJobParams()).updated,
+          "center",
+          "success",
+          "job",
+          "Edit Client Job",
+          "Client Job has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
   });
 
