@@ -4,6 +4,7 @@ let formElements = []
 
 export function validClientFormData(){
   formElements = []
+  let validClientData = false;
   pushFormElements("nationalId", "#nationalId", true, "National ID");
   pushFormElements("personName", "#firstname", true, "Firstname");
   pushFormElements("personName", "#lastname", true, "Lastname");
@@ -13,8 +14,11 @@ export function validClientFormData(){
   pushFormElements("ta", "#currentTa", true, "Current TA");
   pushFormElements("village", "#currentVillage", true, "Current Village");
  
-  return validate(formElements);
-  
+  $.when(validate(formElements)).done( function (value){
+       validClientData = value
+  });
+
+  return validClientData;
 }
 
 function pushFormElements(type, id, isFilled, name){
