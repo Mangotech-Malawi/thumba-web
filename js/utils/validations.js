@@ -5,7 +5,7 @@ export function validate(formElements) {
     //Check for different validations
     let valid = true;
 
-    formElements.some(element => {
+    formElements.reverse().some(element => {
         let inputVal = $(element.id).val();
 
         if (element.checkIsFilled) {
@@ -82,7 +82,7 @@ export function validate(formElements) {
 
             if (element.type === "startDate") {
                 if (!validateStartDate(inputVal)) {
-                    showError(element.name, `${element.name} Date cannot be in the future`);
+                    showError(element.name, `${element.name} cannot be in the future`);
                     valid =  false; // Break the loop if validation fails
                 }
             }
@@ -96,7 +96,7 @@ export function validate(formElements) {
 
             if (element.type === "futureDate") {
                 if (!validateFutureDate(inputVal)) {
-                    showError(element.name, `${element.name} cannot be in the future`);
+                    showError(element.name, `${element.name} cannot be in the past`);
                     valid =  false; // Break the loop if validation fails
                 }
             }
@@ -117,9 +117,8 @@ function checkMail(email) {
     return emailRegex.test(email);
 }
 
-
 function validateMalawianPhoneNumber(phoneNumber) {
-    var phoneRegex = /^(\+265|0)[1-9]\d{7}$/;
+    var phoneRegex = /^(?!00)(\+265|0)[1-9]\d{8}$/;
     return phoneRegex.test(phoneNumber);
 }
 
