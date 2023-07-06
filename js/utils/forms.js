@@ -43,6 +43,20 @@ export function validClientJobFormData() {
   return validData;
 }
 
+export function validDependantFormData(){
+  formElements = []
+  let validData = false;
+
+  pushFormElements("alphabeticStringWithSpace", "#dependancy", true, "Dependancy");
+  pushFormElements("alphabeticStringWithSpace", "#amount", true, "Amount");
+
+  $.when(validate(formElements)).done( function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
     type: type,
