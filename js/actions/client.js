@@ -320,7 +320,7 @@ $(function () {
       client.delJob(id).deleted,
       "center",
       "danger",
-      "job",
+      "delete-job",
       "Delete Client Job",
       "Client Job has been deleted successfully",
       true,
@@ -354,38 +354,41 @@ $(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
 });
 
 $(document).on("click", "#saveDependantBtn", function (e) {
-  if ($("#regDependantTitle").text() === "Add Client Dependant") {
-    notification(
-      client.addDependant(clientDependantParams()).created,
-      "center",
-      "success",
-      "dependant",
-      "Add Client Dependant",
-      "Client Depandant has been updated successfully",
-      true,
-      3000
-    );
-  } else if ($("#regDependantTitle").text() === "Edit Client Dependant") {
-    notification(
-      client.updateDependant(clientDependantParams()).updated,
-      "center",
-      "success",
-      "dependant",
-      "Edit Client Dependant",
-      "Client Depandant has been updated successfully",
-      true,
-      3000
-    );
+  if (form.validDependantFormData()) {
+    if ($("#regDependantTitle").text() === "Add Client Dependant") {
+      notification(
+        client.addDependant(clientDependantParams()).created,
+        "center",
+        "success",
+        "dependant",
+        "Add Client Dependant",
+        "Client Depandant has been updated successfully",
+        true,
+        3000
+      );
+    } else if ($("#regDependantTitle").text() === "Edit Client Dependant") {
+      notification(
+        client.updateDependant(clientDependantParams()).updated,
+        "center",
+        "success",
+        "dependant",
+        "Edit Client Dependant",
+        "Client Depandant has been updated successfully",
+        true,
+        3000
+      );
+    }
   }
+
 });
 
 $(document).on("click", "#delClientDependantBtn", function () {
   let id = $("#delDependantId").val();
-  deleteNotification(
+  notification(
     client.delDependant(id).deleted,
     "center",
     "success",
-    "dependant",
+    "delete-dependant",
     "Delete Client Dependant",
     "Client dependant has been deleted successfully",
     true,
@@ -863,6 +866,15 @@ function notification(
             $(jobModal).modal("hide");
           });
           break;
+        case "delete-job":
+          $.when(
+            client.fetchClientJobs({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $("#modal-del-client-job").modal("hide");
+          });
+          break;
         case "dependant":
           $.when(
             client.fetchClientDependants({
@@ -870,6 +882,15 @@ function notification(
             })
           ).done(function () {
             $(dependantModal).modal("hide");
+          });
+          break;
+        case "delete-dependant":
+          $.when(
+            client.fetchClientDependants({
+              client_id: currentDataset.recordId,
+            })
+          ).done(function () {
+            $("#modal-del-client-dependant").modal("hide");
           });
           break;
         case "business":
