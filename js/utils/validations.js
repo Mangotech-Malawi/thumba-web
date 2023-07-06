@@ -212,6 +212,7 @@ function validateDescription(description) {
 function validateStartDate(startDate) {
     // Get the current date
     var today = new Date();
+    startDate = new Date(startDate);
 
     // Set the time to midnight (00:00:00) to ignore the time component
     today.setHours(0, 0, 0, 0);
