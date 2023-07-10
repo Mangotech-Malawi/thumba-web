@@ -327,281 +327,283 @@ $(function () {
       3000
     );
   });
-});
 
-// CLIENT DEPENDANT
-$(document).on("show.bs.modal", dependantModal, function (e) {
-  clearFields();
-  let opener = e.relatedTarget;
-  let actionType = $(opener).attr("data-action-type");
+  // CLIENT DEPENDANT
+  $(document).on("show.bs.modal", dependantModal, function (e) {
+    clearFields();
+    let opener = e.relatedTarget;
+    let actionType = $(opener).attr("data-action-type");
 
-  if (actionType === "add") {
-    $("#regDependantTitle").text("Add Client Dependant");
-  } else if (actionType === "edit") {
-    $("#regDependantTitle").text("Edit Client Dependant");
+    if (actionType === "add") {
+      $("#regDependantTitle").text("Add Client Dependant");
+    } else if (actionType === "edit") {
+      $("#regDependantTitle").text("Edit Client Dependant");
 
-    $.each(opener.dataset, function (key, value) {
-      $(dependantModal).find(`[id = '${key}']`).val(value);
-    });
-  }
-});
-
-$(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
-  let opener = e.relatedTarget;
-  $.each(opener.dataset, function (key, value) {
-    $("#modal-del-client-dependant").find(`[id = '${key}']`).val(value);
+      $.each(opener.dataset, function (key, value) {
+        $(dependantModal).find(`[id = '${key}']`).val(value);
+      });
+    }
   });
-});
 
-$(document).on("click", "#saveDependantBtn", function (e) {
-  if (form.validDependantFormData()) {
-    if ($("#regDependantTitle").text() === "Add Client Dependant") {
+  $(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
+    let opener = e.relatedTarget;
+    $.each(opener.dataset, function (key, value) {
+      $("#modal-del-client-dependant").find(`[id = '${key}']`).val(value);
+    });
+  });
+
+  $(document).on("click", "#saveDependantBtn", function (e) {
+    if (form.validDependantFormData()) {
+      if ($("#regDependantTitle").text() === "Add Client Dependant") {
+        notification(
+          client.addDependant(clientDependantParams()).created,
+          "center",
+          "success",
+          "dependant",
+          "Add Client Dependant",
+          "Client Depandant has been updated successfully",
+          true,
+          3000
+        );
+      } else if ($("#regDependantTitle").text() === "Edit Client Dependant") {
+        notification(
+          client.updateDependant(clientDependantParams()).updated,
+          "center",
+          "success",
+          "dependant",
+          "Edit Client Dependant",
+          "Client Depandant has been updated successfully",
+          true,
+          3000
+        );
+      }
+    }
+
+  });
+
+  $(document).on("click", "#delClientDependantBtn", function () {
+    let id = $("#delDependantId").val();
+    notification(
+      client.delDependant(id).deleted,
+      "center",
+      "success",
+      "delete-dependant",
+      "Delete Client Dependant",
+      "Client dependant has been deleted successfully",
+      true,
+      3000
+    );
+  });
+
+  // CLIENT BUSINESS
+
+  $(document).on("show.bs.modal", businessModal, function (e) {
+    clearFields("#clientBusiness");
+
+    let opener = e.relatedTarget;
+    let actionType = $(opener).attr("data-action-type");
+
+    if (actionType === "add") {
+      $("#regBusTitle").text("Add Client Business");
+    } else if (actionType === "edit") {
+      $("#regBusTitle").text("Edit Client Business");
+      $.each(opener.dataset, function (key, value) {
+        if (key !== "busRegistered")
+          $(businessModal).find(`[id = '${key}']`).val(value);
+        else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+      });
+    }
+  });
+
+  $(document).on("show.bs.modal", "#modal-del-client-business", function (e) {
+    let opener = e.relatedTarget;
+    $.each(opener.dataset, function (key, value) {
+      $("#modal-del-client-business").find(`[id = '${key}']`).val(value);
+    });
+  });
+
+  $(document).on("click", "#saveBusinessBtn", function (e) {
+    if ($("#regBusTitle").text() === "Add Client Business") {
       notification(
-        client.addDependant(clientDependantParams()).created,
+        client.addBusiness(clientBusinessParams()).created,
         "center",
         "success",
-        "dependant",
-        "Add Client Dependant",
-        "Client Depandant has been updated successfully",
+        "business",
+        "Add Client Business",
+        "Client Business has been added successfully",
         true,
         3000
       );
-    } else if ($("#regDependantTitle").text() === "Edit Client Dependant") {
+    } else if ($("#regBusTitle").text() === "Edit Client Business") {
       notification(
-        client.updateDependant(clientDependantParams()).updated,
+        client.updateBusiness(clientBusinessParams()).updated,
         "center",
         "success",
-        "dependant",
-        "Edit Client Dependant",
-        "Client Depandant has been updated successfully",
+        "business",
+        "Edit Client Business",
+        "Client Business has been updated successfully",
         true,
         3000
       );
     }
-  }
-
-});
-
-$(document).on("click", "#delClientDependantBtn", function () {
-  let id = $("#delDependantId").val();
-  notification(
-    client.delDependant(id).deleted,
-    "center",
-    "success",
-    "delete-dependant",
-    "Delete Client Dependant",
-    "Client dependant has been deleted successfully",
-    true,
-    3000
-  );
-});
-
-// CLIENT BUSINESS
-
-$(document).on("show.bs.modal", businessModal, function (e) {
-  clearFields("#clientBusiness");
-
-  let opener = e.relatedTarget;
-  let actionType = $(opener).attr("data-action-type");
-
-  if (actionType === "add") {
-    $("#regBusTitle").text("Add Client Business");
-  } else if (actionType === "edit") {
-    $("#regBusTitle").text("Edit Client Business");
-    $.each(opener.dataset, function (key, value) {
-      if (key !== "busRegistered")
-        $(businessModal).find(`[id = '${key}']`).val(value);
-      else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
-    });
-  }
-});
-
-$(document).on("show.bs.modal", "#modal-del-client-business", function (e) {
-  let opener = e.relatedTarget;
-  $.each(opener.dataset, function (key, value) {
-    $("#modal-del-client-business").find(`[id = '${key}']`).val(value);
   });
-});
 
-$(document).on("click", "#saveBusinessBtn", function (e) {
-  if ($("#regBusTitle").text() === "Add Client Business") {
+  $(document).on("click", "#delClientBusBtn", function () {
+    let id = $("#delClientBusId").val();
     notification(
-      client.addBusiness(clientBusinessParams()).created,
+      client.deleteBusiness({ id: id }).deleted,
       "center",
       "success",
       "business",
-      "Add Client Business",
-      "Client Business has been added successfully",
+      "Delete Client Business",
+      "Client business has been deleted successfully",
       true,
       3000
     );
-  } else if ($("#regBusTitle").text() === "Edit Client Business") {
-    notification(
-      client.updateBusiness(clientBusinessParams()).updated,
-      "center",
-      "success",
-      "business",
-      "Edit Client Business",
-      "Client Business has been updated successfully",
-      true,
-      3000
-    );
-  }
-});
 
-$(document).on("click", "#delClientBusBtn", function () {
-  let id = $("#delClientBusId").val();
-  notification(
-    client.deleteBusiness({ id: id }).deleted,
-    "center",
-    "success",
-    "business",
-    "Delete Client Business",
-    "Client business has been deleted successfully",
-    true,
-    3000
-  );
+    $("#modal-del-client-business").modal("hide");
+  });
 
-  $("#modal-del-client-business").modal("hide");
-});
+  //Client Assets
+  $(document).on("click", "#saveAssetBtn", function (e) {
+    if ($("#regAssetTitle").text() === "Add Client Asset") {
+      notification(
+        client.addAsset(clientAssetParams()).created,
+        "center",
+        "success",
+        "asset",
+        "Add Client Asset",
+        "Client Asset has been added successfully",
+        true,
+        3000
+      );
+    } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
+      notification(
+        client.updateAsset(clientAssetParams()).updated,
+        "center",
+        "success",
+        "asset",
+        "Edit Client Asset",
+        "Client Asset has been updated successfully",
+        true,
+        3000
+      );
+    }
+  });
 
-//Client Assets
-$(document).on("click", "#saveAssetBtn", function (e) {
-  if ($("#regAssetTitle").text() === "Add Client Asset") {
-    notification(
-      client.addAsset(clientAssetParams()).created,
-      "center",
-      "success",
-      "asset",
-      "Add Client Asset",
-      "Client Asset has been added successfully",
-      true,
-      3000
-    );
-  } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
-    notification(
-      client.updateAsset(clientAssetParams()).updated,
-      "center",
-      "success",
-      "asset",
-      "Edit Client Asset",
-      "Client Asset has been updated successfully",
-      true,
-      3000
-    );
-  }
-});
+  $(document).on("show.bs.modal", assetModal, function (e) {
+    clearFields();
+    let opener = e.relatedTarget;
+    let actionType = $(opener).attr("data-action-type");
 
-$(document).on("show.bs.modal", assetModal, function (e) {
-  clearFields();
-  let opener = e.relatedTarget;
-  let actionType = $(opener).attr("data-action-type");
+    if (actionType === "add") {
+      $("#regAssetTitle").text("Add Client Asset");
+    } else if (actionType === "edit") {
+      $("#regAssetTitle").text("Edit Client Asset");
+      $.each(opener.dataset, function (key, value) {
+        $(assetModal).find(`[id = '${key}']`).val(value);
+      });
+    }
+  });
 
-  if (actionType === "add") {
-    $("#regAssetTitle").text("Add Client Asset");
-  } else if (actionType === "edit") {
-    $("#regAssetTitle").text("Edit Client Asset");
+  $(document).on("show.bs.modal", "#modal-del-client-asset", function (e) {
+    let opener = e.relatedTarget;
     $.each(opener.dataset, function (key, value) {
-      $(assetModal).find(`[id = '${key}']`).val(value);
+      $("#modal-del-client-asset").find(`[id = '${key}']`).val(value);
     });
-  }
-});
-
-$(document).on("show.bs.modal", "#modal-del-client-asset", function (e) {
-  let opener = e.relatedTarget;
-  $.each(opener.dataset, function (key, value) {
-    $("#modal-del-client-asset").find(`[id = '${key}']`).val(value);
   });
-});
 
-$(document).on("click", "#delClientAssetBtn", function (e) {
-  let id = $("#delAssetId").val();
-  $.when(
-    notification(
-      client.delAsset(id).deleted,
-      "center",
-      "success",
-      "asset",
-      "Delete Client Asset",
-      "Client Asset has been deleted successfully",
-      true,
-      3000
-    )
-  ).done(function () {
-    $("#modal-del-client-asset").modal("hide");
+  $(document).on("click", "#delClientAssetBtn", function (e) {
+    let id = $("#delAssetId").val();
+    $.when(
+      notification(
+        client.delAsset(id).deleted,
+        "center",
+        "success",
+        "asset",
+        "Delete Client Asset",
+        "Client Asset has been deleted successfully",
+        true,
+        3000
+      )
+    ).done(function () {
+      $("#modal-del-client-asset").modal("hide");
+    });
   });
-});
 
-//Client Other Loans
-$(document).on("click", "#saveOtherLoanBtn", function (e) {
-  if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
-    notification(
-      client.addOtherLoan(clientOtherLoanParams()).created,
-      "center",
-      "success",
-      "otherloan",
-      "Add Client Other Loan",
-      "Client other loan has been added successfully",
-      true,
-      3000
-    );
-  } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
-    notification(
-      client.updateOtherLoan(clientOtherLoanParams()).updated,
-      "center",
-      "success",
-      "otherloan",
-      "Edit Client Other Loan",
-      "Client other loan has been updated successfully",
-      true,
-      3000
-    );
-  }
-});
+  //Client Other Loans
+  $(document).on("click", "#saveOtherLoanBtn", function (e) {
+    if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
+      notification(
+        client.addOtherLoan(clientOtherLoanParams()).created,
+        "center",
+        "success",
+        "otherloan",
+        "Add Client Other Loan",
+        "Client other loan has been added successfully",
+        true,
+        3000
+      );
+    } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
+      notification(
+        client.updateOtherLoan(clientOtherLoanParams()).updated,
+        "center",
+        "success",
+        "otherloan",
+        "Edit Client Other Loan",
+        "Client other loan has been updated successfully",
+        true,
+        3000
+      );
+    }
+  });
 
-$(document).on("show.bs.modal", otherloanModal, function (e) {
-  clearFields();
-  let opener = e.relatedTarget;
-  let actionType = $(opener).attr("data-action-type");
+  $(document).on("show.bs.modal", otherloanModal, function (e) {
+    clearFields();
+    let opener = e.relatedTarget;
+    let actionType = $(opener).attr("data-action-type");
 
-  if (actionType === "add") {
-    $("#regOtherLoanTitle").text("Add Client Other Loan");
-  } else if (actionType === "edit") {
-    $("#regOtherLoanTitle").text("Edit Client Other Loan");
+    if (actionType === "add") {
+      $("#regOtherLoanTitle").text("Add Client Other Loan");
+    } else if (actionType === "edit") {
+      $("#regOtherLoanTitle").text("Edit Client Other Loan");
+      $.each(opener.dataset, function (key, value) {
+        $(otherloanModal).find(`[id = '${key}']`).val(value);
+
+        if (key !== "busRegistered")
+          $(businessModal).find(`[id = '${key}']`).val(value);
+        else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+      });
+    }
+  });
+
+  $(document).on("show.bs.modal", "#modal-del-client-otherloan", function (e) {
+    let opener = e.relatedTarget;
     $.each(opener.dataset, function (key, value) {
-      $(otherloanModal).find(`[id = '${key}']`).val(value);
-
-      if (key !== "busRegistered")
-        $(businessModal).find(`[id = '${key}']`).val(value);
-      else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+      $("#modal-del-client-otherloan").find(`[id = '${key}']`).val(value);
     });
-  }
+  });
+
+  $(document).on("click", "#delClientOtherLoanBtn", function (e) {
+    let id = $("#delOtherLoanId").val();
+    $.when(
+      notification(
+        client.delOtherLoan(id).deleted,
+        "center",
+        "success",
+        "otherloan",
+        "Delete Client Other Loan",
+        "Client other loan has been deleted successfully",
+        true,
+        3000
+      )
+    ).done(function () {
+      $("#modal-del-client-otherloan").modal("hide");
+    });
+  });
+
 });
 
-$(document).on("show.bs.modal", "#modal-del-client-otherloan", function (e) {
-  let opener = e.relatedTarget;
-  $.each(opener.dataset, function (key, value) {
-    $("#modal-del-client-otherloan").find(`[id = '${key}']`).val(value);
-  });
-});
-
-$(document).on("click", "#delClientOtherLoanBtn", function (e) {
-  let id = $("#delOtherLoanId").val();
-  $.when(
-    notification(
-      client.delOtherLoan(id).deleted,
-      "center",
-      "success",
-      "otherloan",
-      "Delete Client Other Loan",
-      "Client other loan has been deleted successfully",
-      true,
-      3000
-    )
-  ).done(function () {
-    $("#modal-del-client-otherloan").modal("hide");
-  });
-});
 
 //Params Methods ====================+++>
 function clientAssetParams() {
@@ -675,8 +677,8 @@ function clientDependantParams() {
   let id = $("#clientDependantId").val();
   let dependancy = $("#dependancy").val();
   let amount = $("#amount").val();
-  let relationship = $("#relationship").val();
-  let frequency = $("#frequency").val();
+  let relationship = $("#relationship option:selected").val();
+  let frequency = $("#frequency option:selected").val();
 
   let params = {
     id: id,
@@ -684,7 +686,7 @@ function clientDependantParams() {
     dependancy: dependancy,
     amount: amount,
     relationship: relationship,
-    frequency: frequency,
+    frequency: frequency
   };
 
   return params;

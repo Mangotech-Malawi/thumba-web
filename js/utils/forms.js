@@ -47,8 +47,10 @@ export function validDependantFormData(){
   formElements = []
   let validData = false;
 
+  
   pushFormElements("alphabeticStringWithSpace", "#dependancy", true, "Dependancy");
-  pushFormElements("alphabeticStringWithSpace", "#amount", true, "Amount");
+  pushFormElements("moneyAmount", "#amount", true, "Amount");
+
 
   $.when(validate(formElements)).done( function (value) {
     validData = value;

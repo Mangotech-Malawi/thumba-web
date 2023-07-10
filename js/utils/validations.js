@@ -7,6 +7,7 @@ export function validate(formElements) {
 
     formElements.reverse().some(element => {
         let inputVal = $(element.id).val();
+        console.log();
 
         if (element.checkIsFilled) {
             if (inputVal === '' || typeof inputVal == undefined || typeof inputVal == "undefined") {
@@ -16,7 +17,7 @@ export function validate(formElements) {
         }
 
 
-        if (typeof inputVal !== '' && typeof inputVal !== undefined) {
+        if (valid) {
             if (element.type === "email") {
                 if (!checkMail(inputVal)) {
                     showError(element.name, `Please enter valid email address`);
@@ -225,9 +226,16 @@ function validateStartDate(startDate) {
     return true; // Start date is valid
 }
 
-
 function validateAlphabeticStringWithSpace(input) {
-    var regex = /^[A-Za-z\s]{1,50}$/;
+    // Remove leading/trailing white spaces
+    input = input.trim();
+
+    // Check if the input contains more than 60 words
+    if (input.split(/\s+/).length > 60) {
+        return false; // Exceeded the word count limit
+    }
+
+    var regex = /^[A-Za-z0-9\s]*[A-Za-z][A-Za-z0-9\s]*$/;
 
     if (!regex.test(input)) {
         return false; // String does not match the pattern
@@ -235,6 +243,7 @@ function validateAlphabeticStringWithSpace(input) {
 
     return true; // String is valid
 }
+
 
 function validateFutureDate(input) {
     var inputDate = new Date(input);

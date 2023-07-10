@@ -112,7 +112,7 @@
                           <select id="relationship" class="form-control"  data-placeholder="Select Relationship"
                               data-dropdown-css-class="select2-primary" style="width: 100%;">
                               <option value="grand parent">Grand Parent</option>
-                              <option value="mother">Mother</option>
+                              <option  value="mother">Mother</option>
                               <option value="father">Father</option>
                               <option value="brother">Brother</option>
                               <option value="sister">Sister</option>
@@ -135,7 +135,7 @@
                       <div class="select2-primary">
                         <select id="frequency" class="form-control"  data-placeholder="Select Category"
                             data-dropdown-css-class="select2-primary" style="width: 100%;">
-                            <option value="1">I</option>
+                            <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
@@ -906,6 +906,9 @@
   $("#purchaseDatePicker").datetimepicker({
     format: "L",
   });
+
+  $("#relationship").select2();
+  $("#frequency").select2();
 
 </script>
 
