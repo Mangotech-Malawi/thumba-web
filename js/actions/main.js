@@ -2,24 +2,34 @@
 
 $(document).ready(function () {
 
-  $(document).ready(function() {
-    var touchStartY;
-    
-    $(window).on('touchstart', function(event) {
-      touchStartY = event.originalEvent.touches[0].clientY;
-    });
-  
-    $(window).on('touchmove', { passive: false }, function(event) {
-      var touchCurrentY = event.originalEvent.touches[0].clientY;
-      var scrollPosition = $(window).scrollTop();
-  
-      if (touchCurrentY > touchStartY && scrollPosition === 0) {
+  var touchStartY;
+  var touchStartTime;
+  var refreshTimeout;
+
+  $(window).on('touchstart', function (event) {
+    touchStartY = event.originalEvent.touches[0].clientY;
+    touchStartTime = Date.now();
+  });
+
+  $(window).on('touchmove', { passive: false }, function (event) {
+    var touchCurrentY = event.originalEvent.touches[0].clientY;
+    var scrollPosition = $(window).scrollTop();
+
+    // Check if a modal is open
+    var isModalOpen = $('.modal.show').length > 0;
+
+    if (touchCurrentY > touchStartY && scrollPosition === 0 && !isModalOpen) {
+      clearTimeout(refreshTimeout); // Clear any existing timeout
+
+      var touchDuration = Date.now() - touchStartTime;
+      var minimumTouchDuration = 600; // Minimum touch duration in milliseconds
+
+      if (touchDuration >= minimumTouchDuration) {
         event.preventDefault();
         location.reload(); // Refresh the page
       }
-    });
+    }
   });
-  
 
   $(document).on("click", "tr", function (e) {
     $(this).toggleClass("active");
@@ -36,6 +46,7 @@ $(document).ready(function () {
       $("#reasonForStoppingRow").removeClass("d-none").slideDown();
     else $("#reasonForStoppingRow").addClass("d-none").slideUp();
   });
+
 });
 
 $(document).on({
