@@ -337,7 +337,7 @@ function loadClientBusinesses() {
 }
 
 function loadClientAssets() {
-  let currentDataset = getCurrentClientDatatSet();
+  let currentDataset = getDataset("clientDataSet");
   $("#recordName").text(
     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
   );
