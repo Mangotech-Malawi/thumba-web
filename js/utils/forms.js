@@ -95,6 +95,23 @@ export function validAssetFormData(){
   return validData;
 }
 
+export function validOtherLoansData(){
+  formElements = []
+  let validData = false;
+
+  pushFormElements("description","#institution",true, "Instutition");
+  pushFormElements("phoneNumber","#phoneNumber",true, "Phone Number");
+  pushFormElements("moneyAmount","#amount", true, "Loaned Amount");
+  pushFormElements("moneyAmount","#amount", true, "Loaned Amount");
+
+
+  $.when(validate(formElements)).done( function (value){
+    validData = value;
+  });
+
+  return validData;
+}
+
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
     type: type,
