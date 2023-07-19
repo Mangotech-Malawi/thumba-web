@@ -468,28 +468,30 @@ $(function () {
 
   //Client Assets
   $(document).on("click", "#saveAssetBtn", function (e) {
-    if ($("#regAssetTitle").text() === "Add Client Asset") {
-      notification(
-        client.addAsset(clientAssetParams()).created,
-        "center",
-        "success",
-        "asset",
-        "Add Client Asset",
-        "Client Asset has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
-      notification(
-        client.updateAsset(clientAssetParams()).updated,
-        "center",
-        "success",
-        "asset",
-        "Edit Client Asset",
-        "Client Asset has been updated successfully",
-        true,
-        3000
-      );
+    if (form.validAssetFormData()) {
+      if ($("#regAssetTitle").text() === "Add Client Asset") {
+        notification(
+          client.addAsset(clientAssetParams()).created,
+          "center",
+          "success",
+          "asset",
+          "Add Client Asset",
+          "Client Asset has been added successfully",
+          true,
+          3000  
+        );
+      } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
+        notification(
+          client.updateAsset(clientAssetParams()).updated,
+          "center",
+          "success",
+          "asset",
+          "Edit Client Asset",
+          "Client Asset has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
   });
 

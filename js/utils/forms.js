@@ -77,6 +77,24 @@ export function validBusinessFormData(){
   return validData;
 }
 
+export function validAssetFormData(){
+  formElements = []
+  let validData = false;
+
+  pushFormElements("description","#identifier",true, "Asset Identifier");
+  pushFormElements("description","#assetName",true, "Asset Name");
+  pushFormElements("moneyAmount","#purchasePrice",true, "Asset Purchase Price");
+  pushFormElements("startDate","#purchaseDate",true, "Asset Purchase Date");
+  pushFormElements("moneyAmount","#marketValue", true, "Asset Market Value");
+  pushFormElements("description","#assetDescription", true, "Asset Description");
+
+  $.when(validate(formElements)).done( function (value){
+    validData = value;
+  });
+
+  return validData;
+}
+
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
     type: type,
