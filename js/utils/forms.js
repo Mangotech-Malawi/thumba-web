@@ -64,6 +64,11 @@ export function validBusinessFormData(){
   let validData = false; 
 
   pushFormElements("description","#busName", true, "Business Name");
+  pushFormElements("startDate","#busStartDate", true, "Business Start Date");
+  pushFormElements("description","#busLocation", true, "Business Location");
+  pushFormElements("description","#busShortDesc", true, "Business Short Description");
+  pushFormElements("description", "#busDescription", true, "Business Description" );
+  
 
   $.when(validate(formElements)).done( function (value){
     validData = value;
