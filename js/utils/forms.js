@@ -59,6 +59,24 @@ export function validDependantFormData(){
   return validData;
 }
 
+export function validBusinessFormData(){
+  formElements = []
+  let validData = false; 
+
+  pushFormElements("description","#busName", true, "Business Name");
+  pushFormElements("startDate","#busStartDate", true, "Business Start Date");
+  pushFormElements("description","#busLocation", true, "Business Location");
+  pushFormElements("description","#busShortDesc", true, "Business Short Description");
+  pushFormElements("description", "#busDescription", true, "Business Description" );
+  
+
+  $.when(validate(formElements)).done( function (value){
+    validData = value;
+  });
+
+  return validData;
+}
+
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
     type: type,

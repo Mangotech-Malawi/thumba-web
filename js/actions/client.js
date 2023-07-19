@@ -423,28 +423,30 @@ $(function () {
   });
 
   $(document).on("click", "#saveBusinessBtn", function (e) {
-    if ($("#regBusTitle").text() === "Add Client Business") {
-      notification(
-        client.addBusiness(clientBusinessParams()).created,
-        "center",
-        "success",
-        "business",
-        "Add Client Business",
-        "Client Business has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#regBusTitle").text() === "Edit Client Business") {
-      notification(
-        client.updateBusiness(clientBusinessParams()).updated,
-        "center",
-        "success",
-        "business",
-        "Edit Client Business",
-        "Client Business has been updated successfully",
-        true,
-        3000
-      );
+    if (form.validBusinessFormData()) {
+      if ($("#regBusTitle").text() === "Add Client Business") {
+        notification(
+          client.addBusiness(clientBusinessParams()).created,
+          "center",
+          "success",
+          "business",
+          "Add Client Business",
+          "Client Business has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#regBusTitle").text() === "Edit Client Business") {
+        notification(
+          client.updateBusiness(clientBusinessParams()).updated,
+          "center",
+          "success",
+          "business",
+          "Edit Client Business",
+          "Client Business has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
   });
 
