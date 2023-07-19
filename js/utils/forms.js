@@ -59,6 +59,19 @@ export function validDependantFormData(){
   return validData;
 }
 
+export function validBusinessFormData(){
+  formElements = []
+  let validData = false; 
+
+  pushFormElements("description","#busName", true, "Business Name");
+
+  $.when(validate(formElements)).done( function (value){
+    validData = value;
+  });
+
+  return validData;
+}
+
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
     type: type,
