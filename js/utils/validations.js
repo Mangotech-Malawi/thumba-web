@@ -101,6 +101,13 @@ export function validate(formElements) {
                     valid =  false; // Break the loop if validation fails
                 }
             }
+
+            if(element.type === "integer"){
+                if (!validateInteger(inputVal)) {
+                    showError(element.name, `${element.name} can only be an integer`);
+                    valid =  false; // Break the loop if validation fails
+                }
+            }
         }
     });
 
@@ -259,4 +266,13 @@ function validateFutureDate(input) {
 
     return false; // Date is in the past or today
 }
+
+function validateInteger(input) {
+    // Regular expression to match an integer number
+    var regex = /^-?\d+$/;
+  
+    // Test the input against the regular expression
+    return regex.test(input);
+  }
+  
 
