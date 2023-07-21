@@ -537,29 +537,32 @@ $(function () {
 
   //Client Other Loans
   $(document).on("click", "#saveOtherLoanBtn", function (e) {
-    if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
-      notification(
-        client.addOtherLoan(clientOtherLoanParams()).created,
-        "center",
-        "success",
-        "otherloan",
-        "Add Client Other Loan",
-        "Client other loan has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
-      notification(
-        client.updateOtherLoan(clientOtherLoanParams()).updated,
-        "center",
-        "success",
-        "otherloan",
-        "Edit Client Other Loan",
-        "Client other loan has been updated successfully",
-        true,
-        3000
-      );
+    if (form.validOtherLoansFormData()) {
+      if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
+        notification(
+          client.addOtherLoan(clientOtherLoanParams()).created,
+          "center",
+          "success",
+          "otherloan",
+          "Add Client Other Loan",
+          "Client other loan has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
+        notification(
+          client.updateOtherLoan(clientOtherLoanParams()).updated,
+          "center",
+          "success",
+          "otherloan",
+          "Edit Client Other Loan",
+          "Client other loan has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
+ 
   });
 
   $(document).on("show.bs.modal", otherloanModal, function (e) {

@@ -7,8 +7,7 @@ export function validate(formElements) {
 
     formElements.reverse().some(element => {
         let inputVal = $(element.id).val();
-        console.log();
-
+  
         if (element.checkIsFilled) {
             if (inputVal === '' || typeof inputVal == undefined || typeof inputVal == "undefined") {
                 showError(element.name, `Please fill ${element.name}`);
@@ -98,6 +97,13 @@ export function validate(formElements) {
             if (element.type === "futureDate") {
                 if (!validateFutureDate(inputVal)) {
                     showError(element.name, `${element.name} cannot be in the past`);
+                    valid =  false; // Break the loop if validation fails
+                }
+            }
+
+            if(element.type === "integer"){
+                if (!validateInteger(inputVal)) {
+                    showError(element.name, `${element.name} can only be an integer`);
                     valid =  false; // Break the loop if validation fails
                 }
             }
@@ -259,4 +265,13 @@ function validateFutureDate(input) {
 
     return false; // Date is in the past or today
 }
+
+function validateInteger(input) {
+    // Regular expression to match an integer number
+    var regex = /^-?\d+$/;
+  
+    // Test the input against the regular expression
+    return regex.test(input);
+  }
+  
 
