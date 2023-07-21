@@ -711,19 +711,19 @@ function loadOtherLoansData(dataset) {
 
 function getOtherLoanEditBtn(data, type, row, metas) {
   let dataFields = `data-client-other-loan-id = "${data.id}"
-  data-institution = "${data.institution}" 
-  data-phone-number = "${data.phone_number}" 
-  data-amount = "${data.amount}"
-  data-period = "${data.period}"
-  data-period-type = "${data.period_type}"
-  data-rate = "${data.rate}"
-  data-loaned-date = "${data.loaned_date}"
-  data-amount-paid = "${data.amount_paid}"1
-  data-purpose = "${data.purpose}"
-  data-closed = "${data.closed}"
-  data-stopped = "${data.stopped}"
-  data-reason-for-stopping = "${data.reason_for_stopping}"
-  data-action-type = "edit"`;
+                    data-institution = "${data.institution}" 
+                    data-phone-number = "${data.phone_number}" 
+                    data-amount-loaned = "${data.amount}"
+                    data-loan-period = "${data.period}"
+                    data-period-type = "${data.period_type}"
+                    data-loan-rate = "${data.rate}"
+                    data-loaned-date = "${data.loaned_date}"
+                    data-amount-paid = "${data.amount_paid}"
+                    data-other-loan-purpose = "${data.purpose}"
+                    data-closed = "${data.closed}"
+                    data-stopped = "${data.stopped}"
+                    data-reason-for-stopping = "${data.reason_for_stopping}"
+                    data-action-type = "edit"`;
 
   return getButton(dataFields, "client-otherloan", "default", "fas fa-edit");
 }
