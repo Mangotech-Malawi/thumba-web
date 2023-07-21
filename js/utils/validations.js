@@ -7,8 +7,7 @@ export function validate(formElements) {
 
     formElements.reverse().some(element => {
         let inputVal = $(element.id).val();
-        console.log();
-
+  
         if (element.checkIsFilled) {
             if (inputVal === '' || typeof inputVal == undefined || typeof inputVal == "undefined") {
                 showError(element.name, `Please fill ${element.name}`);
