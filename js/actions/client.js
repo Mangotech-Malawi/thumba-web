@@ -478,7 +478,7 @@ $(function () {
           "Add Client Asset",
           "Client Asset has been added successfully",
           true,
-          3000  
+          3000
         );
       } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
         notification(
@@ -562,7 +562,7 @@ $(function () {
         );
       }
     }
- 
+
   });
 
   $(document).on("show.bs.modal", otherloanModal, function (e) {
@@ -794,13 +794,13 @@ function clientOtherLoanParams() {
   let id = $("#clientOtherLoanId").val();
   let institution = $("#institution").val();
   let phoneNumber = $("#phoneNumber").val();
-  let amount = $("#clientOtherLoan").find("[id = 'amount']").val();
-  let period = $("#clientOtherLoan").find("[id = 'period']").val();
+  let amount = $("#amountLoaned").val();
+  let period = $("#loanPeriod").val();
   let periodType = $("#periodType option:selected").val();
-  let rate = $("#clientOtherLoan").find("[id = 'rate']").val();
+  let rate = $("#loanRate").val();
   let loanedDate = $("#loanedDate").val();
   let amountPaid = $("#amountPaid").val();
-  let purpose = $("#clientOtherLoan").find("[id = 'purpose']").val()
+  let purpose = $("#otherLoanPurpose").val()
   let closed = $("#loanClosed").val();
   let stopped = $("#stopped").val();
   let reasonForStopping = $("#reasonForStopping").val();
@@ -941,4 +941,3 @@ function clearFields(formId) {
     .prop("selected", false);
 }
 
-function clearBusinessFileds() { }

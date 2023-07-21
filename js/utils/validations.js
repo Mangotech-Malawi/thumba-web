@@ -107,6 +107,14 @@ export function validate(formElements) {
                     valid =  false; // Break the loop if validation fails
                 }
             }
+
+            if(element.type === "positiveDoubleNumber"){
+                if (!validatePositiveDoubleNumber(inputVal)) {
+                    showError(element.name, `${element.name} can only be an deci`);
+                    valid =  false; // Break the loop if validation fails
+                }
+            }
+            
         }
     });
 
@@ -267,11 +275,22 @@ function validateFutureDate(input) {
 }
 
 function validateInteger(input) {
+    input = input.trim();
     // Regular expression to match an integer number
     var regex = /^-?\d+$/;
   
     // Test the input against the regular expression
     return regex.test(input);
-  }
+}
+
+function validatePositiveDoubleNumber(input) {
+    input = input.trim();
+    // Regular expression to match a positive double or integer value
+    var regex = /^\d+(\.\d+)?$/;
+
+    // Test the input against the regular expression
+    return regex.test(input);
+}
+  
   
 
