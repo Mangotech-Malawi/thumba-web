@@ -101,10 +101,12 @@ export function validOtherLoansFormData(){
 
   pushFormElements("description","#institution",true, "Instutition");
   pushFormElements("phoneNumber","#phoneNumber",true, "Phone Number");
-  pushFormElements("moneyAmount","#amount", true, "Loaned Amount");
-  pushFormElements("integer","#period", true, "Loan Period");
+  pushFormElements("moneyAmount","#amountLoaned", true, "Loaned Amount");
+  pushFormElements("integer","#loanPeriod", true, "Loan Period");
+  pushFormElements("positiveDoubleNumber","#loanRate", true, "Loan Interest Rate");
   pushFormElements("startDate","#loanedDate", true, "Loaned Date");
   pushFormElements("moneyAmount","#amountPaid", true, "Amount Paid");
+  pushFormElements("description","#otherLoanPurpose", true, "Loan Purpose");
   pushFormElements("description","#reasonForStopping", false, "Reason for stopping taking loan");
 
   $.when(validate(formElements)).done( function (value){
