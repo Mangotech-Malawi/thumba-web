@@ -43,73 +43,90 @@ export function validClientJobFormData() {
   return validData;
 }
 
-export function validDependantFormData(){
+export function validDependantFormData() {
   formElements = []
   let validData = false;
 
-  
+
   pushFormElements("alphabeticStringWithSpace", "#dependancy", true, "Dependancy");
   pushFormElements("moneyAmount", "#amount", true, "Amount");
 
 
-  $.when(validate(formElements)).done( function (value) {
+  $.when(validate(formElements)).done(function (value) {
     validData = value;
   });
 
   return validData;
 }
 
-export function validBusinessFormData(){
-  formElements = []
-  let validData = false; 
-
-  pushFormElements("description","#busName", true, "Business Name");
-  pushFormElements("startDate","#busStartDate", true, "Business Start Date");
-  pushFormElements("description","#busLocation", true, "Business Location");
-  pushFormElements("description","#busShortDesc", true, "Business Short Description");
-  pushFormElements("description", "#busDescription", true, "Business Description" );
-  
-
-  $.when(validate(formElements)).done( function (value){
-    validData = value;
-  });
-
-  return validData;
-}
-
-export function validAssetFormData(){
+export function validBusinessFormData() {
   formElements = []
   let validData = false;
 
-  pushFormElements("description","#identifier",true, "Asset Identifier");
-  pushFormElements("description","#assetName",true, "Asset Name");
-  pushFormElements("moneyAmount","#purchasePrice",true, "Asset Purchase Price");
-  pushFormElements("startDate","#purchaseDate",true, "Asset Purchase Date");
-  pushFormElements("moneyAmount","#marketValue", true, "Asset Market Value");
-  pushFormElements("description","#assetDescription", true, "Asset Description");
+  pushFormElements("description", "#busName", true, "Business Name");
+  pushFormElements("startDate", "#busStartDate", true, "Business Start Date");
+  pushFormElements("description", "#busLocation", true, "Business Location");
+  pushFormElements("description", "#busShortDesc", true, "Business Short Description");
+  pushFormElements("description", "#busDescription", true, "Business Description");
 
-  $.when(validate(formElements)).done( function (value){
+
+  $.when(validate(formElements)).done(function (value) {
     validData = value;
   });
 
   return validData;
 }
 
-export function validOtherLoansFormData(){
+export function validAssetFormData() {
   formElements = []
   let validData = false;
 
-  pushFormElements("description","#institution",true, "Instutition");
-  pushFormElements("phoneNumber","#phoneNumber",true, "Phone Number");
-  pushFormElements("moneyAmount","#amountLoaned", true, "Loaned Amount");
-  pushFormElements("integer","#loanPeriod", true, "Loan Period");
-  pushFormElements("positiveDoubleNumber","#loanRate", true, "Loan Interest Rate");
-  pushFormElements("startDate","#loanedDate", true, "Loaned Date");
-  pushFormElements("moneyAmount","#amountPaid", true, "Amount Paid");
-  pushFormElements("description","#otherLoanPurpose", true, "Loan Purpose");
-  pushFormElements("description","#reasonForStopping", false, "Reason for stopping taking loan");
+  pushFormElements("description", "#identifier", true, "Asset Identifier");
+  pushFormElements("description", "#assetName", true, "Asset Name");
+  pushFormElements("moneyAmount", "#purchasePrice", true, "Asset Purchase Price");
+  pushFormElements("startDate", "#purchaseDate", true, "Asset Purchase Date");
+  pushFormElements("moneyAmount", "#marketValue", true, "Asset Market Value");
+  pushFormElements("description", "#assetDescription", true, "Asset Description");
 
-  $.when(validate(formElements)).done( function (value){
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
+export function validOtherLoansFormData() {
+  formElements = []
+  let validData = false;
+
+  pushFormElements("description", "#institution", true, "Instutition");
+  pushFormElements("phoneNumber", "#phoneNumber", true, "Phone Number");
+  pushFormElements("moneyAmount", "#amountLoaned", true, "Loaned Amount");
+  pushFormElements("integer", "#loanPeriod", true, "Loan Period");
+  pushFormElements("positiveDoubleNumber", "#loanRate", true, "Loan Interest Rate");
+  pushFormElements("startDate", "#loanedDate", true, "Loaned Date");
+  pushFormElements("moneyAmount", "#amountPaid", true, "Amount Paid");
+  pushFormElements("description", "#otherLoanPurpose", true, "Loan Purpose");
+  pushFormElements("description", "#reasonForStopping", false, "Reason for stopping taking loan");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
+export function validateLoanApplicationFormData() {
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("moneyAmount", "#amount", true, "Loan Amount");
+  pushFormElements("", "#interestsRates", true, "Interest Rate");
+  pushFormElements("", "#corraterals", true, "Corraterals");
+  pushFormElements("description", "#purpose", true, "Loan Purpose");
+
+  $.when(validate(formElements)).done(function (value) {
     validData = value;
   });
 
