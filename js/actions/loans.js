@@ -3,6 +3,7 @@ import { notify } from "../services/utils.js";
 import { loadContent } from "./contentLoader.js";
 import * as interest from "../services/interests.js";
 import * as client from "../services/clients.js";
+import * as form from "../utils/forms.js";
 
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
@@ -86,6 +87,7 @@ $(function () {
       $.when(client.getClientById(identifier)).done(function (client) {
         if (client != null && typeof client != undefined) {
           populateCollaterals(client.assets);
+          localStorage.setItem("clientId",client.demographics[0].id)
           $("#applicantFirstname").text(client.demographics[0].firstname);
           $("#applicantLastname").text(client.demographics[0].lastname);
           $("#applicantGender").text(client.demographics[0].gender);
@@ -126,29 +128,32 @@ $(function () {
 
 
   $(document).on("click", "#saveApplicationBtn", function (e) {
-    if ($("#loanApplicationTitle").text() === "Add Loan Application") {
-      notification(
-        loans.addApplication(loanApplicationParams()).created,
-        "center",
-        "success",
-        "application",
-        "Add Client Loan Application",
-        "Client application loan has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
-      notification(
-        loans.updateApplication(loanApplicationParams()).updated,
-        "center",
-        "success",
-        "application",
-        "Edit Client Loan Application",
-        "Client loan has been updated successfully",
-        true,
-        3000
-      );
+    if(form.validateLoanApplicationFormData()){
+      if ($("#loanApplicationTitle").text() === "Add Loan Application") {
+        notification(
+          loans.addApplication(loanApplicationParams()).created,
+          "center",
+          "success",
+          "application",
+          "Add Client Loan Application",
+          "Client application loan has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
+        notification(
+          loans.updateApplication(loanApplicationParams()).updated,
+          "center",
+          "success",
+          "application",
+          "Edit Client Loan Application",
+          "Client loan has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
+
   });
 
   $(document).on("click", "#saveGuarantorBtn", function (e) {
@@ -473,7 +478,7 @@ function populateCollaterals(collaterals) {
 
 function loanApplicationParams() {
   let id = $("#id").val();
-  let client_id = $("#loanAppClientId").val();
+  let client_id = localStorage.getItem("clientId");
   let amount = $("#amount").val();
   let interestId = $("#interestsRates option:selected").val();
   let purpose = $("#purpose").val();
