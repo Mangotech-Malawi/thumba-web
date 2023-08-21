@@ -52,10 +52,13 @@ $(function () {
 
       $.when(
         client.getClientById(
-          JSON.parse($(opener).attr("data-loan-app-client-id"))
+          $(opener).attr("data-loan-app-client-id")
         )
       ).done(function (client) {
         populateCollaterals(client.assets)
+        $("#applicantName").text(client.applicantName);
+        $("#applicantType").text(client.applicantType);
+        localStorage.setItem("clientId",client.id);
       });
 
       let collateralIds = new Array();
@@ -68,7 +71,6 @@ $(function () {
 
       $.each(opener.dataset, function (key, value) {
         $(applicationModal).find(`[id = '${key}']`).val(value);
-        $(applicationModal).find(`[id = '${key}']`).text(value);
       });
     }
   });
@@ -83,18 +85,17 @@ $(function () {
 
   $(document).on("click", "#searchClientBtn", function (e) {
     let identifier = $("#loanAppClientId").val();
+    $("#applicantName").text("");
+    $("#applicantType").text("");
+    localStorage.removeItem("clientId");
+
     if (identifier != null && identifier != "")
       $.when(client.getClientById(identifier)).done(function (client) {
         if (client != null && typeof client != undefined) {
           populateCollaterals(client.assets);
-          localStorage.setItem("clientId",client.demographics[0].id)
-          $("#applicantFirstname").text(client.demographics[0].firstname);
-          $("#applicantLastname").text(client.demographics[0].lastname);
-          $("#applicantGender").text(client.demographics[0].gender);
-        } else {
-          $("#applicantFirstname").text("");
-          $("#applicantLastname").text("");
-          $("#applicantGender").text("");
+          localStorage.setItem("clientId",client.id);
+          $("#applicantName").text(client.applicantName);
+          $("#applicantType").text(client.applicantName);
         }
       });
   });
@@ -459,6 +460,13 @@ $(function () {
   });
 
 });
+
+function populateClientDemographics(client){
+  localStorage.setItem("clientId",client.id)
+  $("#applicantFirstname").text(client.firstname);
+  $("#applicantLastname").text(client.lastname);
+  $("#applicantGender").text(client.gender);
+}
 
 function populateCollaterals(collaterals) {
   let collateralArray = [];
