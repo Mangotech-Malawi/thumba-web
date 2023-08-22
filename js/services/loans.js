@@ -305,32 +305,10 @@ function getClientType(data, type, row, metas) {
   return applicant;
 }
 
-function getFirstname(data, type, row, metas) {
-  if (data == null || data.borrower == null) {
-    return "N/A"; // or some other default value
-  }
-  let lastname = data.borrower.lastname;
-  if (typeof lastname === "undefined") {
-    return "N/A"; // or some other default value
-  }
-  return lastname
-}
-
-function getLastname(data, type, row, metas) {
-  if (data == null || data.borrower == null) {
-    return "N/A"; // or some other default value
-  }
-  let lastname = data.borrower.lastname;
-  if (typeof lastname === "undefined") {
-    return "N/A"; // or some other default value
-  }
-  return lastname
-}
 
 function getGuarantorsBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
-    data-firstname = "${data.borrower.firstname}"
-    data-lastname = "${data.borrower.lastname}" 
+    data-applicant = "${data.borrower.applicant}"
     data-action-type = "gurantors"`;
 
   return getButton(dataFields, "guarantors", "default", "fas fa-users");
@@ -348,9 +326,6 @@ function getApplicationUpdateBtn(data, type, row, metas) {
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-id = "${data.id}"
                     data-loan-app-client-id = "${data.borrower.identifier}"
-                    data-applicant-firstname = "${data.borrower.firstname}"
-                    data-applicant-lastname = "${data.borrower.lastname}"
-                    data-applicant-gender = "${data.borrower.gender}"
                     data-amount =  "${data.amount}"
                     data-purpose = "${data.purpose}"
                     data-collaterals = '${collaterals}'
@@ -377,9 +352,9 @@ function loadWaitingApplications(dataset) {
     data: dataset,
     columns: [
       { data: "id" },
+      { data: null },
+      { data: null },
       { data: "interest_name" },
-      { data: null },
-      { data: null },
       { data: "amount" },
       { data: "rate" },
       { data: null },
@@ -389,14 +364,14 @@ function loadWaitingApplications(dataset) {
     ],
     columnDefs: [
       {
-        render: getFirstname,
+        render: getApplicant,
         data: null,
-        targets: [2],
+        targets: [1],
       },
       {
-        render: getLastname,
+        render: getClientType,
         data: null,
-        targets: [3],
+        targets: [2],
       },
       {
         render: getGrade,
@@ -434,9 +409,8 @@ function getApproveBtn(data, type, row, metas) {
   let grade = data.analysis.analysis[0];
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-loan-application-id = "${data.id}"
-                    data-firstname = "${data.borrower.firstname}"
-                    data-lastname = "${data.borrower.lastname}" 
-                    data-gender = "${data.borrower.gender}"
+                    data-applicant = "${data.borrower.applicant}"
+                    data-client-type = "${data.borrower.client_type}" 
                     data-amount =  "${data.amount}"
                     data-rate = "${data.rate}"
                     data-period = "${data.period}"
@@ -469,9 +443,9 @@ function loadDoneApplications(dataset) {
     data: dataset,
     columns: [
       { data: "id" },
+      { data: null },
+      { data: null },
       { data: "interest_name" },
-      { data: null },
-      { data: null },
       { data: "amount" },
       { data: "rate" },
       { data: null },
@@ -479,14 +453,14 @@ function loadDoneApplications(dataset) {
     ],
     columnDefs: [
       {
-        render: getFirstname,
+        render: getApplicant,
         data: null,
-        targets: [2]
+        targets: [1]
       },
       {
-        render: getLastname,
+        render: getClientType,
         data: null,
-        targets: [3]
+        targets: [2]
       },
       {
         render: getGrade,
@@ -515,9 +489,9 @@ function loadDumpedApplications(dataset) {
     data: dataset,
     columns: [
       { data: "id" },
+      { data: null },
+      { data: null },
       { data: "interest_name" },
-      { data: null },
-      { data: null },
       { data: "amount" },
       { data: "rate" },
       { data: null },
@@ -525,12 +499,12 @@ function loadDumpedApplications(dataset) {
     ],
     columnDefs: [
       {
-        render: getFirstname,
+        render: getApplicant,
         data: null,
         targets: [2],
       },
       {
-        render: getLastname,
+        render: getClientType,
         data: null,
         targets: [3],
       },
