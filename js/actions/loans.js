@@ -23,14 +23,18 @@ $(function () {
 
   if (localStorage.getItem("loanPaymentDataset") != null && typeof localStorage != undefined) {
     currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
-    loan_id =  currentLoanPaymentDataset.loanId;
+    loan_id = currentLoanPaymentDataset.loanId;
   }
 
   $(document).on("show.bs.modal", applicationModal, function (e) {
     let interests = interest.fetchInterests();
     let opener = e.relatedTarget;
     let actionType = $(opener).attr("data-action-type");
-    let interestsArray = [];2
+    let interestsArray = []; 2
+
+    $("#applicantName").text("");
+    $("#applicantType").text("");
+    localStorage.removeItem("clientId");
 
     interests.forEach(function (interest, index) {
       interestsArray.push(
@@ -58,7 +62,7 @@ $(function () {
         populateCollaterals(client.assets)
         $("#applicantName").text(client.applicantName);
         $("#applicantType").text(client.applicantType);
-        localStorage.setItem("clientId",client.id);
+        localStorage.setItem("clientId", client.id);
       });
 
       let collateralIds = new Array();
@@ -93,7 +97,7 @@ $(function () {
       $.when(client.getClientById(identifier)).done(function (client) {
         if (client != null && typeof client != undefined) {
           populateCollaterals(client.assets);
-          localStorage.setItem("clientId",client.id);
+          localStorage.setItem("clientId", client.id);
           $("#applicantName").text(client.applicantName);
           $("#applicantType").text(client.applicantName);
         }
@@ -129,7 +133,7 @@ $(function () {
 
 
   $(document).on("click", "#saveApplicationBtn", function (e) {
-    if(form.validateLoanApplicationFormData()){
+    if (form.validateLoanApplicationFormData()) {
       if ($("#loanApplicationTitle").text() === "Add Loan Application") {
         notification(
           loans.addApplication(loanApplicationParams()).created,
@@ -155,6 +159,23 @@ $(function () {
       }
     }
 
+  });
+
+  $(document).on("click", ".delete-loan-application", function (e) {
+    let id = $(this).data().loanApplicationId;
+
+    notification(
+      loans.deleteApplication({
+        id: id,
+      }).deleted,
+      "center",
+      "success",
+      "application",
+      "Delete Loan Application",
+      "Loan application has been deleted successfully",
+      true,
+      3000
+    );
   });
 
   $(document).on("click", "#saveGuarantorBtn", function (e) {
@@ -276,9 +297,9 @@ $(function () {
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
-      let amount = $("#amount").val();
-      let paymentDate = $("#paymentDate").val();
-      let loanId = $("#paymentLoanId").val();
+    let amount = $("#amount").val();
+    let paymentDate = $("#paymentDate").val();
+    let loanId = $("#paymentLoanId").val();
 
     if (selectedLoanPaymentId != null) {
       notification(
@@ -461,8 +482,8 @@ $(function () {
 
 });
 
-function populateClientDemographics(client){
-  localStorage.setItem("clientId",client.id)
+function populateClientDemographics(client) {
+  localStorage.setItem("clientId", client.id)
   $("#applicantFirstname").text(client.firstname);
   $("#applicantLastname").text(client.lastname);
   $("#applicantGender").text(client.gender);

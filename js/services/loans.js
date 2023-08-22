@@ -70,6 +70,17 @@ export function updateApplication(params) {
   );
 }
 
+export function deleteApplication(params) {
+  return apiClient(
+    "/api/v1/application/delete",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function addLoan(params) {
   return apiClient(
     "/api/v1/loans/new",
@@ -351,7 +362,7 @@ function getApplicationUpdateBtn(data, type, row, metas) {
 function getApplicationDelBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-action-type = "edit"`;
-  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+  return getButton(dataFields, "", "danger delete-loan-application", "fas fa-trash del");
 }
 
 function loadWaitingApplications(dataset) {
