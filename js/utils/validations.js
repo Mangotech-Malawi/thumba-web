@@ -9,12 +9,12 @@ export function validate(formElements) {
         let inputVal = $(element.id).val();
   
         if (element.checkIsFilled) {
-            if (inputVal === '' || typeof inputVal == undefined || typeof inputVal == "undefined") {
+            if (inputVal === '' || typeof inputVal == undefined 
+                    || typeof inputVal == "undefined" || inputVal.length === 0) {
                 showError(element.name, `Please fill ${element.name}`);
                 valid =  false; // Break the loop if validation fails
             }
         }
-
 
         if (valid) {
             if (element.type === "email") {

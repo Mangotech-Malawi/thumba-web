@@ -3,6 +3,7 @@ import { notify } from "../services/utils.js";
 import { loadContent } from "./contentLoader.js";
 import * as interest from "../services/interests.js";
 import * as client from "../services/clients.js";
+import * as form from "../utils/forms.js";
 
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
@@ -22,14 +23,18 @@ $(function () {
 
   if (localStorage.getItem("loanPaymentDataset") != null && typeof localStorage != undefined) {
     currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
-    loan_id =  currentLoanPaymentDataset.loanId;
+    loan_id = currentLoanPaymentDataset.loanId;
   }
 
   $(document).on("show.bs.modal", applicationModal, function (e) {
     let interests = interest.fetchInterests();
     let opener = e.relatedTarget;
     let actionType = $(opener).attr("data-action-type");
-    let interestsArray = [];2
+    let interestsArray = []; 2
+
+    $("#applicantName").text("");
+    $("#applicantType").text("");
+    localStorage.removeItem("clientId");
 
     interests.forEach(function (interest, index) {
       interestsArray.push(
@@ -51,10 +56,13 @@ $(function () {
 
       $.when(
         client.getClientById(
-          JSON.parse($(opener).attr("data-loan-app-client-id"))
+          $(opener).attr("data-loan-app-client-id")
         )
       ).done(function (client) {
         populateCollaterals(client.assets)
+        $("#applicantName").text(client.applicantName);
+        $("#applicantType").text(client.applicantType);
+        localStorage.setItem("clientId", client.id);
       });
 
       let collateralIds = new Array();
@@ -67,7 +75,6 @@ $(function () {
 
       $.each(opener.dataset, function (key, value) {
         $(applicationModal).find(`[id = '${key}']`).val(value);
-        $(applicationModal).find(`[id = '${key}']`).text(value);
       });
     }
   });
@@ -82,17 +89,17 @@ $(function () {
 
   $(document).on("click", "#searchClientBtn", function (e) {
     let identifier = $("#loanAppClientId").val();
+    $("#applicantName").text("");
+    $("#applicantType").text("");
+    localStorage.removeItem("clientId");
+
     if (identifier != null && identifier != "")
       $.when(client.getClientById(identifier)).done(function (client) {
         if (client != null && typeof client != undefined) {
           populateCollaterals(client.assets);
-          $("#applicantFirstname").text(client.demographics[0].firstname);
-          $("#applicantLastname").text(client.demographics[0].lastname);
-          $("#applicantGender").text(client.demographics[0].gender);
-        } else {
-          $("#applicantFirstname").text("");
-          $("#applicantLastname").text("");
-          $("#applicantGender").text("");
+          localStorage.setItem("clientId", client.id);
+          $("#applicantName").text(client.applicantName);
+          $("#applicantType").text(client.applicantName);
         }
       });
   });
@@ -126,29 +133,49 @@ $(function () {
 
 
   $(document).on("click", "#saveApplicationBtn", function (e) {
-    if ($("#loanApplicationTitle").text() === "Add Loan Application") {
-      notification(
-        loans.addApplication(loanApplicationParams()).created,
-        "center",
-        "success",
-        "application",
-        "Add Client Loan Application",
-        "Client application loan has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
-      notification(
-        loans.updateApplication(loanApplicationParams()).updated,
-        "center",
-        "success",
-        "application",
-        "Edit Client Loan Application",
-        "Client loan has been updated successfully",
-        true,
-        3000
-      );
+    if (form.validateLoanApplicationFormData()) {
+      if ($("#loanApplicationTitle").text() === "Add Loan Application") {
+        notification(
+          loans.addApplication(loanApplicationParams()).created,
+          "center",
+          "success",
+          "application",
+          "Add Client Loan Application",
+          "Client application loan has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
+        notification(
+          loans.updateApplication(loanApplicationParams()).updated,
+          "center",
+          "success",
+          "application",
+          "Edit Client Loan Application",
+          "Client loan has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
+
+  });
+
+  $(document).on("click", ".delete-loan-application", function (e) {
+    let id = $(this).data().loanApplicationId;
+
+    notification(
+      loans.deleteApplication({
+        id: id,
+      }).deleted,
+      "center",
+      "success",
+      "application",
+      "Delete Loan Application",
+      "Loan application has been deleted successfully",
+      true,
+      3000
+    );
   });
 
   $(document).on("click", "#saveGuarantorBtn", function (e) {
@@ -270,9 +297,9 @@ $(function () {
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
-      let amount = $("#amount").val();
-      let paymentDate = $("#paymentDate").val();
-      let loanId = $("#paymentLoanId").val();
+    let amount = $("#amount").val();
+    let paymentDate = $("#paymentDate").val();
+    let loanId = $("#paymentLoanId").val();
 
     if (selectedLoanPaymentId != null) {
       notification(
@@ -455,6 +482,13 @@ $(function () {
 
 });
 
+function populateClientDemographics(client) {
+  localStorage.setItem("clientId", client.id)
+  $("#applicantFirstname").text(client.firstname);
+  $("#applicantLastname").text(client.lastname);
+  $("#applicantGender").text(client.gender);
+}
+
 function populateCollaterals(collaterals) {
   let collateralArray = [];
   collaterals.forEach(function (collateral, index) {
@@ -473,7 +507,7 @@ function populateCollaterals(collaterals) {
 
 function loanApplicationParams() {
   let id = $("#id").val();
-  let client_id = $("#loanAppClientId").val();
+  let client_id = localStorage.getItem("clientId");
   let amount = $("#amount").val();
   let interestId = $("#interestsRates option:selected").val();
   let purpose = $("#purpose").val();

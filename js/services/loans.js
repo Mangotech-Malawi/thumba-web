@@ -70,6 +70,17 @@ export function updateApplication(params) {
   );
 }
 
+export function deleteApplication(params) {
+  return apiClient(
+    "/api/v1/application/delete",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function addLoan(params) {
   return apiClient(
     "/api/v1/loans/new",
@@ -223,63 +234,86 @@ function loadLoanApplications(dataset) {
     data: dataset,
     columns: [
       { data: "id" },
+      { data: null },
+      { data: null },
       { data: "interest_name" },
-      { data: null },
-      { data: null },
-      { data: "status_name" },
-      { data: "amount" },
       { data: "rate" },
+      { data: "amount" },
       { data: null },
       { data: null },
       { data: null },
-      { data: null },
+      { data: null }
     ],
+
     columnDefs: [
       {
-        render: getFirstname,
+
+        render: getApplicant,
+        data: null,
+        targets: [1],
+      },
+      {
+        render: getClientType,
         data: null,
         targets: [2],
       },
       {
-        render: getLastname,
-        data: null,
-        targets: [3],
-      },
-
-      {
         render: getGuarantorsBtn,
         data: null,
-        targets: [7],
+        targets: [6],
       },
       {
         render: getAnalyseRiskBtn,
         data: null,
-        targets: [8],
+        targets: [7],
       },
       {
         render: getApplicationUpdateBtn,
         data: null,
-        targets: [9],
+        targets: [8],
       },
       {
         render: getApplicationDelBtn,
         data: null,
-        targets: [10],
+        targets: [9],
       },
     ],
   });
 }
 
 
+function getApplicant(data, type, row, metas) {
+  if (data == null || data.borrower == null) {
+    return "N/A"; // or some other default value
+  }
+  let applicant = data.borrower.applicant;
+  if (typeof applicant === "undefined") {
+    return "N/A"; // or some other default value
+  }
+  return applicant;
+}
+
+function getClientType(data, type, row, metas) {
+  if (data == null || data.borrower == null) {
+    return "N/A"; // or some other default value
+  }
+
+  let applicant = data.borrower.client_type;
+  if (typeof applicant === "undefined") {
+    return "N/A"; // or some other default value
+  }
+  return applicant;
+}
+
 function getFirstname(data, type, row, metas) {
   if (data == null || data.borrower == null) {
     return "N/A"; // or some other default value
   }
-  let firstname = data.borrower.firstname;
-  if (typeof firstname === "undefined") {
+  let lastname = data.borrower.lastname;
+  if (typeof lastname === "undefined") {
     return "N/A"; // or some other default value
   }
-  return firstname;
+  return lastname
 }
 
 function getLastname(data, type, row, metas) {
@@ -299,7 +333,7 @@ function getGuarantorsBtn(data, type, row, metas) {
     data-lastname = "${data.borrower.lastname}" 
     data-action-type = "gurantors"`;
 
-  return getButton(dataFields, "guarantors", "success", "fas fa-users");
+  return getButton(dataFields, "guarantors", "default", "fas fa-users");
 }
 
 function getAnalyseRiskBtn(data, type, row, metas) {
@@ -307,13 +341,13 @@ function getAnalyseRiskBtn(data, type, row, metas) {
     data-collaterals = "${data.collaterals}" 
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "risk-calculator", "info", "fas fa-chart-bar");
+  return getButton(dataFields, "risk-calculator", "default", "fas fa-chart-bar");
 }
 
 function getApplicationUpdateBtn(data, type, row, metas) {
   let collaterals = JSON.stringify(data.collaterals);
   let dataFields = `data-id = "${data.id}"
-                    data-loan-app-client-id = "${data.client_id}"
+                    data-loan-app-client-id = "${data.borrower.identifier}"
                     data-applicant-firstname = "${data.borrower.firstname}"
                     data-applicant-lastname = "${data.borrower.lastname}"
                     data-applicant-gender = "${data.borrower.gender}"
@@ -322,13 +356,13 @@ function getApplicationUpdateBtn(data, type, row, metas) {
                     data-collaterals = '${collaterals}'
                     data-action-type = "edit"`;
 
-  return getButton(dataFields, "loan-application", "default", "fas fa-edit");
+  return getButton(dataFields, "loan-application", "primary", "fas fa-edit");
 }
 
 function getApplicationDelBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
     data-action-type = "edit"`;
-  return getButton(dataFields, "client-business", "danger", "fas fa-trash");
+  return getButton(dataFields, "", "danger delete-loan-application", "fas fa-trash del");
 }
 
 function loadWaitingApplications(dataset) {
