@@ -119,7 +119,7 @@ export const content_view = [
   },
   {
     title: "Dumped Applications",
-    link: "views/loans/done.html",
+    link: "views/loans/dumped.html",
     state: "dumped_applications",
     modals: ["views/modals/user.html","views/modals/loans.html"]
   },
