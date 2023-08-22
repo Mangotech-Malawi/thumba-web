@@ -125,7 +125,7 @@ $(function () {
   });
 
   $(document).on("click", "#statusDumped", function (e) {
-    $.when(loadApplicationStatusView("views/loans/dumped.html"), "dumped_applications").done(
+    $.when(loadApplicationStatusView("views/loans/dumped.html", "dumped_applications")).done(
       function () {
         loans.fetchLoanApplications({ status_name: "DUMPED" });
       });
@@ -195,7 +195,7 @@ $(function () {
 
     let opener = e.relatedTarget;
     $("#guarantorModalTitle").text(
-      `${$(opener).attr("data-firstname")} ${$(opener).attr(
+      `${$(opener).attr("data-applicant")} ${$(opener).attr(
         "data-lastname"
       )} Guarantors`
     );
