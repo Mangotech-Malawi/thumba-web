@@ -24,6 +24,8 @@ $(function () {
   if (localStorage.getItem("loanPaymentDataset") != null && typeof localStorage != undefined) {
     currentLoanPaymentDataset = JSON.parse(localStorage.getItem("loanPaymentDataset"));
     loan_id = currentLoanPaymentDataset.loanId;
+    $("#paymentLoanId").val(loan_id);
+    $("#paymentTitle").text(`Loan Payments for ${currentLoanPaymentDataset.applicant}`);
   }
 
   $(document).on("show.bs.modal", applicationModal, function (e) {
@@ -222,8 +224,8 @@ $(function () {
   $(document).on("show.bs.modal", approveModal, function (e) {
     let opener = e.relatedTarget;
     loanApplicationId = $(opener).attr("data-loan-application-id");
-    let firstname = $(opener).attr("data-firstname");
-    let lastname = $(opener).attr("data-lastname");
+    let applicant = $(opener).attr("data-applicant");
+    let clientType = $(opener).attr("data-client-type");
     let gender = $(opener).attr("data-gender");
     let amount = $(opener).attr("data-amount");
     let rate = $(opener).attr("data-rate");
@@ -238,8 +240,8 @@ $(function () {
     let repaymentAmount = interest + parseFloat(amount)
 
     $("#approveLoanAppId").val(loanApplicationId);
-    $("#approve-fullname").text(`${firstname} ${lastname}`);
-    $("#approve-gender").text(gender);
+    $("#approve-applicant").text(`${applicant}`);
+    $("#approve-client-type").text(`${clientType}`);
     $("#approve-amount").text(amount);
     $("#approve-rate").text(rate);
     $("#approve-interest").text(interest);
@@ -275,7 +277,7 @@ $(function () {
       JSON.stringify(currentLoanPaymentDataset));
 
     loan_id = $(this).data().loanId;
-    let headerText = `Loan Payments for ${$(this).data().firstname} ${$(this).data().lastname}`;
+    let headerText = `Loan Payments for ${$(this).data().applicant}`;
 
     $.when(loadRecord("views/loans/loan_payments.html", "loan_payments")).done(
       function () {
