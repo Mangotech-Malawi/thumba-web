@@ -549,12 +549,12 @@ function loadLoans(dataset) {
     ],
     columnDefs: [
       {
-        render: getFirstname,
+        render: getApplicant,
         data: null,
         targets: [1],
       },
       {
-        render: getLastname,
+        render: getClientType,
         data: null,
         targets: [2],
       },
@@ -584,8 +584,8 @@ function loadLoans(dataset) {
 
 function getPayBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
-                    data-firstname = "${data.borrower.firstname}"
-                    data-lastname = "${data.borrower.lastname}"`;
+                    data-applicant = "${data.borrower.applicant}"
+                    `;
 
   return getButton(dataFields, "", "secondary loan-payments", "fas fa-handshake");
 }
