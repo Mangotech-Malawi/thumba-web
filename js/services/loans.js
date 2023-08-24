@@ -15,7 +15,7 @@ export function fetchLoanApplications(params) {
       loadWaitingApplications(data);
     else if (params.status_name === "DONE")
       loadDoneApplications(data)
-    else if (params.status_name === "DUMP")
+    else if (params.status_name === "DUMPED")
       loadDumpedApplications(data)
   });
 
@@ -73,6 +73,17 @@ export function updateApplication(params) {
 export function deleteApplication(params) {
   return apiClient(
     "/api/v1/application/delete",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
+export function dumpApplication(params) {
+  return apiClient(
+    "/api/v1/application/dump",
     "POST",
     "json",
     false,
@@ -427,7 +438,7 @@ function getApproveBtn(data, type, row, metas) {
 function getDumpBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
   data-action-type = "edit"`;
-  return getButton(dataFields, "dump", "danger", "fas fa-trash");
+  return getButton(dataFields, "dump-application", "danger", "fas fa-trash");
 }
 
 
@@ -501,12 +512,12 @@ function loadDumpedApplications(dataset) {
       {
         render: getApplicant,
         data: null,
-        targets: [2],
+        targets: [1],
       },
       {
         render: getClientType,
         data: null,
-        targets: [3],
+        targets: [2],
       },
       {
         render: getGrade,
