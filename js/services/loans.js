@@ -427,7 +427,7 @@ function getApproveBtn(data, type, row, metas) {
 function getDumpBtn(data, type, row, metas) {
   let dataFields = `data-loan-application-id = "${data.id}"
   data-action-type = "edit"`;
-  return getButton(dataFields, "dump", "danger", "fas fa-trash");
+  return getButton(dataFields, "dump-application", "danger", "fas fa-trash");
 }
 
 
