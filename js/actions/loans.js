@@ -101,7 +101,7 @@ $(function () {
           populateCollaterals(client.assets);
           localStorage.setItem("clientId", client.id);
           $("#applicantName").text(client.applicantName);
-          $("#applicantType").text(client.applicantName);
+          $("#applicantType").text(client.applicantType);
         }
       });
   });
@@ -280,19 +280,21 @@ $(function () {
     let loanApplicationId = $("#dumpLoanApplicationId").val();
     let dumpingReason = $("#dumpingReason").val();
 
-    notification(
-      loans.dumpApplication({
-        loan_application_id: loanApplicationId,
-        reason: dumpingReason
-      }).dumped,
-      "center",
-      "success",
-      "dumped",
-      "Dumped Loan Application",
-      "Loan application has been dumped successfully",
-      true,
-      3000
-    )
+    if (form.validateDumpLoanForm()) {
+      notification(
+        loans.dumpApplication({
+          loan_application_id: loanApplicationId,
+          reason: dumpingReason
+        }).dumped,
+        "center",
+        "success",
+        "dumped",
+        "Dumped Loan Application",
+        "Loan application has been dumped successfully",
+        true,
+        3000
+      )
+    }
   })
 
   $(document).on("click", ".loan-payments", function (e) {
