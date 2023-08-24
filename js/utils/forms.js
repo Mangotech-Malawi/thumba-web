@@ -133,6 +133,19 @@ export function validateLoanApplicationFormData() {
   return validData;
 }
 
+export function validateDumpLoanForm(){
+  formElements = []
+
+  let validData = false;
+  pushFormElements("description", "#dumpingReason", true, "Dumping Reason");
+
+  $.when(validate(formElements)).done(function (value){
+    validData = value
+  });
+
+  return validData;
+}
+
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
     type: type,
