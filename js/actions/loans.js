@@ -8,9 +8,9 @@ import * as form from "../utils/forms.js";
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
 const approveModal = "#modal-approve";
-const loanPaymentModal = "#modal-loan-payments";
 const collateralSeizureModal = "#modal-seized-collateral";
 const sellCollateralModal = "#modal-sell-collateral";
+const dumpApplicationModal = "#modal-dump-application";
 
 let loanApplicationId;
 let selectedLoanPaymentId = null;
@@ -264,12 +264,36 @@ $(function () {
       "center",
       "success",
       "approve",
-      "Appprov Loan Application",
+      "Appprove Loan Application",
       "Loan application has been approved successfully",
       true,
       3000
     );
   });
+
+  $(document).on("show.bs.modal", dumpApplicationModal, function (e) {
+    let opener = e.relatedTarget;
+    $("#dumpLoanApplicationId").val($(opener).attr("data-loan-application-id"));
+  });
+
+  $(document).on("click", "#dumpLoanApplicationBtn", function (e) {
+    let loanApplicationId = $("#dumpLoanApplicationId").val();
+    let dumpingReason = $("#dumpingReason").val();
+
+    notification(
+      loans.dumpApplication({
+        loan_application_id: loanApplicationId,
+        reason: dumpingReason
+      }).dumped,
+      "center",
+      "success",
+      "dumped",
+      "Dumped Loan Application",
+      "Loan application has been dumped successfully",
+      true,
+      3000
+    )
+  })
 
   $(document).on("click", ".loan-payments", function (e) {
     currentLoanPaymentDataset = this.dataset;
@@ -608,6 +632,11 @@ function notification(
         case "approve":
           $.when(loans.fetchLoanApplications({ status_name: "WAITING" })).done(function () {
             $(approveModal).modal("hide");
+          });
+          break;
+        case "dumped":
+          $.when(loans.fetchLoanApplications({ status_name: "DUMPED" })).done(function () {
+            $(dumpApplicationModal).modal("hide");
           });
           break;
         case "loan-payment":
