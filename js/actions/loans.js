@@ -325,42 +325,46 @@ $(function () {
   });
 
   $(document).on("click", "#saveLoanPaymentBtn", function (e) {
-    let amount = $("#amount").val();
-    let paymentDate = $("#paymentDate").val();
-    let loanId = $("#paymentLoanId").val();
 
-    if (selectedLoanPaymentId != null) {
-      notification(
-        loans.updateLoanPayment({
-          loan_id: loanId,
-          loan_payment_id: selectedLoanPaymentId,
-          paid_amount: amount,
-          payment_date: paymentDate
-        }).updated,
-        "center",
-        "success",
-        "loan-payment",
-        "Edit Loan Payment",
-        "Loan payment has updated been updated successfully",
-        true,
-        3000
-      );
-    } else {
-      notification(
-        loans.addLoanPayment({
-          loan_id: loanId,
-          paid_amount: amount,
-          payment_date: paymentDate
-        }).created,
-        "center",
-        "success",
-        "loan-payment",
-        "Add Loan Payment",
-        "Loan payment has been done successfully",
-        true,
-        3000
-      );
+    if (form.validateLoanPaymentForm()) {
+      let amount = $("#amount").val();
+      let paymentDate = $("#paymentDate").val();
+      let loanId = $("#paymentLoanId").val();
+
+      if (selectedLoanPaymentId != null) {
+        notification(
+          loans.updateLoanPayment({
+            loan_id: loanId,
+            loan_payment_id: selectedLoanPaymentId,
+            paid_amount: amount,
+            payment_date: paymentDate
+          }).updated,
+          "center",
+          "success",
+          "loan-payment",
+          "Edit Loan Payment",
+          "Loan payment has updated been updated successfully",
+          true,
+          3000
+        );
+      } else {
+        notification(
+          loans.addLoanPayment({
+            loan_id: loanId,
+            paid_amount: amount,
+            payment_date: paymentDate
+          }).created,
+          "center",
+          "success",
+          "loan-payment",
+          "Add Loan Payment",
+          "Loan payment has been done successfully",
+          true,
+          3000
+        );
+      }
     }
+
   });
 
   $(document).on("click", ".edit-loan-payment", function (e) {
@@ -401,25 +405,28 @@ $(function () {
   });
 
   $(document).on("click", "#seizeCollateralBtn", function (e) {
-    let collaterals = $("#corraterals").val();
-    let collateralsArray = new Array();
+    if(form.validateSeizeCollateralForm()){
+      let collaterals = $("#corraterals").val();
+      let collateralsArray = new Array();
 
-    collaterals.forEach(function (collateral, index) {
-      collateralsArray.push(collateral);
-    });
+      collaterals.forEach(function (collateral, index) {
+        collateralsArray.push(collateral);
+      });
 
-    notification(
-      loans.addCollateralSeizure({
-        collateral_ids: collateralsArray,
-      }).created,
-      "center",
-      "success",
-      "collateral-seizure",
-      "Add Loan Collateral Seizure",
-      "Collateral Seizure has been added successfully",
-      true,
-      3000
-    );
+      notification(
+        loans.addCollateralSeizure({
+          collateral_ids: collateralsArray,
+        }).created,
+        "center",
+        "success",
+        "collateral-seizure",
+        "Add Loan Collateral Seizure",
+        "Collateral Seizure has been added successfully",
+        true,
+        3000
+      );
+    }
+    
   });
 
   $(document).on("show.bs.modal", sellCollateralModal, function (e) {
