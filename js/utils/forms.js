@@ -133,13 +133,66 @@ export function validateLoanApplicationFormData() {
   return validData;
 }
 
-export function validateDumpLoanForm(){
+export function validateDumpLoanForm() {
   formElements = []
 
   let validData = false;
   pushFormElements("description", "#dumpingReason", true, "Dumping Reason");
 
-  $.when(validate(formElements)).done(function (value){
+  $.when(validate(formElements)).done(function (value) {
+    validData = value
+  });
+
+  return validData;
+}
+
+export function validateLoanPaymentForm() {
+  formElements = []
+
+  let validData = false;
+  pushFormElements("moneyAmount", "#amount", true, "Payment Amount");
+  pushFormElements("startDate", "#paymentDate", true, "Payment Date");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value
+  });
+
+  return validData;
+}
+
+export function validateSeizeCollateralForm() {
+  formElements = []
+
+  let validData = false
+  pushFormElements("", "#corraterals", true, "Corraterals");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value
+  });
+
+  return validData;
+}
+
+export function validateInvestmentPackageForm(){
+  formElements = []
+
+  let validData = false
+  
+  pushFormElements("alphabeticStringWithSpace", "#packageName", true, "Package Name");
+  pushFormElements("", "#packageType", true, "Package Type");
+  pushFormElements("moneyAmount", "#minAmount", true, "Minimum Amount");
+  pushFormElements("moneyAmount", "#maxAmount", true, "Maximum Amount");
+  pushFormElements("positiveDoubleNumber", "#interestRate", true, "Interest Rate");
+  pushFormElements("", "#interestRateFrequency", true, "Interest Rate Frequency");
+  pushFormElements("integer", "duration", true, "Interest Rate Frequency");
+  pushFormElements("", "#currency", true, "Package Type");
+  pushFormElements("description", "#requirements", true, "Requirements");
+  pushFormElements("description", "#termsAndConditions", true, "Terms and Conditions");
+  pushFormElements("description", "#payoutSchedule", true, "Payout Schedule");
+  pushFormElements("", "#riskLevel", true, "Risk Level");
+  
+
+  $.when(validate(formElements)).done(function (value) {
     validData = value
   });
 
