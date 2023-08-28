@@ -1,11 +1,13 @@
 import * as investment from "../services/investments.js";
 import * as user from "../services/users.js";
+import * as form from "../utils/forms.js";
 
 const investmentModal = "#modal-investment";
 const investmentPackageModal = "#modal-investiment-package";
 
 $(function () {
     $(document).on("click", "#saveInvestmentPackageBtn", function (e) {
+        if(form.validateInvestmentPackageForm())
         if ($("#investmentPackageModalTitle").text() === "Add Investment Package") {
             notification(
                 investment.addInvestmentPackage(getInvestmentPackageParams()).created,
