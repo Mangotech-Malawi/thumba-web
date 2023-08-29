@@ -1,6 +1,8 @@
 import * as expense from "../services/expenses.js";
 const expenseModal = "#modal-expense";
 
+import { validateExpenseForm } from "../utils/forms.js";
+
 $(function () {
     $(document).on("show.bs.modal", expenseModal, function (e) {
         let opener = e.relatedTarget;
@@ -18,28 +20,30 @@ $(function () {
     });
 
     $(document).on("click", "#saveExpenseBtn", function (e) {
-        if ($("#expenseModalTitle").text() === "Edit Expense") {
-            notification(
-                expense.edit(getExpenseParams()).updated,
-                "center",
-                "success",
-                "expense",
-                "Edit expense",
-                "Expense has been edited successfully",
-                true,
-                3000
-            )
-        } else {
-            notification(
-                expense.add(getExpenseParams()).created,
-                "center",
-                "success",
-                "expense",
-                "Add expense",
-                "Expense has been added successfully",
-                true,
-                3000
-            )
+        if (validateExpenseForm()) {
+            if ($("#expenseModalTitle").text() === "Edit Expense") {
+                notification(
+                    expense.edit(getExpenseParams()).updated,
+                    "center",
+                    "success",
+                    "expense",
+                    "Edit expense",
+                    "Expense has been edited successfully",
+                    true,
+                    3000
+                )
+            } else {
+                notification(
+                    expense.add(getExpenseParams()).created,
+                    "center",
+                    "success",
+                    "expense",
+                    "Add expense",
+                    "Expense has been added successfully",
+                    true,
+                    3000
+                )
+            }
         }
     });
 
@@ -51,7 +55,7 @@ $(function () {
         let id = $(this).data().delExpenseId;
 
         notification(
-            expense.deleteExpense({ id: id}).deleted,
+            expense.deleteExpense({ id: id }).deleted,
             "center",
             "success",
             "expense",
@@ -70,16 +74,16 @@ function getExpenseParams() {
     let description = $("#description").val();
 
     let params = {
-                id: id,
-                amount: amount,
-                category: category,
-                description: description,
-              };
+        id: id,
+        amount: amount,
+        category: category,
+        description: description,
+    };
 
     return params;
 }
 
-function notification(   
+function notification(
     isDone,
     position,
     icon,
