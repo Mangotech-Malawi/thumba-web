@@ -231,6 +231,16 @@ export function validateExpenseForm() {
   return validData;
 }
 
+export function validateUserRegistrationForm(){
+  pushFormElements("personName", "#username", true, "Username");
+  pushFormElements("personName", "#firstname", true, "Firstname");
+  pushFormElements("personName", "#lastname", true, "Lastname");
+  pushFormElements("nationalId", "#nationalId", true, "National ID");
+  pushFormElements("email", "#email", true, "Email");
+  pushFormElements("", "#role", true, "User Role");
+
+} 
+
 
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
