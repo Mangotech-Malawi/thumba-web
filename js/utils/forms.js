@@ -184,7 +184,7 @@ export function validateInvestmentPackageForm(){
   pushFormElements("moneyAmount", "#maxAmount", true, "Maximum Amount");
   pushFormElements("positiveDoubleNumber", "#interestRate", true, "Interest Rate");
   pushFormElements("", "#interestRateFrequency", true, "Interest Rate Frequency");
-  pushFormElements("integer", "duration", true, "Interest Rate Frequency");
+  pushFormElements("integer", "#duration", true, "Investment Package Duration");
   pushFormElements("", "#currency", true, "Package Type");
   pushFormElements("description", "#requirements", true, "Requirements");
   pushFormElements("description", "#termsAndConditions", true, "Terms and Conditions");
