@@ -110,7 +110,7 @@ export function validate(formElements) {
 
             if(element.type === "positiveDoubleNumber"){
                 if (!validatePositiveDoubleNumber(inputVal)) {
-                    showError(element.name, `${element.name} can only be an deci`);
+                    showError(element.name, `${element.name} can only be a positive decimal figure`);
                     valid =  false; // Break the loop if validation fails
                 }
             }
