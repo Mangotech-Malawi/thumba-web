@@ -204,11 +204,26 @@ export function validateInvestmentForm() {
 
   let validData = false;
 
-  pushFormElements("", "#investorId", true, "Investor");
-  pushFormElements("", "#investmentPackageId", true, "Investment Package");
+  pushFormElements("", "#category", true, "Expense Category");
   pushFormElements("moneyAmount", "#amount", true, "Investment Amount");
   pushFormElements("startDate", "#investmentDate", true, "Investment Date");
-  
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
+export function validateExpenseForm() {
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("moneyAmount", "#amount", true, "Expense Amount");
+  pushFormElements("", "#category", true, "Expense Category");
+  pushFormElements("description", "#description", true, "Description");
+
   $.when(validate(formElements)).done(function (value) {
     validData = value;
   });
