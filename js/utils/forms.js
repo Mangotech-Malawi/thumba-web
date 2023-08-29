@@ -173,11 +173,11 @@ export function validateSeizeCollateralForm() {
   return validData;
 }
 
-export function validateInvestmentPackageForm(){
+export function validateInvestmentPackageForm() {
   formElements = []
 
   let validData = false
-  
+
   pushFormElements("alphabeticStringWithSpace", "#packageName", true, "Package Name");
   pushFormElements("", "#packageType", true, "Package Type");
   pushFormElements("moneyAmount", "#minAmount", true, "Minimum Amount");
@@ -190,7 +190,7 @@ export function validateInvestmentPackageForm(){
   pushFormElements("description", "#termsAndConditions", true, "Terms and Conditions");
   pushFormElements("description", "#payoutSchedule", true, "Payout Schedule");
   pushFormElements("", "#riskLevel", true, "Risk Level");
-  
+
 
   $.when(validate(formElements)).done(function (value) {
     validData = value
@@ -198,6 +198,24 @@ export function validateInvestmentPackageForm(){
 
   return validData;
 }
+
+export function validateInvestmentForm() {
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("", "#investorId", true, "Investor");
+  pushFormElements("", "#investmentPackageId", true, "Investment Package");
+  pushFormElements("moneyAmount", "#amount", true, "Investment Amount");
+  pushFormElements("startDate", "#investmentDate", true, "Investment Date");
+  
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
 
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({

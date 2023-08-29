@@ -96,7 +96,7 @@ $(function () {
                         '<option value ="',
                         users[i].id,
                         '">',
-                        `${users[i].firstname} ${users[i].lastname} `,
+                        `National ID: ${users[i].national_id } | Initials: ${users[i].firstname}  ${users[i].lastname} `,
                         "</option>"
                     );
                 }
@@ -118,29 +118,32 @@ $(function () {
     });
 
     $(document).on("click", "#saveInvestmentBtn", function (e) {
-        if ($("#investmentModalTitle").text() === "Add Investment") {
-            notification(
-                investment.addInvestment(getInvestmentParams()).created,
-                "center",
-                "success",
-                "investment",
-                "Add Investment",
-                "Investment has been added successfully",
-                true,
-                3000
-            );
-        } else if ($("#investmentModalTitle").text() === "Edit Investment") {
-            notification(
-                investment.editInvestment(getInvestmentParams()).updated,
-                "center",
-                "success",
-                "investment",
-                "Edit Investment",
-                "Investment has been edited successfully",
-                true,
-                3000
-            );
+        if(form.validateInvestmentForm()){
+            if ($("#investmentModalTitle").text() === "Add Investment") {
+                notification(
+                    investment.addInvestment(getInvestmentParams()).created,
+                    "center",
+                    "success",
+                    "investment",
+                    "Add Investment",
+                    "Investment has been added successfully",
+                    true,
+                    3000
+                );
+            } else if ($("#investmentModalTitle").text() === "Edit Investment") {
+                notification(
+                    investment.editInvestment(getInvestmentParams()).updated,
+                    "center",
+                    "success",
+                    "investment",
+                    "Edit Investment",
+                    "Investment has been edited successfully",
+                    true,
+                    3000
+                );
+            }
         }
+    
     });
 
     $(document).on("click", ".delete-investment", function (e) {

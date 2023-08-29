@@ -148,6 +148,7 @@ function validateMoneyAmount(amount) {
 }
 
 
+
 function validateDateOfBirth(dateString) {
     // Create a regular expression to match the date format "YYYY-MM-DD"
 
