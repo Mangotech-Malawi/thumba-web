@@ -3,45 +3,19 @@ import { apiClient } from "./api-client.js";
 
 let token = sessionStorage.getItem("token");
 
-export function add(national_id, username, firstname, lastname, email, role) {
-
-  let user_data = {
-    national_id: national_id,
-    username: username,
-    firstname: firstname,
-    lastname: lastname,
-    email: email,
-    role: role,
-  };
-
-  return apiClient("/api/v1/new_user", "POST", "json", false, false, user_data);
+export function add(params) {
+  return apiClient("/api/v1/new_user", "POST", "json", false, false, params);
 }
 
-export function edit(
-  user_id,
-  national_id,
-  username,
-  firstname,
-  lastname,
-  email,
-  role
-) {
-  let user_data = {
-    user_id: user_id,
-    national_id: national_id,
-    username: username,
-    firstname: firstname,
-    lastname: lastname,
-    email: email,
-    role: role,
-  };
+export function edit(params) {
+
   return apiClient(
     "/api/v1/edit_user",
     "POST",
     "json",
     false,
     false,
-    user_data
+    params
   );
 }
 
@@ -92,10 +66,17 @@ export function delete_user(user_id) {
 }
 
 export function fetchUsers() {
-  return apiClient("/api/v1/users", "GET", "json", false, false, {});
+ 
+  let data = apiClient("/api/v1/users", "GET", "json", false, false, {});
+
+  if (data != null) {
+    loadUsersTable(data);
+  }
+
+  return data;
 }
 
-export function loadUsersTable(dataset) {
+function loadUsersTable(dataset) {
   $("#usersTable").DataTable({
     destroy: true,
     responsive: true,
@@ -141,7 +122,7 @@ function getDelButton(data, type, row, meta) {
 
 function getEditButton(data, type, row, meta) {
   return `<button  type="button"  class="btn btn-block btn-default"
-    data-toggle="modal" data-target = "#modal-edit-user"
+    data-toggle="modal" data-target = "#modal-register-user"
     data-user-id = "${data.id}"
     data-national-id = "${data.national_id}"
     data-username = "${data.username}"
