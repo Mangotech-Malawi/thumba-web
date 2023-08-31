@@ -232,13 +232,22 @@ export function validateExpenseForm() {
 }
 
 export function validateUserRegistrationForm(){
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("nationalId", "#nationalId", true, "National ID");
   pushFormElements("personName", "#username", true, "Username");
   pushFormElements("personName", "#firstname", true, "Firstname");
   pushFormElements("personName", "#lastname", true, "Lastname");
-  pushFormElements("nationalId", "#nationalId", true, "National ID");
   pushFormElements("email", "#email", true, "Email");
   pushFormElements("", "#role", true, "User Role");
 
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
 } 
 
 

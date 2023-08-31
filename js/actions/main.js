@@ -1,6 +1,6 @@
 // A token will be used to access data from server
+$(function () {
 
-$(document).ready(function () {
 
   var touchStartY;
   var touchStartTime;
@@ -10,6 +10,8 @@ $(document).ready(function () {
     touchStartY = event.originalEvent.touches[0].clientY;
     touchStartTime = Date.now();
   });
+
+  $("#lbl-username").text(sessionStorage.getItem("username"));
 
   $(window).on('touchmove', { passive: false }, function (event) {
     var touchCurrentY = event.originalEvent.touches[0].clientY;
