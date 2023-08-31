@@ -177,7 +177,7 @@ function loadOtherContent(state, index) {
 
       switch (state) {
         case "users":
-          users.loadUsersTable(users.fetchUsers());
+          users.fetchUsers();
           break;
         case "individual":
           client.fetchClientsData(state);
