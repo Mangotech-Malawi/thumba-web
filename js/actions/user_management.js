@@ -1,74 +1,51 @@
 import * as users from "../services/users.js";
-
-import { selectContent } from "../actions/switcher.js"
-
-import { notify } from "../services/utils.js"
-import { fetchLoans } from "../services/loans.js";
-import { validateUserRegistrationForm } from "../utils/forms.js"
+import * as form from "../utils/forms.js"
 
 let formType;
-let addedUsers = 0;
 
-$(document).ready(function () {
+$(function () {
 
     $("#lbl-username").text(sessionStorage.getItem("username"));
 
-    $(document).on('click', '#add-user', function (e) {
-        if (validateUserRegistrationForm()) {
-            let username = $("#username").val();
-            let firstname = $("#firstname").val();
-            let lastname = $("#lastname").val();
-            let national_id = $("#nationalId").val();
-            let email = $("#email").val();
-            let role = $("#role").val();
-
+    $(document).on("click", "#add-user", function (e) {
+        if (form.validateUserRegistrationForm()) {
             if (formType === 'add') {
-                $.when(users.add(national_id, username, firstname, lastname, email, role)).done(
-                    function (result) {
-                        if (result != null) {
-                            clearFields();
-                            users.loadUsersTable(users.fetchUsers());
-                            notify("center", "success", "Added User",
-                                `User has been deleted successfully (Keep the following default
-                                     password   ${result.password} `, true, 50000);
-                            $("#modal-edit-user").modal("hide");
-
-                        }
-                    }
-                )
+                notification(
+                    users.add(getUserParams()).created,
+                    "center",
+                    "success",
+                    "users",
+                    "Add User",
+                    "User has been added successfully",
+                    true,
+                    3000
+                );
             } else {
-                let user_id = $("#userId").val();
-                let resp = users.edit(user_id, national_id, username, firstname, lastname, email, role);
-                if (resp != null) {
-                    if (resp.updated) {
-                        $("#modal-edit-user").modal('hide');
-                        notify("center", "success", "Edit user", "User has been edited successfully", true, 50000);
-                        users.loadUsersTable(users.fetchUsers());
-                    }
-                }
+                notification(
+                    users.edit(getUserParams()).updated,
+                    "center",
+                    "success",
+                    "users",
+                    "Edit User",
+                    "User has been added successfully",
+                    true,
+                    3000
+                );
             }
         }
-
-
-
     });
 
-    $(document).on('show.bs.modal', '#modal-edit-user', function (e) {
+    $(document).on('show.bs.modal', '#modal-register-user', function (e) {
+        clearFields();
         let opener = e.relatedTarget;
         formType = $(opener).attr('data-button-type');
 
         //Checking if the button clicked was a edit or add
         if (formType === 'add') {
             $('.modal-title').text("Add User");
-            $('#add-user').text("Add");
-            $('.alt-btn').removeAttr("data-dismiss");
-            $('.alt-btn').text("Finish");
         } else {
-            $('#add-user').text("Save");
-            $('.alt-btn').attr("data-dismiss", "modal");
-            $('.alt-btn').text("Close");
-            $('.modal-title').text("Edit User");
-            let $userModal = $('#modal-edit-user');
+            $('.modal-title').text("Edit User")
+            let $userModal = $('#modal-register-user');
 
             $.each(opener.dataset, function (key, value) {
                 $userModal.find(`[id = '${key}']`).val(value);
@@ -76,21 +53,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on("click", '.alt-btn', function () {
-        if (addedUsers > 0) {
-            $("#modal-edit-user").modal('hide');
-            notify("center", "success", "Add user", "You have succesfully added " + addedUsers +
-                " user(s)", false, 6000);
-            selectContent("users");
-        } else {
-            $("#modal-edit-user").modal('hide');
-        }
-    })
-
-    $(document).on('hide.bs.modal', '#modal-edit-user', function (e) {
-        clearFields();
-    });
-
+   
     $(document).on('show.bs.modal', '#modal-delete-user', function (e) {
 
         let opener = e.relatedTarget;
@@ -106,8 +69,8 @@ $(document).ready(function () {
         let resp = users.delete_user($("#del-user-id").val());
         if (resp.deleted) {
             $("#modal-delete-user").modal('hide');
-            notify("center", "success", "Deleted User", "User has been deleted successfully", false, 1500);
-            users.loadUsersTable(users.fetchUsers());
+            //notify("center", "success", "Deleted User", "User has been deleted successfully", false, 1500);
+
         }
     });
 
@@ -118,7 +81,6 @@ $(document).ready(function () {
             $("#saveProfile").attr('disabled', true);
             $("#newPassword").attr('disabled', true);
             $("#confirmPassword").attr('disabled', true);
-
         });
     });
 
@@ -185,10 +147,10 @@ $(document).ready(function () {
         $.when(users.updateProfile({ user_id: user_id, new_password: newPassword })).done(
             function (data) {
                 if (data.updated) {
-                    notify("center", "success", "Updated Profile", "User has been deleted successfully", false, 1500);
+                   // notify("center", "success", "Updated Profile", "User has been deleted successfully", false, 1500);
                     $("#modal-profile").modal("hide");
                 } else {
-                    notify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
+                   // notify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
                     $("#modal-profile").modal("hide");
                 }
 
@@ -202,6 +164,57 @@ function validatePassword(password) {
     return regex.test(password)
 }
 
+function getUserParams() {
+    let user_id = $("#userId").val();
+    let username = $("#username").val();
+    let firstname = $("#firstname").val();
+    let lastname = $("#lastname").val();
+    let national_id = $("#nationalId").val();
+    let email = $("#email").val();
+    let role = $("#role").val();
+
+    let params = {
+        user_id: user_id,
+        national_id: national_id,
+        username: username,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        role: role
+    }
+
+    return params;
+}
+
+function notification(
+    isDone,
+    position,
+    icon,
+    recordType,
+    title,
+    text,
+    showConfirmButton,
+    timer
+) {
+    if (isDone)
+        $.when(
+            Swal.fire({
+                position: position,
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: showConfirmButton,
+                timer: timer,
+            })
+        ).done(function () {
+            if (recordType === "users") {
+                $.when(users.fetchUsers()).done(function () {
+                    $("#modal-register-user").modal("hide");
+                });
+            }
+        });
+}
+
 function clearFields() {
     $("#username").val("");
     $("#firstname").val("");
@@ -210,3 +223,4 @@ function clearFields() {
     $("#email").val("");
 
 }
+
