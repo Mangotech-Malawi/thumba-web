@@ -248,7 +248,38 @@ export function validateUserRegistrationForm(){
   });
 
   return validData;
-} 
+}
+
+export function validateAnalysisScoreForm(){
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("", "#scoreName", true, "Score Name");
+  pushFormElements("positiveDoubleNumber", "#score", true, "Score");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
+export function validateGradeForm(){
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("alphabeticStringWithSpace", "#name", true, "Grade Name");
+  pushFormElements("integer", "#minimum", true, "Minimum Grade");
+  pushFormElements("integer", "#maximum", true, "Minimum Grade");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
 
 
 function pushFormElements(type, id, isFilled, name) {
