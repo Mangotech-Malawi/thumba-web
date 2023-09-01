@@ -3,7 +3,7 @@ import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
 import { riskResultOptions } from "../services/chartsOptions/risk_results.js";
-
+import { validateAnalysisScoreForm, validateGradeForm } from "../utils/forms.js";
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const riskCalculatorModal = "#modal-risk-calculator";
@@ -89,29 +89,32 @@ $(function () {
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
-    if ($("#scoreModalTitle").text() === "Add Score") {
-      notification(
-        settings.addScore(scoreParams()).created,
-        "center",
-        "success",
-        "score",
-        "Add Analysis Score",
-        "Analyisis score has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#scoreModalTitle").text() === "Edit Score") {
-      notification(
-        settings.editScore(scoreParams()).updated,
-        "center",
-        "success",
-        "score",
-        "Edit Analysis Score",
-        "Analysis score has been updated successfully",
-        true,
-        3000
-      );
+    if (validateAnalysisScoreForm()) {
+      if ($("#scoreModalTitle").text() === "Add Score") {
+        notification(
+          settings.addScore(scoreParams()).created,
+          "center",
+          "success",
+          "score",
+          "Add Analysis Score",
+          "Analyisis score has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#scoreModalTitle").text() === "Edit Score") {
+        notification(
+          settings.editScore(scoreParams()).updated,
+          "center",
+          "success",
+          "score",
+          "Edit Analysis Score",
+          "Analysis score has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
+
   });
 
   $(document).on("show.bs.modal", gradesModal, function (e) {
@@ -128,29 +131,32 @@ $(function () {
   });
 
   $(document).on("click", "#saveGradeBtn", function () {
-    if ($("#gradesModalTitle").text() === "Add Grade") {
-      notification(
-        settings.addGrade(gradeParams()).created,
-        "center",
-        "success",
-        "grade",
-        "Add Analysis Grade",
-        "Analyisis grade has been added successfully",
-        true,
-        3000
-      );
-    } else if ($("#gradesModalTitle").text() === "Edit Grade") {
-      notification(
-        settings.editGrade(gradeParams()).updated,
-        "center",
-        "success",
-        "grade",
-        "Edit Analysis Grade",
-        "Analysis grade has been updated successfully",
-        true,
-        3000
-      );
+    if (validateGradeForm()) {
+      if ($("#gradesModalTitle").text() === "Add Grade") {
+        notification(
+          settings.addGrade(gradeParams()).created,
+          "center",
+          "success",
+          "grade",
+          "Add Analysis Grade",
+          "Analyisis grade has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#gradesModalTitle").text() === "Edit Grade") {
+        notification(
+          settings.editGrade(gradeParams()).updated,
+          "center",
+          "success",
+          "grade",
+          "Edit Analysis Grade",
+          "Analysis grade has been updated successfully",
+          true,
+          3000
+        );
+      }
     }
+
   });
 
   $(document).on("click", "#saveLoanAnalyisBtn", function () {
@@ -247,7 +253,7 @@ function updateRiskResultsChart() {
     parseFloat(
       Number(
         ((totalManualScore + totalAutomaticScore) * 100) /
-          (availableAutomaticScore + availableManualScore)
+        (availableAutomaticScore + availableManualScore)
       ).toFixed(1)
     );
 
@@ -291,21 +297,21 @@ function createManualScoresCheckBoxes(scores) {
   scores.forEach(function (score, index) {
     $("#scores-checkbox-row").append(
       '<div class="col-lg-6 col-sm-6">' +
-        '<div class="card "><div class="card-body">' +
-        '<div class="icheck-primary  icheck-inline ">' +
-        '<input class="manual-score-chkbox" type="checkbox" value="' +
-        score.score +
-        '" id="' +
-        score.id +
-        score.code +
-        '" data-id ="' +
-        score.id +
-        '" /><label for="' +
-        score.id +
-        score.code +
-        '">' +
-        score.description +
-        "</label></div></div></div></div"
+      '<div class="card "><div class="card-body">' +
+      '<div class="icheck-primary  icheck-inline ">' +
+      '<input class="manual-score-chkbox" type="checkbox" value="' +
+      score.score +
+      '" id="' +
+      score.id +
+      score.code +
+      '" data-id ="' +
+      score.id +
+      '" /><label for="' +
+      score.id +
+      score.code +
+      '">' +
+      score.description +
+      "</label></div></div></div></div"
     );
 
     availableManualScore += score.score;
@@ -345,7 +351,7 @@ function notification(
           });
           break;
         case "analysis":
-          $.when(loans.fetchLoanApplications({status_name: "NEW"})).done(function () {
+          $.when(loans.fetchLoanApplications({ status_name: "NEW" })).done(function () {
             $(riskCalculatorModal).modal("hide");
           });
           break;
