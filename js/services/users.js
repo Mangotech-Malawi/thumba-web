@@ -59,10 +59,10 @@ export function updateProfile(params) {
     params);
 }
 
-export function delete_user(user_id) {
-  return apiClient("/api/v1/delete_user", "POST", "json", false, false, {
-    user_id: user_id,
-  });
+export function delete_user(params) {
+  return apiClient("/api/v1/delete_user", "POST", "json", false, false, 
+    params,
+  );
 }
 
 export function fetchUsers() {
