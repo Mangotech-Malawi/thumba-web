@@ -36,7 +36,7 @@ $(function () {
     });
 
     $(document).on('show.bs.modal', '#modal-register-user', function (e) {
-        clearFields();
+        clearFields() 
         let opener = e.relatedTarget;
         formType = $(opener).attr('data-button-type');
 
@@ -53,11 +53,10 @@ $(function () {
         }
     });
 
-   
-    $(document).on('show.bs.modal', '#modal-delete-user', function (e) {
 
+    $(document).on('show.bs.modal', '#modal-delete-user', function (e) {
         let opener = e.relatedTarget;
-        let user_id = $(opener).attr('data-id');
+        let user_id = $(opener).attr('data-id')
         let username = $(opener).attr('data-username');
 
         let modal = $('#modal-delete-user');
@@ -66,12 +65,18 @@ $(function () {
     });
 
     $(document).on('click', '#del-user-btn', function (e) {
-        let resp = users.delete_user($("#del-user-id").val());
-        if (resp.deleted) {
-            $("#modal-delete-user").modal('hide');
-            //notify("center", "success", "Deleted User", "User has been deleted successfully", false, 1500);
+        let user_id = $("#del-user-id").val();
 
-        }
+        notification(
+            users.delete_user({ user_id: user_id }).deleted,
+            "center",
+            "success",
+            "delete-user",
+            "Delete User",
+            "User has been deleted successfully",
+            true,
+            3000
+        );
     });
 
     $(document).on('click', '#settings-link', function (e) {
@@ -147,10 +152,10 @@ $(function () {
         $.when(users.updateProfile({ user_id: user_id, new_password: newPassword })).done(
             function (data) {
                 if (data.updated) {
-                   // notify("center", "success", "Updated Profile", "User has been deleted successfully", false, 1500);
+                    // notify("center", "success", "Updated Profile", "User has been deleted successfully", false, 1500);
                     $("#modal-profile").modal("hide");
                 } else {
-                   // notify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
+                    // notify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
                     $("#modal-profile").modal("hide");
                 }
 
@@ -210,6 +215,10 @@ function notification(
             if (recordType === "users") {
                 $.when(users.fetchUsers()).done(function () {
                     $("#modal-register-user").modal("hide");
+                });
+            } else if (recordType === "delete-user") {
+                $.when(users.fetchUsers()).done(function () {
+                    $("#modal-delete-user").modal("hide");
                 });
             }
         });
