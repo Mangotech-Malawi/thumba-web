@@ -126,6 +126,10 @@ $(document).ready(function () {
     selectContent("expenses");
   });
 
+  $(document).on("click", "loan-report", function (e){
+    selectContent("loan-report");
+  })
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
