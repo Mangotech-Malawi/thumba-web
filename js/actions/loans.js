@@ -137,16 +137,29 @@ $(function () {
   $(document).on("click", "#saveApplicationBtn", function (e) {
     if (form.validateLoanApplicationFormData()) {
       if ($("#loanApplicationTitle").text() === "Add Loan Application") {
-        notification(
-          loans.addApplication(loanApplicationParams()).created,
-          "center",
-          "success",
-          "application",
-          "Add Client Loan Application",
-          "Client application loan has been added successfully",
-          true,
-          3000
-        );
+        if(loans.addApplication(loanApplicationParams()).created){
+          notification(
+            true,
+            "center",
+            "success",
+            "application",
+            "Add Client Loan Application",
+            "Client application loan has been added successfully",
+            true,
+            3000
+          );
+        }else if (loans.addApplication(loanApplicationParams()).has_active_application){
+          notification(
+            true,
+            "center",
+            "error",
+            "application",
+            "Application arleady exist",
+            "Client cannot have more than one application in waiting or new status",
+            true,
+            7000
+          );
+        } 
       } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
         notification(
           loans.updateApplication(loanApplicationParams()).updated,
