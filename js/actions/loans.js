@@ -137,7 +137,7 @@ $(function () {
   $(document).on("click", "#saveApplicationBtn", function (e) {
     if (form.validateLoanApplicationFormData()) {
       if ($("#loanApplicationTitle").text() === "Add Loan Application") {
-        if(loans.addApplication(loanApplicationParams()).created){
+        if (loans.addApplication(loanApplicationParams()).created) {
           notification(
             true,
             "center",
@@ -148,7 +148,7 @@ $(function () {
             true,
             3000
           );
-        }else if (loans.addApplication(loanApplicationParams()).has_active_application){
+        } else if (loans.addApplication(loanApplicationParams()).has_active_application) {
           notification(
             true,
             "center",
@@ -159,7 +159,7 @@ $(function () {
             true,
             7000
           );
-        } 
+        }
       } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
         notification(
           loans.updateApplication(loanApplicationParams()).updated,
@@ -282,6 +282,21 @@ $(function () {
       true,
       3000
     );
+  });
+
+
+  $(document).on("click", ".download-loan-agreement", function (e) {
+
+    $.when(loans.getLoanAgreement()).done(function (htmlContent) {
+      if (htmlContent) {
+        let win = window.open("", "", "");
+        win.document.write(htmlContent.html)
+        win.document.close();
+        win.print();
+      } else {
+        console.error("HTML content is null or empty.");
+      }
+    })
   });
 
   $(document).on("show.bs.modal", dumpApplicationModal, function (e) {
@@ -418,7 +433,7 @@ $(function () {
   });
 
   $(document).on("click", "#seizeCollateralBtn", function (e) {
-    if(form.validateSeizeCollateralForm()){
+    if (form.validateSeizeCollateralForm()) {
       let collaterals = $("#corraterals").val();
       let collateralsArray = new Array();
 
@@ -439,7 +454,7 @@ $(function () {
         3000
       );
     }
-    
+
   });
 
   $(document).on("show.bs.modal", sellCollateralModal, function (e) {
