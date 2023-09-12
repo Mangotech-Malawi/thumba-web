@@ -232,6 +232,17 @@ export function deleteCollateralSale(params) {
   );
 }
 
+export function getLoanAgreement(params){
+  return apiClient(
+    "/api/v1/loan_agreement",
+    "GET",
+    "json",
+    false,
+    false,
+    {}
+  )
+}
+
 
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
@@ -395,14 +406,19 @@ function loadWaitingApplications(dataset) {
         targets: [7],
       },
       {
+        render:  getDownloadLoanAgreementFormBtn, 
+        data: null,
+        targets: [8]
+      },
+      {
         render: getApproveBtn,
         data: null,
-        targets: [8],
+        targets: [9],
       },
       {
         render: getDumpBtn,
         data: null,
-        targets: [9],
+        targets: [10],
       }
     ]
   });
@@ -414,6 +430,25 @@ function getGrade(data, type, row, metas) {
 
 function getRisk(data, type, row, metas) {
   return data.analysis.score_details.risk_percentage;
+}
+
+function getDownloadLoanAgreementFormBtn(data, type, row, metas){
+  let grade = data.analysis.analysis[0];
+  let collaterals = JSON.stringify(data.collaterals);
+  let dataFields = `data-loan-application-id = "${data.id}"
+                    data-applicant = "${data.borrower.applicant}"
+                    data-client-type = "${data.borrower.client_type}" 
+                    data-amount =  "${data.amount}"
+                    data-rate = "${data.rate}"
+                    data-period = "${data.period}"
+                    data-purpose = "${data.purpose}"
+                    data-collaterals = '${collaterals}'
+                    data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
+                    data-grade-name = "${grade.name}"
+                    data-grade-range ="${grade.minimum} - ${grade.maximum}"
+                    data-scores = '${JSON.stringify(data.analysis.score_details.scores)}'`;
+
+  return getButton(dataFields, "", "info download-loan-agreement", "fas fa-download");
 }
 
 function getApproveBtn(data, type, row, metas) {
