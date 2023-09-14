@@ -239,7 +239,7 @@ export function getLoanAgreement(params){
     "json",
     false,
     false,
-    {}
+    params
   )
 }
 
@@ -406,19 +406,14 @@ function loadWaitingApplications(dataset) {
         targets: [7],
       },
       {
-        render:  getDownloadLoanAgreementFormBtn, 
-        data: null,
-        targets: [8]
-      },
-      {
         render: getApproveBtn,
         data: null,
-        targets: [9],
+        targets: [8],
       },
       {
         render: getDumpBtn,
         data: null,
-        targets: [10],
+        targets: [9],
       }
     ]
   });
@@ -430,25 +425,6 @@ function getGrade(data, type, row, metas) {
 
 function getRisk(data, type, row, metas) {
   return data.analysis.score_details.risk_percentage;
-}
-
-function getDownloadLoanAgreementFormBtn(data, type, row, metas){
-  let grade = data.analysis.analysis[0];
-  let collaterals = JSON.stringify(data.collaterals);
-  let dataFields = `data-loan-application-id = "${data.id}"
-                    data-applicant = "${data.borrower.applicant}"
-                    data-client-type = "${data.borrower.client_type}" 
-                    data-amount =  "${data.amount}"
-                    data-rate = "${data.rate}"
-                    data-period = "${data.period}"
-                    data-purpose = "${data.purpose}"
-                    data-collaterals = '${collaterals}'
-                    data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
-                    data-grade-name = "${grade.name}"
-                    data-grade-range ="${grade.minimum} - ${grade.maximum}"
-                    data-scores = '${JSON.stringify(data.analysis.score_details.scores)}'`;
-
-  return getButton(dataFields, "", "info download-loan-agreement", "fas fa-download");
 }
 
 function getApproveBtn(data, type, row, metas) {
@@ -591,6 +567,7 @@ function loadLoans(dataset) {
       { data: "loaned_date" },
       { data: "due_date" },
       { data: null },
+      { data: null },
       { data: null }
     ],
     columnDefs: [
@@ -615,17 +592,30 @@ function loadLoans(dataset) {
         targets: [8],
       },
       {
+        render:  getDownloadLoanAgreementFormBtn, 
+        data: null,
+        targets: [11]
+      },
+      {
         render: getPayBtn,
         data: null,
-        targets: [11],
+        targets: [12],
       },
       {
         render: getSeizeCollaterBtn,
         data: null,
-        targets: [12]
+        targets: [13]
       }
     ]
   });
+}
+
+
+function getDownloadLoanAgreementFormBtn(data, type, row, metas){
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-applicant = "${data.borrower.applicant}"`
+
+  return getButton(dataFields, "", "info download-loan-agreement", "fas fa-download");
 }
 
 function getPayBtn(data, type, row, metas) {
