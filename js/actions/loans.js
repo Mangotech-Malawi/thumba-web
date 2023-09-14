@@ -286,8 +286,9 @@ $(function () {
 
 
   $(document).on("click", ".download-loan-agreement", function (e) {
+    let loan_id = $(this).data().loanId;
 
-    $.when(loans.getLoanAgreement()).done(function (htmlContent) {
+    $.when(loans.getLoanAgreement({loan_id: loan_id})).done(function (htmlContent) {
       if (htmlContent) {
         let win = window.open("", "", "");
         win.document.write(htmlContent.html)
