@@ -232,6 +232,17 @@ export function deleteCollateralSale(params) {
   );
 }
 
+export function getLoanAgreement(params){
+  return apiClient(
+    "/api/v1/loan_agreement",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  )
+}
+
 
 function loadLoanApplications(dataset) {
   $("#newLoanApplicationsTable").DataTable({
@@ -556,6 +567,7 @@ function loadLoans(dataset) {
       { data: "loaned_date" },
       { data: "due_date" },
       { data: null },
+      { data: null },
       { data: null }
     ],
     columnDefs: [
@@ -580,17 +592,30 @@ function loadLoans(dataset) {
         targets: [8],
       },
       {
+        render:  getDownloadLoanAgreementFormBtn, 
+        data: null,
+        targets: [11]
+      },
+      {
         render: getPayBtn,
         data: null,
-        targets: [11],
+        targets: [12],
       },
       {
         render: getSeizeCollaterBtn,
         data: null,
-        targets: [12]
+        targets: [13]
       }
     ]
   });
+}
+
+
+function getDownloadLoanAgreementFormBtn(data, type, row, metas){
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-applicant = "${data.borrower.applicant}"`
+
+  return getButton(dataFields, "", "info download-loan-agreement", "fas fa-download");
 }
 
 function getPayBtn(data, type, row, metas) {

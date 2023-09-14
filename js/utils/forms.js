@@ -204,7 +204,7 @@ export function validateInvestmentForm() {
 
   let validData = false;
 
-  pushFormElements("", "#category", true, "Expense Category");
+  pushFormElements("", "#investmentPackageId", true, "Investment Package Category");
   pushFormElements("moneyAmount", "#amount", true, "Investment Amount");
   pushFormElements("startDate", "#investmentDate", true, "Investment Date");
 
