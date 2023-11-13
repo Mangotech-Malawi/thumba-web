@@ -10,6 +10,11 @@ export function fetchInterests() {
   return data;
 }
 
+export function fetchLoanPackages(){
+  let data = apiClient("/api/v1/interests", "GET", "json", false, false, {});
+  return data;
+}
+
 export function deleteInterest(interest_id) {
   return apiClient("/api/v1/interests/delete", "POST", "json", false, false, {
     interest_id: interest_id,

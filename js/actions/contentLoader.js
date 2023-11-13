@@ -1,4 +1,4 @@
-export function loadContent(containerId, newState, urlPath) {
+export function loadContent(containerId, newState, urlPath, ...args) {
     $.ajax({
       url: urlPath,
       data: {},
@@ -14,7 +14,13 @@ export function loadContent(containerId, newState, urlPath) {
         /*$("#pageTitle").text("");
   
         $("#pageTitle").text(title);*/
-        if (newState != "") localStorage.setItem("state", newState);
+        if(typeof args[0] != undefined || args[0] !== null){
+           if (newState != "") localStorage.setItem("homeState", newState);
+        }
+        else{
+          if (newState != "") localStorage.setItem("state", newState);
+        }
+         
       },
       error: function () {
         /* $(``).append(

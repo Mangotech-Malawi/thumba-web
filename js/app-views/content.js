@@ -193,5 +193,17 @@ export const content_view = [
     link: "views/accounts/expenses.html",
     state: "expenses",
     modals: ["views/modals/expense.html"]
+  },
+  {
+    title: "Home",
+    link: "views/landing-page/home.html",
+    state: "home",
+    modals: [""]
+  },
+  {
+    title: "Loan Packages",
+    link: "views/landing-page/loan-packages.html",
+    state: "loan_packages",
+    modals: [""]
   }
 ];
