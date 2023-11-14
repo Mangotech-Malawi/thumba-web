@@ -27,7 +27,7 @@
     });
 
     $('.loan-form').on('click', function (e) {
-      window.location = "docs/MBI_LOAN_APPLICATION_FORM_2021.pdf";
+      window.location = "site/docs/MBI_LOAN_APPLICATION_FORM_2021.pdf";
     });
 
     $('.contact-us').on('click', function (e) {
