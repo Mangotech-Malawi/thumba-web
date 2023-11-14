@@ -68,12 +68,12 @@ function appendLoanPackage(loan_package) {
         <div class="single_service wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay=".5s">
             <div class="service_icon_wrap text-center">
                 <div class="service_icon ">
-                    <img src="img/svg_icon/service_1.png" alt="">
+                    <img src="/site/img/svg_icon/service_1.png" alt="">
                 </div>
             </div>
             <div class="info text-center">
-                <span>${loan_package.name}</span>
-                <h3>MK${loan_package.min} - MK${loan_package.max}</h3>
+                <span><h4 class="text-white">${loan_package.name}</h4></span>
+                <h3 class="text-weight-bold">MK${loan_package.min} - MK${loan_package.max}</h3>
             </div>
             <div class="service_content">
                 <ul>
