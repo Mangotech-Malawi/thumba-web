@@ -4,6 +4,7 @@ import { fetchLoanPackages } from "../services/interests.js";
 import { fetchInvestimentPackages } from "../services/investments.js";
 
 const homeContent = "homeContent"
+localStorage.clear();
 let state = localStorage.getItem("homeState");
 
 if (typeof state != undefined && state != null)
