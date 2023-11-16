@@ -205,5 +205,23 @@ export const content_view = [
     link: "views/landing-page/loan-packages.html",
     state: "loan_packages",
     modals: [""]
+  },
+  {
+    title: "Investment Packages",
+    link: "views/landing-page/investment-packages.html",
+    state: "thumba_investment_packages",
+    modals: [""]
+  },
+  {
+    title: "Contacts",
+    link: "views/landing-page/contacts.html",
+    state: "contact_us",
+    modals: [""]
+  },
+  {
+    title: "About Us",
+    link: "views/landing-page/about.html",
+    state: "about_us",
+    modals: [""]
   }
 ];
