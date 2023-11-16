@@ -40,6 +40,7 @@ $(function () {
   $(document).on("click", "#logout-link", function (e) {
     sessionStorage.clear();
     localStorage.clear();
+    
     window.location = "index.html";
   });
 
