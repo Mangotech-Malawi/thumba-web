@@ -1,31 +1,28 @@
+
 export function loadContent(containerId, newState, urlPath, ...args) {
-    $.ajax({
-      url: urlPath,
-      data: {},
-      type: "GET",
-      async: false,
-      success: function (resp) {
+  $.ajax({
+    url: urlPath,
+    type: "GET",
+    async: false,
+    success: function (resp) {
+      const targetContainer = $(`#${containerId}`);
 
-        if (newState != null && newState !== "")
-          $(`#${containerId}`).html(""); //
+      // Clear container if newState is provided and not empty
+      if (newState && newState !== "") {
+        targetContainer.html("");
+      }
 
-        $(`#${containerId}`).append(resp);
-  
-        /*$("#pageTitle").text("");
-  
-        $("#pageTitle").text(title);*/
-        if(typeof args[0] != undefined || args[0] !== null){
-           if (newState != "") localStorage.setItem("homeState", newState);
-        }
-        else{
-          if (newState != "") localStorage.setItem("state", newState);
-        }
-         
-      },
-      error: function () {
-        /* $(``).append(
-          "<h>" + title + " view could not be loaded </h1>"
-        ); //Displays an error message if content is not loaded;*/
-      },
-    });
-  }
+      targetContainer.append(resp);
+
+      // Set localStorage based on args[0] existence
+      const localStorageKey = args[0] !== undefined && args[0] !== null ? "homeState" : "state";
+      if (newState !== "") {
+        localStorage.setItem(localStorageKey, newState);
+      }
+    },
+    error: function () {
+      // Handle error, e.g., display an error message
+      console.error(`Failed to load content from ${urlPath}`);
+    },
+  });
+}
