@@ -18,6 +18,20 @@
 
   $(document).ready(function () {
 
+    // Handle document click event
+    $(document).on('click touchstart', function (event) {
+      var target = $(event.target);
+
+      // Check if the clicked element is not part of the menu
+      if (!target.closest('.slicknav_menu').length) {
+        // Close the SlickNav menu
+        menu.slicknav('close');
+      }
+    });
+
+    $(document).on("click", ".menu-link",function (e) {
+        menu.slicknav('close');
+    });
 
 
     $('#about-us').on('click', function (e) {
