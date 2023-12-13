@@ -1,8 +1,10 @@
 import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { fetchLoanPackages } from "../services/interests.js";
+import { fetchInvestimentPackages } from "../services/investments.js";
 
 const homeContent = "homeContent"
+localStorage.clear();
 let state = localStorage.getItem("homeState");
 
 if (typeof state != undefined && state != null)
@@ -16,24 +18,21 @@ $(function () {
         selectContent("home");
     });
 
-    $(document).on("click", "#loanPackages", function (e) {
+    $(document).on("click", ".loanPackages", function (e) {
         selectContent("loan_packages");
     });
 
-    $(document).on("click", "#investmentPackages", function (e) {
+    $(document).on("click", ".investmentPackages", function (e) {
         selectContent("thumba_investment_packages");
     });
 
-    $(document).on("click", "#forms", function (e) {
-        selectContent("forms");
-    });
 
-    $(document).on("click", "#aboutUs", function (e) {
+    $(document).on("click", ".about-link", function (e) {
         selectContent("about_us");
     });
 
-    $(document).on("click", "#faq", function (e) {
-        selectContent("faq");
+    $(document).on("click", ".contact-link", function (e) {
+        selectContent("contact_us");
     });
 });
 
@@ -47,13 +46,21 @@ export function selectContent(state) {
 }
 
 function loadOtherContent(state, index) {
-    $("#loanPackagesRow").html("");
+   
     $.when(loadContent(homeContent, state, content_view[index].link, "homeState")).done(
         function () {
             if (state === "loan_packages") {
+                $("#loanPackagesRow").html("");
                 $.when(fetchLoanPackages()).done(function (loanPackages) {
                     loanPackages.forEach(function (loanPackage, index) {
                         appendLoanPackage(loanPackage)
+                    })
+                })
+            } else if ( state === "thumba_investment_packages"){
+                $("#investmentPackagesRow").html("");
+                $.when(fetchInvestimentPackages("load-none")).done(function (investmentPackages) {
+                    investmentPackages.forEach(function (investmentPackage, index) {
+                        appendInvestmentPackage(investmentPackage)
                     })
                 })
             }
@@ -62,44 +69,58 @@ function loadOtherContent(state, index) {
 }
 
 function appendLoanPackage(loan_package) {
+  
     $("#loanPackagesRow").append(`
-    <div class="col-md-4">
-    <!-- Widget: user widget style 2 -->
-    <div class="card card-widget widget-user-2 card-outline card-primary">
-        <!-- Add the bg color to the header using any of the bg-* classes -->
-        <div class="widget-user-header ">
-            <!--<div class="widget-user-image">
-                <img class="img-circle elevation-2" src="dist/img/mbi.jpg" alt="User Avatar">
-            </div>-->
-            <!-- /.widget-user-image -->
-            <h3 class="widget-user-username text-weight-bold">${loan_package.name}</h3>
-            <!--<h5 class="widget-user-desc">Lead Developer</h5>-->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="single_service wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay=".5s">
+            <div class="service_icon_wrap text-center">
+                <div class="service_icon ">
+                    <img src="/site/img/svg_icon/service_1.png" alt="">
+                </div>
+            </div>
+            <div class="info text-center">
+                <span><h4 class="text-white">${loan_package.name}</h4></span>
+                <h3 class="text-weight-bold">MK${loan_package.min} - MK${loan_package.max}</h3>
+            </div>
+            <div class="service_content">
+                <ul>
+                    <li>${loan_package.rate}%</li>
+                    <li>${loan_package.period}wks</li>
+
+                </ul>
+                <div class="apply_btn">
+                    <button class="boxed-btn3 loan-form" type="submit">Download Form</button>
+                </div>
+            </div>
         </div>
-        <div class="card-footer p-0">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-secondary">
-                        Maximum <span class="float-right badge  mb-1 ">MK${loan_package.max}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-secondary">
-                        Minimum <span class="float-right badge  mb-1">MK${loan_package.min}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-secondary">
-                        Rate <span class="float-right badge bg-primary mb-1">${loan_package.rate}%</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-secondary">
-                        Period <span class="float-right badge mb-1">${loan_package.period}wks</span>
-                    </a>
-                </li>
-            </ul>
+    </div>`);
+}
+
+function appendInvestmentPackage(investment_package){
+    $("#investmentPackagesRow").append(`
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="single_service wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay=".5s">
+            <div class="service_icon_wrap text-center">
+                <div class="service_icon ">
+                    <img src="/site/img/svg_icon/service_1.png" alt="">
+                </div>
+            </div>
+            <div class="info text-center">
+                <span><h4 class="text-white">${investment_package.package_name}</h4></span>
+                <h3 class="text-weight-bold">MK${investment_package.min_amount} - MK${investment_package.max_amount}</h3>
+            </div>
+            <div class="service_content">
+                <ul>
+                    <li>${investment_package.interest_rate}% Return Rate</li>
+                    <li>${investment_package.interest_frequency} returns frequency</li>
+                    <li>${investment_package.currency} Currency</li>
+                    <li>${investment_package.duration} months</li>
+                    <li>${investment_package.risk_level} risk</li>
+                </ul>
+                <div class="apply_btn">
+                    <button class="boxed-btn3 investor-form" type="submit">Download Form</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- /.widget-user -->
-</div>`);
+    </div>`);
 }

@@ -31,6 +31,9 @@ export function login(formData) {
       sessionStorage.setItem("email", data.email);
       sessionStorage.setItem("role", data.role);
 
+      localStorage.clear();
+      
+
       if (data.role === "admin") {
         localStorage.setItem("state", "admin_dashboard");
       }
@@ -39,7 +42,7 @@ export function login(formData) {
       } else if (data.role === "co-owner") {
         localStorage.setItem("state", "admin_dashboard");
       }
-
+     
       window.location = "thumba.html";
     } else {
       //Display an error here

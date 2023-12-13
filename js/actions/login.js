@@ -14,4 +14,8 @@ $(document).ready(function () {
         user.login(formData );
     });
 
+    $('#homeBtn').on('click', function(e){
+        window.location = "index.html";
+    });
+
 });
