@@ -250,7 +250,7 @@ function getDelInvestmentBtn(data, type, row, metas) {
 export function fetchReturnsOnInvestments(params) {
 
     let data = apiClient(
-        "/api/v1/investor/investiments",
+        "/api/v1/investors/returns",
         "GET",
         "json",
         false,
