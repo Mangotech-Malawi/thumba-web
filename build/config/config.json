@@ -1,5 +1,5 @@
 {
-    "apiURL": "thumba-api.herokuapp.com",
-    "apiPort": "",
-    "apiProtocol": "https"
+    "apiURL": "localhost",
+    "apiPort": "3000",
+    "apiProtocol": "http"
 }

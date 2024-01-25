@@ -2,6 +2,7 @@ import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { fetchLoanPackages } from "../services/interests.js";
 import { fetchInvestimentPackages } from "../services/investments.js";
+import { Subscribe } from "../services/subscription.js";
 
 const homeContent = "homeContent"
 localStorage.clear();
@@ -34,6 +35,38 @@ $(function () {
     $(document).on("click", ".contact-link", function (e) {
         selectContent("contact_us");
     });
+
+    $(document).on("click", "#subscribeBtn", function (e) {
+        e.preventDefault();
+        let subscriptionEmail = $("#subscriptionEmail").val();
+
+        if (subscriptionEmail != "" &&
+            typeof subscriptionEmail != undefined && subscriptionEmail != null) {
+            $.when(Subscribe({ email: subscriptionEmail })).done(function (res) {
+                if (res.created ) {
+                    $("#subscriptionEmail").after(
+                        '<p class="newsletter_text subscription-message text-success">You have successfully subscribed to our newsletter!!</p>'
+                    );
+
+                    
+
+                }else{
+                    $("#subscriptionEmail").after(
+                        '<p class="newsletter_text subscription-message text-danger">Email arleady subscribed or is invalid</p>'
+                    );
+                }
+            })
+        } else {
+            $("#subscriptionEmail").after(
+                '<p class="newsletter_text subscription-message text-danger">Please enter your email</p>'
+            );
+        }
+
+        setTimeout(function () {
+            $('.subscription-message').fadeOut('slow');
+        }, 4000);
+
+    });
 });
 
 export function selectContent(state) {
@@ -46,7 +79,7 @@ export function selectContent(state) {
 }
 
 function loadOtherContent(state, index) {
-   
+
     $.when(loadContent(homeContent, state, content_view[index].link, "homeState")).done(
         function () {
             if (state === "loan_packages") {
@@ -56,7 +89,7 @@ function loadOtherContent(state, index) {
                         appendLoanPackage(loanPackage)
                     })
                 })
-            } else if ( state === "thumba_investment_packages"){
+            } else if (state === "thumba_investment_packages") {
                 $("#investmentPackagesRow").html("");
                 $.when(fetchInvestimentPackages("load-none")).done(function (investmentPackages) {
                     investmentPackages.forEach(function (investmentPackage, index) {
@@ -69,7 +102,7 @@ function loadOtherContent(state, index) {
 }
 
 function appendLoanPackage(loan_package) {
-  
+
     $("#loanPackagesRow").append(`
     <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="single_service wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay=".5s">
@@ -96,7 +129,7 @@ function appendLoanPackage(loan_package) {
     </div>`);
 }
 
-function appendInvestmentPackage(investment_package){
+function appendInvestmentPackage(investment_package) {
     $("#investmentPackagesRow").append(`
     <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="single_service wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay=".5s">
