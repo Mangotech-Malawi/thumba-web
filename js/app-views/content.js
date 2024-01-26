@@ -21,45 +21,45 @@ export const content_view = [
   {
     title: "Organizations",
     link: "views/clients/organizations.html",
-    modals: ["views/modals/user.html","views/modals/client.html"],
+    modals: ["views/modals/user.html", "views/modals/client.html"],
     state: "organization",
   },
   {
     title: "Interests",
     link: "views/interests.html",
     modals: ["views/modals/user.html",
-            "views/modals/interest.html"],
+      "views/modals/interest.html"],
     state: "interests",
   },
   {
     title: "Applications",
     link: "views/loans/applications.html",
     state: "applications",
-    modals: ["views/modals/user.html","views/modals/loans.html"]
+    modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
     title: "Loan Payments",
     link: "views/loans/loan_payments.html",
-    modals: ["views/modals/user.html","views/modals/loan_payments.html"],
+    modals: ["views/modals/user.html", "views/modals/loan_payments.html"],
     state: "loan_payments",
   },
   {
     title: "Loans",
     link: "views/loans/loans.html",
-    modals: ["views/modals/user.html","views/modals/loan_payments.html"],
+    modals: ["views/modals/user.html", "views/modals/loan_payments.html"],
     state: "loans",
   },
   {
     title: "Seized Collaterals",
     link: "views/loans/seized_collaterals.html",
     modals: ["views/modals/user.html",
-            "views/modals/seized_collaterals.html"],
+      "views/modals/seized_collaterals.html"],
     state: "seized_collaterals",
   },
   {
     title: "Collaterals Sales",
     link: "views/loans/collateral_sales.html",
-    modals: ["views/modals/user.html","views/modals/seized_collaterals.html"],
+    modals: ["views/modals/user.html", "views/modals/seized_collaterals.html"],
     state: "collateral_sales",
   },
   {
@@ -72,13 +72,13 @@ export const content_view = [
     title: "Income",
     link: "views/incomes.html",
     modals: ["views/modals/user.html",
-            "views/modals/income.html"],
+      "views/modals/income.html"],
     state: "income",
   },
   {
     title: "Users",
     link: "views/users.html",
-    modals: ["views/modals/user.html" ],
+    modals: ["views/modals/user.html"],
     state: "users",
   },
   {
@@ -90,7 +90,7 @@ export const content_view = [
   {
     title: "Loan Analysis Grades Settings",
     link: "views/settings/grades.html",
-    modals: ["views/modals/user.html","views/modals/settings.html"],
+    modals: ["views/modals/user.html", "views/modals/settings.html"],
     state: "grades",
   },
   {
@@ -102,25 +102,25 @@ export const content_view = [
     title: "Completed Applications",
     link: "views/loans/new.html",
     state: "new_applications",
-    modals: ["views/modals/user.html","views/modals/loans.html"]
+    modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
     title: "Completed Applications",
     link: "views/loans/waiting.html",
     state: "waiting_applications",
-    modals: ["views/modals/user.html","views/modals/loans.html"]
+    modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
     title: "Completed Applications",
     link: "views/loans/done.html",
     state: "completed_applications",
-    modals: ["views/modals/user.html","views/modals/loans.html"]
+    modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
     title: "Dumped Applications",
     link: "views/loans/dumped.html",
     state: "dumped_applications",
-    modals: ["views/modals/user.html","views/modals/loans.html"]
+    modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
     title: "Client Demographics",
@@ -162,66 +162,72 @@ export const content_view = [
     title: "Investment Packages",
     link: "views/investments/investmentPackages.html",
     state: "investment_packages",
-    modals: ["views/modals/investment_package.html"]
+    modals: ["views/modals/investment_package.html", "views/modals/user.html"]
   },
   {
     title: "Investments",
     link: "views/investments/investments.html",
     state: "investments",
-    modals: ["views/modals/investment.html"]
+    modals: ["views/modals/investment.html", "views/modals/user.html"]
   },
   {
     title: "Return On Investments",
     link: "views/investments/rois.html",
     state: "return_on_investments",
-    modals: ["views/modals/investment.html"]
+    modals: ["views/modals/investment.html","views/modals/user.html"]
   },
   {
     title: "My Investments",
     link: "views/investments/my-investments.html",
     state: "my_investments",
-    modals: []
+    modals: ["views/modals/user.html",]
   },
   {
     title: "My Returns On Investments",
     link: "views/investments/my-rois.html",
     state: "my_return_on_investments",
-    modals: []
+    modals: ["views/modals/user.html"]
   },
   {
     title: "Expenses",
     link: "views/accounts/expenses.html",
     state: "expenses",
-    modals: ["views/modals/expense.html"]
+    modals: ["views/modals/expense.html","views/modals/user.html"]
+  },
+  {
+    title: "Email Subscription",
+    link: "views/subscriptions/email-subscriptions.html",
+    state: "email_subscriptions",
+    modals: ["views/modals/user.html"]
   },
   {
     title: "Home",
     link: "views/landing-page/home.html",
     state: "home",
-    modals: [""]
+    modals: []
   },
   {
     title: "Loan Packages",
     link: "views/landing-page/loan-packages.html",
     state: "loan_packages",
-    modals: [""]
+    modals: []
   },
   {
     title: "Investment Packages",
     link: "views/landing-page/investment-packages.html",
     state: "thumba_investment_packages",
-    modals: [""]
+    modals: []
   },
   {
     title: "Contacts",
     link: "views/landing-page/contacts.html",
     state: "contact_us",
-    modals: [""]
+    modals: []
   },
   {
     title: "About Us",
     link: "views/landing-page/about.html",
     state: "about_us",
-    modals: [""]
+    modals: []
   }
 ];

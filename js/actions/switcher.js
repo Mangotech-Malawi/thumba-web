@@ -10,6 +10,7 @@ import { loadContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
 import * as dashboard from "../services/dashboard.js";
+import * as subscription from "../services/subscription.js";
 
 let user_role = sessionStorage.getItem("role");
 
@@ -83,8 +84,11 @@ $(document).ready(function () {
 
   $("#seized-collaterals").on("click", function (e) {
     selectContent("seized_collaterals");
-  })
+  });
 
+  $("#email-subscribers").on("click", function (e) {
+    selectContent("email_subscriptions");
+  });
 
   $("#collateral-sales").on("click", function (e) {
     selectContent("collateral_sales");
@@ -126,9 +130,11 @@ $(document).ready(function () {
     selectContent("expenses");
   });
 
-  $(document).on("click", "loan-report", function (e){
+  $(document).on("click", "loan-report", function (e) {
     selectContent("loan-report");
-  })
+  });
+
+
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -168,6 +174,8 @@ function loadOtherContent(state, index) {
       ) {
 
         $(`#${modalContent}`).html("");
+
+        console.log(content_view[index].modals);
 
         $.each(content_view[index].modals, function (key, modal_path) {
           $.when(loadContent(modalContent, "", modal_path)).done(
@@ -274,6 +282,9 @@ function loadOtherContent(state, index) {
         case "investor_dashboard":
           dashboard.investor();
           break;
+        case "email_subscriptions":
+          subscription.fetchSubscriptions();
+          break;
         case "admin_dashboard":
           dashboard.admin();
           break;
@@ -363,12 +374,12 @@ function loadClientOtherLoans() {
   });
 }
 
-function loadLoanPayments(){
+function loadLoanPayments() {
   let currentDataset = getDataset("loanPaymentDataset");
   $("#paymentLoanId").val(currentDataset.loanId);
   $("#paymentTitle").text(`Loan Payments for ${currentDataset.firstname} ${currentDataset.lastname}`);
-  $.when(loans.fetchLoanPayments({loan_id: currentDataset.loanId})).done(function () {});
-  
+  $.when(loans.fetchLoanPayments({ loan_id: currentDataset.loanId })).done(function () { });
+
 }
 
 function getDataset(datasetName) {

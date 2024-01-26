@@ -1,7 +1,7 @@
 import { apiClient } from "./api-client.js";
 
-export function fetchSubscriptions(params) {
-    let data = apiClient("/api/v1/subscriptions", "GET", "json",
+export function fetchSubscriptions() {
+    let data = apiClient("/api/v1/subscribers", "GET", "json",
         false, false, {});
 
     populateSubscriptionsTable(data);
@@ -12,7 +12,7 @@ export function Subscribe(params){
 }
 
 function populateSubscriptionsTable(dataSet) {
-    $("#subscriptionsTable").DataTable({
+    $("#emailSubscriptionsTable").DataTable({
         destroy: true,
         responsive: true,
         searching: true,
@@ -24,15 +24,7 @@ function populateSubscriptionsTable(dataSet) {
         columns: [
             { data: "id" },
             { data: "email" },
-            { data: "created_at" },
-            { data: null }
-        ],
-        columnDefs: [
-            {
-                render: getDelBtn,
-                data: null,
-                targets: [3],
-            },
-        ],
+            { data: "created_at" }
+        ]
     });
 }
