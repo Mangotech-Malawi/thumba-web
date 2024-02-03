@@ -20,11 +20,13 @@ function populateSubscriptionsTable(dataSet) {
         lengthChange: true,
         autoWidth: false,
         info: true,
+        buttons: ["copy", "csv", "excel", "pdf"],
         data: dataSet,
         columns: [
             { data: "id" },
             { data: "email" },
             { data: "created_at" }
         ]
+        
     });
 }
