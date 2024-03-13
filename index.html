@@ -1,264 +1,96 @@
-<!doctype html>
-<html class="no-js" lang="zxx">
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Thumba</title>
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
 
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-    <!-- Place favicon.ico in the root directory -->
+    </script>
+    <title>Thumba Login</title>
 
-    <!-- CSS here -->
-    <link rel="stylesheet" href="site/css/bootstrap.min.css">
-    <link rel="stylesheet" href="site/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="site/css/magnific-popup.css">
-    <link rel="stylesheet" href="site/css/font-awesome.min.css">
-    <link rel="stylesheet" href="site/css/themify-icons.css">
-    <link rel="stylesheet" href="site/css/nice-select.css">
-    <link rel="stylesheet" href="site/css/flaticon.css">
-    <link rel="stylesheet" href="site/css/gijgo.css">
-    <link rel="stylesheet" href="site/css/animate.min.css">
-    <link rel="stylesheet" href="site/css/slick.css">
-    <link rel="stylesheet" href="site/css/slicknav.css">
 
-    <link rel="stylesheet" href="site/css/style.css">
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="dist/css/login.css">
+
+
 </head>
 
-<body>
-    <!--[if lte IE 9]>
-                <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-            <![endif]-->
+<body class="hold-transition login-page bg-dark">
+    <div class="login-box ">
+        <!-- /.login-logo -->
+        <div id="login" class="card">
+            <div class="card-body login-card-body">
+              
+                <h1 class="text-center text-bold mb-4">Thumba</h1>
 
-    <!-- header-start -->
-    <header>
-        <div class="header-area ">
-            <div id="sticky-header" class="main-header-area">
-                <div class="container-fluid ">
-                    <div class="header_bottom_border">
-                        <div class="row align-items-center">
-                            <div class="col-xl-3 col-lg-2">
-                                <div class="logo">
-                                    <a href="index.html">
-                                        <img src="site/img/logo.png" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-7">
-                                <div class="main-menu d-none d-lg-block">
-                                    <nav>
-                                        <nav>
-                                            <ul id="navigation">
-                                                <li><a class="home menu-link" href="#">Home</a></li>
-                                                <li><a class="loanPackages menu-link" href="#">Loans</a></li>
-                                                <li><a class="investmentPackages menu-link" href="#">Investments</a></li>
-                                                <li><a class="about-link menu-link" href="#">About</a></li>
-                                                <li><a class="contact-link menu-link" href="#">Contact</a></li>
-                                                <li><a class="menu-link" href="thumba.html">Investor Login</a></li>
-                                            </ul>
-                                        </nav>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                                <div class="Appointment">
-                                    <div class="phone_num d-none d-xl-block">
-                                        <a href="#"> <i class="fa fa-phone"></i> +265 995 87 48 08</a>
-                                    </div>
-                                  
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mobile_menu d-block d-lg-none"></div>
+                <form id="loginForm" action="" method="post">
+                  
+                    <div class="input-group mb-3">
+                        <input id="email" type="text" name="email" class="form-control"
+                            placeholder="email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-user"></span>
                             </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div id="homeContent">
-
-
-    </div>
-
-
-
-
-    <div class="apply_loan overlay">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-md-7">
-                    <div class="loan_text wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".3s">
-                        <h3>Apply for a Loan for your startup,
-                            education or company</h3>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-5">
-                    <div class="loan_btn wow fadeInUp mb-3" data-wow-duration="1.2s" data-wow-delay=".4s">
-                        <a class="boxed-btn3" href="site/docs/THUMBA_CLIENT_APPLICATION_FORM_2023.pdf">Download Client Registration Form</a>
-                    </div>
-                    <div class="loan_btn wow fadeInUp mb-3" data-wow-duration="1.2s" data-wow-delay=".4s">
-                        <a class="boxed-btn3" href="site/docs/THUMBA_LOAN_APPLICATION_FORM_2023.pdf">Download Loan Appplication Form</a>
-                    </div>
-                    <div class="loan_btn wow fadeInUp" data-wow-duration="1.2s" data-wow-delay=".4s">
-                        <a class="boxed-btn3" href="site/docs/INVESTOR_APPLICATION_FORM_2023.pdf">Download Investor Application Form</a>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
-    </div>
-
-    <!-- footer start -->
-    <footer class="footer">
-        <div class="footer_top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-4 col-md-6 col-lg-3">
-                        <div class="footer_widget wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
-                            <div class="footer_logo">
-                                <a href="#">
-                                    <img src="site/img/footer_logo.png" alt="">
-                                </a>
+                    <div class="input-group mb-3">
+                        <input id="password" type="password" name = "password" password="password" class="form-control"
+                            placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
                             </div>
-                            <p>
-                                support@thumba.org<br>
-                                +265 995 87 48 08 <br>
-                                Lilongwe
-                            </p>
-                            <div class="socail_links">
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti-facebook"></i>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
                         </div>
                     </div>
-
-                    <div class="col-xl-2 col-md-6 col-lg-2">
-                        <div class="footer_widget wow fadeInUp" data-wow-duration="1.2s" data-wow-delay=".5s">
-                            <h3 class="footer_title">
-                                Useful Links
-                            </h3>
-                            <ul>
-                                <li class="home" ><a href="#">Home</a></li>
-                                <li class="loanPackages"><a href="#">Loans</a></li>
-                                <li class="investmentPackages"><a href="#">Investments</a></li>
-                                <li class="about-link"><a href="#">About</a></li>
-                                <li class="contact-link"><a href="#">Contact</a></li>
-
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-md-6 col-lg-4">
-                        <div class="footer_widget wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".6s">
-                            <h3 class="footer_title">
-                                Subscribe
-                            </h3>
-                            <form action="#" class="newsletter_form">
-                                <input type="text" id="subscriptionEmail" placeholder="Enter your mail">
-                                <button  id="subscribeBtn">Subscribe</button>
-                            </form>
-                            <p class="newsletter_text">Get loans and business update .</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="copy-right_text wow fadeInUp" data-wow-duration="1.4s" data-wow-delay=".3s">
-                <div class="container">
-                    <div class="footer_border"></div>
                     <div class="row">
-                        <div class="col-xl-12">
-                            <p class="copy_right text-center">
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright thumba &copy;
-                                <script>document.write(new Date().getFullYear());</script> Supported <i
-                                    class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                                    target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
+                        <!-- /.col -->
+                        <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                            <button type="submit" class="btn btn-primary btn-block">Log In</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-    </footer>
-    <!--/ footer end  -->
 
-    <!-- link that opens popup -->
-    <!-- JS here -->
-    <script src="site/js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="site/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="site/js/popper.min.js"></script>
-    <script src="site/js/bootstrap.min.js"></script>
-    <script src="site/js/owl.carousel.min.js"></script>
-    <script src="site/js/isotope.pkgd.min.js"></script>
-    <script src="site/js/ajax-form.js"></script>
-    <script src="site/js/waypoints.min.js"></script>
-    <script src="site/js/jquery.counterup.min.js"></script>
-    <script src="site/js/imagesloaded.pkgd.min.js"></script>
-    <script src="site/js/scrollIt.js"></script>
-    <script src="site/js/jquery.scrollUp.min.js"></script>
-    <script src="site/js/wow.min.js"></script>
-    <script src="site/js/nice-select.min.js"></script>
-    <script src="site/js/jquery.slicknav.min.js"></script>
-    <script src="site/js/jquery.magnific-popup.min.js"></script>
-    <script src="site/js/plugins.js"></script>
-    <script src="site/js/gijgo.min.js"></script>
-    <script src="site/js/slick.min.js"></script>
-    <!--contact js-->
-    <script src="site/js/contact.js"></script>
-    <script src="site/js/jquery.ajaxchimp.min.js"></script>
-    <script src="site/js/jquery.form.js"></script>
-    <script src="site/js/jquery.validate.min.js"></script>
-    <script src="site/js/mail-script.js"></script>
-    <script src="site/js/main.js"></script>
-    <script src="js/actions/landing-page.js" type="module"></script>
-    <script src="js/actions/interests.js" type="module"></script>
-    <script type="text/javascript">
-        (function () {
-            var options = {
-                whatsapp: "+265995874808", // WhatsApp number
-                call_to_action: "Message Us", // Call to action
-                position: "right", // Position may be 'right' or 'left'
-            };
-            var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = url + '/widget-send-button/js/init.js';
-            s.onload = function () {
-                WhWidgetSendButton.init(host, proto, options);
-            };
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(s, x);
-        })();
-    </script>
-   
-    
+                        <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                            <button id="forgotBtn" class="btn btn-warning btn-block">Forgot Password</button>
+                        </div>
+                    
+
+                    </div>
+                    
+                </form>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+
+    </div>
+    <!-- /.login-box -->
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- Toastr -->
+    <script src="plugins/toastr/toastr.min.js"></script>
+    <!-- Toastr -->
+    <script src="dist/js/modernizr.2.7.1.js"></script>
+    <script src="js/services/users.js" type="module"></script>
+    <script src="js/actions/login.js" type="module"></script>
+    <script src="js/services/validator.js" type="module"></script>
+    <script src="js/services/config.js" type="module"></script>
+
 </body>
 
 </html>
