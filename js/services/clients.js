@@ -294,9 +294,12 @@ function getOrgViewBtn(data, type, row, meta) {
                     data-phone-number="${data.phone_number}"
                     data-office-location="${data.office_location}"
                     data-postal-address="${data.postal_address}"
-                    data-registered="${data.registered}"`;
+                    data-registered="${data.registered}"
+                    data-client-type = "organization"`;
 
-  return getButton(dataFields, "register-client", "primary", "fas fa-eye");
+
+  return `<button type='button' class="btn btn-block btn-primary recordBtn" 
+          ${dataFields} > <i class="fas fa-file" aria-hidden="true"></i></button>`;
 }
 
 function getOrgEditBtn(data, type, row, meta) {
