@@ -77,10 +77,11 @@ $(function () {
   });
 
   $(document).on("click", "#registerBtn", function (e) {
-    if (form.validClientFormData()) {
-      if (clientType != null) {
-        if ($("#regModalTitle").text() === "Edit Client") {
-          if (clientType === "individual")
+
+    if (clientType != null) {
+      if ($("#regModalTitle").text() === "Edit Client") {
+        if (clientType === "individual") {
+          if (form.validClientFormData()) {
             notification(
               client.editClient(individualParams()).updated,
               "center",
@@ -91,19 +92,22 @@ $(function () {
               true,
               3000
             );
-          else
-            notification(
-              client.editClient(organizationParams()),
-              "center",
-              "success",
-              "registration",
-              "Edit Organization Client",
-              "Client has been updated successfully",
-              true,
-              3000
-            );
+          }
         } else {
-          if (clientType === "individual")
+          notification(
+            client.editClient(organizationParams()),
+            "center",
+            "success",
+            "registration",
+            "Edit Organization Client",
+            "Client has been updated successfully",
+            true,
+            3000
+          );
+        }
+      } else {
+        if (clientType === "individual") {
+          if (form.validClientFormData()) {
             notification(
               client.addClient(individualParams()),
               "center",
@@ -114,20 +118,22 @@ $(function () {
               true,
               3000
             );
-          else
-            notification(
-              client.addClient(organizationParams()),
-              "center",
-              "success",
-              "registration",
-              "Add Organization Client",
-              "Client has been added succefully",
-              true,
-              3000
-            );
+          }
+        } else {
+          notification(
+            client.addClient(organizationParams()),
+            "center",
+            "success",
+            "registration",
+            "Add Organization Client",
+            "Client has been added succefully",
+            true,
+            3000
+          );
         }
       }
     }
+
 
   });
 
