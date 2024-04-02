@@ -46,12 +46,12 @@ $(function () {
     let opener = e.relatedTarget;
 
     if ($(opener).attr("data-action-type") == "edit") {
-      $(scoreNameModal).find(`[id = 'gradesModalTitle']`).text("Edit Grade");
+      $(scoreNameModal).find(`[id = 'scoreNameModalTitle']`).text("Edit Score Name");
       $.each(opener.dataset, function (key, value) {
-        $(gradesModal).find(`[id = '${key}']`).val(value);
+        $(scoreNameModal).find(`[id = '${key}']`).val(value);
       });
     } else {
-      $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Add Grade");
+      $(scoreNameModal).find(`[id = 'scoreNameModalTitle']`).text("Add Score Name");
     }
   });
 
@@ -219,6 +219,21 @@ $(function () {
     );
   });
 });
+
+
+function scoreNameParams(){
+  let shortCode = $("#scoreCode").val(); //Has value when updating scores
+  let scoreType = $("#scoreType").val();
+  let description = $("#scoreDescription").val();
+
+  let params = {
+    short_code: shortCode,
+    score_type: scoreType,
+    description: description,
+  };
+
+  return params;
+}
 
 function scoreParams() {
   let scoreId = $("#scoreId").val(); //Has value when updating scores
