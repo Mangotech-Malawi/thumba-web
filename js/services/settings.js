@@ -11,12 +11,28 @@ export function addAnalysis(params) {
   );
 }
 
+export function addScoreName(params){
+  return apiClient("/api/v1/score_name/new", "POST", "json", false, false, params);
+}
+
+export function editScoreName(params){
+  return apiClient("/api/v1/score_name/edit", "POST", "json", false, false, params);
+}
+
+export function deleteScoreName(params){
+  return apiClient("/api/v1/score_name/delete", "POST", "json", false, false, params);
+}
+
 export function addScore(params) {
   return apiClient("/api/v1/score/new", "POST", "json", false, false, params);
 }
 
 export function editScore(params) {
   return apiClient("/api/v1/score/edit", "POST", "json", false, false, params);
+}
+
+export function deleteScore(params) {
+  return apiClient("/api/v1/score/delete", "POST", "json", false, false, params);
 }
 
 export function calculateAutomaticScores(params) {
@@ -87,16 +103,16 @@ function loadScoreNamesTable(dataset){
 
 export function getScoreNameUpdateBtn(data, type, row, metas) {
   let dataFields = `data-score-id = "${data.id}"
-                    data-code = "${data.code}"
+                    data-score-code = "${data.code}"
                     data-score-type = "${data.score_type}"
-                    data-description ="${data.description}"
+                    data-score-description ="${data.description}"
                     data-action-type = "edit"`;
 
   return getButton(dataFields, "analysis-score-name", "default", "fas fa-edit");
 }
 
 export function getScoreNameDelBtn(data, type, row, metas) {
-  let dataFields = `data-score-del-id = "${data.id}"
+  let dataFields = `data-score-name-del-id = "${data.id}"
     data-action-type = "edit"`;
 
   return getButton(dataFields, "analysis-score", "danger", "fas fa-trash");
