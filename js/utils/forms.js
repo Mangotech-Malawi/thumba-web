@@ -265,6 +265,23 @@ export function validateAnalysisScoreForm(){
   return validData;
 }
 
+
+export function validateAnalysisScoreNameForm(){
+  formElements = []
+
+  let validData = false;
+
+  pushFormElements("alphabeticStringWithSpace", "#code", true, "Score Code");
+  pushFormElements("", "#scoreType", true, "Score Type");
+  pushFormElements("description", "#description", true, "Description");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
 export function validateGradeForm(){
   formElements = []
 
