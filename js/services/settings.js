@@ -102,7 +102,7 @@ function loadScoreNamesTable(dataset){
 }
 
 export function getScoreNameUpdateBtn(data, type, row, metas) {
-  let dataFields = `data-score-id = "${data.id}"
+  let dataFields = `data-score-name-id = "${data.id}"
                     data-score-code = "${data.code}"
                     data-score-type = "${data.score_type}"
                     data-score-description ="${data.description}"
