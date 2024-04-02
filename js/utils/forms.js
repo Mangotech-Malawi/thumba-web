@@ -271,9 +271,9 @@ export function validateAnalysisScoreNameForm(){
 
   let validData = false;
 
-  pushFormElements("alphabeticStringWithSpace", "#code", true, "Score Code");
+  pushFormElements("alphabeticStringWithSpace", "#scoreCode", true, "Score Code");
   pushFormElements("", "#scoreType", true, "Score Type");
-  pushFormElements("description", "#description", true, "Description");
+  pushFormElements("description", "#scoreDescription", true, "Description");
 
   $.when(validate(formElements)).done(function (value) {
     validData = value;
