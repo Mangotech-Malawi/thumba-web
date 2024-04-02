@@ -35,13 +35,71 @@ export function fetchManualScores() {
 }
 
 export function fetchScoresNames() {
-  return apiClient("/api/v1/score_names", "GET", "json", false, false, {});
+
+  let data = apiClient("/api/v1/score_names", "GET", "json", false, false, {});
+
+  if (data != null) {
+    loadScoreNamesTable(data);
+  }
+
+  return data;
+
 }
 
 export function fetchScores() {
   let data = apiClient("/api/v1/scores", "GET", "json", false, false, {});
 
   loadScores(data);
+}
+
+function loadScoreNamesTable(dataset){
+  $("#scoreNamesTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "code" },
+      { data: "score_type" },
+      { data: "description" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getScoreNameUpdateBtn,
+        data: null,
+        targets: [4],
+      },
+      {
+        render: getScoreNameDelBtn,
+        data: null,
+        targets: [5],
+      },
+    ],
+  });
+}
+
+export function getScoreNameUpdateBtn(data, type, row, metas) {
+  let dataFields = `data-score-id = "${data.id}"
+                    data-code = "${data.code}"
+                    data-score-type = "${data.score_type}"
+                    data-description ="${data.description}"
+                    data-action-type = "edit"`;
+
+  return getButton(dataFields, "analysis-score-name", "default", "fas fa-edit");
+}
+
+export function getScoreNameDelBtn(data, type, row, metas) {
+  let dataFields = `data-score-del-id = "${data.id}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "analysis-score", "danger", "fas fa-trash");
 }
 
 function loadScores(dataset) {
@@ -79,7 +137,7 @@ function loadScores(dataset) {
 }
 
 export function getScoreUpdateBtn(data, type, row, metas) {
-  let dataFields = `data-score-id = "${data.id}"
+  let dataFields = `data-score-name-id = "${data.id}"
                     data-code = "${data.code}"
                     data-name = "${data.name}"
                     data-description ="${data.description}"
