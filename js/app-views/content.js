@@ -88,6 +88,12 @@ export const content_view = [
     state: "scores",
   },
   {
+    title: "Loan Analysis Scores Names",
+    link: "views/settings/score-names.html",
+    modals: ["views/modals/user.html", "views/modals/settings.html"],
+    state: "score_names",
+  },
+  {
     title: "Loan Analysis Grades Settings",
     link: "views/settings/grades.html",
     modals: ["views/modals/user.html", "views/modals/settings.html"],
@@ -199,35 +205,5 @@ export const content_view = [
     link: "views/subscriptions/email-subscriptions.html",
     state: "email_subscriptions",
     modals: ["views/modals/user.html"]
-  },
-  {
-    title: "Home",
-    link: "views/landing-page/home.html",
-    state: "home",
-    modals: []
-  },
-  {
-    title: "Loan Packages",
-    link: "views/landing-page/loan-packages.html",
-    state: "loan_packages",
-    modals: []
-  },
-  {
-    title: "Investment Packages",
-    link: "views/landing-page/investment-packages.html",
-    state: "thumba_investment_packages",
-    modals: []
-  },
-  {
-    title: "Contacts",
-    link: "views/landing-page/contacts.html",
-    state: "contact_us",
-    modals: []
-  },
-  {
-    title: "About Us",
-    link: "views/landing-page/about.html",
-    state: "about_us",
-    modals: []
   }
 ];

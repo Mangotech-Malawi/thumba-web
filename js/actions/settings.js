@@ -3,10 +3,11 @@ import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
 import { riskResultOptions } from "../services/chartsOptions/risk_results.js";
-import { validateAnalysisScoreForm, validateGradeForm } from "../utils/forms.js";
+import { validateAnalysisScoreNameForm, validateAnalysisScoreForm, validateGradeForm } from "../utils/forms.js";
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const riskCalculatorModal = "#modal-risk-calculator";
+const scoreNameModal = "#modal-analysis-score-name";
 let totalManualScore = 0.0;
 let totalAutomaticScore = 0.0;
 let availableManualScore = 0.0;
@@ -39,6 +40,19 @@ $(function () {
     updateManualScoreChart(totalManualScore);
     updateRiskResultsChart();
     updateGradesLabel();
+  });
+
+  $(document).on("show.bs.modal", scoreNameModal, function (e) {
+    let opener = e.relatedTarget;
+
+    if ($(opener).attr("data-action-type") == "edit") {
+      $(scoreNameModal).find(`[id = 'gradesModalTitle']`).text("Edit Grade");
+      $.each(opener.dataset, function (key, value) {
+        $(gradesModal).find(`[id = '${key}']`).val(value);
+      });
+    } else {
+      $(gradesModal).find(`[id = 'gradesModalTitle']`).text("Add Grade");
+    }
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -86,6 +100,35 @@ $(function () {
     updateManualScoreChart(totalManualScore);
     updateRiskResultsChart();
     updateGradesLabel();
+  });
+
+  $(document).on("click", "#saveScoreNameBtn", function () {
+    if (validateAnalysisScoreNameForm()) {
+      if ($("#scoreNameModalTitle").text() === "Add Score Name") {
+        notification(
+          settings.addScoreName(scoreNameParams()).created,
+          "center",
+          "success",
+          "score_name",
+          "Add Analysis Score Name",
+          "Analyisis score name has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#scoreModalTitle").text() === "Edit Score Name") {
+        notification(
+          settings.editScoreName(scoreNameParams()).updated,
+          "center",
+          "success",
+          "score_name",
+          "Edit Analysis Score Name",
+          "Analysis score name has been updated successfully",
+          true,
+          3000
+        );
+      }
+    }
+
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
@@ -340,6 +383,11 @@ function notification(
       })
     ).done(function () {
       switch (recordType) {
+        case "score_name":
+          $.when(settings.fetchScoresNames()).done(function () {
+            $(scoreNameModal).modal("hide");
+          });
+          break;
         case "score":
           $.when(settings.fetchScores()).done(function () {
             $(scoresModal).modal("hide");
