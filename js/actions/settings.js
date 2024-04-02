@@ -115,7 +115,7 @@ $(function () {
           true,
           3000
         );
-      } else if ($("#scoreModalTitle").text() === "Edit Score Name") {
+      } else if ($("#scoreNameModalTitle").text() === "Edit Score Name") {
         notification(
           settings.editScoreName(scoreNameParams()).updated,
           "center",
@@ -222,12 +222,14 @@ $(function () {
 
 
 function scoreNameParams(){
+  let scoreNameId = $("#scoreNameId").val();
   let shortCode = $("#scoreCode").val(); //Has value when updating scores
   let scoreType = $("#scoreType").val();
   let description = $("#scoreDescription").val();
 
   let params = {
-    short_code: shortCode,
+    score_name_id: scoreNameId,
+    code: shortCode,
     score_type: scoreType,
     description: description,
   };
