@@ -82,6 +82,10 @@ $(document).ready(function () {
     selectContent("scores");
   });
 
+  $("#score-names").on("click", function (e) {
+    selectContent("score_names");
+  });
+
   $("#seized-collaterals").on("click", function (e) {
     selectContent("seized_collaterals");
   });
@@ -215,6 +219,9 @@ function loadOtherContent(state, index) {
           break;
         case "scores":
           settings.fetchScores();
+          break;
+        case "score_names":
+          settings.fetchScoresNames();
           break;
         case "loans":
           loans.fetchLoans();
