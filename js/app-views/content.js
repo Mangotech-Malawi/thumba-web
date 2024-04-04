@@ -88,6 +88,12 @@ export const content_view = [
     state: "scores",
   },
   {
+    title: "Loan Analysis DTI Ratios",
+    link: "views/settings/DTI-ratios.html",
+    modals: ["views/modals/user.html", "views/modals/settings.html"],
+    state: "dti_ratios",
+  },
+  {
     title: "Loan Analysis Scores Names",
     link: "views/settings/score-names.html",
     modals: ["views/modals/user.html", "views/modals/settings.html"],
