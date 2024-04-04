@@ -86,6 +86,10 @@ $(document).ready(function () {
     selectContent("score_names");
   });
 
+  $("#dti-ratios").on("click", function (e) {
+    selectContent("dti_ratios");
+  });
+
   $("#seized-collaterals").on("click", function (e) {
     selectContent("seized_collaterals");
   });
@@ -222,6 +226,9 @@ function loadOtherContent(state, index) {
           break;
         case "score_names":
           settings.fetchScoresNames();
+          break;
+        case "dti_ratios":
+          settings.fetchDTIRatios();
           break;
         case "loans":
           loans.fetchLoans();

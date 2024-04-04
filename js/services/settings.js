@@ -62,6 +62,19 @@ export function fetchScoresNames() {
 
 }
 
+export function fetchDTIRatios() {
+
+  let data = apiClient("/api/v1/dti_ratios", "GET", "json", false, false, {});
+
+  if (data != null) {
+    loadDTIRatiosTable(data);
+  }
+
+  return data;
+
+}
+
+
 export function fetchScores() {
   let data = apiClient("/api/v1/scores", "GET", "json", false, false, {});
 
@@ -101,7 +114,7 @@ function loadScoreNamesTable(dataset){
   });
 }
 
-export function getScoreNameUpdateBtn(data, type, row, metas) {
+function getScoreNameUpdateBtn(data, type, row, metas) {
   let dataFields = `data-score-name-id = "${data.id}"
                     data-score-code = "${data.code}"
                     data-score-type = "${data.score_type}"
@@ -111,7 +124,62 @@ export function getScoreNameUpdateBtn(data, type, row, metas) {
   return getButton(dataFields, "analysis-score-name", "default", "fas fa-edit");
 }
 
-export function getScoreNameDelBtn(data, type, row, metas) {
+function getScoreNameDelBtn(data, type, row, metas) {
+  let dataFields = `data-score-name-del-id = "${data.id}"
+    data-action-type = "edit"`;
+
+  return getButton(dataFields, "analysis-score", "danger", "fas fa-trash");
+}
+
+
+
+function loadDTIRatiosTable(dataset){
+  $("#dtiRatiosTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "code" },
+      { data: "description"},
+      { data: "min_ratio" },
+      { data: "max_ratio" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getDtiRatioNameUpdateBtn,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getDtiRatioDelBtn,
+        data: null,
+        targets: [6],
+      },
+    ],
+  });
+}
+
+function getDtiRatioNameUpdateBtn(data, type, row, metas) {
+  let dataFields = `data-dti-ratio-id = "${data.id}"
+                    data-score-name-id = "${data.score_name_id}"
+                    data-score-code = "${data.code}"
+                    data-score-name-description ="${data.description}"
+                    data-min-ratio="${data.min_ratio}"
+                    data-max-ratio="${data.max_ratio}"
+                    data-action-type = "edit"`;
+
+  return getButton(dataFields, "dti-ratios", "default", "fas fa-edit");
+}
+
+function getDtiRatioDelBtn(data, type, row, metas) {
   let dataFields = `data-score-name-del-id = "${data.id}"
     data-action-type = "edit"`;
 
@@ -152,7 +220,7 @@ function loadScores(dataset) {
   });
 }
 
-export function getScoreUpdateBtn(data, type, row, metas) {
+function getScoreUpdateBtn(data, type, row, metas) {
   let dataFields = `data-score-name-id = "${data.id}"
                     data-code = "${data.code}"
                     data-name = "${data.name}"
@@ -163,7 +231,7 @@ export function getScoreUpdateBtn(data, type, row, metas) {
   return getButton(dataFields, "analysis-score", "default", "fas fa-edit");
 }
 
-export function getScoreDelBtn(data, type, row, metas) {
+function getScoreDelBtn(data, type, row, metas) {
   let dataFields = `data-score-del-id = "${data.id}"
     data-action-type = "edit"`;
 
