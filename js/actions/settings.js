@@ -3,11 +3,15 @@ import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
 import { riskResultOptions } from "../services/chartsOptions/risk_results.js";
-import { validateAnalysisScoreNameForm, validateAnalysisScoreForm, validateGradeForm } from "../utils/forms.js";
+import {
+  validateAnalysisScoreNameForm, validateAnalysisScoreForm,
+  validateGradeForm, validateDTIRatioForm
+} from "../utils/forms.js";
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const riskCalculatorModal = "#modal-risk-calculator";
 const scoreNameModal = "#modal-analysis-score-name";
+const dtiRatioModal = "#modal-dti-ratios";
 let totalManualScore = 0.0;
 let totalAutomaticScore = 0.0;
 let availableManualScore = 0.0;
@@ -53,6 +57,28 @@ $(function () {
     } else {
       $(scoreNameModal).find(`[id = 'scoreNameModalTitle']`).text("Add Score Name");
     }
+  });
+
+  $(document).on("show.bs.modal", dtiRatioModal, function (e) {
+    let opener = e.relatedTarget;
+
+    clearFields("#dtiRatioForm");
+
+    $.when(settings.fetchDTIScoreNames()).done(function (score_names) {
+      $.when(populateDTIRatioScoreNames(score_names)).done(function () {
+        if ($(opener).attr("data-action-type") == "edit") {
+          $(dtiRatioModal).find(`[id = 'dtiRatioModalTitle']`).text("Edit DTI Ratio");
+
+          $.each(opener.dataset, function (key, value) {
+            $(dtiRatioModal).find(`[id = '${key}']`).val(value);
+          });
+        } else {
+          $(dtiRatioModal).find(`[id = 'dtiRatioModalTitle']`).text("Add DTI Ratio");
+        }
+      });
+    })
+
+
   });
 
   $(document).on("show.bs.modal", scoresModal, function (e) {
@@ -129,6 +155,36 @@ $(function () {
       }
     }
 
+  });
+
+  $(document).on("click", "#saveDtiRatioBtn", function () {
+    if (validateDTIRatioForm()) {
+
+      if ($("#dtiRatioModalTitle").text() === "Add DTI Ratio") {
+        console.log(DTIRatioParams());
+        notification(
+          settings.addDTIRatio(DTIRatioParams()).created,
+          "center",
+          "success",
+          "dti_ratio",
+          "Add DTI Ratio",
+          "DTI Ratio has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#dtiRatioModalTitle").text() === "Edit DTI Ratio") {
+        notification(
+          settings.editDTIRatio(DTIRatioParams()).updated,
+          "center",
+          "success",
+          "dti_ratio",
+          "Edit DTI Ratio",
+          "DTI Ratio has been updated successfully",
+          true,
+          3000
+        );
+      }
+    }
   });
 
   $(document).on("click", "#saveScoreBtn", function () {
@@ -221,7 +277,7 @@ $(function () {
 });
 
 
-function scoreNameParams(){
+function scoreNameParams() {
   let scoreNameId = $("#scoreNameId").val();
   let shortCode = $("#scoreCode").val(); //Has value when updating scores
   let scoreType = $("#scoreType").val();
@@ -233,6 +289,22 @@ function scoreNameParams(){
     score_type: scoreType,
     description: description,
   };
+
+  return params;
+}
+
+function DTIRatioParams() {
+  let dtiRatioId = $("#dtiRatioId").val();
+  let scoreNameId = $("#dtiScoreNames").val();
+  let minRatio = $("#minRatio").val();
+  let maxRatio = $("#maxRatio").val();
+
+  let params = {
+    id: dtiRatioId,
+    score_name_id: scoreNameId,
+    min_ratio: minRatio,
+    max_ratio: maxRatio
+  }
 
   return params;
 }
@@ -352,6 +424,22 @@ function populateScoreNames(scoreNames) {
   $("#scoreName").html(scoreNamesArray.join(""));
 }
 
+function populateDTIRatioScoreNames(scoreNames) {
+  let scoreNamesArray = [];
+
+  scoreNames.forEach(function (scoreName, index) {
+    availableManualScore = scoreNamesArray.push(
+      '<option value ="',
+      scoreName.id,
+      '">',
+      `${scoreName.code} | ${scoreName.description}`,
+      "</option>"
+    );
+  });
+
+  $("#dtiScoreNames").html(scoreNamesArray.join(""));
+}
+
 function createManualScoresCheckBoxes(scores) {
   $("#scores-checkbox-row").html("");
   scores.forEach(function (score, index) {
@@ -410,6 +498,11 @@ function notification(
             $(scoresModal).modal("hide");
           });
           break;
+        case "dti_ratio":
+          $.when(settings.fetchDTIRatios()).done(function () {
+            $(dtiRatioModal).modal("hide");
+          });
+          break;
         case "grade":
           $.when(settings.fetchGrades()).done(function () {
             $(gradesModal).modal("hide");
@@ -422,4 +515,8 @@ function notification(
           break;
       }
     });
+}
+
+function clearFields(formId) {
+  $(":input", formId).not(":button, :submit, :reset").val("").prop("checked", false).prop("selected", false);
 }

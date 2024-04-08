@@ -11,16 +11,24 @@ export function addAnalysis(params) {
   );
 }
 
-export function addScoreName(params){
+export function addScoreName(params) {
   return apiClient("/api/v1/score_name/new", "POST", "json", false, false, params);
 }
 
-export function editScoreName(params){
+export function editScoreName(params) {
   return apiClient("/api/v1/score_name/edit", "POST", "json", false, false, params);
 }
 
-export function deleteScoreName(params){
+export function deleteScoreName(params) {
   return apiClient("/api/v1/score_name/delete", "POST", "json", false, false, params);
+}
+
+export function addDTIRatio(params) {
+  return apiClient("/api/v1/dti_ratio/new", "POST", "json", false, false, params);
+}
+
+export function editDTIRatio(params) {
+  return apiClient("/api/v1/dti_ratio/edit", "POST", "json", false, false, params);
 }
 
 export function addScore(params) {
@@ -48,6 +56,10 @@ export function calculateAutomaticScores(params) {
 
 export function fetchManualScores() {
   return apiClient("/api/v1/scores/manual", "GET", "json", false, false, {});
+}
+
+export function fetchDTIScoreNames() {
+  return apiClient("/api/v1/score_names/dti", "GET", "json", false, false, {});
 }
 
 export function fetchScoresNames() {
@@ -81,7 +93,7 @@ export function fetchScores() {
   loadScores(data);
 }
 
-function loadScoreNamesTable(dataset){
+function loadScoreNamesTable(dataset) {
   $("#scoreNamesTable").DataTable({
     destroy: true,
     responsive: true,
@@ -133,7 +145,7 @@ function getScoreNameDelBtn(data, type, row, metas) {
 
 
 
-function loadDTIRatiosTable(dataset){
+function loadDTIRatiosTable(dataset) {
   $("#dtiRatiosTable").DataTable({
     destroy: true,
     responsive: true,
@@ -146,7 +158,7 @@ function loadDTIRatiosTable(dataset){
     columns: [
       { data: "id" },
       { data: "code" },
-      { data: "description"},
+      { data: "description" },
       { data: "min_ratio" },
       { data: "max_ratio" },
       { data: null },
@@ -169,7 +181,7 @@ function loadDTIRatiosTable(dataset){
 
 function getDtiRatioNameUpdateBtn(data, type, row, metas) {
   let dataFields = `data-dti-ratio-id = "${data.id}"
-                    data-score-name-id = "${data.score_name_id}"
+                    data-dti-score-names="${data.score_name_id}"
                     data-score-code = "${data.code}"
                     data-score-name-description ="${data.description}"
                     data-min-ratio="${data.min_ratio}"
