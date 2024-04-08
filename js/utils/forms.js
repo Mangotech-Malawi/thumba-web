@@ -282,6 +282,23 @@ export function validateAnalysisScoreNameForm(){
   return validData;
 }
 
+export function validateDTIRatioForm(){
+  formElements = [];
+
+  let validData = false;
+
+  pushFormElements("", "#dtiScoreNames", true, "DTI Score Name");
+  pushFormElements("positiveDoubleNumber", "#minRatio", true, "Minimum Ratio");
+  pushFormElements("positiveDoubleNumber","#maxRatio", true, "Maximum Ratio");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+
+}
+
 export function validateGradeForm(){
   formElements = []
 
