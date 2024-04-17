@@ -2,11 +2,13 @@ HTML {
     height: 100%;
 }
 
-BODY {
+body {
     min-height: 100%;
-    background-color: rgb(255, 255, 255);
-    background-position: center center;
-    background-repeat: no-repeat;
+ 
+    background-color: rgba(211, 211, 211, 0.461); /* Replace 'your-image-url.jpg' with the URL of your image */
+    background-size: cover; /* Adjust background size as needed */
+    background-position: center; /* Adjust background position as needed */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
     background-size: cover;
 }
 
