@@ -137,7 +137,7 @@ $(function () {
 
         if ((newPassword !== "" && newPassword !== null) && (confirmPassword !== "" && confirmPassword !== null)) {
             if (!(newPassword === confirmPassword)) {
-                $("#wrongPasswordMatch").text(`Does match with new password`);
+                $("#wrongPasswordMatch").text(`Does not match with new password`);
                 $("#saveProfile").attr('disabled', true);
             } else {
                 $("#saveProfile").attr('disabled', false);
