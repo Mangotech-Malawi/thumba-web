@@ -211,5 +211,11 @@ export const content_view = [
     link: "views/subscriptions/email-subscriptions.html",
     state: "email_subscriptions",
     modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Accounts",
+    link: "views/accounts/accounts.html",
+    state: "accounts",
+    modals: ["views/modals/user.html"]
   }
 ];
