@@ -183,8 +183,6 @@ function loadOtherContent(state, index) {
 
         $(`#${modalContent}`).html("");
 
-        console.log(content_view[index].modals);
-
         $.each(content_view[index].modals, function (key, modal_path) {
           $.when(loadContent(modalContent, "", modal_path)).done(
             function () { }

@@ -3,7 +3,6 @@ export const links = [
         role: "co-owner",
         link: "views/links/co-owner.html"
     },
-    
     {
         role: "admin",
         link: "views/links/admin.html"
@@ -20,5 +19,9 @@ export const links = [
     {
         role: "finance",
         link: "views/links/finance.html"
+    },
+    {
+        role: "superuser",
+        link: "views/links/superuser.html"
     }
 ]
