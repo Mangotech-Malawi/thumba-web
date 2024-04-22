@@ -217,5 +217,11 @@ export const content_view = [
     link: "views/accounts/accounts.html",
     state: "accounts",
     modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Accounts Dashboard",
+    link: "views/dashboards/superuser.html",
+    state: "super_user_dashboard",
+    modals: ["views/modals/user.html"]
   }
 ];
