@@ -147,6 +147,10 @@ $(document).ready(function () {
     selectContent("accounts");
   });
 
+  $(document).on("click", "#accounts-dashboard", function (e) {
+    selectContent("super_user_dashboard");
+  });
+
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -192,6 +196,9 @@ function loadOtherContent(state, index) {
             function () { }
           );
         });
+
+        $("#pageTitle").text(content_view[index].title);
+        console.log(content_view[index].title);
 
       }
 
