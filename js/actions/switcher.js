@@ -11,6 +11,7 @@ import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
 import * as dashboard from "../services/dashboard.js";
 import * as subscription from "../services/subscription.js";
+import * as account from "../services/account.js";
 
 let user_role = sessionStorage.getItem("role");
 
@@ -142,6 +143,9 @@ $(document).ready(function () {
     selectContent("loan-report");
   });
 
+  $(document).on("click", "#accounts", function (e) {
+    selectContent("accounts");
+  });
 
 
   $("#logout").on("click", function (e) {
@@ -299,6 +303,9 @@ function loadOtherContent(state, index) {
           break;
         case "admin_dashboard":
           dashboard.admin();
+          break;
+        case "accounts":
+          account.fetchAccounts();
           break;
       }
     }
