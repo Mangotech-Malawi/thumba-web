@@ -31,10 +31,16 @@ function populateAccountsTable(dataset) {
             { data: "email" },
             { data: "phone_number" },
             { data: "created_at" },
-            { data: "deactivated" },
+            { data: null },
             { data: null },
         ],
         columnDefs: [
+            {
+                render: getSwitchButton,
+                data: null,
+                targets: [6],
+            }
+            ,
             {
                 render: getDelButton,
                 data: null,
@@ -43,6 +49,25 @@ function populateAccountsTable(dataset) {
         ],
     });
 }
+
+function getSwitchButton(data, type, row, meta){
+    if (data.deactivated)
+        return `<div class="icheck-primary d-inline">
+                    <input type="checkbox" id="${data.id}" >
+                    <label class="text-danger" for="${data.id}">
+                        Inactive
+                    </label>
+                </div>`
+    else
+        return `<div class="icheck-primary d-inline ">
+                    <input type="checkbox" id="${data.id}" checked>
+                    <label class="text-success" for="${data.id}">
+                     Active
+                    </label>
+                </div>` 
+   
+}
+
 
 function getDelButton(data, type, row, meta) {
     return `<button  type="button"  class="btn btn-danger"
