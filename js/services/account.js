@@ -14,6 +14,10 @@ export function fetchAccounts() {
     return data;
 }
 
+export function changeAccountStatus(params) {
+    return apiClient("/api/v1/account/change_status", "POST", "json", false, false, params);
+}
+
 function populateAccountsTable(dataset) {
     $("#accountsTable").DataTable({
         destroy: true,
@@ -53,14 +57,16 @@ function populateAccountsTable(dataset) {
 function getSwitchButton(data, type, row, meta){
     if (data.deactivated)
         return `<div class="icheck-primary d-inline">
-                    <input type="checkbox" id="${data.id}" >
+                    <input class="account-status" type="checkbox" id="${data.id}"
+                    data-id="${data.id}" data-active = "false" >
                     <label class="text-danger" for="${data.id}">
                         Inactive
                     </label>
                 </div>`
     else
         return `<div class="icheck-primary d-inline ">
-                    <input type="checkbox" id="${data.id}" checked>
+                    <input class="account-status" type="checkbox" id="${data.id}" 
+                    data-id="${data.id}" data-active = "true" checked>
                     <label class="text-success" for="${data.id}">
                      Active
                     </label>

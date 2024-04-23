@@ -6,7 +6,7 @@ $(document).ready(function () {
     $(document).on("click", "#registerBtn", function (e) {
         e.preventDefault();
 
-        if(account.register(registerAccountParams()).created){
+        if (account.register(registerAccountParams()).created) {
             window.location("index.html");
         }
 
@@ -50,6 +50,27 @@ $(document).ready(function () {
         }
 
     });
+
+    $(document).on('change', '.account-status', function (e) {
+        // Get the value of the data-active attribute from the checkbox
+        let checkbox = $(this);
+        let data = checkbox.data();
+
+        notification(
+            account.changeAccountStatus({id: data.id}).updated,
+            "center",
+            "success",
+            "accounts",
+            "Account Status",
+            "Account status has been changed succesfully",
+            true,
+            3000
+        )
+
+
+    });
+
+
 });
 
 
@@ -58,7 +79,7 @@ function registerAccountParams() {
     let address = $("#address").val();
     let email = $("#email").val();
     let phoneNumber = $("#phoneNumber").val();
-    let username   = $("#username").val();
+    let username = $("#username").val();
     let userEmail = $("#userEmail").val();
     let nationalId = $("#nationalId").val();
     let firstname = $("#firstname").val();
@@ -72,7 +93,7 @@ function registerAccountParams() {
         phone_number: phoneNumber,
         password: password,
         username: username,
-        user_email: userEmail, 
+        user_email: userEmail,
         firstname: firstname,
         lastname: lastname,
         national_id: nationalId
@@ -104,8 +125,8 @@ function notification(
         ).done(function () {
             switch (recordType) {
                 case "accounts":
-                    $.when(investment.fetchInvestimentPackages()).done(function () {
-                        $(investmentPackageModal).modal("hide");
+                    $.when(account.fetchAccounts()).done(function () {
+                        
                     });
                     break;
             }
