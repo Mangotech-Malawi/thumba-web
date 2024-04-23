@@ -161,7 +161,6 @@ $(function () {
     if (validateDTIRatioForm()) {
 
       if ($("#dtiRatioModalTitle").text() === "Add DTI Ratio") {
-        console.log(DTIRatioParams());
         notification(
           settings.addDTIRatio(DTIRatioParams()).created,
           "center",
