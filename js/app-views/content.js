@@ -64,7 +64,7 @@ export const content_view = [
   },
   {
     title: "Investors",
-    link: "views/investor.html",
+    link: "views/investors.html",
     state: "investors",
     modals: ["views/modals/user.html"]
   },
