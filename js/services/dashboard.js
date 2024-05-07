@@ -28,10 +28,26 @@ export function admin() {
 
 export function investor() {
   dashboardData = fetchInvestorDashboardData();
-  populateReturnsInvestmentChart(dashboardData.return_on_investments);
-  $("#totalInvestiments").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].amount)}`);
-  $("#totalReturns").text(`MK${nf.format(dashboardData.total_investment_and_returns[0].roi)}`);
-  $("#totalPackages").text(`${nf.format(dashboardData.investment_packages_count)}`);
+
+  // Check if dashboardData.total_investment_and_returns[0] is defined
+  if (dashboardData.total_investment_and_returns && dashboardData.total_investment_and_returns.length > 0) {
+    const totalInvestment = dashboardData.total_investment_and_returns[0].amount;
+    const totalROI = dashboardData.total_investment_and_returns[0].roi;
+
+    // Check if totalROI is defined
+    if (typeof totalInvestment !== 'undefined' && typeof totalROI !== 'undefined') {
+      populateReturnsInvestmentChart(dashboardData.return_on_investments);
+      $("#totalInvestiments").text(`MK${nf.format(totalInvestment)}`);
+      $("#totalReturns").text(`MK${nf.format(totalROI)}`);
+      $("#totalPackages").text(`${nf.format(dashboardData.investment_packages_count)}`);
+    } else {
+      // Handle case where either totalInvestment or totalROI is undefined
+      console.error('Total investment or ROI is undefined.');
+    }
+  } else {
+    // Handle case where dashboardData.total_investment_and_returns[0] is undefined
+    console.error('Total investment data is undefined.');
+  }
 }
 
 function populateSharesChart(investors) {
