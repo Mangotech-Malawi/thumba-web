@@ -320,17 +320,18 @@ function loadOtherContent(state, index) {
 }
 
 function populateApplicationStatusesStats(statuses_stats) {
-  statuses_stats.forEach(function (status_stat, index) {
-    if (status_stat.name === "NEW") {
-      $("#status-new").text(status_stat.num_of_applications);
-    } else if (status_stat.name === "WAITING") {
-      $("#status-waiting").text(status_stat.num_of_applications);
-    } else if (status_stat.name === "DONE") {
-      $("#status-completed").text(status_stat.num_of_applications);
-    } else if (status_stat.name === "DUMPED") {
-      $("#status-dumped").text(status_stat.num_of_applications);
-    }
-  });
+  if(statuses_stats != null)
+    statuses_stats.forEach(function (status_stat, index) {
+      if (status_stat.name === "NEW") {
+        $("#status-new").text(status_stat.num_of_applications);
+      } else if (status_stat.name === "WAITING") {
+        $("#status-waiting").text(status_stat.num_of_applications);
+      } else if (status_stat.name === "DONE") {
+        $("#status-completed").text(status_stat.num_of_applications);
+      } else if (status_stat.name === "DUMPED") {
+        $("#status-dumped").text(status_stat.num_of_applications);
+      }
+    });
 }
 
 function loadDemographics() {
