@@ -55,7 +55,7 @@ export function calculateAutomaticScores(params) {
 }
 
 export function fetchManualScores() {
-  return apiClient("/api/v1/scores/manual", "GET", "json", false, false, {});
+  return apiClient("/api/v1/scores/composite", "GET", "json", false, false, {});
 }
 
 export function fetchDTIScoreNames() {

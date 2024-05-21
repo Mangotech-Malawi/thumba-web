@@ -39,6 +39,7 @@ $(function () {
       loan_application_id: loanApplicationId,
     });
 
+
     createManualScoresCheckBoxes(settings.fetchManualScores());
     populateAutomaticScoreChart(automaticScores);
     updateManualScoreChart(totalManualScore);
