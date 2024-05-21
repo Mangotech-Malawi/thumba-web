@@ -233,7 +233,7 @@ function loadScores(dataset) {
 }
 
 function getScoreUpdateBtn(data, type, row, metas) {
-  let dataFields = `data-score-name-id = "${data.id}"
+  let dataFields = `data-score-id = "${data.id}"
                     data-code = "${data.code}"
                     data-name = "${data.name}"
                     data-description ="${data.description}"
