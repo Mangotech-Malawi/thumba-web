@@ -32,7 +32,7 @@ export function login(formData) {
       sessionStorage.setItem("role", data.role);
 
       localStorage.clear();
-      
+
 
       if (data.role === "admin") {
         localStorage.setItem("state", "admin_dashboard");
@@ -42,7 +42,7 @@ export function login(formData) {
       } else if (data.role === "co-owner") {
         localStorage.setItem("state", "admin_dashboard");
       }
-     
+
       window.location = "thumba.html";
     } else {
       //Display an error here
@@ -63,13 +63,19 @@ export function updateProfile(params) {
 }
 
 export function delete_user(params) {
-  return apiClient("/api/v1/delete_user", "POST", "json", false, false, 
+  return apiClient("/api/v1/delete_user", "POST", "json", false, false,
     params,
   );
 }
 
+export function sendOTP(params) {
+  return apiClient("/api/v1/send_otp", "POST", "json", false, false,
+    params
+  );
+}
+
 export function fetchUsers() {
- 
+
   let data = apiClient("/api/v1/users", "GET", "json", false, false, {});
 
   if (data != null) {
