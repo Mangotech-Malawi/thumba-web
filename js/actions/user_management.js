@@ -162,6 +162,20 @@ $(function () {
             });
     });
 
+    $(document).on('click', '#sendOTPBtn', function (e) {
+        let email = $("#recoveryEmail").val();
+
+        $.when(users.sendOTP({ email: email})).done(
+            function (data){
+                if (data.otp_sent){
+                    window.location = "verify_otp.html"                    
+                } else {
+
+                }
+            }
+        )
+    });
+
 });
 
 function validatePassword(password) {
