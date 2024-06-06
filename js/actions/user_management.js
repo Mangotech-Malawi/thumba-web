@@ -168,7 +168,27 @@ $(function () {
         $.when(users.sendOTP({ email: email})).done(
             function (data){
                 if (data.otp_sent){
+                    localStorage.setItem("recoveryEmail", email);
                     window.location = "verify_otp.html"                    
+                } else {
+
+                }
+            }
+        )
+    });
+
+    $(document).on('click', '#verifyOTPBtn', function (e) {
+        let otpCode = $("#otpCode").val();
+        let email = localStorage.getItem("recoveryEmail");
+        
+        $.when(users.verifyOTP({ otp_code: otpCode,
+                                email: email})).done(
+            function (data){
+                if (data.valid_otp){
+                     $.when(users.saveSessionDetails(data)).done(function (){
+                        window.location = "thumba.html";
+                     });
+
                 } else {
 
                 }
