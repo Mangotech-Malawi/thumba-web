@@ -24,26 +24,12 @@ export function login(formData) {
     apiClient("/api/v1/auth/login", "POST", "json", false, false, formData)
   ).done(function (data) {
     if (data != null) {
-      token = data.token;
-      sessionStorage.setItem("user_id", data.user_id)
-      sessionStorage.setItem("token", token);
-      sessionStorage.setItem("username", data.username);
-      sessionStorage.setItem("email", data.email);
-      sessionStorage.setItem("role", data.role);
 
-      localStorage.clear();
-
-
-      if (data.role === "admin") {
-        localStorage.setItem("state", "admin_dashboard");
-      }
-      else if (data.role === "investor") {
-        localStorage.setItem("state", "investor_dashboard");
-      } else if (data.role === "co-owner") {
-        localStorage.setItem("state", "admin_dashboard");
-      }
-
-      window.location = "thumba.html";
+      $.when(saveSessionDetails(data)).done(
+        function () {
+          window.location = "thumba.html";
+      });
+      
     } else {
       //Display an error here
     }
@@ -69,7 +55,13 @@ export function delete_user(params) {
 }
 
 export function sendOTP(params) {
-  return apiClient("/api/v1/send_otp", "POST", "json", false, false,
+  return apiClient("/api/v1/auth/send_otp", "POST", "json", false, false,
+    params
+  );
+}
+
+export function verifyOTP(params) {
+  return apiClient("/api/v1/auth/verify_otp", "POST", "json", false, false,
     params
   );
 }
@@ -141,4 +133,25 @@ function getEditButton(data, type, row, meta) {
     data-role = "${data.role}"
     data-button-type = "edit">
    <i class="fas fa-edit"></i></button>`;
+}
+
+export function saveSessionDetails(data) {
+
+  token = data.token;
+  sessionStorage.setItem("user_id", data.user_id)
+  sessionStorage.setItem("token", token);
+  sessionStorage.setItem("username", data.username);
+  sessionStorage.setItem("email", data.email);
+  sessionStorage.setItem("role", data.role);
+
+  localStorage.clear();
+
+  if (data.role === "admin") {
+    localStorage.setItem("state", "admin_dashboard");
+  }
+  else if (data.role === "investor") {
+    localStorage.setItem("state", "investor_dashboard");
+  } else if (data.role === "co-owner") {
+    localStorage.setItem("state", "admin_dashboard");
+  }
 }
