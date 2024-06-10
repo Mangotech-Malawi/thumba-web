@@ -25,47 +25,61 @@ document.addEventListener('DOMContentLoaded', () => {
             if (preference && preference.theme === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.body.classList.remove('light-mode');
+                if (button === null) {
+                    return;
+                } else {
                 document.getElementById('navbar').classList.remove('navbar-light');
                 document.getElementById('navbar').classList.add('navbar-dark');
                 document.getElementById('sidebar').classList.remove('sidebar-light-secondary');
                 document.getElementById('sidebar').classList.add('sidebar-dark-primary');
                 button.textContent = 'Switch to Light Mode';
+                }
             } else {
                 document.body.classList.add('light-mode');
                 document.body.classList.remove('dark-mode');
-                document.getElementById('navbar').classList.remove('navbar-dark');
-                document.getElementById('navbar').classList.add('navbar-light');
-                document.getElementById('sidebar').classList.remove('sidebar-dark-primary');
-                document.getElementById('sidebar').classList.add('sidebar-light-secondary');
-                button.textContent = 'Switch to Dark Mode';
+
+                if (button === null) {
+                    return;
+                } else {
+                    document.getElementById('navbar').classList.remove('navbar-dark');
+                    document.getElementById('navbar').classList.add('navbar-light');
+                    document.getElementById('sidebar').classList.remove('sidebar-dark-primary');
+                    document.getElementById('sidebar').classList.add('sidebar-light-secondary');
+                    button.textContent = 'Switch to Dark Mode';
+                }
             }
         };
 
         // Add event listener to the button for toggling theme
-        button.addEventListener('click', () => {
-            const isDarkMode = document.body.classList.toggle('dark-mode');
-            document.body.classList.toggle('light-mode');
+        if (button === null) {
+            return;
+        } else {
+            button.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode');
+                document.body.classList.toggle('light-mode');
 
-            // Update classes for navbar and sidebar
-            if (isDarkMode) {
-                document.getElementById('navbar').classList.remove('navbar-light');
-                document.getElementById('navbar').classList.add('navbar-dark');
-                document.getElementById('sidebar').classList.remove('sidebar-light-secondary');
-                document.getElementById('sidebar').classList.add('sidebar-dark-primary');
-                button.textContent = 'Switch to Light Mode';
-            } else {
-                document.getElementById('navbar').classList.remove('navbar-dark');
-                document.getElementById('navbar').classList.add('navbar-light');
-                document.getElementById('sidebar').classList.remove('sidebar-dark-primary');
-                document.getElementById('sidebar').classList.add('sidebar-light-secondary');
-                button.textContent = 'Switch to Dark Mode';
-            }
+                // Update classes for navbar and sidebar
+                if (isDarkMode) {
+                    document.getElementById('navbar').classList.remove('navbar-light');
+                    document.getElementById('navbar').classList.add('navbar-dark');
+                    document.getElementById('sidebar').classList.remove('sidebar-light-secondary');
+                    document.getElementById('sidebar').classList.add('sidebar-dark-primary');
+                    button.textContent = 'Switch to Light Mode';
+                } else {
+                    document.getElementById('navbar').classList.remove('navbar-dark');
+                    document.getElementById('navbar').classList.add('navbar-light');
+                    document.getElementById('sidebar').classList.remove('sidebar-dark-primary');
+                    document.getElementById('sidebar').classList.add('sidebar-light-secondary');
+                    button.textContent = 'Switch to Dark Mode';
+                }
 
-            // Save the current theme preference to IndexedDB
-            const transaction = db.transaction('preferences', 'readwrite');
-            const store = transaction.objectStore('preferences');
-            store.put({ id: 1, theme: isDarkMode ? 'dark' : 'light' });
-        });
+                // Save the current theme preference to IndexedDB
+                const transaction = db.transaction('preferences', 'readwrite');
+                const store = transaction.objectStore('preferences');
+                store.put({ id: 1, theme: isDarkMode ? 'dark' : 'light' });
+            });
+        }
+
     };
 
     request.onerror = () => {
