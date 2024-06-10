@@ -1,5 +1,6 @@
 import * as users from "../services/users.js";
 import * as form from "../utils/forms.js"
+import { selectContent } from "../actions/login.js";
 
 let formType;
 
@@ -169,7 +170,7 @@ $(function () {
             function (data){
                 if (data.otp_sent){
                     localStorage.setItem("recoveryEmail", email);
-                    window.location = "verify_otp.html"                    
+                    selectContent("verify_otp");                   
                 } else {
 
                 }

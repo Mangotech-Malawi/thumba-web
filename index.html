@@ -39,66 +39,10 @@
 </head>
 
 <body class="hold-transition login-page ">
-    <div class="login-box ">
-        <!-- /.login-logo -->
-
-        <div id="login" class="card  ">
-            <div class="card-body login-card-body ">
-                <h1 class="text-center  h1 mb-4"><b>Thumba</b></h1>
-                <p class="login-box-msg">Sign in to start your session</p>
-             
-                <form id="loginForm" action="" method="post">
-
-                    <div class="input-group mb-4">
-                        <input id="email" type="text" name="email" class="form-control" placeholder="email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-4">
-                        <input id="password" type="password" name="password" password="password" class="form-control"
-                            placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-
-                    </div>
-                    <div class="social-auth-links text-center mb-3">
-                        <p>- OR -</p>
-                        <a href="forgot_password.html" class="btn btn-block btn-warning">
-                            <i class="fab mr-2"></i> I forgot my pasword
-                        </a>
-                        <a href="register.html" class="btn btn-block btn-success">
-                            <i class="fab mr-2"></i> Register a new membership
-                        </a>
-                    </div>
-
-
-
-                </form>
-            </div>
-            <!-- /.login-card-body -->
-        </div>
+    <div id="mainContent">
 
     </div>
+ 
     <!-- /.login-box -->
 
     <!-- jQuery -->
@@ -114,11 +58,12 @@
     <script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
     <!-- Toastr -->
     <script src="dist/js/modernizr.2.7.1.js"></script>
+    <script src="js/actions/user_management.js" type="module"></script>
     <script src="js/services/users.js" type="module"></script>
     <script src="js/actions/login.js" type="module"></script>
     <script src="js/services/validator.js" type="module"></script>
     <script src="js/services/config.js" type="module"></script>
-
+    <script src="js/actions/account.js" type="module"></script>
 </body>
 
 </html>
