@@ -225,3 +225,23 @@ export const content_view = [
     modals: ["views/modals/user.html"]
   }
 ];
+
+
+export const login_view = [
+  {
+    state:  "login",
+    link: "views/users/login.html"
+  },
+  {
+    state:  "register",
+    link: "views/users/register.html"
+  }, 
+  {
+    state:  "forgot_password",
+    link: "views/users/forgot_password.html"
+  },
+  {
+    state:  "verify_otp",
+    link: "views/users/verify_otp.html"
+  }
+]
