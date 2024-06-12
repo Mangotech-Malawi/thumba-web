@@ -11,10 +11,15 @@ const mainContent = "mainContent";
 const LOGIN_STATE = "login";
 
 
-if(state == null || typeof state === undefined || state === ""){
+if(state == null || typeof state === undefined || state === "" ){
     selectContent(LOGIN_STATE);
 } else {
-    selectContent(state);
+    if ( state === "login" || state === "register" === "forgot_password" 
+    || state === "verify_otp" ){
+        selectContent(state);
+    }else {
+        selectContent(LOGIN_STATE);
+    }
 }
 
 $(document).ready(function () {
