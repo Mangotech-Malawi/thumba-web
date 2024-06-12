@@ -23,3 +23,14 @@ body {
 .login-box-msg {
     color: #000;
 }
+
+.register-box {
+    width: 800px;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 1000px) {
+    .register-box {
+      width: 90%;
+    }
+}
