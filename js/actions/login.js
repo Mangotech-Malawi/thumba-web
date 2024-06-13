@@ -6,20 +6,16 @@ import { loadContent } from "../actions/contentLoader.js";
 
 
 let state = localStorage.getItem("state");
-const mainContent = "mainContent";
+const mainContent = "loginContent";
 
 const LOGIN_STATE = "login";
 
 
-if(state == null || typeof state === undefined || state === "" ){
+if(state == null || typeof state === undefined || state === "" || state !== "login" || state !== "register" !== "forgot_password" 
+|| state !== "verify_otp" ){
     selectContent(LOGIN_STATE);
 } else {
-    if ( state === "login" || state === "register" === "forgot_password" 
-    || state === "verify_otp" ){
-        selectContent(state);
-    }else {
-        selectContent(LOGIN_STATE);
-    }
+    selectContent(state);
 }
 
 $(document).ready(function () {
