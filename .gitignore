@@ -1,0 +1,4 @@
+
+# ignore config json file
+/build/config/config.json
+
