@@ -7,9 +7,10 @@ import {
   validateAnalysisScoreNameForm, validateAnalysisScoreForm,
   validateGradeForm, validateDTIRatioForm
 } from "../utils/forms.js";
+import { loadContent } from "./contentLoader.js";
+
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
-const riskCalculatorModal = "#modal-risk-calculator";
 const scoreNameModal = "#modal-analysis-score-name";
 const dtiRatioModal = "#modal-dti-ratios";
 let totalManualScore = 0.0;
@@ -23,28 +24,32 @@ let gradeId;
 let loanApplicationId;
 
 $(function () {
-  //Restting manual score to zero
+  //Resetting manual score to zero
 
-  $(document).on("show.bs.modal", riskCalculatorModal, function (e) {
+  $(document).on("click", ".view-risk-calculator", function (e) {
+    e.preventDefault();
+    
     totalManualScore = 0.0;
     availableManualScore = 0.0;
     risk_percentage = 0.0;
     totalManualScore = 0.0;
     selectedManualScoreIds = new Array();
 
-    let opener = e.relatedTarget;
-    loanApplicationId = $(opener).attr("data-loan-application-id");
+    loanApplicationId = $(this).data().loanApplicationId;
 
-    let automaticScores = settings.calculateAutomaticScores({
-      loan_application_id: loanApplicationId,
+    $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
+      let automaticScores = settings.calculateAutomaticScores({
+        loan_application_id: loanApplicationId,
+      });
+
+      createManualScoresCheckBoxes(settings.fetchManualScores());
+      populateAutomaticScoreChart(automaticScores);
+      updateManualScoreChart(totalManualScore);
+      updateRiskResultsChart();
+      updateGradesLabel();
     });
 
 
-    createManualScoresCheckBoxes(settings.fetchManualScores());
-    populateAutomaticScoreChart(automaticScores);
-    updateManualScoreChart(totalManualScore);
-    updateRiskResultsChart();
-    updateGradesLabel();
   });
 
   $(document).on("show.bs.modal", scoreNameModal, function (e) {
@@ -520,3 +525,8 @@ function notification(
 function clearFields(formId) {
   $(":input", formId).not(":button, :submit, :reset").val("").prop("checked", false).prop("selected", false);
 }
+
+function loadRecord(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
+}
+
