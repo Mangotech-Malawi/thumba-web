@@ -341,7 +341,7 @@ function getAnalyseRiskBtn(data, type, row, metas) {
     data-collaterals = "${data.collaterals}" 
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "risk-calculator", "default", "fas fa-chart-bar");
+  return getButton(dataFields, "", "default view-risk-calculator", "fas fa-chart-bar");
 }
 
 function getApplicationUpdateBtn(data, type, row, metas) {
