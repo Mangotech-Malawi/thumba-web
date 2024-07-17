@@ -463,7 +463,7 @@ function createManualScoresCheckBoxes(scores) {
       score.id +
       score.code +
       '">' +
-      score.description +
+      score.code +
       "</label></div></div></div></div"
     );
 
