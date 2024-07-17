@@ -38,6 +38,12 @@ export const content_view = [
     modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
+    title: "Applications",
+    link: "views/settings/risk_calculator.html",
+    modals: [],
+    state: "risk_calculator",
+  },
+  {
     title: "Loan Payments",
     link: "views/loans/loan_payments.html",
     modals: ["views/modals/user.html", "views/modals/loan_payments.html"],
