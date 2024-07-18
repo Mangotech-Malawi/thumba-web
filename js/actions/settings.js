@@ -357,16 +357,15 @@ function populateAutomaticScoreChart(automatic_score) {
   availableAutomaticScore = automatic_score.total_available_score;
   totalAutomaticScore = automatic_score.score;
 
-  $("#available-score").text(availableAutomaticScore);
+  $(".available-score").text(availableAutomaticScore);
   $("#analysis-score").text(automatic_score.score);
-  $("#analysis-score-percentage").text(automatic_score.score_percentage);
-  $("#installment-amount").text(automatic_score.installment_amount);
-  $("#monthly-salary").text(automatic_score.total_monthly_salary);
-  $("#dependants-expense").text(
-    automatic_score.total_monthly_dependants_expenses
+  $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
+  $("#installment-amount").text(`MWK${automatic_score.installment_amount}`);
+  $("#monthly-salary").text(`MWK${automatic_score.total_monthly_salary}`);
+  $("#dependants-expense").text(`MWK${automatic_score.total_monthly_dependants_expenses}`
   );
-  $("#monthly-otherloans").text(automatic_score.total_monthly_otherloans);
-  $("#business-profits").text(automatic_score.total_monthly_business_profits);
+  $("#monthly-otherloans").text(`MWK${automatic_score.total_monthly_otherloans}`);
+  $("#business-profits").text(`MWK${automatic_score.total_monthly_business_profits}`);
 
   selectedManualScoreIds.push(automatic_score.score_id);
 }
