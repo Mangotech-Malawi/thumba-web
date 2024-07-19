@@ -358,7 +358,7 @@ function populateAutomaticScoreChart(automatic_score) {
   totalAutomaticScore = automatic_score.score;
 
   $(".available-score").text(availableAutomaticScore);
-  $("#analysis-score").text(automatic_score.score);
+  $(".analysis-score").text(`${automatic_score.score}/${availableAutomaticScore}`);
   $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
   $("#installment-amount").text(`MWK${automatic_score.installment_amount}`);
   $("#monthly-salary").text(`MWK${automatic_score.total_monthly_salary}`);
@@ -371,15 +371,10 @@ function populateAutomaticScoreChart(automatic_score) {
 }
 
 function updateManualScoreChart(score) {
-  $("#manual-score-chart").html("");
-  manualScoreOptions.series[0] = (score * 100) / availableManualScore;
 
-  let manualScoreChart = new ApexCharts(
-    document.querySelector("#manual-score-chart"),
-    manualScoreOptions
-  );
+   let score_percentage = (score * 100) / availableManualScore;
+   $("#manual-score-progress-bar").attr("style",`width: ${score_percentage}%`);
 
-  manualScoreChart.render();
 }
 
 function updateRiskResultsChart() {
@@ -448,9 +443,8 @@ function createManualScoresCheckBoxes(scores) {
   $("#scores-checkbox-row").html("");
   scores.forEach(function (score, index) {
     $("#scores-checkbox-row").append(
-      '<div class="col-lg-6 col-sm-6">' +
-      '<div class="card "><div class="card-body">' +
-      '<div class="icheck-primary  icheck-inline ">' +
+      '<li>' +
+      '<div class="icheck-primary  d-inline ml-2 ">' +
       '<input class="manual-score-chkbox" type="checkbox" value="' +
       score.score +
       '" id="' +
@@ -462,8 +456,11 @@ function createManualScoresCheckBoxes(scores) {
       score.id +
       score.code +
       '">' +
-      score.code +
-      "</label></div></div></div></div"
+      '</label></div>' + 
+      '<span class="text">' +
+      score.code + 
+      "</span>" +
+      "</div></li>"
     );
 
     availableManualScore += score.score;
