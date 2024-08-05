@@ -22,6 +22,17 @@ let totalScore = 0.0;
 let risk_percentage = 0.0;
 let gradeId;
 let loanApplicationId;
+let automaticScores;
+let manual_scores;
+
+if (localStorage.getItem("manual_scores") != null ){
+  console.log("Manual Scores");
+} else{
+  console.log("sasa");
+} 
+
+
+
 
 $(function () {
   //Resetting manual score to zero
@@ -38,15 +49,28 @@ $(function () {
     loanApplicationId = $(this).data().loanApplicationId;
 
     $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
-      let automaticScores = settings.calculateAutomaticScores({
-        loan_application_id: loanApplicationId,
-      });
 
-      createManualScoresCheckBoxes(settings.fetchManualScores());
-      populateAutomaticScoreChart(automaticScores);
-      updateManualScoreChart(totalManualScore);
+      $.when(settings.calculateAutomaticScores({ loan_application_id: loanApplicationId })).done(
+        function (data){
+          automaticScores = data; 
+          populateAutomaticScoreChart(automaticScores);
+          localStorage.setItem("automatic_scores", JSON.stringify(automaticScores));
+        }
+      )
+
+      $.when(settings.fetchManualScores()).done(
+        function(data){
+          manual_scores =  data
+          createManualScoresCheckBoxes(manual_scores);
+          updateManualScoreChart(totalManualScore);
+          localStorage.setItem("manual_scores", JSON.stringify(manual_scores));
+        }
+      )
+
       updateRiskResultsChart();
       updateGradesLabel();
+
+      
     });
 
 
@@ -279,6 +303,15 @@ $(function () {
       3000
     );
   });
+
+  $(document).on("click", "#newApplicationBackBtn", function () {
+    $.when(loadRecord("views/loans/new.html", "new_applications")).done(
+      function (){
+        loans.fetchLoanApplications({ status_name: "NEW" });
+      }
+    )
+  });
+
 });
 
 
@@ -358,12 +391,11 @@ function populateAutomaticScoreChart(automatic_score) {
   totalAutomaticScore = automatic_score.score;
 
   $(".available-score").text(availableAutomaticScore);
-  $(".analysis-score").text(`${automatic_score.score}/${availableAutomaticScore}`);
+  $(".analysis-score").text(`${automatic_score.score_percentage}/100`);
   $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
   $("#installment-amount").text(`MWK${automatic_score.installment_amount}`);
   $("#monthly-salary").text(`MWK${automatic_score.total_monthly_salary}`);
-  $("#dependants-expense").text(`MWK${automatic_score.total_monthly_dependants_expenses}`
-  );
+  $("#dependants-expense").text(`MWK${automatic_score.total_monthly_dependants_expenses}`);
   $("#monthly-otherloans").text(`MWK${automatic_score.total_monthly_otherloans}`);
   $("#business-profits").text(`MWK${automatic_score.total_monthly_business_profits}`);
 
@@ -372,8 +404,10 @@ function populateAutomaticScoreChart(automatic_score) {
 
 function updateManualScoreChart(score) {
 
-   let score_percentage = (score * 100) / availableManualScore;
+   let score_percentage = Number((score * 100) / availableManualScore).toFixed(1);
    $("#manual-score-progress-bar").attr("style",`width: ${score_percentage}%`);
+   $("#manual-score-ratio").text(`${score_percentage }/${100}`);
+
 
 }
 

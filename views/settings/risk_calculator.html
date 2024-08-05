@@ -5,6 +5,15 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                     <!-- Button for calling add organisation modal -->
+                    <button type="button" class="btn btn bg-gradient-secondary text-left"  data-form-type="job"
+                    id="newApplicationBackBtn" >
+                        <i class="fas fa fa-download"></i> Download Analysis Report
+                    </button>
+
+                    <button type="button" class="btn btn bg-gradient-primary text-left"  data-form-type="job"
+                    id="newApplicationBackBtn" >
+                        <i class="fa fa-file"></i> Save Analysis
+                    </button>
 
                     <button type="button" class="btn btn bg-gradient-success text-left"  data-form-type="job"
                     id="newApplicationBackBtn" >
@@ -34,7 +43,7 @@
                           
                           <div class="progress-group">
                             Composite Score
-                            <span class="float-right"><b>160</b>/200</span>
+                            <span id="manual-score-ratio" class="float-right font-weight-bold"></span>
                             <div class="progress progress-xl">
                               <div id="manual-score-progress-bar" 
                               class="progress-bar bg-primary"  ></div>
@@ -88,7 +97,7 @@
                         </div>
                         <hr />
                       
-                          <table id="scoreNamesTable" class="table table-striped">
+                          <table  class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -99,35 +108,35 @@
                             <tbody>
                               <tr>
                                 <td> Available Score</td>
-                                <td><span  class="available-score h4"></span></td>
+                                <td><span  class="available-score font-weight-bold h5"></span></td>
                               </tr>
                               <tr>
                                 <td> Score </td>
-                                <td class="h3"><span  class="analysis-score h4"></span></td>
+                                <td class="h3"><span  class="analysis-score font-weight-bold  h5"></span></td>
                               </tr>
                               <tr>
                                 <td>Score Percentage</td>
-                                <td><span id="analysis-score-percentage" class="h3"></span></td>
+                                <td><span id="analysis-score-percentage" class="h5 font-weight-bold "></span></td>
                               </tr>
                               <tr>
                                 <td>Installment Amount</td>
-                                <td><span id="installment-amount" class="h3"></span></td>
+                                <td><span id="installment-amount" class="h5 font-weight-bold "></span></td>
                               </tr>
                               <tr>
                                 <td>Total Monthly Salary</td>
-                                <td><span id="monthly-salary" class="h3"></span></td>
+                                <td><span id="monthly-salary" class="h5 font-weight-bold "></span></td>
                               </tr>
                               <tr>
                                 <td>Total Dependants Expense</td>
-                                <td><span id="dependants-expense" class="h3"></span></td>
+                                <td><span id="dependants-expense" class="h5 font-weight-bold "></span></td>
                               </tr>
                               <tr>
                                 <td>Total Monthly Debts</td>
-                                <td><span id="monthly-otherloans" class="h3"></span></td>
+                                <td><span id="monthly-otherloans" class="h5 font-weight-bold "></span></td>
                               </tr>   
                               <tr>
                                 <td>Monthly Business Profits</td>
-                                <td><span id="business-profits" class="h3"></span></td>
+                                <td><span id="business-profits" class="h5 font-weight-bold "></span></td>
                               </tr>                             
                             </tbody>
                             
@@ -139,7 +148,7 @@
       
       
                     <div class="card-footer p-0">
-      
+                      
                     </div>
                     <!-- /.card-body -->
                   </div>
@@ -160,31 +169,20 @@
                       </div>
                     </div>
       
-                    <div class="card-body col d-flex ">
+                    <div class="card-body col  ">
                       <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 justify-content-center">
                           <div id="risk-result-chart">
                           </div>
+                          <p class="text-center  h2">Grade</p>
+                          <p class="text-center h2 font-weight-bold " id="loan-risk-grade-range"> %</p>
+
+                          <p class="text-center  h2">Score</p>
+                          <p  id="loan-risk-grade" class="text-center font-weight-bold h5"></p>
+
+                         
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-      
-                          <ul class="nav flex-column">
-                            <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                <p class="h3">Grade <span id="loan-risk-grade" class="float-right badge bg-primary"></span>
-                                </p>
-                              </a>
-                            </li>
-                            <li class="nav-item">
-                              <a href="#" class="nav-link h-4">
-                                <p class="h3">Range <span id="loan-risk-grade-range"
-                                    class=" float-right badge bg-info"></span></p>
-                              </a>
-                            </li>
-      
-                          </ul>
-      
-                        </div>
+                        
                       </div>
                     </div>
       
