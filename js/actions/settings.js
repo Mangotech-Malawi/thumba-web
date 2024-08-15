@@ -40,20 +40,17 @@ $(function () {
     selectedManualScoreIds = new Array();
 
     loanApplicationId = $(this).data().loanApplicationId;
-    localStorage.removeItem("loanApplicationId");
-    localStorage.setItem("loanApplicationId", loanApplicationId)
 
-    populateCalculatorCharts();
+    $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
+      let automaticScores = settings.calculateAutomaticScores({
+        loan_application_id: loanApplicationId,
+      });
 
-  });
-
-
-  $(document).on("click", "#newApplicationBackBtn", function (e) {
-    e.preventDefault();
-
-
-    $.when(loadApplicationStatusView("views/loans/new.html", "new_applications")).done(function () {
-      loans.fetchLoanApplications({ status_name: "NEW" });
+      createManualScoresCheckBoxes(settings.fetchManualScores());
+      populateAutomaticScoreChart(automaticScores);
+      updateManualScoreChart(totalManualScore);
+      updateRiskResultsChart();
+      updateGradesLabel();
     });
     
   });
@@ -285,6 +282,15 @@ $(function () {
       3000
     );
   });
+
+  $(document).on("click", "#newApplicationBackBtn", function () {
+    $.when(loadRecord("views/loans/new.html", "new_applications")).done(
+      function (){
+        loans.fetchLoanApplications({ status_name: "NEW" });
+      }
+    )
+  });
+
 });
 
 
@@ -379,12 +385,11 @@ function populateAutomaticScoreChart(automatic_score) {
   totalAutomaticScore = automatic_score.score;
 
   $(".available-score").text(availableAutomaticScore);
-  $(".analysis-score").text(`${automatic_score.score}/${availableAutomaticScore}`);
+  $(".analysis-score").text(`${automatic_score.score_percentage}/100`);
   $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
   $("#installment-amount").text(`MWK${automatic_score.installment_amount}`);
   $("#monthly-salary").text(`MWK${automatic_score.total_monthly_salary}`);
-  $("#dependants-expense").text(`MWK${automatic_score.total_monthly_dependants_expenses}`
-  );
+  $("#dependants-expense").text(`MWK${automatic_score.total_monthly_dependants_expenses}`);
   $("#monthly-otherloans").text(`MWK${automatic_score.total_monthly_otherloans}`);
   $("#business-profits").text(`MWK${automatic_score.total_monthly_business_profits}`);
 
@@ -393,8 +398,10 @@ function populateAutomaticScoreChart(automatic_score) {
 
 function updateManualScoreChart(score) {
 
-   let score_percentage = (score * 100) / availableManualScore;
+   let score_percentage = Number((score * 100) / availableManualScore).toFixed(1);
    $("#manual-score-progress-bar").attr("style",`width: ${score_percentage}%`);
+   $("#manual-score-ratio").text(`${score_percentage }/${100}`);
+
 
 }
 
