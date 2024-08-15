@@ -41,17 +41,10 @@ $(function () {
 
     loanApplicationId = $(this).data().loanApplicationId;
 
-    $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
-      let automaticScores = settings.calculateAutomaticScores({
-        loan_application_id: loanApplicationId,
-      });
+    localStorage.removeItem("loanApplicationId");
+    localStorage.setItem("loanApplicationId", loanApplicationId );
 
-      createManualScoresCheckBoxes(settings.fetchManualScores());
-      populateAutomaticScoreChart(automaticScores);
-      updateManualScoreChart(totalManualScore);
-      updateRiskResultsChart();
-      updateGradesLabel();
-    });
+    populateCalculatorCharts();
     
   });
 
