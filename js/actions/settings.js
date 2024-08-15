@@ -21,7 +21,11 @@ let selectedManualScoreIds = new Array();
 let totalScore = 0.0;
 let risk_percentage = 0.0;
 let gradeId;
-let loanApplicationId;
+let loanApplicationId = localStorage.getItem("loanApplicationId");
+
+if( loanApplicationId != null && typeof loanApplicationId !== undefined  && loanApplicationId !== "" ){
+  populateCalculatorCharts()
+}
 
 $(function () {
   //Resetting manual score to zero
@@ -36,20 +40,22 @@ $(function () {
     selectedManualScoreIds = new Array();
 
     loanApplicationId = $(this).data().loanApplicationId;
+    localStorage.removeItem("loanApplicationId");
+    localStorage.setItem("loanApplicationId", loanApplicationId)
 
-    $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
-      let automaticScores = settings.calculateAutomaticScores({
-        loan_application_id: loanApplicationId,
-      });
+    populateCalculatorCharts();
 
-      createManualScoresCheckBoxes(settings.fetchManualScores());
-      populateAutomaticScoreChart(automaticScores);
-      updateManualScoreChart(totalManualScore);
-      updateRiskResultsChart();
-      updateGradesLabel();
+  });
+
+
+  $(document).on("click", "#newApplicationBackBtn", function (e) {
+    e.preventDefault();
+
+
+    $.when(loadApplicationStatusView("views/loans/new.html", "new_applications")).done(function () {
+      loans.fetchLoanApplications({ status_name: "NEW" });
     });
-
-
+    
   });
 
   $(document).on("show.bs.modal", scoreNameModal, function (e) {
@@ -342,6 +348,21 @@ function gradeParams() {
   };
 
   return params;
+}
+
+function populateCalculatorCharts(){
+
+  $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
+    let automaticScores = settings.calculateAutomaticScores({
+      loan_application_id: loanApplicationId,
+    });
+
+    createManualScoresCheckBoxes(settings.fetchManualScores());
+    populateAutomaticScoreChart(automaticScores);
+    updateManualScoreChart(totalManualScore);
+    updateRiskResultsChart();
+    updateGradesLabel();
+  });
 }
 
 function populateAutomaticScoreChart(automatic_score) {
