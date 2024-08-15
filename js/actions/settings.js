@@ -259,7 +259,7 @@ $(function () {
 
   });
 
-  $(document).on("click", "#saveLoanAnalyisBtn", function () {
+  $(document).on("click", "#saveLoanAnalysisBtn", function () {
     notification(
       settings.addAnalysis({
         loan_application_id: loanApplicationId,
