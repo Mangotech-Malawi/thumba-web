@@ -143,6 +143,8 @@ export function saveSessionDetails(data) {
   sessionStorage.setItem("username", data.username);
   sessionStorage.setItem("email", data.email);
   sessionStorage.setItem("role", data.role);
+  sessionStorage.setItem("account_name", data.account_name);
+  sessionStorage.setItem("account_id", data.account_id);
 
   localStorage.clear();
 

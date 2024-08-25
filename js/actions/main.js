@@ -12,6 +12,8 @@ $(function () {
   });
 
   $("#lbl-username").text(sessionStorage.getItem("username"));
+  $("#account-name").text(` ${sessionStorage.getItem("account_name")}`);
+
 
   $(window).on('touchmove', { passive: false }, function (event) {
     var touchCurrentY = event.originalEvent.touches[0].clientY;
