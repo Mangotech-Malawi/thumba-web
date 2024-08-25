@@ -112,7 +112,7 @@ $(function () {
     }
   });
 
-  $(document).on("change", ".manual-score-chkbox", function (e) {
+  $(document).on("click", ".manual-score-chkbox", function (e) {
     if (this.checked) {
       totalManualScore = parseFloat(totalManualScore) + parseFloat(this.value);
       selectedManualScoreIds.push(parseInt(this.dataset.id));
@@ -259,7 +259,7 @@ $(function () {
 
   });
 
-  $(document).on("click", "#saveLoanAnalyisBtn", function () {
+  $(document).on("click", "#saveLoanAnalysisBtn", function () {
     notification(
       settings.addAnalysis({
         loan_application_id: loanApplicationId,
@@ -352,15 +352,16 @@ function gradeParams() {
 function populateCalculatorCharts(){
 
   $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
-    let automaticScores = settings.calculateAutomaticScores({
-      loan_application_id: loanApplicationId,
+    
+    $.when(settings.calculateAutomaticScores({ loan_application_id: loanApplicationId })).done(function(automaticScores){
+      createManualScoresCheckBoxes(settings.fetchManualScores());
+      populateAutomaticScoreChart(automaticScores);
+      updateManualScoreChart(totalManualScore);
+      updateRiskResultsChart();
+      updateGradesLabel();
     });
 
-    createManualScoresCheckBoxes(settings.fetchManualScores());
-    populateAutomaticScoreChart(automaticScores);
-    updateManualScoreChart(totalManualScore);
-    updateRiskResultsChart();
-    updateGradesLabel();
+ 
   });
 }
 
@@ -377,6 +378,7 @@ function populateAutomaticScoreChart(automatic_score) {
   availableAutomaticScore = automatic_score.total_available_score;
   totalAutomaticScore = automatic_score.score;
 
+  $("#automatic-score-progress-bar").attr("style",`width: ${automatic_score.score_percentage}%`)
   $(".available-score").text(availableAutomaticScore);
   $(".analysis-score").text(`${automatic_score.score_percentage}/100`);
   $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
@@ -420,12 +422,16 @@ function updateRiskResultsChart() {
 }
 
 function updateGradesLabel() {
-  let grade = settings.fetchGrade({ risk_percentage: risk_percentage });
-  gradeId = grade[0].id;
-  $("#loan-risk-grade").text(grade[0].name);
-  $("#loan-risk-grade-range").text(
-    `${grade[0].minimum} - ${grade[0].maximum}  `
-  );
+  $.when(settings.fetchGrade({ risk_percentage: risk_percentage })).done( function (grade){
+      if(grade != null  || typeof grade != undefined || grade != null ){
+        gradeId = grade[0].id;
+        $("#loan-risk-grade").text(grade[0].name);
+        $("#loan-risk-grade-range").text(
+          `${grade[0].minimum} - ${grade[0].maximum}  `
+        );
+      }
+  });
+
 }
 
 function populateScoreNames(scoreNames) {
