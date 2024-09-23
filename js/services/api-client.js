@@ -23,7 +23,6 @@ export function apiClient(path, type, dataType, async, cache, data) {
             if(res.status === 401){
                sessionStorage.clear();
                localStorage.clear();
-               window.location = "index.html"
             } 
         } 
     }).fail(function (jqXHR, testStatus, errorThrown) {
