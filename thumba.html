@@ -199,8 +199,7 @@
     <div id="modalContent"></div>
 
     <footer class="main-footer">
-      <strong>Mangotech@2021 <a href="https://adminlte.io"></a>.</strong>
-      All rights reserved.
+      <strong><a href="#" class="text-secondary">Mangotech@<span id="cur-year"></span></a></strong>
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1.0.0
       </div>
@@ -277,6 +276,9 @@
   <script src="js/actions/investment.js" type="module"></script>
   <script src="js/actions/account.js" type="module"></script>
   <script src="js/actions/reports.js" type="module"></script>
+  <script>
+     $("#cur-year").text(new Date().getFullYear());
+  </script>
 </body>
 
 </html>
