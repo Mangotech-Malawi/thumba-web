@@ -32,6 +32,7 @@ export function login(formData) {
       
     } else {
       //Display an error here
+      $("#invalidCredentials").text("Invalid Credentials");
     }
   });
 }
