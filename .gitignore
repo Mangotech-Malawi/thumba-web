@@ -2,3 +2,5 @@
 
 # Ignore config.json
 /build/config/config.json
+.htaccess
+
