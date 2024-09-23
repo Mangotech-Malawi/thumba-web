@@ -1,12 +1,17 @@
 
 import * as conn_data from "./config.js";
 
+let config = null;
+
+
 let token = sessionStorage.getItem("token");
 
 export function apiClient(path, type, dataType, async, cache, data) {
+    let result = null
 
-    $.when(conn_data.getConfigs).done(function(config){
-        let result = null
+    $.when(conn_data.getConfigs()).done(function (data){
+        config = data;
+
         $.ajax({
             url: `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`,
             type: type,
@@ -29,8 +34,9 @@ export function apiClient(path, type, dataType, async, cache, data) {
         }).fail(function (jqXHR, testStatus, errorThrown) {
     
         });
-    
-        return result;
     });
-   
+
+    
+
+    return result;
 }

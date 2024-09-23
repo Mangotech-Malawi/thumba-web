@@ -19,6 +19,8 @@ export function loadContent(containerId, newState, urlPath, ...args) {
       if (newState !== "") {
         localStorage.setItem(localStorageKey, newState);
       }
+
+      $("#body").removeClass("sidebar-open");
     },
     error: function () {
       // Handle error, e.g., display an error message
