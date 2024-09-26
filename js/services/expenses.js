@@ -1,4 +1,5 @@
 import { apiClient } from "./api-client.js";
+import { formatCurrency } from "../utils/formaters.js"
 
 export function add(params) {
   return apiClient("/api/v1/expense/new", "POST", "json", false, false, params);
@@ -53,6 +54,16 @@ function populateExpensesTable(dataSet) {
         data: null,
         targets: [6],
       },
+      {
+        targets: [1], // Targeting the 'Amount' column
+        render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+                // Use the utility function to format the number
+                return formatCurrency(data);
+            }
+            return data;
+        }
+      }
     ],
   });
 }
