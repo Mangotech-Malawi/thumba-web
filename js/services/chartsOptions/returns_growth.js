@@ -43,7 +43,6 @@ export const returnsGrowthOptions = {
   tooltip: {
     y: {
       formatter: function (val) {
-        console.log(val);
         return `MK${Intl.NumberFormat('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2}).format(val)}`; // Display decimal places
