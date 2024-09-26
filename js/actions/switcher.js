@@ -198,7 +198,7 @@ function loadOtherContent(state, index) {
         });
 
         $("#pageTitle").text(content_view[index].title);
-        console.log(content_view[index].title);
+  
 
       }
 
