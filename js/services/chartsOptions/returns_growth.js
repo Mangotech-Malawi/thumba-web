@@ -37,13 +37,16 @@ export const returnsGrowthOptions = {
   },
   yaxis: {
     min: -10,
-    max: 500000,
-    forceNiceScale: false // Allow decimal values
+    max: 500000.00,
+    forceNiceScale: true // Allow decimal values
   },
   tooltip: {
     y: {
       formatter: function (val) {
-        return `MK${val}`; // Display decimal places
+        console.log(val);
+        return `MK${Intl.NumberFormat('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2}).format(val)}`; // Display decimal places
       }
     }
   }

@@ -1,4 +1,5 @@
 import { apiClient } from "./api-client.js";
+import { formatCurrency } from "../utils/formaters.js"
 
 export function fetchInvestimentPackages(...args) {
     let data = apiClient(
@@ -89,7 +90,17 @@ function populateInvestmentPackagesTable(dataSet) {
                 render: getDelInvestmentPackageBtn,
                 data: null,
                 targets: [12],
-            },
+            }, 
+            {
+                targets: [3,4], // Targeting the 'Amount' column
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Use the utility function to format the number
+                        return formatCurrency(data);
+                    }
+                    return data;
+                }
+            }
         ],
     });
 }
@@ -221,6 +232,16 @@ function populateInvestmentsTable(dataSet) {
                 render: getDelInvestmentBtn,
                 data: null,
                 targets: [7],
+            },
+            {
+                targets: [4], // Targeting the 'Amount' column
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Use the utility function to format the number
+                        return formatCurrency(data);
+                    }
+                    return data;
+                }
             }
         ],
     });
@@ -281,6 +302,16 @@ function populateReturnsOnInvestmentsTable(dataSet) {
 
         ],
         columnDefs: [
+            {
+                targets: [4,5], // Targeting the 'Amount' column
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Use the utility function to format the number
+                        return formatCurrency(data);
+                    }
+                    return data;
+                }
+            }
         ],
     });
 }

@@ -3,6 +3,7 @@ import { sharesOptions } from "../services/chartsOptions/shares.js";
 import { returnsInvestmentsOptions } from "../services/chartsOptions/returns_and_investments.js"
 import { myInvestmentOptions } from "../services/chartsOptions/my_investments.js"
 import { returnsGrowthOptions } from "../services/chartsOptions/returns_growth.js"
+import { formatCurrency, formatMonetaryDecimal } from "../utils/formaters.js"
 
 let nf = new Intl.NumberFormat('en-US');
 let dashboardData;

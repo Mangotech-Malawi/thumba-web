@@ -1,4 +1,5 @@
 import { apiClient } from "./api-client.js";
+import { formatCurrency } from "../utils/formaters.js"
 
 export function fetchInterests() {
   let data = apiClient("/api/v1/interests", "GET", "json", false, false, {});
@@ -78,6 +79,16 @@ function populateInterestsTable(dataSet) {
         data: null,
         targets: [10],
       },
+      {
+        targets: [2,3,5], // Targeting the 'Amount' column
+        render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+                // Use the utility function to format the number
+                return formatCurrency(data);
+            }
+            return data;
+        }
+      }
     ],
   });
 }

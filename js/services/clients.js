@@ -1,4 +1,5 @@
 import { apiClient } from "./api-client.js";
+import { formatCurrency } from "../utils/formaters.js"
 
 export function fetchClientsData(state) {
   let data = apiClient("/api/v1/clients", "GET", "json", false, false, {});
@@ -369,6 +370,16 @@ function loadClientJobs(dataset) {
         data: null,
         targets: [16],
       },
+      {
+        targets: [8,9], // Targeting the 'Amount' column
+        render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+                // Use the utility function to format the number
+                return formatCurrency(data);
+            }
+            return data;
+        }
+      }
     ],
   });
 }
@@ -433,6 +444,16 @@ function loadClientDependants(dataset) {
         data: null,
         targets: [6],
       },
+      {
+        targets: [3], // Targeting the 'Amount' column
+        render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+                // Use the utility function to format the number
+                return formatCurrency(data);
+            }
+            return data;
+        }
+      }
     ],
   });
 }
@@ -608,6 +629,16 @@ function loadAssetsData(dataset) {
         data: null,
         targets: [9],
       },
+      {
+        targets: [5,6], // Targeting the 'Amount' column
+        render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+                // Use the utility function to format the number
+                return formatCurrency(data);
+            }
+            return data;
+        }
+      }
     ],
   });
 }
@@ -708,6 +739,16 @@ function loadOtherLoansData(dataset) {
         data: null,
         targets: [13],
       },
+      {
+        targets: [3,9], // Targeting the 'Amount' column
+        render: function (data, type, row) {
+            if (type === 'display' || type === 'filter') {
+                // Use the utility function to format the number
+                return formatCurrency(data);
+            }
+            return data;
+        }
+      }
     ],
   });
 }
