@@ -36,7 +36,6 @@ $(function () {
     totalManualScore = 0.0;
     availableManualScore = 0.0;
     risk_percentage = 0.0;
-    totalManualScore = 0.0;
     selectedManualScoreIds = new Array();
 
     loanApplicationId = $(this).data().loanApplicationId;
@@ -260,6 +259,7 @@ $(function () {
   });
 
   $(document).on("click", "#saveLoanAnalysisBtn", function () {
+    
     notification(
       settings.addAnalysis({
         loan_application_id: loanApplicationId,
@@ -380,13 +380,15 @@ function populateCalculatorCharts() {
         }
 
       } else {
-        createManualScoresCheckBoxes(settings.fetchManualScores());
+       
         populateAutomaticScoreChart(automaticScores);
-        updateManualScoreChart(totalManualScore);
-        updateRiskResultsChart();
-        updateGradesLabel();
+      
       }
 
+      createManualScoresCheckBoxes(settings.fetchManualScores());
+      updateManualScoreChart(totalManualScore);
+      updateRiskResultsChart();
+      updateGradesLabel();
     });
 
 
