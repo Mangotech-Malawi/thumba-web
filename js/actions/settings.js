@@ -23,7 +23,7 @@ let risk_percentage = 0.0;
 let gradeId;
 let loanApplicationId = localStorage.getItem("loanApplicationId");
 
-if( loanApplicationId != null && typeof loanApplicationId !== undefined  && loanApplicationId !== "" ){
+if (loanApplicationId != null && typeof loanApplicationId !== undefined && loanApplicationId !== "") {
   populateCalculatorCharts()
 }
 
@@ -32,7 +32,7 @@ $(function () {
 
   $(document).on("click", ".view-risk-calculator", function (e) {
     e.preventDefault();
-    
+
     totalManualScore = 0.0;
     availableManualScore = 0.0;
     risk_percentage = 0.0;
@@ -42,10 +42,10 @@ $(function () {
     loanApplicationId = $(this).data().loanApplicationId;
 
     localStorage.removeItem("loanApplicationId");
-    localStorage.setItem("loanApplicationId", loanApplicationId );
+    localStorage.setItem("loanApplicationId", loanApplicationId);
 
     populateCalculatorCharts();
-    
+
   });
 
   $(document).on("show.bs.modal", scoreNameModal, function (e) {
@@ -278,7 +278,7 @@ $(function () {
 
   $(document).on("click", "#newApplicationBackBtn", function () {
     $.when(loadRecord("views/loans/new.html", "new_applications")).done(
-      function (){
+      function () {
         loans.fetchLoanApplications({ status_name: "NEW" });
       }
     )
@@ -349,19 +349,47 @@ function gradeParams() {
   return params;
 }
 
-function populateCalculatorCharts(){
+function populateCalculatorCharts() {
 
-  $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function (){
-    
-    $.when(settings.calculateAutomaticScores({ loan_application_id: loanApplicationId })).done(function(automaticScores){
-      createManualScoresCheckBoxes(settings.fetchManualScores());
-      populateAutomaticScoreChart(automaticScores);
-      updateManualScoreChart(totalManualScore);
-      updateRiskResultsChart();
-      updateGradesLabel();
+  $.when(loadRecord("views/settings/risk_calculator.html", "risk_calculator")).done(function () {
+
+    $.when(settings.calculateAutomaticScores({ loan_application_id: loanApplicationId })).done(function (automaticScores) {
+      if (automaticScores.error) {
+        if (automaticScores.no_dti_range) {
+          notification(
+            automaticScores.no_dti_range,
+            "center",
+            "warning",
+            "dti_range",
+            "DTI Range Error",
+            `DTI Range for this ${automaticScores.dti_score}% score does not exist`,
+            true,
+            4000
+          );
+        } else if (automaticScores.negative) {
+          notification(
+            automaticScores.negative,
+            "center",
+            "warning",
+            "dti_range",
+            "Negative or Zero Cash at Hand",
+            `The possible cash at hand is negative or zero hence DTI calculation not done`,
+            true,
+            4000
+          );
+        }
+
+      } else {
+        createManualScoresCheckBoxes(settings.fetchManualScores());
+        populateAutomaticScoreChart(automaticScores);
+        updateManualScoreChart(totalManualScore);
+        updateRiskResultsChart();
+        updateGradesLabel();
+      }
+
     });
 
- 
+
   });
 }
 
@@ -378,7 +406,7 @@ function populateAutomaticScoreChart(automatic_score) {
   availableAutomaticScore = automatic_score.total_available_score;
   totalAutomaticScore = automatic_score.score;
 
-  $("#automatic-score-progress-bar").attr("style",`width: ${automatic_score.score_percentage}%`)
+  $("#automatic-score-progress-bar").attr("style", `width: ${automatic_score.score_percentage}%`)
   $(".available-score").text(availableAutomaticScore);
   $(".analysis-score").text(`${automatic_score.score_percentage}/100`);
   $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
@@ -393,9 +421,9 @@ function populateAutomaticScoreChart(automatic_score) {
 
 function updateManualScoreChart(score) {
 
-   let score_percentage = Number((score * 100) / availableManualScore).toFixed(1);
-   $("#manual-score-progress-bar").attr("style",`width: ${score_percentage}%`);
-   $("#manual-score-ratio").text(`${score_percentage }/${100}`);
+  let score_percentage = Number((score * 100) / availableManualScore).toFixed(1);
+  $("#manual-score-progress-bar").attr("style", `width: ${score_percentage}%`);
+  $("#manual-score-ratio").text(`${score_percentage}/${100}`);
 
 
 }
@@ -422,14 +450,14 @@ function updateRiskResultsChart() {
 }
 
 function updateGradesLabel() {
-  $.when(settings.fetchGrade({ risk_percentage: risk_percentage })).done( function (grade){
-      if(grade != null  || typeof grade != undefined || grade != null ){
-        gradeId = grade[0].id;
-        $("#loan-risk-grade").text(grade[0].name);
-        $("#loan-risk-grade-range").text(
-          `${grade[0].minimum} - ${grade[0].maximum}  `
-        );
-      }
+  $.when(settings.fetchGrade({ risk_percentage: risk_percentage })).done(function (grade) {
+    if (grade != null || typeof grade != undefined || grade != null) {
+      gradeId = grade[0].id;
+      $("#loan-risk-grade").text(grade[0].name);
+      $("#loan-risk-grade-range").text(
+        `${grade[0].minimum} - ${grade[0].maximum}  `
+      );
+    }
   });
 
 }
@@ -483,9 +511,9 @@ function createManualScoresCheckBoxes(scores) {
       score.id +
       score.code +
       '">' +
-      '</label></div>' + 
+      '</label></div>' +
       '<span class="text">' +
-      score.code + 
+      score.code +
       "</span>" +
       "</div></li>"
     );
