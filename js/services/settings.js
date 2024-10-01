@@ -244,10 +244,10 @@ function getScoreUpdateBtn(data, type, row, metas) {
 }
 
 function getScoreDelBtn(data, type, row, metas) {
-  let dataFields = `data-score-del-id = "${data.id}"
+  let dataFields = `data-id = "${data.id}"
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "analysis-score", "danger", "fas fa-trash");
+  return getButton(dataFields, "", "danger delete-score", "fas fa-trash");
 }
 
 export function addGrade(params) {

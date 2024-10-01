@@ -105,6 +105,9 @@ function getEditButton(data, type, row, meta) {
     data-period = "${data.period}"
     data-grace-period ="${data.grace_period}"
     data-accum-days ="${data.accum_days}"
+    data-loan-term-type="${data.loan_term_type}"
+    data-rate-type="${data.rate_type}"
+    data-compounding-frequency="${data.compounding_frequency}"
     data-action-type = "edit">
    <i class="fas fa-edit"></i></button>`;
 }
