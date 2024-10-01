@@ -31,6 +31,10 @@ export function editDTIRatio(params) {
   return apiClient("/api/v1/dti_ratio/edit", "POST", "json", false, false, params);
 }
 
+export function deleteDTIRatio(params) {
+  return apiClient("/api/v1/dti_ratio/void", "POST", "json", false, false, params);
+}
+
 export function addScore(params) {
   return apiClient("/api/v1/score/new", "POST", "json", false, false, params);
 }
@@ -192,10 +196,10 @@ function getDtiRatioNameUpdateBtn(data, type, row, metas) {
 }
 
 function getDtiRatioDelBtn(data, type, row, metas) {
-  let dataFields = `data-score-name-del-id = "${data.id}"
+  let dataFields = `data-id = "${data.id}"
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "analysis-score", "danger", "fas fa-trash");
+  return getButton(dataFields, "", "danger delete-dti-ratio", "fas fa-trash");
 }
 
 function loadScores(dataset) {
