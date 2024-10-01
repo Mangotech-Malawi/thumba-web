@@ -34,6 +34,9 @@ $(function () {
     let accum_amount = $("#accumAmount").val();
     let grace_period = $("#gracePeriod").val();
     let accum_days = $("#accumDays").val();
+    let loan_term_type = $("#loanTermType").val();
+    let rate_type = $("#rateType").val();
+    let compounding_frequency = $("#compoundingFrequency").val();
 
     let params = {
       interest_id: id,
@@ -45,6 +48,9 @@ $(function () {
       accum_amount: accum_amount,
       grace_period: grace_period,
       accum_days: accum_days,
+      loan_term_type: loan_term_type,
+      rate_type: rate_type,
+      compounding_frequency: compounding_frequency
     };
 
     if ($("#interestModalTitle").text() === "Edit Interest") {
