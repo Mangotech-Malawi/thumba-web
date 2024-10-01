@@ -13,7 +13,7 @@ const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const scoreNameModal = "#modal-analysis-score-name";
 const dtiRatioModal = "#modal-dti-ratios";
-const delScoreModal  = "#modal-del-score";
+const delScoreModal = "#modal-del-score";
 let totalManualScore = 0.0;
 let totalAutomaticScore = 0.0;
 let availableManualScore = 0.0;
@@ -54,7 +54,7 @@ $(function () {
     if ($(opener).attr("data-action-type") == "edit") {
       $(scoreNameModal).find(`[id = 'scoreNameModalTitle']`).text("Edit Score Name");
       $.each(opener.dataset, function (key, value) {
-        $(scoreNameModal).find(`[id = '${key}']`).val(value);
+        $(scoreNameModal).find(`[id = '${key}']`).val(value).change();
       });
     } else {
       $(scoreNameModal).find(`[id = 'scoreNameModalTitle']`).text("Add Score Name");
@@ -188,6 +188,24 @@ $(function () {
     }
   });
 
+  $(document).on("click", ".delete-dti-ratio", function (e) {
+    let id = $(this).data().id;
+
+    notification(
+      settings.deleteDTIRatio({
+        id: id
+      }).deleted,
+      "center",
+      "success",
+      "dti_ratio",
+      "Debt Income Ratio",
+      "Debt-Income-Ratio has been deleted successfully",
+      true,
+      3000
+    );
+  });
+
+
   $(document).on("click", "#saveScoreBtn", function () {
     if (validateAnalysisScoreForm()) {
       if ($("#scoreModalTitle").text() === "Add Score") {
@@ -221,20 +239,19 @@ $(function () {
     let id = $(this).data().id;
 
     notification(
-        settings.deleteScore({
-            score_id: id
-        }).deleted,
-        "center",
-        "success",
-        "score",
-        "Void Score",
-        "Score has been voided successfully",
-        true,
-        3000
+      settings.deleteScore({
+        score_id: id
+      }).deleted,
+      "center",
+      "success",
+      "score",
+      "Void Score",
+      "Score has been voided successfully",
+      true,
+      3000
     );
 
-});
-
+  });
 
   $(document).on("show.bs.modal", gradesModal, function (e) {
     let opener = e.relatedTarget;
@@ -279,7 +296,7 @@ $(function () {
   });
 
   $(document).on("click", "#saveLoanAnalysisBtn", function () {
-    
+
     notification(
       settings.addAnalysis({
         loan_application_id: loanApplicationId,
@@ -400,9 +417,9 @@ function populateCalculatorCharts() {
         }
 
       } else {
-       
+
         populateAutomaticScoreChart(automaticScores);
-      
+
       }
 
       createManualScoresCheckBoxes(settings.fetchManualScores());
