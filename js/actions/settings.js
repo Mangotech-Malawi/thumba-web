@@ -295,6 +295,23 @@ $(function () {
 
   });
 
+  $(document).on("click", ".delete-grade", function (e) {
+    let id = $(this).data().id;
+
+    notification(
+      settings.deleteGrade({
+        grade_id: id
+      }).deleted,
+      "center",
+      "success",
+      "grade",
+      "Analysis Risk Grade ",
+      "Loan Risk Grade has been deleted successfully",
+      true,
+      3000
+    );
+  });
+
   $(document).on("click", "#saveLoanAnalysisBtn", function () {
 
     notification(

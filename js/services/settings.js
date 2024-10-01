@@ -262,6 +262,11 @@ export function editGrade(params) {
   return apiClient("/api/v1/grade/edit", "POST", "json", false, false, params);
 }
 
+export function deleteGrade(params) {
+  return apiClient("/api/v1/grade/delete", "POST", "json", false, false, params);
+}
+
+
 export function fetchGrades() {
   let data = apiClient("/api/v1/grades", "GET", "json", false, false, {});
 
@@ -323,9 +328,9 @@ export function getGradeUpdateBtn(data, type, row, metas) {
 }
 
 export function getGradeDelBtn(data, type, row, metas) {
-  let dataFields = `data-grade-del-id = "${data.id}"
-    data-action-type = "edit"`;
-  return getButton(dataFields, "analysis-grade", "danger", "fas fa-trash");
+  let dataFields = `data-id = "${data.id}"
+                    data-action-type = "edit"`;
+  return getButton(dataFields, "", "danger delete-grade", "fas fa-trash");
 }
 
 function getButton(dataFields, modal, color, icon) {
