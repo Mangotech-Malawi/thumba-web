@@ -48,7 +48,7 @@ $(function () {
             let $userModal = $('#modal-register-user');
 
             $.each(opener.dataset, function (key, value) {
-                $userModal.find(`[id = '${key}']`).val(value);
+                $userModal.find(`[id = '${key}']`).val(value).change();
             });
         }
     });

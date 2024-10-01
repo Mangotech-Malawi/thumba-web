@@ -11,7 +11,8 @@ $(function () {
       $(modalId).find(`[id = 'interestModalTitle']`).text("Edit Interest");
 
       $.each(opener.dataset, function (key, value) {
-        $(modalId).find(`[id = '${key}']`).val(value);
+        $(modalId).find(`[id = '${key}']`).val(value).change();
+
       });
     } else {
       $(modalId).find(`[id = 'interestModalTitle']`).text("Add Interest");

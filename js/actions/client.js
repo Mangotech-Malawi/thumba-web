@@ -37,7 +37,7 @@ $(function () {
         if (key === "registered") {
           $(modalId).find(`[id = '${key}']`).prop("checked", value);
         } else {
-          $(modalId).find(`[id = '${key}']`).val(value);
+          $(modalId).find(`[id = '${key}']`).val(value).change();
         }
       });
     } else {

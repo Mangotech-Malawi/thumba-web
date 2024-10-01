@@ -13,6 +13,7 @@ const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
 const scoreNameModal = "#modal-analysis-score-name";
 const dtiRatioModal = "#modal-dti-ratios";
+const delScoreModal  = "#modal-del-score";
 let totalManualScore = 0.0;
 let totalAutomaticScore = 0.0;
 let availableManualScore = 0.0;
@@ -215,6 +216,25 @@ $(function () {
     }
 
   });
+
+  $(document).on("click", ".delete-score", function (e) {
+    let id = $(this).data().id;
+
+    notification(
+        settings.deleteScore({
+            score_id: id
+        }).deleted,
+        "center",
+        "success",
+        "score",
+        "Void Score",
+        "Score has been voided successfully",
+        true,
+        3000
+    );
+
+});
+
 
   $(document).on("show.bs.modal", gradesModal, function (e) {
     let opener = e.relatedTarget;
