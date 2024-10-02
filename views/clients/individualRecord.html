@@ -3,14 +3,14 @@
     <div class="card-header">
       <h3 id="recordName" class="card-title">Dependants</h3>
       <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-12 text-right">
+        <div class="col-sm-6 col-md-12 col-lg-12 text-right">
           <!-- Button for calling add organisation modal -->
-          <button
-            type="button"
-            class="btn bg-gradient-secondary text-left"
-            id="clientsBackBtn"
-            data-client-type="individual"
-          >
+          <button type="button" class="btn bg-gradient-primary text-left" id="downloadClientRecord"
+            data-client-type="individual">
+            <i class="fa fa-download"></i> Record
+          </button>
+          <button type="button" class="btn bg-gradient-secondary text-left" id="clientsBackBtn"
+            data-client-type="individual">
             <i class="fa fa-arrow-left"></i> Back
           </button>
         </div>
@@ -19,14 +19,11 @@
     <!-- /.card-header -->
     <div class="card-body" id="individualRecord">
       <div class="row">
-        <div
-          id="btnDemographics"
-          class="col-lg-4 col-md-6 col-sm-12 p-3  "
-        >
+        <div id="btnDemographics" class="col-lg-4 col-md-6 col-sm-12 p-3  ">
           <div class="card shadow-lg bg-gradient-default record">
             <div class="card-body justify-content-center">
               <div class="col">
-                <img class="card-img-left loan-app-image"  src="dist/img/demographics.png" alt="Card image cap">
+                <img class="card-img-left loan-app-image" src="dist/img/demographics.png" alt="Card image cap">
                 <h4 class="text-center">Demographics</h4>
               </div>
             </div>
@@ -36,10 +33,10 @@
           <div class="card shadow-lg bg-gradient-default  record">
             <div class="card-body justify-content-center">
               <div class="col">
-                <img class="card-img-left loan-app-image"  src="dist/img/jobs.png" alt="Card image cap">
+                <img class="card-img-left loan-app-image" src="dist/img/jobs.png" alt="Card image cap">
                 <h4 class="text-center">Jobs</h4>
               </div>
-             
+
             </div>
           </div>
         </div>
@@ -48,7 +45,7 @@
           <div class="card shadow-lg bg-gradient-default record">
             <div class="card-body justify-content-center">
               <div class="col">
-                <img class="card-img-left loan-app-image"  src="dist/img/dependants.png" alt="Card image cap">
+                <img class="card-img-left loan-app-image" src="dist/img/dependants.png" alt="Card image cap">
                 <h4 class="text-center">Dependants</h4>
               </div>
             </div>
@@ -59,7 +56,7 @@
           <div class="card shadow-lg bg-gradient-default  record">
             <div class="card-body justify-content-center">
               <div class="col">
-                <img class="card-img-left loan-app-image"  src="dist/img/businesses.png" alt="Card image cap">
+                <img class="card-img-left loan-app-image" src="dist/img/businesses.png" alt="Card image cap">
                 <h4 class="text-center">Businesses</h4>
               </div>
             </div>
@@ -70,7 +67,7 @@
           <div class="card shadow-lg bg-gradient-default  record">
             <div class="card-body justify-content-center">
               <div class="col">
-                <img class="card-img-left loan-app-image"  src="dist/img/assets.png" alt="Card image cap">
+                <img class="card-img-left loan-app-image" src="dist/img/assets.png" alt="Card image cap">
                 <h4 class="text-center">Assets</h4>
               </div>
             </div>
@@ -81,7 +78,7 @@
           <div class="card shadow-lg bg-gradient-default record">
             <div class="card-body justify-content-center">
               <div class="col">
-                <img class="card-img-left loan-app-image"  src="dist/img/otherloans.png" alt="Card image cap">
+                <img class="card-img-left loan-app-image" src="dist/img/otherloans.png" alt="Card image cap">
                 <h4 class="text-center">Other Loans</h4>
               </div>
             </div>
