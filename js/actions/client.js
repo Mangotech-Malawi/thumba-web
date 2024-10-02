@@ -615,6 +615,19 @@ $(function () {
     });
   });
 
+  $(document).on("click", "#downloadClientRecord", function (e){
+    $.when(client.getClientRecordReport({client_id:  currentDataset.recordId})).done(function (htmlContent) {
+      if (htmlContent) {
+        let win = window.open("", "", "");
+        win.document.write(htmlContent.html)
+        win.document.close();
+        win.print();
+      } else {
+        console.error("HTML content is null or empty.");
+      }
+    })
+  });
+
 });
 
 
