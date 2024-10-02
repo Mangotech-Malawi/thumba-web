@@ -38,6 +38,11 @@ export function getClientById(client_id) {
   });
 }
 
+export function getClientRecordReport(params){
+  return apiClient("/api/v1/report/client_record", "GET", "json", false,
+     false, params);
+}
+
 export function addJob(params) {
   return apiClient("/api/v1/client_job", "POST", "json", false, false, params);
 }
