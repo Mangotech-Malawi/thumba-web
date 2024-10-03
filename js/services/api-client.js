@@ -4,6 +4,15 @@ import * as conn_data from "./config.js";
 let config = conn_data.getConfigs();
 let token = sessionStorage.getItem("token");
 
+let configs = JSON.parse(localStorage.getItem("configs"));
+
+if ( typeof configs == undefined || configs === null || configs === ''){
+    $.when(conn_data.getConfigs()).done(function(loaded_configs){
+        localStorage.setItem("configs", JSON.stringify(loaded_configs));
+        config = loaded_configs;
+    });
+}
+
 export function apiClient(path, type, dataType, async, cache, data) {
     let result = null
     $.ajax({
