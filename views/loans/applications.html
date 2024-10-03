@@ -1,79 +1,56 @@
 <div class="container-fluid">
-  <div class="card card-warning card-outline" >
+  <div class="card card-warning card-outline">
     <div class="card-header">
       <h3 id="recordName" class="card-title">Loan Applications</h3>
       <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-12 text-right">
-          <!-- Button for calling add organisation modal -->
-         
+          <!-- Optional buttons can be added here -->
         </div>
       </div>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
       <div class="row">
-        <div id="statusNew"  class="col-lg-3 col-md-6 col-sm-12 p-3">
-          <div  class="card shadow-lg record img-rounded">
-            
+        <!-- New Status -->
+        <div id="statusNew" class="col-lg-3 col-md-6 col-sm-12 p-3">
+          <div class="card shadow-lg record img-rounded text-center bg-primary text-white">
             <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <img class="card-img-left loan-app-image"  src="dist/img/new.png" alt="Card image cap">
-                  <h4 class="text-center">New</h4>
-                </div>
-                <div class="col">
-                  <h3><span id="status-new" class="badge badge-pill badge-primary">0</span></h3>
-                </div>
-              </div>
+              <i class="fas fa-plus-circle fa-5x mb-3"></i>
+              <h4>New</h4>
+              <h2 class="display-4 font-weight-bold"><span id="status-new">0</span></h2>
             </div>
           </div>
         </div>
-      
+
+        <!-- Waiting Status -->
         <div id="statusWaiting" class="col-lg-3 col-md-6 col-sm-12 p-3">
-          <div class="card shadow-lg record   img-rounded">
-            <div class="card-body justify-content-center">
-              <div class="row">
-                <div class="col">
-                  <img class="card-img-left loan-app-image"  src="dist/img/time.png" alt="Card image cap">
-                  <h4 class="text-center">Waiting</h4>
-                </div>
-                <div class="col">
-                  <h3><span id="status-waiting" class="badge badge-pill badge-warning">0</span></h3>
-                </div>
-              </div>
+          <div class="card shadow-lg record img-rounded text-center bg-warning text-white">
+            <div class="card-body">
+              <i class="fas fa-hourglass-half fa-5x mb-3"></i>
+              <h4>Waiting</h4>
+              <h2 class="display-4 font-weight-bold"><span id="status-waiting">0</span></h2>
             </div>
           </div>
         </div>
 
+        <!-- Completed Status -->
         <div id="statusCompleted" class="col-lg-3 col-md-6 col-sm-12 p-3">
-          <div class="card shadow-lg record">
+          <div class="card shadow-lg record img-rounded text-center bg-success text-white">
             <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <img class="card-img-left loan-app-image"  src="dist/img/completed.png" alt="Card image cap">
-                  <h4 class="text-center">Completed</h4>
-                </div>
-                <div class="col">
-                
-                  <h3><span  id="status-completed" class="badge badge-pill badge-success">0</span></h3>
-                </div>
-              </div>
+              <i class="fas fa-check-circle fa-5x mb-3"></i>
+              <h4>Completed</h4>
+              <h2 class="display-4 font-weight-bold"><span id="status-completed">0</span></h2>
             </div>
           </div>
         </div>
 
+        <!-- Dumped Status -->
         <div id="statusDumped" class="col-lg-3 col-md-6 col-sm-12 p-3">
-          <div class="card shadow-lg  record">
+          <div class="card shadow-lg record img-rounded text-center bg-danger text-white">
             <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <img class="card-img-left loan-app-image"  src="dist/img/trash.png" alt="Card image cap">
-                  <h4 class="text-center">Dumped</h4>
-                </div>
-                <div class="col">
-                  <h3><span  id="status-dumped" class="badge badge-pill badge-danger">0</span></h3>
-                </div>
-              </div>
+              <i class="fas fa-trash-alt fa-5x mb-3"></i>
+              <h4>Dumped</h4>
+              <h2 class="display-4 font-weight-bold"><span id="status-dumped">0</span></h2>
             </div>
           </div>
         </div>
