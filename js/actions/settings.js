@@ -8,6 +8,7 @@ import {
   validateGradeForm, validateDTIRatioForm
 } from "../utils/forms.js";
 import { loadContent } from "./contentLoader.js";
+import { formatCurrency } from "../utils/formaters.js"
 
 const scoresModal = "#modal-analysis-score";
 const gradesModal = "#modal-analysis-grade";
@@ -466,11 +467,11 @@ function populateAutomaticScoreChart(automatic_score) {
   $(".available-score").text(availableAutomaticScore);
   $(".analysis-score").text(`${automatic_score.score_percentage}/100`);
   $("#analysis-score-percentage").text(`${automatic_score.score_percentage}%`);
-  $("#installment-amount").text(`MWK${automatic_score.installment_amount}`);
-  $("#monthly-salary").text(`MWK${automatic_score.total_monthly_salary}`);
-  $("#dependants-expense").text(`MWK${automatic_score.total_monthly_dependants_expenses}`);
-  $("#monthly-otherloans").text(`MWK${automatic_score.total_monthly_otherloans}`);
-  $("#business-profits").text(`MWK${automatic_score.total_monthly_business_profits}`);
+  $("#installment-amount").text(`MWK${formatCurrency(automatic_score.installment_amount)}`);
+  $("#monthly-salary").text(`MWK${formatCurrency(automatic_score.total_monthly_salary)}`);
+  $("#dependants-expense").text(`MWK${formatCurrency(automatic_score.total_monthly_dependants_expenses)}`);
+  $("#monthly-otherloans").text(`MWK${formatCurrency(automatic_score.total_monthly_otherloans)}`);
+  $("#business-profits").text(`MWK${formatCurrency(automatic_score.total_monthly_business_profits)}`);
 
   selectedManualScoreIds.push(automatic_score.score_id);
 }
