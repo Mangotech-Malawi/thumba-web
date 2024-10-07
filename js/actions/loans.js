@@ -285,19 +285,28 @@ $(function () {
   });
 
 
-  $(document).on("click", ".download-loan-agreement", function (e) {
-    let loan_id = $(this).data().loanId;
+  $(document).on("click", ".loan-agreement", function (e) {
 
-    $.when(loans.getLoanAgreement({loan_id: loan_id})).done(function (htmlContent) {
-      if (htmlContent) {
-        let win = window.open("", "", "");
-        win.document.write(htmlContent.html)
-        win.document.close();
-        win.print();
-      } else {
-        console.error("HTML content is null or empty.");
-      }
-    })
+    let agreement_params = {
+                            loan_application_id: $(this).data().loanApplicationId,
+                            applicant: $(this).data().applicant,
+                            purpose: $(this).data().purpose,
+                            collaterals: $(this).data().collaterals,
+                            amount: $(this).data().amount,
+                            rate:  $(this).data().rate,
+                            current_address: $(this).data().currentAddress
+                           }
+
+    $.when(loans.getLoanAgreement(agreement_params)).done(function (htmlContent) {
+        if (htmlContent) {
+          let win = window.open("", "", "");
+          win.document.write(htmlContent.html)
+          win.document.close();
+          win.print();
+        } else {
+          console.error("HTML content is null or empty.");
+        }
+    });
   });
 
   $(document).on("show.bs.modal", dumpApplicationModal, function (e) {
