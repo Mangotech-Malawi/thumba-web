@@ -378,7 +378,6 @@ function loadWaitingApplications(dataset) {
       { data: null },
       { data: "interest_name" },
       { data: "amount" },
-      { data: "rate" },
       { data: null },
       { data: null },
       { data: null },
@@ -398,10 +397,15 @@ function loadWaitingApplications(dataset) {
       {
         render: getGrade,
         data: null,
-        targets: [6],
+        targets: [5],
       },
       {
         render: getRisk,
+        data: null,
+        targets: [6],
+      },
+      {
+        render: getAgreementForm,
         data: null,
         targets: [7],
       },
@@ -425,6 +429,25 @@ function getGrade(data, type, row, metas) {
 
 function getRisk(data, type, row, metas) {
   return data.analysis.score_details.risk_percentage;
+}
+
+function getAgreementForm(data, type, row, metas){
+  let grade = data.analysis.analysis[0];
+  let dataFields = `data-loan-application-id = "${data.id}"
+                    data-applicant = "${data.borrower.applicant}"
+                    data-current-address="${ data.borrower.current_village} village,
+                     TA ${ data.borrower.current_ta}, ${data.borrower.current_district}"
+                    data-amount =  "${data.amount}"
+                    data-rate = "${data.rate}"
+                    data-period = "${data.period}"
+                    data-purpose = "${data.purpose}"
+                    data-collaterals = '${data.collaterals}'
+                    data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
+                    data-grade-name = "${grade.name}"
+                    data-grade-range ="${grade.minimum} - ${grade.maximum}"
+                    data-scores = '${JSON.stringify(data.analysis.score_details.scores)}'`;
+
+  return getButton(dataFields, "", "primary loan-agreement", "fas fa-download");
 }
 
 function getApproveBtn(data, type, row, metas) {
