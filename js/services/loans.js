@@ -440,9 +440,16 @@ function getAgreementForm(data, type, row, metas){
                     data-amount =  "${data.amount}"
                     data-rate = "${data.rate}"
                     data-period = "${data.period}"
+                    data-accum-amount = "${data.accum_amount}"
+                    data-accum-days = "${data.accum_days}"
+                    data-grace-period = "${data.grace_period}"
                     data-purpose = "${data.purpose}"
-                    data-collaterals = '${data.collaterals}'
+                    data-compounding-frequency = "${data.compounding_frequency}"
+                    data-rate-type = "${data.rate_type}"
+                    data-loan-term-type = "${data.loan_term_type}"
+                    data-monthly-payment = "${data.monthly_payment}"
                     data-risk-percentage = "${data.analysis.score_details.risk_percentage}"
+                    data-repayment-terms = "${data.repayment_terms}"
                     data-grade-name = "${grade.name}"
                     data-grade-range ="${grade.minimum} - ${grade.maximum}"
                     data-scores = '${JSON.stringify(data.analysis.score_details.scores)}'`;
