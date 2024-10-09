@@ -291,10 +291,17 @@ $(function () {
                             loan_application_id: $(this).data().loanApplicationId,
                             applicant: $(this).data().applicant,
                             purpose: $(this).data().purpose,
-                            collaterals: $(this).data().collaterals,
                             amount: $(this).data().amount,
                             rate:  $(this).data().rate,
-                            current_address: $(this).data().currentAddress
+                            compounding_frequency:  $(this).data().compoundingFrequency,
+                            rate_type: $(this).data().rateType,
+                            loan_term_type: $(this).data().loanTermType,
+                            monthly_payment: $(this).data().monthlyPayment,
+                            repayment_terms: $(this).data().repaymentTerms,
+                            current_address: $(this).data().currentAddress,
+                            accum_amount:  $(this).data().accumAmount,
+                            accum_days:  $(this).data().accumDays,
+                            grace_period:  $(this).data().gracePeriod
                            }
 
     $.when(loans.getLoanAgreement(agreement_params)).done(function (htmlContent) {
