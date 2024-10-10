@@ -7,6 +7,12 @@ $(function () {
 
     $("#lbl-username").text(sessionStorage.getItem("username"));
 
+    $(document).on("click", "#inviteUser", function (e) {
+        if (form.validateUserInvitationForm()) {
+           
+        }
+    });
+
     $(document).on("click", "#add-user", function (e) {
         if (form.validateUserRegistrationForm()) {
             if (formType === 'add') {

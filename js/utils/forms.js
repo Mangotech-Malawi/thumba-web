@@ -250,6 +250,22 @@ export function validateUserRegistrationForm(){
   return validData;
 }
 
+
+export function validateUserInvitationForm(){
+  formElements = []
+
+  let validData = false;
+  
+  pushFormElements("email", "#email", true, "Email");
+  pushFormElements("", "#role", true, "User Role");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
 export function validateAnalysisScoreForm(){
   formElements = []
 
