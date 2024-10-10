@@ -1,16 +1,14 @@
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Users</h3>
+        <div class="card-header ">
+            <h3 class="card-title"> Current Users</h3>
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-12 text-right">
                     <!-- Button for calling add organisation modal -->
-
                     <button type="button" class="btn bg-gradient-success text-left" id="uploadClients"
-                        data-toggle="modal" data-target='#modal-register-user' data-button-type = "add">
-                        <i class="fa fa-plus-square"></i> Add User
-                    </button>
-
+                    data-toggle="modal" data-target='#modal-register-user' data-button-type = "add">
+                    <i class="fa fa-plus-square"></i> Invite User
+                </button>
                     <button type="button" class="btn bg-gradient-secondary text-left users-report-btn" id="uploadClients"
                     data-toggle="modal" data-target="#modal-expense" data-document-type="pdf">
                     <i class="fa fa-file-pdf"></i> Export to PDF
@@ -29,7 +27,7 @@
             <table id="usersTable" class="table  table-striped">
                 <thead>
                     <tr>
-                        <th>User NO.</th>
+                        <th>Id</th>
                         <th>National ID</th>
                         <th>Username</th>
                         <th>Firstname</th>
@@ -61,6 +59,37 @@
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
+    <div class="card">
+        <div class="card-header card-outline card-info">
+            <h3 class="card-title"> Pending Invites</h3>
+          
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="pendingInvitesTable" class="table  table-striped">
+                <thead>
+                    <tr>
+                        <th>Email Address</th>
+                        <th>Role</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Email Address</th>
+                        <th>Role</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
 </div>
 
 
