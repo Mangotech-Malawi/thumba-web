@@ -37,6 +37,11 @@ export function login(formData) {
   });
 }
 
+export function inviter(params){
+  return apiClient("/api/v1//invitations/new",
+        "POST", "json", false, false, params);
+}
+
 export function verifyCurPasword(params) {
   return apiClient("/api/v1/verify_password",
     "POST", "json", false, false,
