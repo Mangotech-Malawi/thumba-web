@@ -245,6 +245,11 @@ function getUserInvitationParams(){
 }
 
 function getRegistrationParams(){
+    const url = new URL(window.location.href);
+
+// Use URLSearchParams to get the token value from the query string
+    const url_params = new URLSearchParams(url.search);
+    const token = url_params.get('token'); 
     let username = $("#username").val();
     let email = $("#userEmail").val();
     let nationalId = $("#nationalId").val();
@@ -258,7 +263,8 @@ function getRegistrationParams(){
         lastname: lastname,
         username: username,
         email: email, 
-        password: password
+        password: password,
+        token: token
 
     }
 
