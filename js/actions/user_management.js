@@ -25,7 +25,7 @@ $(function () {
 
     $(document).on("click", "#acceptInvitationBtn", function(){
         notification(
-            users.register(getUserInvitationParams()).created,
+            users.register(getRegistrationParams()).created,
             "center",
             "success",
             "users",
