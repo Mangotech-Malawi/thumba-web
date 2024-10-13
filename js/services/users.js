@@ -42,6 +42,11 @@ export function inviter(params){
         "POST", "json", false, false, params);
 }
 
+export function register(params){
+  return apiClient("'/invitations/register",
+    "POST", "json", false, false, params);
+}
+
 export function verifyCurPasword(params) {
   return apiClient("/api/v1/verify_password",
     "POST", "json", false, false,
