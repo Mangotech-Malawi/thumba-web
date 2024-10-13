@@ -9,7 +9,17 @@ $(function () {
 
     $(document).on("click", "#inviteUser", function (e) {
         if (form.validateUserInvitationForm()) {
-           
+            notification(
+                users.inviter(getUserInvitationParams()).created,
+                "center",
+                "success",
+                "users",
+                "User Invitation",
+                "User invitation has been added successfully",
+                true,
+                3000
+            );
+            
         }
     });
 
@@ -207,6 +217,18 @@ $(function () {
 function validatePassword(password) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
     return regex.test(password)
+}
+
+function getUserInvitationParams(){
+    let email  = $("#email").val();
+    let password = $("#role").val();
+
+    let params = {
+        email: email,
+        role: password
+    }
+
+    return params
 }
 
 function getUserParams() {
