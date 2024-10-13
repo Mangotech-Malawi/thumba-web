@@ -23,6 +23,19 @@ $(function () {
         }
     });
 
+    $(document).on("click", "#acceptInvitationBtn", function(){
+        notification(
+            users.register(getUserInvitationParams()).created,
+            "center",
+            "success",
+            "users",
+            "User Invitation",
+            "User invitation has been added successfully",
+            true,
+            3000
+        );
+    });
+
     $(document).on("click", "#add-user", function (e) {
         if (form.validateUserRegistrationForm()) {
             if (formType === 'add') {
@@ -229,6 +242,27 @@ function getUserInvitationParams(){
     }
 
     return params
+}
+
+function getRegistrationParams(){
+    let username = $("#username").val();
+    let email = $("#userEmail").val();
+    let nationalId = $("#nationalId").val();
+    let firstname = $("#firstname").val();
+    let lastname = $("#lastname").val();
+    let password = $("#password").val();
+
+    let params = {
+        national_id: nationalId,
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        email: email, 
+        password: password
+
+    }
+
+    return params;
 }
 
 function getUserParams() {
