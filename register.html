@@ -83,8 +83,6 @@
                                 <a href="#" class="h4 ">Custodian Details</a>
                             </div>
                             <div class="card-body">
-                        
-
                                 <div class="input-group mb-3">
                                     <input type="text" id="firstname" class="form-control" placeholder="firstname">
                                     <div class="input-group-append">
@@ -104,7 +102,18 @@
                                 </div>
 
                                 <div class="input-group mb-3">
-                                    <input type="text" id="nationalId" class="form-control" placeholder="National ID">
+                                    <div class="select2-primary w-100">
+                                        <select id="identifierType" name="IdentifierType" class="form-control w-100"
+                                            data-placeholder="Select Identification Type"
+                                            data-dropdown-css-class="select2-primary">
+                                            <!-- Add options here -->
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="input-group mb-3">
+                                    <input type="text" id="identifier" class="form-control" placeholder="Identifier">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>
@@ -209,8 +218,9 @@
     <script src="js/services/validator.js" type="module"></script>
     <script src="js/services/config.js" type="module"></script>
     <script src="js/actions/account.js" type="module"></script>
-
-
+    <script>
+       $("#identifierType").select2();
+    </script>
 </body>
 
 </html>
