@@ -1,5 +1,6 @@
 import * as users from "../services/users.js";
 import * as form from "../utils/forms.js"
+import { toastNote } from "../utils/utils.js"
 
 let formType;
 
@@ -24,16 +25,15 @@ $(function () {
     });
 
     $(document).on("click", "#acceptInvitationBtn", function(){
-        notification(
-            users.register(getRegistrationParams()).created,
-            "center",
-            "success",
-            "users",
-            "User Invitation",
-            "User invitation has been added successfully",
-            true,
-            3000
-        );
+      
+           $.when(users.register(getRegistrationParams())).done( function (data){
+                if(data.created){
+                     toastr.success('Registration Completed!', 'Success',5000);
+                     window.location("index.html");
+                }else{
+                    toastr.error(data.message, 'Error', 5000);
+                }
+           });
     });
 
     $(document).on("click", "#add-user", function (e) {
@@ -250,22 +250,21 @@ function getRegistrationParams(){
 // Use URLSearchParams to get the token value from the query string
     const url_params = new URLSearchParams(url.search);
     const token = url_params.get('token'); 
-    let username = $("#username").val();
-    let email = $("#userEmail").val();
-    let nationalId = $("#nationalId").val();
-    let firstname = $("#firstname").val();
-    let lastname = $("#lastname").val();
-    let password = $("#password").val();
+    const username = $("#username").val();
+    const identifier = $("#identifier").val();
+    const identifierType = $("#identifierType").val();
+    const firstname = $("#firstname").val();
+    const lastname = $("#lastname").val();
+    const password = $("#password").val();
 
     let params = {
-        national_id: nationalId,
+        identifier: identifier,
+        identifier_type_id: identifierType,
         firstname: firstname,
         lastname: lastname,
         username: username,
-        email: email, 
         password: password,
         token: token
-
     }
 
     return params;
