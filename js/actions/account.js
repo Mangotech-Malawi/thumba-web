@@ -75,16 +75,17 @@ $(document).ready(function () {
 
 
 function registerAccountParams() {
-    let name = $("#name").val();
-    let address = $("#address").val();
-    let email = $("#email").val();
-    let phoneNumber = $("#phoneNumber").val();
-    let username = $("#username").val();
-    let userEmail = $("#userEmail").val();
-    let nationalId = $("#nationalId").val();
-    let firstname = $("#firstname").val();
-    let lastname = $("#lastname").val();
-    let password = $("#password").val();
+    const name = $("#name").val();
+    const address = $("#address").val();
+    const email = $("#email").val();
+    const phoneNumber = $("#phoneNumber").val();
+    const username = $("#username").val();
+    const userEmail = $("#userEmail").val();
+    const identifier = $("#identifier").val();
+    const identifierType = $("#identifierType").val();
+    const firstname = $("#firstname").val();
+    const lastname = $("#lastname").val();
+    const password = $("#password").val();
 
     let params = {
         name: name,
@@ -96,7 +97,8 @@ function registerAccountParams() {
         user_email: userEmail,
         firstname: firstname,
         lastname: lastname,
-        national_id: nationalId
+        identifier: identifier,
+        identifier_type_id: identifierType
     }
 
     return params
