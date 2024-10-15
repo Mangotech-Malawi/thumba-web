@@ -3,6 +3,19 @@ import { apiClient } from "./api-client.js";
 
 let token = sessionStorage.getItem("token");
 
+//Keeping identifier types in localstorage because they seldom change
+let identifier_types = JSON.parse(localStorage.getItem("identifier_types"));
+
+if ( typeof identifier_types == undefined || identifier_types === null 
+    || identifier_types === ''){
+    $.when(getIdentifierTypes()).done(function(data){
+        localStorage.setItem("identifier_types", JSON.stringify(data));
+        loadIdentifierTypes();
+    });
+}else{
+  loadIdentifierTypes();
+}
+
 export function add(params) {
   return apiClient("/api/v1/new_user", "POST", "json", false, false, params);
 }
@@ -43,7 +56,7 @@ export function inviter(params){
 }
 
 export function register(params){
-  return apiClient("'/invitations/register",
+  return apiClient("/api/v1/invitations/register",
     "POST", "json", false, false, params);
 }
 
@@ -75,6 +88,10 @@ export function verifyOTP(params) {
   return apiClient("/api/v1/auth/verify_otp", "POST", "json", false, false,
     params
   );
+}
+
+function getIdentifierTypes(){
+  return apiClient("/api/v1/identifier_types", "GET", "json", false, false, {});
 }
 
 export function fetchUsers() {
@@ -167,4 +184,23 @@ export function saveSessionDetails(data) {
   } else if (data.role === "co-owner") {
     localStorage.setItem("state", "admin_dashboard");
   }
+}
+
+function loadIdentifierTypes(){
+  const identifier_types = JSON.parse(localStorage.getItem("identifier_types"));
+
+  let identifierTypesArray =  []
+
+  identifier_types.forEach( function (identifier_type, index){
+      identifierTypesArray.push(
+          '<option value ="',
+          identifier_type.id,
+          '">',
+          `${identifier_type.name}`,
+          "</option>"
+      )
+
+      $("#identifierType").html(identifierTypesArray.join(""));
+  });
+
 }
