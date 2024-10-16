@@ -29,7 +29,7 @@ $(function () {
            $.when(users.register(getRegistrationParams())).done( function (data){
                 if(data.created){
                      toastr.success('Registration Completed!', 'Success',5000);
-                     window.location("index.html");
+                     window.location = "index.html";
                 }else{
                     toastr.error(data.message, 'Error', 5000);
                 }
