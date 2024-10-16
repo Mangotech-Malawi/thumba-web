@@ -117,7 +117,7 @@ function loadUsersTable(dataset) {
     data: dataset,
     columns: [
       { data: "id" },
-      { data: "national_id" },
+      { data: "identifier" },
       { data: "username" },
       { data: "firstname" },
       { data: "lastname" },
