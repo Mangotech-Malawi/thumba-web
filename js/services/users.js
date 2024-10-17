@@ -153,12 +153,74 @@ function getEditButton(data, type, row, meta) {
   return `<button  type="button"  class="btn btn-block btn-default"
     data-toggle="modal" data-target = "#modal-register-user"
     data-user-id = "${data.id}"
-    data-national-id = "${data.national_id}"
+    data-national-id = "${data.identifier}"
     data-username = "${data.username}"
     data-firstname = "${data.firstname}"
     data-lastname = "${data.lastname}"
     data-email = "${data.email}"
     data-role = "${data.role}"
+    data-button-type = "edit">
+   <i class="fas fa-edit"></i></button>`;
+}
+
+export function fetchInvitations() {
+
+  let data = apiClient("/api/v1/invitations", "GET", "json", false, false, {});
+
+  if (data != null) {
+    loadInvitationsTable(data);
+  }
+
+  return data;
+}
+
+function loadInvitationsTable(dataset){
+  $("#pendingInvitesTable").DataTable({
+    destroy: true,
+    responsive: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    bfilter: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "email" },
+      { data: "role" },
+      { data: "accepted" },
+      { data: "expires_at" },
+      { data: "created_at" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getResendInvitationButton,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getDelInvitationButton,
+        data: null,
+        targets: [6],
+      },
+    ],
+  });
+}
+
+function getResendInvitationButton(data, type, row, meta) {
+  return `<button  type="button"  class="btn btn-block btn-primary"
+    data-toggle="modal" data-target = "#modal-delete-user"
+    data-id = "${data.id}"
+    data-role = "${data.role}"
+    data-email = "${data.email}">
+   <i class="fas fa-envelope"></i> Resend</button>`;
+}
+
+function getDelInvitationButton(data, type, row, meta) {
+  return `<button  type="button"  class="btn btn-block btn-danger"
+    data-toggle="modal" data-target = "#modal-register-user"
+    data-id = "${data.id}"
     data-button-type = "edit">
    <i class="fas fa-edit"></i></button>`;
 }
