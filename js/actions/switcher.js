@@ -207,6 +207,7 @@ function loadOtherContent(state, index) {
       switch (state) {
         case "users":
           users.fetchUsers();
+          users.fetchInvitations();
           break;
         case "individual":
           client.fetchClientsData(state);
