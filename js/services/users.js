@@ -4,12 +4,12 @@ import { apiClient } from "./api-client.js";
 let token = sessionStorage.getItem("token");
 
 //Keeping identifier types in localstorage because they seldom change
-let identifier_types = JSON.parse(localStorage.getItem("identifier_types"));
+let identifier_types = JSON.parse(sessionStorage.getItem("identifier_types"));
 
 if ( typeof identifier_types == undefined || identifier_types === null 
     || identifier_types === ''){
     $.when(getIdentifierTypes()).done(function(data){
-        localStorage.setItem("identifier_types", JSON.stringify(data));
+        sessionStorage.setItem("identifier_types", JSON.stringify(data));
         loadIdentifierTypes();
     });
 }else{
@@ -249,7 +249,7 @@ export function saveSessionDetails(data) {
 }
 
 function loadIdentifierTypes(){
-  const identifier_types = JSON.parse(localStorage.getItem("identifier_types"));
+  const identifier_types = JSON.parse(sessionStorage.getItem("identifier_types"));
 
   let identifierTypesArray =  []
 
