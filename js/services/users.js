@@ -248,7 +248,7 @@ export function saveSessionDetails(data) {
   }
 }
 
-function loadIdentifierTypes(){
+export function loadIdentifierTypes(){
   const identifier_types = JSON.parse(sessionStorage.getItem("identifier_types"));
 
   let identifierTypesArray =  []
