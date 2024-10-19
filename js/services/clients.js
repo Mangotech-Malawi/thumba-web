@@ -167,8 +167,7 @@ function loadIndividualsTable(dataSet) {
     info: true,
     data: dataSet,
     columns: [
-      { data: "id" },
-      { data: "national_id" },
+      { data: "identifier" },
       { data: "firstname" },
       { data: "lastname" },
       { data: "gender", defaultContent: "" },
@@ -181,17 +180,17 @@ function loadIndividualsTable(dataSet) {
       {
         render: getIndividualViewBtn,
         data: null,
-        targets: [6],
+        targets: [5],
       },
       {
         render: getIndividualEditBtn,
         data: null,
-        targets: [7],
+        targets: [6],
       },
       {
         render: getIndividualDelBtn,
         data: null,
-        targets: [8],
+        targets: [7],
       },
     ],
   });
@@ -199,7 +198,7 @@ function loadIndividualsTable(dataSet) {
 
 function getIndividualViewBtn(data, type, row, meta) {
   let dataFields = `data-record-id = "${data.id}"
-                    data-record-national-id  = "${data.national_id}" 
+                    data-record-identifier  = "${data.identifier}" 
                     data-record-firstname  = "${data.firstname}" 
                     data-record-lastname = "${data.lastname}"
                     data-record-gender = "${data.gender}"

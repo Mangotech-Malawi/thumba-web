@@ -5,7 +5,7 @@ let formElements = []
 export function validClientFormData() {
   formElements = []
   let validClientData = false;
-  pushFormElements("nationalId", "#nationalId", true, "National ID");
+  pushFormElements("identifier", "#identifier", true, "Person Identifier");
   pushFormElements("personName", "#firstname", true, "Firstname");
   pushFormElements("personName", "#lastname", true, "Lastname");
   pushFormElements("dateOfBirth", "#dateOfBirth", true, "Date Of Birth");

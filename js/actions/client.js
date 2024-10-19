@@ -1,7 +1,7 @@
 import * as client from "../services/clients.js";
 import { loadContent } from "../actions/contentLoader.js";
 import * as form from "../utils/forms.js";
-
+import { loadIdentifierTypes } from "../services/users.js";
 
 let modalId = "#modal-register-client";
 let clientType = null;
@@ -28,7 +28,9 @@ $(function () {
     if (clientType === "organization") {
       loadForm("clientRegistration", "views/clients/organizationForm.html");
     } else if (clientType === "individual") {
-      loadForm("clientRegistration", "views/clients/individualForm.html");
+      $.when(loadForm("clientRegistration", "views/clients/individualForm.html")).done( function (){
+        loadIdentifierTypes();
+      });
     }
 
     if (actionType === "edit") {
@@ -634,8 +636,6 @@ $(function () {
 //Params Methods ====================+++>
 function clientAssetParams() {
   let id = $("#clientAssetId").val();
-  let identifier = $("#identifier").val();
-  let identifierType = $("#identifierType").val();
   let assetName = $("#assetName").val();
   let purchaseName = $("#purchaseName").val();
   let purchaseDate = $("#purchaseDate").val();
@@ -646,8 +646,6 @@ function clientAssetParams() {
   let params = {
     id: id,
     client_id: currentDataset.recordId,
-    identifier: identifier,
-    identifier_type: identifierType,
     name: assetName,
     purchase_name: purchaseName,
     purchase_date: purchaseDate,
@@ -747,7 +745,8 @@ function clientBusinessParams() {
 
 function individualParams() {
   let client_id = $("#id").val();
-  let national_id = $("#nationalId").val();
+  let identifier = $("#identifier").val();
+  let identifierTypeId = $("#identifierType").val();
   let firstname = $("#firstname").val();
   let lastname = $("#lastname").val();
   let gender = $("#gender option:selected").val();
@@ -763,7 +762,8 @@ function individualParams() {
   let params = {
     client_id: client_id,
     client_type: clientType,
-    national_id: national_id,
+    identifier: identifier,
+    identifier_type_id: identifierTypeId,
     firstname: firstname,
     lastname: lastname,
     gender: gender,
