@@ -66,11 +66,7 @@ $(document).ready(function () {
             true,
             3000
         )
-
-
     });
-
-
 });
 
 
