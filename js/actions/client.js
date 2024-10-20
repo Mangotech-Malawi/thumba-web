@@ -636,6 +636,8 @@ $(function () {
 //Params Methods ====================+++>
 function clientAssetParams() {
   let id = $("#clientAssetId").val();
+  let identifier =  $("#identifier").val();
+  let identifierType =  $("#identifierType").val();
   let assetName = $("#assetName").val();
   let purchaseName = $("#purchaseName").val();
   let purchaseDate = $("#purchaseDate").val();
@@ -646,6 +648,8 @@ function clientAssetParams() {
   let params = {
     id: id,
     client_id: currentDataset.recordId,
+    identifier: identifier,
+    identifier_type: identifierType,
     name: assetName,
     purchase_name: purchaseName,
     purchase_date: purchaseDate,
