@@ -91,9 +91,25 @@
                 <div class="select2-primary">
                   <select id="interestRateFrequency" class="form-control" data-placeholder="Select rate frequency"
                     data-dropdown-css-class="select2-primary" style="width: 100%;">
+                    <option value="year">Annually</option>
+                    <option value="semi-annually">Semi-Annually</option>
+                    <option value="quarterly">Quarterly</option>
                     <option value="monthly">Monthly</option>
-                    <option value="year">Year</option>
                   </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+              <div class="form-group ">
+                <label>Compouding Frequency</label>
+                <div class="input-group ">
+                  <input id="compoundingFrequency" type="text" class="form-control" placeholder="Compouding Frequency">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-coins"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,13 +130,27 @@
 
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
               <div class="form-group ">
+                <label>Duration Type</label>
+
+                <div class="select2-primary">
+                  <select id="durationType" class="form-control" data-placeholder="Select duration type"
+                    data-dropdown-css-class="select2-primary" style="width: 100%;">
+                    <option value="annually">Annually</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+              <div class="form-group ">
                 <label>Currency</label>
 
                 <div class="select2-primary">
                   <select id="currency" class="form-control" data-placeholder="Select package currency"
                     data-dropdown-css-class="select2-primary" style="width: 100%;">
                     <option value="kwacha">Kwacha</option>
-                  </select>
+                  </select>     
                 </div>
               </div>
             </div>
@@ -229,5 +259,6 @@
   $("#riskLevel").select2();
   $("#packageType").select2();
   $("#interestRateFrequency").select2();
+  $("#durationType").select2();
   $("#currency").select2();
 </script>
