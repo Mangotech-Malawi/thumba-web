@@ -173,6 +173,8 @@ function getInvestmentPackageParams() {
     let interest_rate = $("#interestRate").val();
     let interest_rate_frequency = $("#interestRateFrequency option:selected").val();
     let duration = $("#duration").val();
+    let durationType = $("#durationType").val();
+    let compoundingFrequency = $("#compoundingFrequency").val();
     let currency = $("#currency").val();
     let requirements = $("#requirements").val();
     let terms_and_conditions = $("#termsAndConditions").val();
@@ -188,10 +190,12 @@ function getInvestmentPackageParams() {
         interest_rate: interest_rate,
         interest_frequency: interest_rate_frequency,
         duration: duration,
+        duration_type: durationType,
         currency: currency,
         requirements: requirements,
         term_and_conditions: terms_and_conditions,
         payout_schedule: payout_schedule,
+        compounding_frequency: compoundingFrequency,
         risk_level: risk_level
     }
 

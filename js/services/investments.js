@@ -320,7 +320,7 @@ function populateReturnsOnInvestmentsTable(dataSet) {
 export function fetchMyInvestments(params) {
 
     let data = apiClient(
-            "/api/v1/investor/investiments",
+            "/api/v1/investor_returns",
             "GET",
             "json",
             false,
@@ -332,6 +332,7 @@ export function fetchMyInvestments(params) {
 }
 
 function populateMyInvestmentsTable(dataSet) {
+    console.log(dataSet);
     $("#myInvestmentsTable").DataTable({
         destroy: true,
         responsive: true,
@@ -342,12 +343,23 @@ function populateMyInvestmentsTable(dataSet) {
         info: true,
         data: dataSet,
         columns: [
-            { data: "id" },
             { data: "package_name" },
             { data: "amount" },
+            { data: "compounded_amount" },
+            { data: "roi" },
             { data: "investment_date" }
         ],
         columnDefs: [
+            {
+                targets: [1,2,3], // Targeting the 'Amount' column
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Use the utility function to format the number
+                        return formatCurrency(data);
+                    }
+                    return data;
+                }
+            }
         ],
     });
 }

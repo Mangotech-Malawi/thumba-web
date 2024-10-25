@@ -156,6 +156,26 @@
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+              <div class="form-group ">
+                <label>Payout Schedule</label>
+
+                <div class="select2-primary">
+                  <select id="payoutSchedule" class="form-control" data-placeholder="Select Payout Schedule"
+                    data-dropdown-css-class="select2-primary" style="width: 100%;">
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="semi_annually">Semi-Annually</option>
+                    <option value="annually">Annually</option>
+                    <option value="lump_sum">Lump Sum At Maturity</option>
+                    <option value="interest_only"> Interest-Only Periodic Payments</option>
+                    <option value="amortized">Armotized Payments</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
               <div class="form-group">
                 <label>Requirements</label>
                 <div class="input-group">
@@ -169,15 +189,6 @@
                 <label>Terms and Conditions</label>
                 <div class="input-group">
                   <textarea id="termsAndConditions" type="text" class="form-control" placeholder="Terms and conditions"></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-              <div class="form-group">
-                <label>Payout Schedule</label>
-                <div class="input-group">
-                  <textarea id="payoutSchedule" type="text" size ="50" class="form-control" placeholder="Payout Schedule"></textarea>
                 </div>
               </div>
             </div>
@@ -259,6 +270,7 @@
   $("#riskLevel").select2();
   $("#packageType").select2();
   $("#interestRateFrequency").select2();
+  $("#payoutSchedule").select2();
   $("#durationType").select2();
   $("#currency").select2();
 </script>
