@@ -15,16 +15,20 @@ $(function () {
 
 export function admin() {
   dashboardData = fetchAdminDashboardData();
-  populateSharesChart(dashboardData.investors);
-  populateReturnsGrowthChart(dashboardData.all_returns);
-  $("#totalClients").text(nf.format(dashboardData.client_count));
-  $("#totalUsers").text(nf.format(dashboardData.user_count));
-  $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
-  $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
-  $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
-  $("#totalProfits").text(`MK${nf.format(dashboardData.expected_profit)}`);
-  $("#totalAvailable").text(`MK${nf.format(dashboardData.total_available)}`);
-  $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);
+
+  if (typeof dashboardData !== "undefined" && dashboardData !== null && dashboardData != '') {
+    populateSharesChart(dashboardData.investors);
+    populateReturnsGrowthChart(dashboardData.all_returns);
+    $("#totalClients").text(nf.format(dashboardData.client_count));
+    $("#totalUsers").text(nf.format(dashboardData.user_count));
+    $("#totalRevenue").text(`MK${nf.format(dashboardData.total_revenue)}`);
+    $("#totalIncome").text(`MK${nf.format(dashboardData.total_income)}`);
+    $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
+    $("#totalProfits").text(`MK${nf.format(dashboardData.expected_profit)}`);
+    $("#totalAvailable").text(`MK${nf.format(dashboardData.total_available)}`);
+    $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);
+  }
+
 }
 
 export function investor() {
@@ -92,7 +96,7 @@ function populateReturnsGrowthChart(all_returns) {
 
   let myInvestmentChart = new ApexCharts(
     document.querySelector("#returns-growth"),
-    returnsGrowthOptions 
+    returnsGrowthOptions
   );
 
   myInvestmentChart.render();
@@ -169,14 +173,14 @@ function populateReturnsInvestmentChart(returns_investments) {
 }
 
 function fetchAdminDashboardData() {
-  let data = apiClient("/api/v1/admin_dashboard_stats", "GET", "json", false, false, { });
+  let data = apiClient("/api/v1/admin_dashboard_stats", "GET", "json", false, false, {});
   if (data != null) {
     return data;
   }
 }
 
 function fetchInvestorDashboardData() {
-  let data = apiClient("/api/v1/investor_dashboard_stats", "GET", "json", false, false, { });
+  let data = apiClient("/api/v1/investor_dashboard_stats", "GET", "json", false, false, {});
   if (data != null) {
     return data;
   }
