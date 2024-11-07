@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.classList.remove('light-mode');
                 document.getElementById('navbar').classList.remove('navbar-light');
                 document.getElementById('navbar').classList.add('navbar-dark');
-                document.getElementById('sidebar').classList.remove('sidebar-light-secondary');
                 document.getElementById('sidebar').classList.add('sidebar-dark-primary');
                 button.textContent = 'Switch to Light Mode';
             } else {
@@ -35,8 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.classList.remove('dark-mode');
                 document.getElementById('navbar').classList.remove('navbar-dark');
                 document.getElementById('navbar').classList.add('navbar-light');
-                document.getElementById('sidebar').classList.remove('sidebar-dark-primary');
-                document.getElementById('sidebar').classList.add('sidebar-light-secondary');
                 button.textContent = 'Switch to Dark Mode';
             }
         };
@@ -50,14 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isDarkMode) {
                 document.getElementById('navbar').classList.remove('navbar-light');
                 document.getElementById('navbar').classList.add('navbar-dark');
-                document.getElementById('sidebar').classList.remove('sidebar-light-secondary');
+          
                 document.getElementById('sidebar').classList.add('sidebar-dark-primary');
                 button.textContent = 'Switch to Light Mode';
             } else {
                 document.getElementById('navbar').classList.remove('navbar-dark');
                 document.getElementById('navbar').classList.add('navbar-light');
-                document.getElementById('sidebar').classList.remove('sidebar-dark-primary');
-                document.getElementById('sidebar').classList.add('sidebar-light-secondary');
                 button.textContent = 'Switch to Dark Mode';
             }
 
