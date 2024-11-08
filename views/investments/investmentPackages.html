@@ -2,14 +2,21 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Investment Packages</h3>
+            
             <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-12 text-right">
+                <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                     <!-- Button for calling add organisation modal -->
-                    <button type="button" class="btn bg-gradient-success text-left" id="uploadClients"
+                    <button type="button" class="btn bg-gradient-secondary " id="uploadClients"
+                    data-toggle="modal" data-target="#modal-investiment-package" data-button-type="add">
+                    <i class="fa fa-download"></i> Download All
+                </button>
+
+                    <button type="button" class="btn bg-outline bg-gradient-success text-left" id="uploadClients"
                         data-toggle="modal" data-target="#modal-investiment-package" data-button-type="add">
-                        <i class="fa fa-plus-square"></i> Add Investment Package
+                        <i class="fa fa-plus-square"></i> Add 
                     </button>
                 </div>
+             
             </div>
 
         </div>
@@ -28,30 +35,14 @@
                         <th>Duration</th>
                         <th>Currency</th>
                         <th>Risk</th>
-                        <th>More</th>
+                        <th>Download</th>
                         <th>EDIT</th>
                         <th>DELETE</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Min Amount</th>
-                        <th>Max Amount</th>
-                        <th>Rate(%)</th>
-                        <th>ifrequency</th>
-                        <th>Duration</th>
-                        <th>Currency</th>
-                        <th>Risk</th>
-                        <th>More</th>
-                        <th>EDIT</th>
-                        <th>DELETE</th>
-                    </tr>
-                </tfoot>
+                
             </table>
         </div>
         <!-- /.card-body -->
