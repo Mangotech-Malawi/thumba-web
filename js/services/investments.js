@@ -39,6 +39,17 @@ export function editInvestmentPackage(params) {
     )
 }
 
+export function getPackageFile(params){
+    return apiClient(
+        "/api/v1/investiment_package/download",
+        "POST",
+        "json",
+        false,
+        false,
+        params
+    )
+}
+
 export function deleteInvestmentPackage(params) {
     return apiClient(
         "/api/v1/investiment_package/delete",
@@ -77,7 +88,7 @@ function populateInvestmentPackagesTable(dataSet) {
         ],
         columnDefs: [
             {
-                render: getMoreBtn,
+                render: getDownloadBtn,
                 data: null,
                 targets: [10],
             },
@@ -106,23 +117,30 @@ function populateInvestmentPackagesTable(dataSet) {
 }
 
 
-function getMoreBtn(data, type, row, metas) {
-    let dataFields = `data-investment-package-id = "${data.id}"
-                      data-package-name = "${data.package_name}"
-                      data-min-amount = "${data.min_amount}"
-                      data-max-amount = "${data.max_amount}"
-                      data-interest-rate = "${data.interest_rate}"
-                      data-interest-frequency = "${data.market_value}"
-                      data-duration = "${data.duration}"
-                      data-currency = "${data.currency}"
-                      data-risk-level = "${data.risk_level}"
-                      data-requirements = "${data.requirements}"
-                      data-terms-and-conditions = "${data.term_and_conditions}"
-                      data-payout-schedule = "${data.payout_schedule}"
-                      data-inves = "Edit Collateral Sale"`;
+function getDownloadBtn(data, type, row, metas) {
+    let dataFields = `data-investment-package-id = "${data.id}"`;
 
-    return getButton(dataFields, "sell-collateral", "warning ",
-        "fas fa-list");
+    return getButton(dataFields, "", "secondary  download-investment-package",
+        "fas fa-download");
+}
+
+function getViewBtn(data, type, row, metas) {
+    let dataFields = `data-investment-package-id = "${data.id}"
+    data-package-name = "${data.package_name}"
+    data-min-amount = "${data.min_amount}"
+    data-max-amount = "${data.max_amount}"
+    data-interest-rate = "${data.interest_rate}"
+    data-interest-frequency = "${data.market_value}"
+    data-duration = "${data.duration}"
+    data-currency = "${data.currency}"
+    data-risk-level = "${data.risk_level}"
+    data-requirements = "${data.requirements}"
+    data-terms-and-conditions = "${data.term_and_conditions}"
+    data-payout-schedule = "${data.payout_schedule}"
+    data-inves = "Edit Collateral Sale"`;
+
+    return getButton(dataFields, "view more", "secondary ",
+    "fas fa-download");
 }
 
 

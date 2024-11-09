@@ -48,6 +48,22 @@ $(function () {
         }
     });
 
+    $(document).on("click", ".download-investment-package", function(){
+       
+        let investiment_package_id = $(this).data().investmentPackageId
+
+        $.when(investment.getPackageFile({id:  investiment_package_id})).done(function (htmlContent) {
+            if (htmlContent) {
+              let win = window.open("", "", "");
+              win.document.write(htmlContent.html)
+              win.document.close();
+              win.print();
+            } else {
+              console.error("HTML content is null or empty.");
+            }
+        });
+    })
+
     $(document).on("click", ".delete-investment-package", function (e) {
         let id = $(this).data().id;
 
