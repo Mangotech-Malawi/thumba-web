@@ -64,6 +64,19 @@ $(function () {
         });
     })
 
+    $(document).on("click", "#downloadInvestmentProducts", function (){
+        $.when(investment.getPackagesFile()).done(function (htmlContent) {
+            if (htmlContent) {
+              let win = window.open("", "", "");
+              win.document.write(htmlContent.html)
+              win.document.close();
+              win.print();
+            } else {
+              console.error("HTML content is null or empty.");
+            }
+        });
+    })
+
     $(document).on("click", ".delete-investment-package", function (e) {
         let id = $(this).data().id;
 

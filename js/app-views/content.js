@@ -142,6 +142,12 @@ export const content_view = [
   },
   {
     title: "Client Demographics",
+    link: "views/clients/investments.html",
+    state: "client_investments",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
+    title: "Client Demographics",
     link: "views/clients/demographics.html",
     state: "demographics",
     modals: ["views/modals/client.html", "views/modals/user.html"],

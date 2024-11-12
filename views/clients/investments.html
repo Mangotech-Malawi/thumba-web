@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <div class="card card-outline ">
+        <div class="card-header">
+            <h3 class="card-title">Investments</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 text-right">
+                    <button type="button" class="btn bg-gradient-secondary text-left" id="recordBackBtn"
+                        data-client-type="individual">
+                        <i class="fa fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4 col-sm-12 col-md-4">
+                    <div class="card card-outline card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Investments subscriptions</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="investmentsTable" class="table  table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>SDate</th>
+                                        <th>EDate</th>
+                                        <th>Closed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-sm-12 col-md-8">
+
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Investments </h3>
+
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-12 text-right">
+                                    <!-- Button for calling add organisation modal -->
+                                    <button type="button" class="btn btn-outline-success text-left" id="uploadClients"
+                                        data-toggle="modal" data-target="#modal-investment" data-button-type="add">
+                                        <i class="fa fa-plus-square"></i> Add Investment
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="investmentsTable" class="table  table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Invest</th>
+                                        <th>Amount(Mwk)</th>
+                                        <th>Investment Date</th>
+                                        <th>EDIT</th>
+                                        <th>DELETE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>

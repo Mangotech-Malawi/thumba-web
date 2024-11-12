@@ -157,6 +157,20 @@ $(function () {
     }
   });
 
+  $(document).on("click", "#btnInvestments", function (e) {
+    $.when(loadIndividualRecordView("views/clients/investments.html", "client_investments")).done(
+      function () {
+        $.each(currentDataset, function (key, value) {
+          $("#demographics").find(`[id = '${key}']`).text(value);
+        });
+
+        $("#recordName").text(
+          `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
+        );
+      }
+    );
+  });
+
   $(document).on("click", "#btnDemographics", function (e) {
     $.when(loadIndividualRecordView("views/clients/demographics.html", "demographics")).done(
       function () {

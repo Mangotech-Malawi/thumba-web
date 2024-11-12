@@ -42,13 +42,25 @@ export function editInvestmentPackage(params) {
 export function getPackageFile(params){
     return apiClient(
         "/api/v1/investiment_package/download",
-        "POST",
+        "GET",
         "json",
         false,
         false,
         params
     )
 }
+
+export function getPackagesFile(params){
+    return apiClient(
+        "/api/v1/investiment_packages/download",
+        "GET",
+        "json",
+        false,
+        false,
+        params
+    )
+}
+
 
 export function deleteInvestmentPackage(params) {
     return apiClient(

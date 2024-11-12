@@ -285,6 +285,9 @@ function loadOtherContent(state, index) {
         case "dumped_applications":
           loans.fetchLoanApplications({ status_name: "DUMPED" });
           break;
+        case "client_investments":
+               //investment.fetchInvestments();
+              break;
         case "investment_packages":
           investment.fetchInvestimentPackages();
           break;
