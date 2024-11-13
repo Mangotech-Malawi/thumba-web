@@ -11,7 +11,7 @@ $(function () {
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
     }
-    
+
     $(document).on("click", "#btnBusinesses", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
             function () {
@@ -22,6 +22,14 @@ $(function () {
                 client.fetchClientBusinesses({
                     client_id: currentDataset.recordId,
                 });
+            }
+        );
+    });
+
+    $(document).on("click", "#businessFormBtn", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/forms/business.html", "business_form")).done(
+            function () {
+                
             }
         );
     });
