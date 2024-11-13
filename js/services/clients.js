@@ -470,7 +470,7 @@ function getDependantEditBtn(data, type, row, metas) {
     data-frequency = "${data.frequency}"
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-dependant", "default", "fas fa-edit");
+  return getButton(dataFields, "", "default edit-dependant", "fas fa-edit");
 }
 
 function getDependantDelBtn(data, type, row, metas) {

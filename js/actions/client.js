@@ -170,7 +170,7 @@ $(function () {
   });
 
   $(document).on("click", "#btnDemographics", function (e) {
-    $.when(loadIndividualRecordView("views/clients/demographics.html", "demographics")).done(
+    $.when(loadContent.loadIndividualRecordView("views/clients/demographics.html", "demographics")).done(
       function () {
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);
@@ -198,11 +198,11 @@ $(function () {
   $(document).on("click", "#clientsBackBtn", function () {
     clientType = this.dataset.clientType;
     if (clientType === "individual") {
-      $.when(loadRecord("views/clients/individuals.html", "individual")).done(function () {
+      $.when(loadContent.loadRecord("views/clients/individuals.html", "individual")).done(function () {
         client.fetchClientsData(clientType);
       });
     } else if (clientType === "organization") {
-      $.when(loadRecord("views/clients/organizations.html", "organization")).done(function () {
+      $.when(loadContent.loadRecord("views/clients/organizations.html", "organization")).done(function () {
         client.fetchClientsData(clientType);
       });
     }
