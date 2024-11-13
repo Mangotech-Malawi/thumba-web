@@ -156,7 +156,7 @@ $(function () {
   });
 
   $(document).on("click", "#addClientForm", function (e) {
-    $.when(loadIndividualRecordView("views/forms/client.html", "client_form")).done(
+    $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(
       function () {
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);

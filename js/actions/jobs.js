@@ -13,6 +13,7 @@ $(function () {
 
     $(document).on("click", "#btnJobs", function (e) {
         loadJobView();
+        $("#formTitle").text("Add Client Job");
     });
 
     $(document).on("click", "#jobFormBtn", function (e) {
@@ -56,10 +57,11 @@ $(function () {
     $(document).on("click", ".edit-client-job", function (e) {
         const opener = $(this).data();
 
-        $("#formTitle").text("Edit Client Job");
-
         $.when(contentLoader.loadIndividualRecordView("views/forms/job.html", "job_form")).done(
             function () {
+
+                $("#formTitle").text("Edit Client Job");
+
                 $.each(opener, function (key, value) {
                     $(jobForm).find(`[id = '${key}']`).val(value);
                 });
