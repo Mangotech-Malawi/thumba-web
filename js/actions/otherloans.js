@@ -1,0 +1,138 @@
+import * as client from "../services/clients.js";
+import * as form from "../utils/forms.js";
+import * as contentLoader from "../actions/contentLoader.js";
+
+const otherloanModal = "#modal-client-otherloan";
+let currentDataset = null;
+localStorage;
+
+$(function () {
+
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+    }
+
+    $(document).on("click", "#btnOtherLoans", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
+            function () {
+                $("#recordName").text(
+                    `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
+                );
+
+                client.fetchClientOtherLoans({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    });
+
+    //Client Other Loans
+    $(document).on("click", "#saveOtherLoanBtn", function (e) {
+        if (form.validOtherLoansFormData()) {
+            if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
+                notification(
+                    client.addOtherLoan(clientOtherLoanParams()).created,
+                    "center",
+                    "success",
+                    "otherloan",
+                    "Add Client Other Loan",
+                    "Client other loan has been added successfully",
+                    true,
+                    3000
+                );
+            } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
+                notification(
+                    client.updateOtherLoan(clientOtherLoanParams()).updated,
+                    "center",
+                    "success",
+                    "otherloan",
+                    "Edit Client Other Loan",
+                    "Client other loan has been updated successfully",
+                    true,
+                    3000
+                );
+            }
+        }
+
+    });
+
+    $(document).on("show.bs.modal", otherloanModal, function (e) {
+        clearFields();
+        let opener = e.relatedTarget;
+        let actionType = $(opener).attr("data-action-type");
+
+        if (actionType === "add") {
+            $("#regOtherLoanTitle").text("Add Client Other Loan");
+        } else if (actionType === "edit") {
+            $("#regOtherLoanTitle").text("Edit Client Other Loan");
+            $.each(opener.dataset, function (key, value) {
+                $(otherloanModal).find(`[id = '${key}']`).val(value);
+
+                if (key !== "busRegistered")
+                    $(businessModal).find(`[id = '${key}']`).val(value);
+                else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+            });
+        }
+    });
+
+    $(document).on("show.bs.modal", "#modal-del-client-otherloan", function (e) {
+        let opener = e.relatedTarget;
+        $.each(opener.dataset, function (key, value) {
+            $("#modal-del-client-otherloan").find(`[id = '${key}']`).val(value);
+        });
+    });
+
+    $(document).on("click", "#delClientOtherLoanBtn", function (e) {
+        let id = $("#delOtherLoanId").val();
+        $.when(
+            notification(
+                client.delOtherLoan(id).deleted,
+                "center",
+                "success",
+                "otherloan",
+                "Delete Client Other Loan",
+                "Client other loan has been deleted successfully",
+                true,
+                3000
+            )
+        ).done(function () {
+            $("#modal-del-client-otherloan").modal("hide");
+        });
+    });
+
+});
+
+function clientOtherLoanParams() {
+    let id = $("#clientOtherLoanId").val();
+    let institution = $("#institution").val();
+    let phoneNumber = $("#phoneNumber").val();
+    let amount = $("#amountLoaned").val();
+    let period = $("#loanPeriod").val();
+    let periodType = $("#periodType option:selected").val();
+    let rate = $("#loanRate").val();
+    let loanedDate = $("#loanedDate").val();
+    let amountPaid = $("#amountPaid").val();
+    let purpose = $("#otherLoanPurpose").val()
+    let closed = $("#loanClosed").val();
+    let stopped = $("#stopped").val();
+    let reasonForStopping = $("#reasonForStopping").val();
+  
+    let params = {
+      id: id,
+      client_id: currentDataset.recordId,
+      institution: institution,
+      phone_number: phoneNumber,
+      amount: amount,
+      period: period,
+      period_type: periodType,
+      rate: rate,
+      loaned_date: loanedDate,
+      amount_paid: amountPaid,
+      purpose: purpose,
+      closed: closed,
+      stopped: stopped,
+      reason_for_stopping: reasonForStopping,
+    };
+  
+    return params;
+  }
