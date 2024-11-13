@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="card card-primary ">
+        <div class="card-header">
+            <h3 class="card-title font-weight-bold"> <i class="nav-icon fas fa-piggy-bank  "></i> Add Investment Subscription</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 text-right">
+                   
+
+                    <button type="button" class="btn btn-outline-light text-left" id="recordBackBtn"
+                        data-client-type="individual">
+                        <i class="fa fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            
+            <div class="content">
+                <div class="row">
+      
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+      
+                    <div class="input-group ">
+                      <input id="investmentId" type="hidden" class="form-control">
+                    </div>
+                  </div>
+      
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="form-group ">
+                      <label>Investment Packages</label>
+      
+                      <div class="select2-primary">
+                        <select id="investmentPackageId" name="investmentPackage" class="form-control"
+                          data-placeholder="Select Investiment Package" data-dropdown-css-class="select2-primary"
+                          style="width: 100%;">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+      
+      
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="form-group ">
+                      <label>Amount</label>
+                      <div class="input-group ">
+                        <input id="amount" type="text" class="form-control" placeholder="Amount">
+                        <div class="input-group-append">
+                          <div class="input-group-text">
+                            <span class="fas fa-coins"></span>
+                          </div>
+                        </div>
+                      </div>
+      
+                    </div>
+                  </div>
+      
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="form-group">
+                      <label>Investment Date</label>
+                      <div class="input-group date" id="investmentDatePicker" data-target-input="nearest">
+                        <input type="text" id="investmentDate" class="form-control datetimepicker-input"
+                          data-target="#investmentDatePicker" />
+                        <div class="input-group-append" data-target="#investmentDatePicker" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+      
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="form-group">
+                      <label>Description</label>
+                      <div class="input-group">
+                        <textarea id="description" type="text" class="form-control" placeholder="Description"></textarea>
+      
+                      </div>
+                    </div>
+                  </div>
+      
+      
+                </div>
+              </div>
+            <!-- /.card-body -->
+
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-default alt-btn" >Close</button>
+            <button type="button" id="saveInvestmentBtn" class="btn btn-primary text-left">Save</button>
+        </div>
+        <!-- /.card -->
+    </div>

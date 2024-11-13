@@ -28,3 +28,17 @@ export function loadContent(containerId, newState, urlPath, ...args) {
     },
   });
 }
+
+//FORMS AND CLIENT RECORDS METHODS
+export function loadForm(id, path) {
+  $.when(loadContent(id, "contentRecord", path)).done(function () { });
+}
+
+export function loadIndividualRecordView(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
+}
+
+export function loadRecord(path, state) {
+  $.when(loadContent("mainContent", state, path)).done(function () { });
+}
+

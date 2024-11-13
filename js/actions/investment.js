@@ -6,6 +6,7 @@ const investmentModal = "#modal-investment";
 const investmentPackageModal = "#modal-investiment-package";
 
 $(function () {
+
     $(document).on("click", "#saveInvestmentPackageBtn", function (e) {
         if(form.validateInvestmentPackageForm())
         if ($("#investmentPackageModalTitle").text() === "Add Investment Package") {
@@ -53,6 +54,19 @@ $(function () {
         let investiment_package_id = $(this).data().investmentPackageId
 
         $.when(investment.getPackageFile({id:  investiment_package_id})).done(function (htmlContent) {
+            if (htmlContent) {
+              let win = window.open("", "", "");
+              win.document.write(htmlContent.html)
+              win.document.close();
+              win.print();
+            } else {
+              console.error("HTML content is null or empty.");
+            }
+        });
+    })
+
+    $(document).on("click", "#downloadInvestmentProducts", function (){
+        $.when(investment.getPackagesFile()).done(function (htmlContent) {
             if (htmlContent) {
               let win = window.open("", "", "");
               win.document.write(htmlContent.html)

@@ -19,6 +19,12 @@ export const content_view = [
     state: "individual",
   },
   {
+    title: "Client Form",
+    link: "views/forms/client.html",
+    state: "client_form",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
     title: "Organizations",
     link: "views/clients/organizations.html",
     modals: ["views/modals/user.html", "views/modals/client.html"],
@@ -142,6 +148,18 @@ export const content_view = [
   },
   {
     title: "Client Demographics",
+    link: "views/clients/investments.html",
+    state: "client_investments",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
+    title: "Client Demographics",
+    link: "views/forms/investment.html",
+    state: "add_investment",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
+    title: "Client Demographics",
     link: "views/clients/demographics.html",
     state: "demographics",
     modals: ["views/modals/client.html", "views/modals/user.html"],
@@ -153,15 +171,33 @@ export const content_view = [
     modals: ["views/modals/client.html", "views/modals/user.html"]
   },
   {
+    title: "Client Job Form",
+    link: "views/forms/job.html",
+    state: "job_form",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
     title: "Client Dependants",
     link: "views/clients/dependants.html",
     state: "dependants",
     modals: ["views/modals/client.html", "views/modals/user.html"],
   },
   {
+    title: "Client Job Form",
+    link: "views/forms/dependant.html",
+    state: "dependant_form",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
     title: "Client Businesses",
     link: "views/clients/businesses.html",
     state: "businesses",
+    modals: ["views/modals/client.html", "views/modals/user.html"],
+  },
+  {
+    title: "Client Businesses",
+    link: "views/forms/business.html",
+    state: "business_form",
     modals: ["views/modals/client.html", "views/modals/user.html"],
   },
   {
@@ -171,9 +207,21 @@ export const content_view = [
     modals: ["views/modals/assets.html", "views/modals/user.html"],
   },
   {
+    title: "Client Asset Form",
+    link: "views/forms/assets.html",
+    state: "asset_form",
+    modals: ["views/modals/assets.html", "views/modals/user.html"],
+  },
+  {
     title: "Client Otheloans",
     link: "views/clients/otherLoans.html",
     state: "other_loans",
+    modals: ["views/modals/client.html", "views/modals/user.html"],
+  },
+  {
+    title: "Otherloan Form",
+    link: "views/forms/otherLoans.html",
+    state: "otheloan_form",
     modals: ["views/modals/client.html", "views/modals/user.html"],
   },
   {
