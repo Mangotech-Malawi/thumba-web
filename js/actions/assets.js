@@ -26,7 +26,7 @@ $(function () {
         );
     });
 
-    $(document).on("click", "#assetsFormBtn", function (e) {
+    $(document).on("click", "#assetFormBtn", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/asset.html", "asset_form")).done(
             function () {
                 

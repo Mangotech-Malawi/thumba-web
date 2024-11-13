@@ -26,6 +26,14 @@ $(function () {
         );
     });
 
+    $(document).on("click", "#otherloanFormBtn", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/forms/otherloan.html", "otherloan_form")).done(
+            function () {
+                
+            }
+        );
+    });
+
     //Client Other Loans
     $(document).on("click", "#saveOtherLoanBtn", function (e) {
         if (form.validOtherLoansFormData()) {

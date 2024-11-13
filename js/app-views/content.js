@@ -208,7 +208,7 @@ export const content_view = [
   },
   {
     title: "Client Asset Form",
-    link: "views/forms/assets.html",
+    link: "views/forms/asset.html",
     state: "asset_form",
     modals: ["views/modals/assets.html", "views/modals/user.html"],
   },
@@ -220,8 +220,8 @@ export const content_view = [
   },
   {
     title: "Otherloan Form",
-    link: "views/forms/otherLoans.html",
-    state: "otheloan_form",
+    link: "views/forms/otherloan.html",
+    state: "otherloan_form",
     modals: ["views/modals/client.html", "views/modals/user.html"],
   },
   {
