@@ -1,7 +1,7 @@
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
-const jobModal = "#modal-client-job";
+const jobForm = "#clientJobForm";
 
 let currentDataset = null;
 localStorage;
@@ -9,22 +9,11 @@ localStorage;
 $(function () {
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-      }
+    }
 
     $(document).on("click", "#btnJobs", function (e) {
-        $.when(contentLoader.loadIndividualRecordView("views/clients/jobs.html", "jobs")).done(
-            function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
-                );
-
-                client.fetchClientJobs({
-                    client_id: currentDataset.recordId,
-                });
-            }
-        );
+        loadJobView();
     });
-
 
     $(document).on("click", "#jobFormBtn", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/job.html", "job_form")).done(
@@ -36,7 +25,7 @@ $(function () {
 
     $(document).on("click", "#saveJobBtn", function (e) {
         if (form.validClientJobFormData()) {
-            if ($("#regJobTitle").text() === "Add Client Job") {
+            if ($("#formTitle").text().trim() === "Add Client Job") {
                 notification(
                     client.addJob(clientJobParams()).created,
                     "center",
@@ -47,7 +36,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#regJobTitle").text() === "Edit Client Job") {
+            } else if ($("#formTitle").text().trim() === "Edit Client Job") {
                 notification(
                     client.updateJob(clientJobParams()).updated,
                     "center",
@@ -64,26 +53,21 @@ $(function () {
 
 
     //CLIENT JOB MODAL
-    $(document).on("show.bs.modal", jobModal, function (e) {
-        let opener = e.relatedTarget;
-        let actionType = $(opener).attr("data-action-type");
+    $(document).on("click", ".edit-client-job", function (e) {
+        const opener = $(this).data();
 
-        $.when(loadForm("clientJobForm", "views/clients/jobForm.html")).done(
+        $("#formTitle").text("Edit Client Job");
+
+        $.when(contentLoader.loadIndividualRecordView("views/forms/job.html", "job_form")).done(
             function () {
-                if (actionType === "add") {
-                    $("#regJobTitle").text("Add Client Job");
-                } else if (actionType === "edit") {
-                    $("#regJobTitle").text("Edit Client Job");
-
-                    $.each(opener.dataset, function (key, value) {
-                        $(jobModal).find(`[id = '${key}']`).val(value);
-                    });
-                }
+                $.each(opener, function (key, value) {
+                    $(jobForm).find(`[id = '${key}']`).val(value);
+                });
             }
         );
     });
 
-    
+
 
     $(document).on("show.bs.modal", "#modal-del-client-job", function (e) {
         let opener = e.relatedTarget;
@@ -126,25 +110,80 @@ function clientJobParams() {
     let email = $("#emailAddress").val(); //Phone Number
     let phoneNumber = $("#phoneNumber").val();
     let district = $("#district").val();
-  
+
     let params = {
-      id: id,
-      client_id: currentDataset.recordId,
-      title: title,
-      department: department,
-      employer_type: employerType,
-      employer_name: employerName,
-      employment_type: employementType,
-      date_started: dateStarted,
-      contract_due: contractDue,
-      net_salary: netSalary,
-      gross_salary: grossSalary,
-      pay_date: payDate,
-      postal_address: postalAddress,
-      email_address: email,
-      phone_number: phoneNumber,
-      district: district,
+        id: id,
+        client_id: currentDataset.recordId,
+        title: title,
+        department: department,
+        employer_type: employerType,
+        employer_name: employerName,
+        employment_type: employementType,
+        date_started: dateStarted,
+        contract_due: contractDue,
+        net_salary: netSalary,
+        gross_salary: grossSalary,
+        pay_date: payDate,
+        postal_address: postalAddress,
+        email_address: email,
+        phone_number: phoneNumber,
+        district: district,
     };
-  
+
     return params;
+}
+
+function loadJobView() {
+    $.when(contentLoader.loadIndividualRecordView("views/clients/jobs.html", "jobs")).done(
+        function () {
+            $("#recordName").text(
+                `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
+            );
+
+            client.fetchClientJobs({
+                client_id: currentDataset.recordId,
+            });
+        }
+    );
+}
+
+function notification(
+    isDone,
+    position,
+    icon,
+    recordType,
+    title,
+    text,
+    showConfirmButton,
+    timer
+  ) {
+    if (isDone)
+      $.when(
+        Swal.fire({
+          position: position,
+          icon: icon,
+          title: title,
+          text: text,
+          showConfirmButton: showConfirmButton,
+          timer: timer,
+        })
+      ).done(function () {
+        switch (recordType) {
+          case "job":
+            loadJobView();
+            break;
+          case "delete-job":
+            $.when(
+              client.fetchClientJobs({
+                client_id: currentDataset.recordId,
+              })
+            ).done(function () {
+              $("#modal-del-client-job").modal("hide");
+            });
+            break;
+        }
+      });
   }
+  
+
+
