@@ -406,7 +406,7 @@ function getJobEditBtn(data, type, row, metas) {
     data-spouse-id = "${data.district}"
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-job", "default", "fas fa-edit");
+  return getButton(dataFields, "", "default edit-client-job", "fas fa-edit");
 }
 
 function getJobDelBtn(data, type, row, metas) {

@@ -3,6 +3,7 @@ import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
 const dependantForm = "#dependantForm";
+let formTitle = "#formTitle";
 let currentDataset = null;
 localStorage;
 
@@ -26,7 +27,7 @@ $(function () {
 
     $(document).on("click", "#saveDependantBtn", function (e) {
         if (form.validDependantFormData()) {
-            if ($("#formTitle").text() === "Add Client Dependant") {
+            if ($(formTitle).text() === "Add Client Dependant") {
                 notification(
                     client.addDependant(clientDependantParams()).created,
                     "center",
@@ -37,7 +38,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#formTitle").text() === "Edit Client Dependant") {
+            } else if ($(formTitle).text() === "Edit Client Dependant") {
                 notification(
                     client.updateDependant(clientDependantParams()).updated,
                     "center",
@@ -69,9 +70,7 @@ $(function () {
 
     // CLIENT DEPENDANT
     $(document).on("click", ".edit-dependant", function (e) {
-        console.log($(this).data());
         const opener = $(this).data();
-
 
         $.when(contentLoader.loadIndividualRecordView("views/forms/dependant.html", "dependant_form")).done(
             function () {
