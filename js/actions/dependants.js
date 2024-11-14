@@ -3,7 +3,6 @@ import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
 const dependantForm = "#dependantForm";
-let formTitle = "#formTitle";
 let currentDataset = null;
 localStorage;
 
@@ -27,7 +26,7 @@ $(function () {
 
     $(document).on("click", "#saveDependantBtn", function (e) {
         if (form.validDependantFormData()) {
-            if ($(formTitle).text() === "Add Client Dependant") {
+            if ($("#formTitle").text() === "Add Client Dependant") {
                 notification(
                     client.addDependant(clientDependantParams()).created,
                     "center",
@@ -38,7 +37,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($(formTitle).text() === "Edit Client Dependant") {
+            } else if ($("#formTitle").text() === "Edit Client Dependant") {
                 notification(
                     client.updateDependant(clientDependantParams()).updated,
                     "center",
@@ -83,7 +82,7 @@ $(function () {
         );
     });
 
-    $(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
+    $(document).on("sh", "#modal-del-client-dependant", function (e) {
         let opener = e.relatedTarget;
         $.each(opener.dataset, function (key, value) {
             $("#modal-del-client-dependant").find(`[id = '${key}']`).val(value);

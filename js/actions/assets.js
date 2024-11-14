@@ -37,7 +37,7 @@ $(function () {
     //Client Assets
     $(document).on("click", "#saveAssetBtn", function (e) {
         if (form.validAssetFormData()) {
-            if ($("#regAssetTitle").text() === "Add Client Asset") {
+            if ($("#formTitle").text() === "Add Client Asset") {
                 notification(
                     client.addAsset(clientAssetParams()).created,
                     "center",
@@ -48,7 +48,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
+            } else if ($("#formTitle").text() === "Edit Client Asset") {
                 notification(
                     client.updateAsset(clientAssetParams()).updated,
                     "center",
@@ -63,7 +63,7 @@ $(function () {
         }
     });
 
-    $(document).on("show.bs.modal", assetModal, function (e) {
+    $(document).on("click", "", function (e) {
         clearFields();
         let opener = e.relatedTarget;
         let actionType = $(opener).attr("data-action-type");
