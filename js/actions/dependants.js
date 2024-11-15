@@ -3,15 +3,11 @@ import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
 const dependantForm = "#dependantForm";
-let formTitle = "#formTitle";
 let currentDataset = null;
 localStorage;
 
 
 $(function () {
-    if (localStorage.getItem("clientDataSet") != null) {
-        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    }
 
     $(document).on("click", "#btnDependants", function (e) {
         loadDependantsView();
@@ -27,7 +23,7 @@ $(function () {
 
     $(document).on("click", "#saveDependantBtn", function (e) {
         if (form.validDependantFormData()) {
-            if ($(formTitle).text() === "Add Client Dependant") {
+            if ($("#formTitle").text() === "Add Client Dependant") {
                 notification(
                     client.addDependant(clientDependantParams()).created,
                     "center",
@@ -38,7 +34,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($(formTitle).text() === "Edit Client Dependant") {
+            } else if ($("#formTitle").text() === "Edit Client Dependant") {
                 notification(
                     client.updateDependant(clientDependantParams()).updated,
                     "center",
@@ -83,7 +79,7 @@ $(function () {
         );
     });
 
-    $(document).on("show.bs.modal", "#modal-del-client-dependant", function (e) {
+    $(document).on("sh", "#modal-del-client-dependant", function (e) {
         let opener = e.relatedTarget;
         $.each(opener.dataset, function (key, value) {
             $("#modal-del-client-dependant").find(`[id = '${key}']`).val(value);
@@ -111,17 +107,21 @@ function clientDependantParams() {
 }
 
 function loadDependantsView() {
-    $.when(contentLoader.loadIndividualRecordView("views/clients/dependants.html", "dependants")).done(
-        function () {
-            $("#recordName").text(
-                `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
-            );
-
-            client.fetchClientDependants({
-                client_id: currentDataset.recordId,
-            });
-        }
-    );
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+        
+        $.when(contentLoader.loadIndividualRecordView("views/clients/dependants.html", "dependants")).done(
+            function () {
+                $("#recordName").text(
+                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
+                );
+    
+                client.fetchClientDependants({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    }
 }
 
 

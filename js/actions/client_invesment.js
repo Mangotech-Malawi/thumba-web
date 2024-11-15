@@ -9,29 +9,25 @@ $(function () {
 
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+        $(document).on("click", "#btnInvestments", function (e) {
+            $.when(contentLoader.loadIndividualRecordView("views/clients/investments.html", "client_investments")).done(
+                function () {
+                    $("#recordName").text(
+                        `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
+                    );
+
+                    client.fetchClientInvesments({
+                        client_id: currentDataset.recordId,
+                    });
+                }
+            );
+        });
     }
-
-    $(document).on("click", "#btnInvestments", function (e) {
-        $.when(contentLoader.loadIndividualRecordView("views/clients/investments.html", "client_investments")).done(
-            function () {
-                $.each(currentDataset, function (key, value) {
-                    $("#demographics").find(`[id = '${key}']`).text(value);
-                });
-
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
-                );
-            }
-        );
-    });
 
     $(document).on("click", "#addSub", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/investment.html", "add_investment")).done(
             function () {
-                $.each(currentDataset, function (key, value) {
-                    $("#demographics").find(`[id = '${key}']`).text(value);
-                });
-
                 $("#recordName").text(
                     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
                 );

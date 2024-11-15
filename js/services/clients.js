@@ -658,7 +658,7 @@ function getAssetEditBtn(data, type, row, metas) {
   data-asset-description = "${data.description}"
   data-action-type = "edit"`;
 
-  return getButton(dataFields, "client-asset", "default", "fas fa-edit");
+  return getButton(dataFields, "", "default ", "fas fa-edit");
 }
 
 function getAssetDelBtn(data, type, row, metas) {

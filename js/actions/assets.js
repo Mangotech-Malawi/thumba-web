@@ -8,28 +8,31 @@ localStorage;
 
 $(function () {
 
-    if (localStorage.getItem("clientDataSet") != null) {
-        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    }
-
     $(document).on("click", "#btnAssets", function (e) {
-        $.when(contentLoader.loadIndividualRecordView("views/clients/assets.html", "assets")).done(
-            function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
-                );
 
-                client.fetchClientAssets({
-                    client_id: currentDataset.recordId,
-                });
-            }
-        );
+        if (localStorage.getItem("clientDataSet") != null) {
+            currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+            $.when(contentLoader.loadIndividualRecordView("views/clients/assets.html", "assets")).done(
+                function () {
+                    $("#recordName").text(
+                        `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
+                    );
+
+                    client.fetchClientAssets({
+                        client_id: currentDataset.recordId,
+                    });
+                }
+            );
+        }
+
+
     });
 
     $(document).on("click", "#assetFormBtn", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/asset.html", "asset_form")).done(
             function () {
-                
+
             }
         );
     });
@@ -37,7 +40,7 @@ $(function () {
     //Client Assets
     $(document).on("click", "#saveAssetBtn", function (e) {
         if (form.validAssetFormData()) {
-            if ($("#regAssetTitle").text() === "Add Client Asset") {
+            if ($("#formTitle").text() === "Add Client Asset") {
                 notification(
                     client.addAsset(clientAssetParams()).created,
                     "center",
@@ -48,7 +51,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#regAssetTitle").text() === "Edit Client Asset") {
+            } else if ($("#formTitle").text() === "Edit Client Asset") {
                 notification(
                     client.updateAsset(clientAssetParams()).updated,
                     "center",
@@ -63,8 +66,8 @@ $(function () {
         }
     });
 
-    $(document).on("show.bs.modal", assetModal, function (e) {
-        clearFields();
+    $(document).on("click", "", function (e) {
+        //clearFields();
         let opener = e.relatedTarget;
         let actionType = $(opener).attr("data-action-type");
 
@@ -118,19 +121,19 @@ function clientAssetParams() {
     let purchasePrice = $("#purchasePrice").val();
     let marketValue = $("#marketValue").val();
     let description = $("#assetDescription").val();
-  
+
     let params = {
-      id: id,
-      client_id: currentDataset.recordId,
-      identifier: identifier,
-      identifier_type: identifierType,
-      name: assetName,
-      purchase_name: purchaseName,
-      purchase_date: purchaseDate,
-      purchase_price: purchasePrice,
-      market_value: marketValue,
-      description: description,
+        id: id,
+        client_id: currentDataset.recordId,
+        identifier: identifier,
+        identifier_type: identifierType,
+        name: assetName,
+        purchase_name: purchaseName,
+        purchase_date: purchaseDate,
+        purchase_price: purchasePrice,
+        market_value: marketValue,
+        description: description,
     };
-  
+
     return params;
-  }
+}

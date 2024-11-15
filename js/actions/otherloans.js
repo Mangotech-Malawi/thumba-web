@@ -8,22 +8,24 @@ localStorage;
 
 $(function () {
 
-    if (localStorage.getItem("clientDataSet") != null) {
-        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    }
 
     $(document).on("click", "#btnOtherLoans", function (e) {
-        $.when(contentLoader.loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
-            function () {
-                $("#recordName").text(
-                    `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
-                );
+        if (localStorage.getItem("clientDataSet") != null) {
+            currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
 
-                client.fetchClientOtherLoans({
-                    client_id: currentDataset.recordId,
-                });
-            }
-        );
+            $.when(contentLoader.loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
+                function () {
+                    $("#recordName").text(
+                        `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
+                    );
+    
+                    client.fetchClientOtherLoans({
+                        client_id: currentDataset.recordId,
+                    });
+                }
+            );
+        }
+
     });
 
     $(document).on("click", "#otherloanFormBtn", function (e) {
