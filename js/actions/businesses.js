@@ -8,28 +8,28 @@ localStorage;
 
 $(function () {
 
-    if (localStorage.getItem("clientDataSet") != null) {
-        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    }
-
     $(document).on("click", "#btnBusinesses", function (e) {
-        $.when(contentLoader.loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
-            function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
-                );
+        if (localStorage.getItem("clientDataSet") != null) {
+            currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
 
-                client.fetchClientBusinesses({
-                    client_id: currentDataset.recordId,
-                });
-            }
-        );
+            $.when(contentLoader.loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
+                function () {
+                    $("#recordName").text(
+                        `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
+                    );
+
+                    client.fetchClientBusinesses({
+                        client_id: currentDataset.recordId,
+                    });
+                }
+            );
+        }
     });
 
     $(document).on("click", "#businessFormBtn", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/business.html", "business_form")).done(
             function () {
-                
+
             }
         );
     });
@@ -116,19 +116,19 @@ function clientBusinessParams() {
     let shortDescription = $("#busShortDesc").val();
     let description = $("#busDescription").val();
     let registered = $("#busRegistered").is(":checked");
-  
+
     let params = {
-      id: id,
-      client_id: currentDataset.recordId,
-      name: name,
-      industry: industry,
-      start_date: startDate,
-      location: location,
-      short_description: shortDescription,
-      description: description,
-      registered: registered,
+        id: id,
+        client_id: currentDataset.recordId,
+        name: name,
+        industry: industry,
+        start_date: startDate,
+        location: location,
+        short_description: shortDescription,
+        description: description,
+        registered: registered,
     };
-  
+
     return params;
-  }
-  
+}
+

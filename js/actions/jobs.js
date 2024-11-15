@@ -2,14 +2,10 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 const jobForm = "#clientJobForm";
-
-let currentDataset = null;
+let currentDataset = null
 localStorage;
 
 $(function () {
-    if (localStorage.getItem("clientDataSet") != null) {
-        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    }
 
     $(document).on("click", "#btnJobs", function (e) {
         loadJobView();
@@ -136,17 +132,21 @@ function clientJobParams() {
 }
 
 function loadJobView() {
-    $.when(contentLoader.loadIndividualRecordView("views/clients/jobs.html", "jobs")).done(
-        function () {
-            $("#recordName").text(
-                `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
-            );
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
 
-            client.fetchClientJobs({
-                client_id: currentDataset.recordId,
-            });
-        }
-    );
+        $.when(contentLoader.loadIndividualRecordView("views/clients/jobs.html", "jobs")).done(
+            function () {
+                $("#recordName").text(
+                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
+                );
+
+                client.fetchClientJobs({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    }
 }
 
 function notification(
@@ -158,34 +158,34 @@ function notification(
     text,
     showConfirmButton,
     timer
-  ) {
+) {
     if (isDone)
-      $.when(
-        Swal.fire({
-          position: position,
-          icon: icon,
-          title: title,
-          text: text,
-          showConfirmButton: showConfirmButton,
-          timer: timer,
-        })
-      ).done(function () {
-        switch (recordType) {
-          case "job":
-            loadJobView();
-            break;
-          case "delete-job":
-            $.when(
-              client.fetchClientJobs({
-                client_id: currentDataset.recordId,
-              })
-            ).done(function () {
-              $("#modal-del-client-job").modal("hide");
-            });
-            break;
-        }
-      });
-  }
-  
+        $.when(
+            Swal.fire({
+                position: position,
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: showConfirmButton,
+                timer: timer,
+            })
+        ).done(function () {
+            switch (recordType) {
+                case "job":
+                    loadJobView();
+                    break;
+                case "delete-job":
+                    $.when(
+                        client.fetchClientJobs({
+                            client_id: currentDataset.recordId,
+                        })
+                    ).done(function () {
+                        $("#modal-del-client-job").modal("hide");
+                    });
+                    break;
+            }
+        });
+}
+
 
 

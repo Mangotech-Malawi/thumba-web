@@ -8,9 +8,6 @@ localStorage;
 
 
 $(function () {
-    if (localStorage.getItem("clientDataSet") != null) {
-        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    }
 
     $(document).on("click", "#btnDependants", function (e) {
         loadDependantsView();
@@ -110,17 +107,21 @@ function clientDependantParams() {
 }
 
 function loadDependantsView() {
-    $.when(contentLoader.loadIndividualRecordView("views/clients/dependants.html", "dependants")).done(
-        function () {
-            $("#recordName").text(
-                `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
-            );
-
-            client.fetchClientDependants({
-                client_id: currentDataset.recordId,
-            });
-        }
-    );
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+        
+        $.when(contentLoader.loadIndividualRecordView("views/clients/dependants.html", "dependants")).done(
+            function () {
+                $("#recordName").text(
+                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
+                );
+    
+                client.fetchClientDependants({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    }
 }
 
 
