@@ -9,21 +9,7 @@ localStorage;
 $(function () {
 
     $(document).on("click", "#btnBusinesses", function (e) {
-        if (localStorage.getItem("clientDataSet") != null) {
-            currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-
-            $.when(contentLoader.loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
-                function () {
-                    $("#recordName").text(
-                        `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
-                    );
-
-                    client.fetchClientBusinesses({
-                        client_id: currentDataset.recordId,
-                    });
-                }
-            );
-        }
+        loadBusinessesView();
     });
 
     $(document).on("click", "#businessFormBtn", function (e) {
@@ -36,7 +22,7 @@ $(function () {
 
     $(document).on("click", "#saveBusinessBtn", function (e) {
         if (form.validBusinessFormData()) {
-            if ($("#formTitle").text() === "Add Client Business") {
+            if ($("#formTitle").text().trim() === "Add Client Business") {
                 notification(
                     client.addBusiness(clientBusinessParams()).created,
                     "center",
@@ -47,7 +33,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#formTitle").text() === "Edit Client Business") {
+            } else if ($("#formTitle").text().trim() === "Edit Client Business") {
                 notification(
                     client.updateBusiness(clientBusinessParams()).updated,
                     "center",
@@ -73,17 +59,17 @@ $(function () {
     $(document).on("click", ".edit-business", function (e) {
         //clearFields("#clientBusiness");
         const opener = $(this).data();
-      
-        $.when(contentLoader.loadIndividualRecordView("views/forms/business.html", "business_form")).done(
-            function(){
-            $("#formTitle").text("Edit Client Business");
 
-            $.each(opener, function (key, value) {
-                if (key !== "busRegistered")
-                    $(businessForm).find(`[id = '${key}']`).val(value);
-                else $(businessForm).find(`[id = '${key}']`).attr("checked", value);
+        $.when(contentLoader.loadIndividualRecordView("views/forms/business.html", "business_form")).done(
+            function () {
+                $("#formTitle").text("Edit Client Business");
+
+                $.each(opener, function (key, value) {
+                    if (key !== "busRegistered")
+                        $(businessForm).find(`[id = '${key}']`).val(value);
+                    else $(businessForm).find(`[id = '${key}']`).attr("checked", value);
+                });
             });
-        });      
     });
 
     $(document).on("click", "#delClientBusBtn", function () {
@@ -128,5 +114,53 @@ function clientBusinessParams() {
     };
 
     return params;
+}
+
+function loadBusinessesView(){
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+        $.when(contentLoader.loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
+            function () {
+                $("#recordName").text(
+                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
+                );
+
+                client.fetchClientBusinesses({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    }
+}
+
+
+function notification(
+    isDone,
+    position,
+    icon,
+    recordType,
+    title,
+    text,
+    showConfirmButton,
+    timer
+) {
+    if (isDone)
+        $.when(
+            Swal.fire({
+                position: position,
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: showConfirmButton,
+                timer: timer,
+            })
+        ).done(function () {
+            switch (recordType) {
+                case "business":
+                    loadBusinessesView();
+                    break;
+            }
+        });
 }
 
