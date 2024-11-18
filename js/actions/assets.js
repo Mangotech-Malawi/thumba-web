@@ -2,7 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
-const assetModal = "#modal-client-asset";
+const assetForm = "#assetForm";
 let currentDataset = null;
 localStorage;
 
@@ -66,19 +66,19 @@ $(function () {
         }
     });
 
-    $(document).on("click", "", function (e) {
+    $(document).on("click", ".edit-asset", function (e) {
         //clearFields();
-        let opener = e.relatedTarget;
-        let actionType = $(opener).attr("data-action-type");
+        const opener = $(this).data();
 
-        if (actionType === "add") {
-            $("#regAssetTitle").text("Add Client Asset");
-        } else if (actionType === "edit") {
-            $("#regAssetTitle").text("Edit Client Asset");
-            $.each(opener.dataset, function (key, value) {
-                $(assetModal).find(`[id = '${key}']`).val(value);
-            });
-        }
+        $.when(contentLoader.loadIndividualRecordView("views/forms/asset.html", "asset_form")).done(
+            function () {
+
+                $("#formTitle").text("Edit Client Asset");
+
+                $.each(opener, function (key, value) {
+                    $(assetForm).find(`[id = '${key}']`).val(value);
+                });
+        });
     });
 
     $(document).on("show.bs.modal", "#modal-del-client-asset", function (e) {

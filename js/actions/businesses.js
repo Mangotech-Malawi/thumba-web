@@ -2,7 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
-const businessModal = "#modal-client-business";
+const businessForm = "#businessForm";
 let currentDataset = null;
 localStorage;
 
@@ -36,7 +36,7 @@ $(function () {
 
     $(document).on("click", "#saveBusinessBtn", function (e) {
         if (form.validBusinessFormData()) {
-            if ($("#regBusTitle").text() === "Add Client Business") {
+            if ($("#formTitle").text() === "Add Client Business") {
                 notification(
                     client.addBusiness(clientBusinessParams()).created,
                     "center",
@@ -47,7 +47,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#regBusTitle").text() === "Edit Client Business") {
+            } else if ($("#formTitle").text() === "Edit Client Business") {
                 notification(
                     client.updateBusiness(clientBusinessParams()).updated,
                     "center",
@@ -70,22 +70,20 @@ $(function () {
     });
 
     // CLIENT BUSINESS
-    $(document).on("show.bs.modal", businessModal, function (e) {
-        clearFields("#clientBusiness");
+    $(document).on("click", ".edit-business", function (e) {
+        //clearFields("#clientBusiness");
+        const opener = $(this).data();
+      
+        $.when(contentLoader.loadIndividualRecordView("views/forms/business.html", "business_form")).done(
+            function(){
+            $("#formTitle").text("Edit Client Business");
 
-        let opener = e.relatedTarget;
-        let actionType = $(opener).attr("data-action-type");
-
-        if (actionType === "add") {
-            $("#regBusTitle").text("Add Client Business");
-        } else if (actionType === "edit") {
-            $("#regBusTitle").text("Edit Client Business");
-            $.each(opener.dataset, function (key, value) {
+            $.each(opener, function (key, value) {
                 if (key !== "busRegistered")
-                    $(businessModal).find(`[id = '${key}']`).val(value);
-                else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+                    $(businessForm).find(`[id = '${key}']`).val(value);
+                else $(businessForm).find(`[id = '${key}']`).attr("checked", value);
             });
-        }
+        });      
     });
 
     $(document).on("click", "#delClientBusBtn", function () {
