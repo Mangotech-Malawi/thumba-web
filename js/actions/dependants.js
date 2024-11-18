@@ -23,7 +23,7 @@ $(function () {
 
     $(document).on("click", "#saveDependantBtn", function (e) {
         if (form.validDependantFormData()) {
-            if ($("#formTitle").text() === "Add Client Dependant") {
+            if ($("#formTitle").text().trim() === "Add Client Dependant") {
                 notification(
                     client.addDependant(clientDependantParams()).created,
                     "center",
@@ -34,7 +34,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#formTitle").text() === "Edit Client Dependant") {
+            } else if ($("#formTitle").text().trim() === "Edit Client Dependant") {
                 notification(
                     client.updateDependant(clientDependantParams()).updated,
                     "center",

@@ -9,24 +9,7 @@ localStorage;
 $(function () {
 
     $(document).on("click", "#btnAssets", function (e) {
-
-        if (localStorage.getItem("clientDataSet") != null) {
-            currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-
-            $.when(contentLoader.loadIndividualRecordView("views/clients/assets.html", "assets")).done(
-                function () {
-                    $("#recordName").text(
-                        `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
-                    );
-
-                    client.fetchClientAssets({
-                        client_id: currentDataset.recordId,
-                    });
-                }
-            );
-        }
-
-
+        loadAssetView();
     });
 
     $(document).on("click", "#assetFormBtn", function (e) {
@@ -37,10 +20,14 @@ $(function () {
         );
     });
 
+    $(document).on("click", "#backBtn", function (e) {
+        loadAssetView();
+    });
+
     //Client Assets
     $(document).on("click", "#saveAssetBtn", function (e) {
         if (form.validAssetFormData()) {
-            if ($("#formTitle").text() === "Add Client Asset") {
+            if ($("#formTitle").text().trim() === "Add Client Asset") {
                 notification(
                     client.addAsset(clientAssetParams()).created,
                     "center",
@@ -51,7 +38,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#formTitle").text() === "Edit Client Asset") {
+            } else if ($("#formTitle").text().trim() === "Edit Client Asset") {
                 notification(
                     client.updateAsset(clientAssetParams()).updated,
                     "center",
@@ -110,6 +97,24 @@ $(function () {
 });
 
 
+function loadAssetView(){
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+        $.when(contentLoader.loadIndividualRecordView("views/clients/assets.html", "assets")).done(
+            function () {
+                $("#recordName").text(
+                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
+                );
+
+                client.fetchClientAssets({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    }
+}
+
 //Params Methods ====================+++>
 function clientAssetParams() {
     let id = $("#clientAssetId").val();
@@ -137,3 +142,34 @@ function clientAssetParams() {
 
     return params;
 }
+
+
+function notification(
+    isDone,
+    position,
+    icon,
+    recordType,
+    title,
+    text,
+    showConfirmButton,
+    timer
+  ) {
+    if (isDone)
+      $.when(
+        Swal.fire({
+          position: position,
+          icon: icon,
+          title: title,
+          text: text,
+          showConfirmButton: showConfirmButton,
+          timer: timer,
+        })
+      ).done(function () {
+        switch (recordType) {
+          case "asset":
+            loadAssetView();
+            break;
+        }
+      });
+  }
+  

@@ -10,22 +10,7 @@ $(function () {
 
 
     $(document).on("click", "#btnOtherLoans", function (e) {
-        if (localStorage.getItem("clientDataSet") != null) {
-            currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-
-            $.when(contentLoader.loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
-                function () {
-                    $("#recordName").text(
-                        `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
-                    );
-
-                    client.fetchClientOtherLoans({
-                        client_id: currentDataset.recordId,
-                    });
-                }
-            );
-        }
-
+       otherloansView();
     });
 
     $(document).on("click", "#otherloanFormBtn", function (e) {
@@ -40,7 +25,7 @@ $(function () {
     //Client Other Loans
     $(document).on("click", "#saveOtherLoanBtn", function (e) {
         if (form.validOtherLoansFormData()) {
-            if ($("#regOtherLoanTitle").text() === "Add Client Other Loan") {
+            if ($("#formTitle").text().trim() === "Add Client Other Loan") {
                 notification(
                     client.addOtherLoan(clientOtherLoanParams()).created,
                     "center",
@@ -51,7 +36,7 @@ $(function () {
                     true,
                     3000
                 );
-            } else if ($("#regOtherLoanTitle").text() === "Edit Client Other Loan") {
+            } else if ($("#formTitle").text().trim() === "Edit Client Other Loan") {
                 notification(
                     client.updateOtherLoan(clientOtherLoanParams()).updated,
                     "center",
@@ -147,3 +132,53 @@ function clientOtherLoanParams() {
 
     return params;
 }
+
+function otherloansView(){
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+        $.when(contentLoader.loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
+            function () {
+                $("#recordName").text(
+                    `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
+                );
+
+                client.fetchClientOtherLoans({
+                    client_id: currentDataset.recordId,
+                });
+            }
+        );
+    }
+
+}
+
+
+function notification(
+    isDone,
+    position,
+    icon,
+    recordType,
+    title,
+    text,
+    showConfirmButton,
+    timer
+  ) {
+    if (isDone)
+      $.when(
+        Swal.fire({
+          position: position,
+          icon: icon,
+          title: title,
+          text: text,
+          showConfirmButton: showConfirmButton,
+          timer: timer,
+        })
+      ).done(function () {
+        switch (recordType) {
+          case "otherloan":
+            otherloansView()
+            break;
+        }
+      });
+}
+
