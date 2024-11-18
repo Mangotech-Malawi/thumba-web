@@ -2,7 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
-const otherloanModal = "#modal-client-otherloan";
+const otherloanForm = "#otherloanForm";
 let currentDataset = null;
 localStorage;
 
@@ -18,7 +18,7 @@ $(function () {
                     $("#recordName").text(
                         `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
                     );
-    
+
                     client.fetchClientOtherLoans({
                         client_id: currentDataset.recordId,
                     });
@@ -29,9 +29,10 @@ $(function () {
     });
 
     $(document).on("click", "#otherloanFormBtn", function (e) {
-        $.when(contentLoader.loadIndividualRecordView("views/forms/otherloan.html", "otherloan_form")).done(
+        $.when(contentLoader.loadIndividualRecordView("views/forms/otherloan.html",
+             "otherloan_form")).done(
             function () {
-                
+
             }
         );
     });
@@ -66,23 +67,23 @@ $(function () {
 
     });
 
-    $(document).on("show.bs.modal", otherloanModal, function (e) {
-        clearFields();
-        let opener = e.relatedTarget;
-        let actionType = $(opener).attr("data-action-type");
+    $(document).on("click", ".edit-otherloan", function (e) {
+        //clearFields();
+        const opener = $(this).data();
 
-        if (actionType === "add") {
-            $("#regOtherLoanTitle").text("Add Client Other Loan");
-        } else if (actionType === "edit") {
-            $("#regOtherLoanTitle").text("Edit Client Other Loan");
-            $.each(opener.dataset, function (key, value) {
-                $(otherloanModal).find(`[id = '${key}']`).val(value);
+        $.when(contentLoader.loadIndividualRecordView("views/forms/otherloan.html", "otherloan_form")).done(
+            function () {
 
-                if (key !== "busRegistered")
-                    $(businessModal).find(`[id = '${key}']`).val(value);
-                else $(businessModal).find(`[id = '${key}']`).attr("checked", value);
+                $("#formTitle").text("Edit Client Other Loan");
+
+                $.each(opener, function (key, value) {
+                    $(otherloanForm).find(`[id = '${key}']`).val(value);
+    
+                    if (key !== "busRegistered")
+                        $(otherloanForm).find(`[id = '${key}']`).val(value);
+                    else $(otherloanForm).find(`[id = '${key}']`).attr("checked", value);
+                });
             });
-        }
     });
 
     $(document).on("show.bs.modal", "#modal-del-client-otherloan", function (e) {
@@ -126,23 +127,23 @@ function clientOtherLoanParams() {
     let closed = $("#loanClosed").val();
     let stopped = $("#stopped").val();
     let reasonForStopping = $("#reasonForStopping").val();
-  
+
     let params = {
-      id: id,
-      client_id: currentDataset.recordId,
-      institution: institution,
-      phone_number: phoneNumber,
-      amount: amount,
-      period: period,
-      period_type: periodType,
-      rate: rate,
-      loaned_date: loanedDate,
-      amount_paid: amountPaid,
-      purpose: purpose,
-      closed: closed,
-      stopped: stopped,
-      reason_for_stopping: reasonForStopping,
+        id: id,
+        client_id: currentDataset.recordId,
+        institution: institution,
+        phone_number: phoneNumber,
+        amount: amount,
+        period: period,
+        period_type: periodType,
+        rate: rate,
+        loaned_date: loanedDate,
+        amount_paid: amountPaid,
+        purpose: purpose,
+        closed: closed,
+        stopped: stopped,
+        reason_for_stopping: reasonForStopping,
     };
-  
+
     return params;
-  }
+}
