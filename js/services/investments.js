@@ -39,7 +39,7 @@ export function editInvestmentPackage(params) {
     )
 }
 
-export function getPackageFile(params){
+export function getPackageFile(params) {
     return apiClient(
         "/api/v1/investiment_package/download",
         "GET",
@@ -50,7 +50,7 @@ export function getPackageFile(params){
     )
 }
 
-export function getPackagesFile(params){
+export function getPackagesFile(params) {
     return apiClient(
         "/api/v1/investiment_packages/download",
         "GET",
@@ -113,9 +113,9 @@ function populateInvestmentPackagesTable(dataSet) {
                 render: getDelInvestmentPackageBtn,
                 data: null,
                 targets: [12],
-            }, 
+            },
             {
-                targets: [3,4], // Targeting the 'Amount' column
+                targets: [3, 4], // Targeting the 'Amount' column
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Use the utility function to format the number
@@ -152,7 +152,7 @@ function getViewBtn(data, type, row, metas) {
     data-inves = "Edit Collateral Sale"`;
 
     return getButton(dataFields, "view more", "secondary ",
-    "fas fa-download");
+        "fas fa-download");
 }
 
 
@@ -183,6 +183,93 @@ function getDelInvestmentPackageBtn(data, type, row, metas) {
     return getButton(dataFields, "", "danger delete-investment-package", "fas fa-trash");
 }
 
+export function fetchClientSubscriptions(params) {
+    const data = apiClient(
+        "/api/v1/investment_subscriptions",
+        "GET",
+        "json",
+        false,
+        false,
+        params)
+
+
+    populateInvestmentSubscriptionsTable(data);
+}
+
+function populateInvestmentSubscriptionsTable(dataSet) {
+    $("#investmentSubscriptionTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: "subscription_id" },
+            { data: "package_name" },
+            { data: "start_date" },
+            { data: "end_date" },
+            { data: null },
+            { data: null },
+            { data: null }
+        ],
+        columnDefs: [
+
+            {
+                render: getInvestmentBtn,
+                data: null,
+                targets: [4],
+            },
+            {
+                render: getEditInvestmentSubBtn,
+                data: null,
+                targets: [5],
+            },
+            {
+                render: getDelInvestmentSubBtn,
+                data: null,
+                targets: [6],
+            }
+        ],
+    });
+}
+
+function getInvestmentBtn(data, type, row, metas) {
+    let dataFields = `data-investment-id = "${data.id}"
+                      data-investor-id = "${data.user_id}"
+                      data-investment-package-id = "${data.investiment_package_id}"
+                      data-amount = "${data.amount}"
+                      data-description = "${data.description}"
+                      data-investment-date = "${data.investment_date}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "", "primary client-investments",
+        "fas fa-piggy-bank ");
+}
+
+function getEditInvestmentSubBtn(data, type, row, metas) {
+    let dataFields = `data-investment-id = "${data.id}"
+                      data-investor-id = "${data.user_id}"
+                      data-investment-package-id = "${data.investiment_package_id}"
+                      data-amount = "${data.amount}"
+                      data-description = "${data.description}"
+                      data-investment-date = "${data.investment_date}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "", "default .edit-investment-subscription",
+        "fas fa-edit");
+}
+
+function getDelInvestmentSubBtn(data, type, row, metas) {
+    let dataFields = `data-id = "${data.id}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "", "danger  delete-investment ",
+        "fas fa-trash")
+}
+
 
 export function fetchInvestments() {
     let data = apiClient(
@@ -196,7 +283,6 @@ export function fetchInvestments() {
 
     populateInvestmentsTable(data);
 }
-
 
 export function addInvestment(params) {
     return apiClient(
@@ -333,7 +419,7 @@ function populateReturnsOnInvestmentsTable(dataSet) {
         ],
         columnDefs: [
             {
-                targets: [4,5], // Targeting the 'Amount' column
+                targets: [4, 5], // Targeting the 'Amount' column
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Use the utility function to format the number
@@ -350,13 +436,13 @@ function populateReturnsOnInvestmentsTable(dataSet) {
 export function fetchMyInvestments(params) {
 
     let data = apiClient(
-            "/api/v1/investor_returns",
-            "GET",
-            "json",
-            false,
-            false,
-            params
-            );
+        "/api/v1/investor_returns",
+        "GET",
+        "json",
+        false,
+        false,
+        params
+    );
 
     populateMyInvestmentsTable(data);
 }
@@ -381,7 +467,7 @@ function populateMyInvestmentsTable(dataSet) {
         ],
         columnDefs: [
             {
-                targets: [1,2,3], // Targeting the 'Amount' column
+                targets: [1, 2, 3], // Targeting the 'Amount' column
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Use the utility function to format the number

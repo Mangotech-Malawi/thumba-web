@@ -10,7 +10,7 @@ $(function () {
 
 
     $(document).on("click", "#btnInvestments", function (e) {
-        clientInvestmentsView();
+        clientInvestmentsSubView();
     });
 
     $(document).on("click", "#addSub", function (e) {
@@ -39,7 +39,7 @@ $(function () {
         );
     });
 
-    $(document).on("change","#investmentPackageId", function () {
+    $(document).on("change", "#investmentPackageId", function () {
         const selectedPackage = $(this).val();
         if (selectedPackage) {
             const investmentPackageObject = JSON.parse(decodeURIComponent(selectedPackage));
@@ -91,13 +91,17 @@ $(function () {
         }
     });
 
+    $(document).on("click", ".client-investments", function (e) {
+        clientInvestmentsView();
+    });
+
 });
 
 function getInvestmentParams() {
-    
+
     let investment_id = $("#investmentId").val();
-  
-    let investment_package_id =   JSON.parse(decodeURIComponent($("#investmentPackageId").val())).id
+
+    let investment_package_id = JSON.parse(decodeURIComponent($("#investmentPackageId").val())).id
     let amount = $("#amount").val();
     let description = $("#description").val();
     let investment_date = $("#investmentDate").val();
@@ -114,22 +118,43 @@ function getInvestmentParams() {
     return params;
 }
 
-function clientInvestmentsView() {
+function clientInvestmentsSubView() {
 
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
 
-        $.when(contentLoader.loadIndividualRecordView("views/clients/investments.html", "client_investments")).done(
+        $.when(contentLoader.loadIndividualRecordView("views/clients/investmentsSubscription.html", "client_investments")).done(
             function () {
                 $("#recordName").text(
                     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
                 );
 
-               
+                investment.fetchClientSubscriptions({
+                    client_id: currentDataset.recordId,
+                });
+
             }
         );
     }
+}
 
+function clientInvestmentsView(){
+    if (localStorage.getItem("clientDataSet") != null) {
+        currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+        $.when(contentLoader.loadIndividualRecordView("views/clients/investments.html", "investments")).done(
+            function () {
+                $("#recordName").text(
+                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
+                );
+
+               /* investment.fetchClientSubscriptions({
+                    client_id: currentDataset.recordId,
+                });*/
+
+            }
+        );
+    }
 }
 
 
@@ -156,7 +181,7 @@ function notification(
         ).done(function () {
             switch (recordType) {
                 case "investment":
-                    clientInvestmentsView();
+                    clientInvestmentsSubView();
                     break;
             }
         });
