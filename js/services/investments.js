@@ -237,12 +237,7 @@ function populateInvestmentSubscriptionsTable(dataSet) {
 }
 
 function getInvestmentBtn(data, type, row, metas) {
-    let dataFields = `data-investment-id = "${data.id}"
-                      data-investor-id = "${data.user_id}"
-                      data-investment-package-id = "${data.investiment_package_id}"
-                      data-amount = "${data.amount}"
-                      data-description = "${data.description}"
-                      data-investment-date = "${data.investment_date}"
+    let dataFields = `data-subscription-id = "${data.subscription_id}"
                       data-action-type = "edit"`;
 
     return getButton(dataFields, "", "primary client-investments",
@@ -448,7 +443,7 @@ export function fetchMyInvestments(params) {
 }
 
 function populateMyInvestmentsTable(dataSet) {
-    console.log(dataSet);
+
     $("#myInvestmentsTable").DataTable({
         destroy: true,
         responsive: true,
@@ -457,17 +452,19 @@ function populateMyInvestmentsTable(dataSet) {
         lengthChange: true,
         autoWidth: false,
         info: true,
-        data: dataSet,
+        data: dataSet[0].investment_data,
         columns: [
-            { data: "package_name" },
+            { data: "month" },
+            { data: "year" },
             { data: "amount" },
+            { data: "total_investment" },
             { data: "compounded_amount" },
             { data: "roi" },
-            { data: "investment_date" }
+            { data: "roi_rate" }
         ],
         columnDefs: [
             {
-                targets: [1, 2, 3], // Targeting the 'Amount' column
+                targets: [ 2, 3, 4], // Targeting the 'Amount' column
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Use the utility function to format the number

@@ -92,7 +92,9 @@ $(function () {
     });
 
     $(document).on("click", ".client-investments", function (e) {
-        clientInvestmentsView();
+        const subscription_id = $(this).data().subscriptionId;
+        
+        clientInvestmentsView(subscription_id);
     });
 
 });
@@ -138,7 +140,7 @@ function clientInvestmentsSubView() {
     }
 }
 
-function clientInvestmentsView(){
+function clientInvestmentsView(subscription_id){
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
 
@@ -148,9 +150,9 @@ function clientInvestmentsView(){
                     `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
                 );
 
-               /* investment.fetchClientSubscriptions({
-                    client_id: currentDataset.recordId,
-                });*/
+               investment.fetchMyInvestments({
+                    subscription_id: subscription_id,
+                });
 
             }
         );
