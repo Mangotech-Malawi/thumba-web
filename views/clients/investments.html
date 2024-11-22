@@ -4,8 +4,7 @@
             <h3 class="card-title font-weight-bold"> <i class="nav-icon fas fa-piggy-bank  "></i> Investments</h3>
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
-                    <button type="button" class="btn bg-gradient-success text-left" id="addSub"
-                        >
+                    <button type="button" class="btn bg-gradient-success text-left" id="addSub">
                         <i class="fa fa-plus"></i> Add Investment
                     </button>
 
@@ -19,7 +18,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <div class="card card-outline ">
+            <!--<div class="card card-outline ">
                 <div class="card-header">
                     <h3 class="card-title">Investments</h3>
                 </div>
@@ -40,6 +39,77 @@
                         </tbody>
                     </table>
                 </div>
+            </div>-->
+            <div class="card card-primary card-outline card-tabs">
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill"
+                                href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home"
+                                aria-selected="true">Overall Invesments & Returns</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill"
+                                href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile"
+                                aria-selected="false">Investments</a>
+                        </li>
+                       
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                        <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-home-tab">
+                            <div class="card card-outline ">
+                                <div class="card-header">
+                                    <h3 class="card-title">Overall Invesments & Returns</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table id="myInvestmentsTable" class="table   table-striped">
+                                        <thead class="bg-gradient-primary">
+                                            <tr>
+                                                <th>Month</th>
+                                                <th>Year</th>
+                                                <th>Amount</th>
+                                                <th>Total Investment</th>
+                                                <th>Compounded Amount</th>
+                                                <th>ROI</th>
+                                                <th>ROI RATE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-profile-tab">
+                            <div class="card card-outline ">
+                                <div class="card-header">
+                                    <h3 class="card-title">Investments</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table id="investmentsTable" class="table   table-striped">
+                                        <thead class="bg-gradient-primary">
+                                            <tr>
+                                                <th>Investment Date</th>
+                                                <th>Amount</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-messages-tab">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
             </div>
             <!-- /.card-body -->
         </div>
