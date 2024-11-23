@@ -439,20 +439,21 @@ export function fetchMyInvestments(params) {
         params
     );
 
-    populateMyInvestmentsTable(data);
+    populateSubOverviewTable(data);
+    populateClientInvestmentsTable(data)
 }
 
-function populateMyInvestmentsTable(dataSet) {
+function populateSubOverviewTable(dataSet) {
 
-    $("#myInvestmentsTable").DataTable({
+    $("#subOverviewTable").DataTable({
         destroy: true,
         responsive: true,
         searching: true,
-        ordering: true,
+        ordering: false,
         lengthChange: true,
         autoWidth: false,
         info: true,
-        data: dataSet[0].investment_data,
+        data: dataSet.subscription_overview,
         columns: [
             { data: "month" },
             { data: "year" },
@@ -465,6 +466,35 @@ function populateMyInvestmentsTable(dataSet) {
         columnDefs: [
             {
                 targets: [ 2, 3, 4], // Targeting the 'Amount' column
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Use the utility function to format the number
+                        return formatCurrency(data);
+                    }
+                    return data;
+                }
+            }
+        ],
+    });
+}
+
+function populateClientInvestmentsTable(dataSet) {
+    $("#clientInvestmensTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet.investiments,
+        columns: [
+            { data: "investment_date" },
+            { data: "amount" },
+        ],
+        columnDefs: [
+            {
+                targets: [ 1], // Targeting the 'Amount' column
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Use the utility function to format the number
