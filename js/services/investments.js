@@ -449,7 +449,7 @@ function populateSubOverviewTable(dataSet) {
         destroy: true,
         responsive: true,
         searching: true,
-        ordering: true,
+        ordering: false,
         lengthChange: true,
         autoWidth: false,
         info: true,
