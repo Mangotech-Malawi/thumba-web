@@ -491,8 +491,20 @@ function populateClientInvestmentsTable(dataSet) {
         columns: [
             { data: "investment_date" },
             { data: "amount" },
+            { data: null },
+            { data: null },
         ],
         columnDefs: [
+            {
+                render: getEditClientInvestmentBtn,
+                data: null,
+                targets: [2],
+            },
+            {
+                render: getDelClientInvestmentBtn,
+                data: null,
+                targets: [3],
+            },
             {
                 targets: [ 1], // Targeting the 'Amount' column
                 render: function (data, type, row) {
@@ -505,6 +517,27 @@ function populateClientInvestmentsTable(dataSet) {
             }
         ],
     });
+}
+
+function getEditClientInvestmentBtn(data, type, row, metas) {
+    let dataFields = `data-investment-id = "${data.id}"
+                      data-investor-id = "${data.user_id}"
+                      data-investment-package-id = "${data.investiment_package_id}"
+                      data-amount = "${data.amount}"
+                      data-description = "${data.description}"
+                      data-investment-date = "${data.investment_date}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "investment", "default ",
+        "fas fa-edit");
+}
+
+function getDelClientInvestmentBtn(data, type, row, metas) {
+    let dataFields = `data-id = "${data.id}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "", "danger  delete-investment ",
+        "fas fa-trash")
 }
 
 
