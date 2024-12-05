@@ -97,35 +97,6 @@ $(function () {
     });
 
 
-
-    $(document).on("click", "#investmentSubBtn", function (e) {
-        if (form.validateInvestmentForm()) {
-            if ($("#formTitle").text().trim() === "Add Investment Subscription") {
-                notification(
-                    investment.addInvestment(getInvestmentParams()).created,
-                    "center",
-                    "success",
-                    "investment",
-                    "Add Investment",
-                    "Investment has been added successfully",
-                    true,
-                    3000
-                );
-            } else if ($("#formTitle").text() === "Edit Investment Subscription") {
-                notification(
-                    investment.editInvestment(getInvestmentParams()).updated,
-                    "center",
-                    "success",
-                    "investment",
-                    "Edit Investment",
-                    "Investment has been edited successfully",
-                    true,
-                    3000
-                );
-            }
-        }
-    });
-
     $(document).on("click", ".client-investments", function (e) {
         const subscription_id = $(this).data().subscriptionId;
         const package_id = $(this).data().packageId;
@@ -155,6 +126,28 @@ $(function () {
                     "center",
                     "success",
                     "client_investments",
+                    "Edit Investment",
+                    "Investment has been edited successfully",
+                    true,
+                    3000
+                );
+            } else if ($("#formTitle").text().trim() === "Add Investment Subscription") {
+                notification(
+                    investment.addInvestment(getInvestmentParams()).created,
+                    "center",
+                    "success",
+                    "investment",
+                    "Add Investment",
+                    "Investment has been added successfully",
+                    true,
+                    3000
+                );
+            } else if ($("#formTitle").text() === "Edit Investment Subscription") {
+                notification(
+                    investment.editInvestment(getInvestmentParams()).updated,
+                    "center",
+                    "success",
+                    "investment",
                     "Edit Investment",
                     "Investment has been edited successfully",
                     true,
