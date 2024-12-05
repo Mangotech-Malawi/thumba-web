@@ -238,6 +238,7 @@ function populateInvestmentSubscriptionsTable(dataSet) {
 
 function getInvestmentBtn(data, type, row, metas) {
     let dataFields = `data-subscription-id = "${data.subscription_id}"
+                      data-package-id = "${data.package_id}"
                       data-action-type = "edit"`;
 
     return getButton(dataFields, "", "primary client-investments",
@@ -246,8 +247,7 @@ function getInvestmentBtn(data, type, row, metas) {
 
 function getEditInvestmentSubBtn(data, type, row, metas) {
     let dataFields = `data-investment-id = "${data.id}"
-                      data-investor-id = "${data.user_id}"
-                      data-investment-package-id = "${data.investiment_package_id}"
+                      data-investment-package-id = "${data.package_id}"
                       data-amount = "${data.amount}"
                       data-description = "${data.description}"
                       data-investment-date = "${data.investment_date}"
@@ -428,7 +428,7 @@ function populateReturnsOnInvestmentsTable(dataSet) {
 }
 
 
-export function fetchMyInvestments(params) {
+export function fetchClientInvestments(params) {
 
     let data = apiClient(
         "/api/v1/investor_returns",
@@ -489,6 +489,7 @@ function populateClientInvestmentsTable(dataSet) {
         info: true,
         data: dataSet.investiments,
         columns: [
+            { data: "id" },
             { data: "investment_date" },
             { data: "amount" },
             { data: null },
@@ -498,15 +499,15 @@ function populateClientInvestmentsTable(dataSet) {
             {
                 render: getEditClientInvestmentBtn,
                 data: null,
-                targets: [2],
+                targets: [3],
             },
             {
                 render: getDelClientInvestmentBtn,
                 data: null,
-                targets: [3],
+                targets: [4],
             },
             {
-                targets: [ 1], // Targeting the 'Amount' column
+                targets: [ 2], // Targeting the 'Amount' column
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Use the utility function to format the number
@@ -522,13 +523,13 @@ function populateClientInvestmentsTable(dataSet) {
 function getEditClientInvestmentBtn(data, type, row, metas) {
     let dataFields = `data-investment-id = "${data.id}"
                       data-investor-id = "${data.user_id}"
-                      data-investment-package-id = "${data.investiment_package_id}"
+                      data-investment-package-id = "${data.package_id}"
                       data-amount = "${data.amount}"
                       data-description = "${data.description}"
                       data-investment-date = "${data.investment_date}"
                       data-action-type = "edit"`;
 
-    return getButton(dataFields, "investment", "default ",
+    return getButton(dataFields, "", "default edit-investment",
         "fas fa-edit");
 }
 

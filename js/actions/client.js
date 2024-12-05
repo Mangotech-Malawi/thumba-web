@@ -174,6 +174,8 @@ $(function () {
       function () {
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);
+          console.log(key)
+          console.log(value)
         });
 
         $("#recordName").text(
