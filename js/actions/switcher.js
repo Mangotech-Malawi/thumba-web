@@ -286,8 +286,8 @@ function loadOtherContent(state, index) {
           loans.fetchLoanApplications({ status_name: "DUMPED" });
           break;
         case "client_investments":
-               //investment.fetchInvestments();
-              break;
+          loadClientInvestments();    
+          break;
         case "investment_packages":
           investment.fetchInvestimentPackages();
           break;
@@ -401,6 +401,17 @@ function loadClientOtherLoans() {
   );
 
   client.fetchClientOtherLoans({
+    client_id: currentDataset.recordId,
+  });
+}
+
+function loadClientInvestments() {
+  let currentDataset = getDataset("clientDataSet");
+  $("#recordName").text(
+    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Investment Subscriptions`
+  );
+
+  investment.fetchClientSubscriptions({
     client_id: currentDataset.recordId,
   });
 }
