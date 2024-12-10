@@ -18,16 +18,24 @@ $(function () {
         const action_type = $(this).data().actionType;
 
         $.when(contentLoader.loadIndividualRecordView("views/forms/investment.html", "add_investment")).done(
-            function () { 
-                $.when(populateInvestmentPackages()).done( function (){
-                    if(action_type === "add-investment"){
+            function () {
+                $.when(populateInvestmentPackages()).done(function () {
+                    if (action_type === "add-investment") {
                         const package_id = localStorage.getItem("packageId");
-                        let inputElement =  $("#investmentPackageId");
+                        let inputElement = $("#investmentPackageId");
                         selectInvestmentPackage(inputElement, package_id);
                     }
                 });
             }
         );
+    });
+
+    $(document).on("click", "#investmentDetails", function (e) {
+        clientInvestmentsView("investment_details");
+    });
+
+    $(document).on("click", "#investmentOverview", function (e) {
+        clientInvestmentsView("investment_overview");
     });
 
     $(document).on("click", ".edit-investment", function (e) {
@@ -48,9 +56,9 @@ $(function () {
                         if (inputElement.is("#investmentPackageId")) {
                             selectInvestmentPackage(inputElement, value)
                         } else if (inputElement.is("#investmentDate")) {
-                            
+
                             $("#investmentDatePicker").datetimepicker({
-                                format: "L", 
+                                format: "L",
                             });
 
                             if (inputElement.is("#investmentDate")) {
@@ -103,8 +111,11 @@ $(function () {
 
         localStorage.removeItem("packageId");
         localStorage.setItem("packageId", package_id);
+        localStorage.removeItem("subscriptionId");
+        localStorage.setItem("subscriptionId", subscription_id);
 
-        clientInvestmentsView(subscription_id);
+        clientInvestmentsView("investment_details");
+
     });
 
     $(document).on("click", "#investmentBtn", function (e) {
@@ -199,19 +210,42 @@ function clientInvestmentsSubView() {
     }
 }
 
-function clientInvestmentsView(subscription_id) {
+function loadInvestmentDetailsView(subscription_id) {
+    $.when(contentLoader.loadInvestmentView("/views/clients/investment_details.html",
+        "investment_details")).done(
+            function () {
+                investment.fetchClientInvestments({
+                    subscription_id: subscription_id,
+                });
+            }
+        );
+}
+
+function loadInvestmentOverview(subscription_id) {
+    $.when(contentLoader.loadInvestmentView("/views/clients/investment_overview.html",
+        "investment_overview")).done(
+            function () {
+                investment.fetchClientInvestments({
+                    subscription_id: subscription_id,
+                });
+            }
+        );
+}
+
+function clientInvestmentsView(viewType) {
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
 
         $.when(contentLoader.loadIndividualRecordView("views/clients/investments.html", "investments")).done(
             function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
-                );
 
-                investment.fetchClientInvestments({
-                    subscription_id: subscription_id,
-                });
+                let subscription_id = localStorage.getItem("subscriptionId");
+
+                if (viewType === "investment_details") {
+                    loadInvestmentDetailsView(subscription_id);
+                } else if (viewType === "investment_overview") {
+                    loadInvestmentOverview(subscription_id);
+                }
 
             }
         );
@@ -268,7 +302,7 @@ function populateInvestmentPackages() {
     }
 }
 
-function selectInvestmentPackage(inputElement, value){
+function selectInvestmentPackage(inputElement, value) {
     const matchingOption = inputElement.find(`option[data-package-id='${value}']`);
     if (matchingOption.length > 0) {
         inputElement.val(matchingOption.val()).trigger("change"); // Trigger change if matching
