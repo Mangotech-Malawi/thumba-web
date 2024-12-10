@@ -42,3 +42,7 @@ export function loadRecord(path, state) {
   $.when(loadContent("mainContent", state, path)).done(function () { });
 }
 
+export function loadInvestmentView(path, state) {
+  $.when(loadContent("investmentContainer", state, path)).done(function () {});
+}
+

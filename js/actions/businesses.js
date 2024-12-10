@@ -66,7 +66,7 @@ $(function () {
 
                 $.each(opener, function (key, value) {
                     if (key !== "busRegistered")
-                        $(businessForm).find(`[id = '${key}']`).val(value);
+                        $(businessFom).find(`[id = '${key}']`).val(value);
                     else $(businessForm).find(`[id = '${key}']`).attr("checked", value);
                 });
             });
