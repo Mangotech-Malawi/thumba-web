@@ -147,16 +147,28 @@ export const content_view = [
     modals: ["views/modals/user.html", "views/modals/loans.html"]
   },
   {
-    title: "Client Demographics",
+    title: "Client Subscription",
     link: "views/clients/investmentsSubscription.html",
     state: "client_investments",
     modals: ["views/modals/client.html", "views/modals/investment.html"],
   },
   {
+    title: "Investment Overview",
+    link: "views/clients/investment_overview.html",
+    state: "investment_overview",
+    modals: [],
+  },
+  {
+    title: "Investment Details",
+    link: "views/clients/investment_details.html",
+    state: "investment_details",
+    modals: [],
+  },
+  {
     title: "Client Demographics",
     link: "views/forms/investment.html",
     state: "add_investment",
-    modals: ["views/modals/client.html", "views/modals/investment.html"],
+    modals: [],
   },
   {
     title: "Client Demographics",
@@ -174,7 +186,7 @@ export const content_view = [
     title: "Client Job Form",
     link: "views/forms/job.html",
     state: "job_form",
-    modals: ["views/modals/client.html", "views/modals/investment.html"],
+    modals: [],
   },
   {
     title: "Client Dependants",
@@ -186,7 +198,7 @@ export const content_view = [
     title: "Client Job Form",
     link: "views/forms/dependant.html",
     state: "dependant_form",
-    modals: ["views/modals/client.html", "views/modals/investment.html"],
+    modals: [],
   },
   {
     title: "Client Businesses",
