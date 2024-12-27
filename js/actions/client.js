@@ -165,6 +165,8 @@ $(function () {
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
         );
+
+        loadIdentifierTypes();
       }
     );
   });
