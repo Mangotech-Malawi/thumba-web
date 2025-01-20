@@ -260,27 +260,29 @@
                     </div>
                   </div>
                   
-                  <script>
-                    $('#gender').select2();
-                    $('#currentDistrict').select2();
-                    $('#homeDistrict').select2();
-                    $('#nearestLandmark').select2();
-                    //Date picker
-                    //$('').datetimepicker(  { icons: { time: 'far fa-clock' } });
-                  
-                    $('.date').datetimepicker({
-                      format: 'L'
-                    });
-                  
-                    $("#identifierType").select2();   
-                  </script>
+                
               </div>
             <!-- /.card-body -->
 
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-default alt-btn" >Close</button>
-            <button type="button" id="registerBtn" class="btn btn-primary text-left">Save</button>
+            <button type="button" id="registerClientBtn" class="btn btn-primary text-left"  
+            data-client-type="individual">Save</button>
         </div>
         <!-- /.card -->
     </div>
+    <script>
+      $('#gender').select2();
+      $('#currentDistrict').select2();
+      $('#homeDistrict').select2();
+      $('#nearestLandmark').select2();
+      //Date picker
+      //$('').datetimepicker(  { icons: { time: 'far fa-clock' } });
+    
+      $('.date').datetimepicker({
+        format: 'L'
+      });
+    
+      $("#identifierType").select2();   
+    </script>
