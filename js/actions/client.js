@@ -76,7 +76,8 @@ $(function () {
     });
   });
 
-  $(document).on("click", "#registerBtn", function (e) {
+  $(document).on("click", "#registerClientBtn", function (e) {
+    clientType = $(this).data().clientType;
 
     if (clientType != null) {
       if ($("#regModalTitle").text() === "Edit Client") {
@@ -171,13 +172,22 @@ $(function () {
     );
   });
 
+  $(document).on("click", "#addOrganizationClientForm", function (e) {
+    $.when(loadContent.loadIndividualRecordView("views/forms/organization.html", "client_organization_form")).done(
+      function () {
+     
+        loadIdentifierTypes();
+      }
+    );
+  });
+
+
+
   $(document).on("click", "#btnDemographics", function (e) {
     $.when(loadContent.loadIndividualRecordView("views/clients/demographics.html", "demographics")).done(
       function () {
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);
-          console.log(key)
-          console.log(value)
         });
 
         $("#recordName").text(

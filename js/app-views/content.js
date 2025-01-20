@@ -25,6 +25,12 @@ export const content_view = [
     modals: ["views/modals/client.html", "views/modals/investment.html"],
   },
   {
+    title: "Client Organization Form",
+    link: "views/forms/organization.html",
+    state: "client_organization_form",
+    modals: ["views/modals/client.html", "views/modals/investment.html"],
+  },
+  {
     title: "Organizations",
     link: "views/clients/organizations.html",
     modals: ["views/modals/user.html", "views/modals/client.html"],
