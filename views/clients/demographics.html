@@ -12,27 +12,44 @@
   </div>
 
   <!-- Profile Content -->
-  <div class="card">
+  <div class="card ">
     <div class="card-body">
       <div class="row">
         <!-- Profile Picture and ID Section -->
+
         <div class="col-lg-4 col-md-6 text-center mb-4">
-          <div class="card shadow-sm border">
-            <div class="card-header">
-              <h6 class="mb-0">Profile Picture</h6>
-            </div>
+          <div class="card shadow-sm border ">
             <div class="card-body">
-              <img
-                id="recordProfilePicture"
-                src=""
-                alt="Profile Picture"
-                class="img-fluid rounded shadow-sm"
-                style="max-width: 100%; height: auto;"
-              />
+              <img id="recordProfilePicture" src="" alt="Profile Picture" class="img-fluid rounded shadow-sm mb-3"
+                style="max-width: 100%; height: auto;" />
               <h5 id="recordId" class="mt-3 text-primary"></h5>
+              <div class="mt-3">
+                <!-- HTML part -->
+                <!-- HTML part -->
+                <input type="file" id="profilePictureInput" accept="image/*" style="display:none;" />
+              
+                <video id="cameraFeed"
+                  style="display:none; width: 100%; height: auto; border: 2px solid #ccc; border-radius: 8px;"
+                  autoplay></video>
+                <canvas id="cameraCanvas" style="display: none;"></canvas>
+                <img id="profilePicture"
+                  style="width: 200px; height: 200px; object-fit: cover; border: 2px solid #ccc; border-radius: 8px;" />
+             
+              </div>
+
+            </div>
+            <div class="card-footer">
+              <button id="browseBtn" class="btn btn-info">Browse Image...</button>
+              <button id="takePictureBtn" class="btn btn-success">Take Picture</button>
+
+              <button type="button" id="uploadImageBtn" class="btn btn-secondary">
+                Upload Picture
+              </button>
             </div>
           </div>
         </div>
+
+
 
         <!-- Personal Details -->
         <div class="col-lg-8 col-md-6">
@@ -82,8 +99,8 @@
                   <strong>Home Village:</strong>
                   <span id="recordHomeVillage"></span>
                 </div>
-               
-              
+
+
                 <div class="col-md-6 mb-3">
                   <strong>Current District:</strong>
                   <span id="recordCurrentDistrict"></span>
@@ -139,3 +156,89 @@
     </div>
   </div>
 </div>
+<script>
+  // Get the necessary DOM elements
+  const profilePictureInput = document.getElementById("profilePictureInput");
+  const takePictureBtn = document.getElementById("takePictureBtn");
+  const cameraFeed = document.getElementById("cameraFeed");
+  const cameraCanvas = document.getElementById("cameraCanvas");
+  const profilePicture = document.getElementById("profilePicture");
+  const browseBtn = document.getElementById("browseBtn");
+
+  // Function to convert data URL to Blob
+  function dataURLtoBlob(dataURL) {
+    const byteString = atob(dataURL.split(',')[1]);
+    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ua = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ua[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+  // Function to convert Blob to File and trigger file input change
+  function dataURLtoFile(dataURL, filename) {
+    const blob = dataURLtoBlob(dataURL);
+    const file = new File([blob], filename, { type: blob.type });
+    const dataTransfer = new DataTransfer(); // Create a new DataTransfer object
+    dataTransfer.items.add(file); // Add the file to it
+    profilePictureInput.files = dataTransfer.files; // Set the input's files to this new file
+  }
+
+  // Handle file input change (browsing an image)
+  profilePictureInput.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        profilePicture.src = reader.result; // Show the selected image in the preview
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  });
+
+  // Handle camera capture button click
+  takePictureBtn.addEventListener("click", function () {
+    if (cameraFeed.style.display === "none") {
+      // Show camera feed
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          cameraFeed.style.display = "block";
+          cameraFeed.srcObject = stream;
+          takePictureBtn.textContent = "Capture Photo";
+        })
+        .catch((error) => {
+          alert("Unable to access camera: " + error.message);
+        });
+    } else {
+      // Capture image from camera feed
+      const context = cameraCanvas.getContext("2d");
+      cameraCanvas.width = cameraFeed.videoWidth;
+      cameraCanvas.height = cameraFeed.videoHeight;
+      context.drawImage(cameraFeed, 0, 0, cameraCanvas.width, cameraCanvas.height);
+
+      // Convert the captured image to a data URL
+      const dataURL = cameraCanvas.toDataURL("image/png");
+
+      // Display the captured image as profile picture
+      profilePicture.src = dataURL;
+
+      // Convert the data URL to a File object and update the profile picture input
+      dataURLtoFile(dataURL, "captured_profile_picture.png");
+
+      // Stop the camera and hide feed
+      const stream = cameraFeed.srcObject;
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+      cameraFeed.style.display = "none";
+      takePictureBtn.textContent = "Take Picture";
+    }
+  });
+
+  // Handle browse button click (optional - this could be a visual trigger for the file input)
+  browseBtn.addEventListener("click", function () {
+    profilePictureInput.click(); // Trigger file input click to browse images
+  });
+</script>
