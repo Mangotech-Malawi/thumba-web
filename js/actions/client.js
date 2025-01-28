@@ -175,7 +175,7 @@ $(function () {
   $(document).on("click", "#addOrganizationClientForm", function (e) {
     $.when(loadContent.loadIndividualRecordView("views/forms/organization.html", "client_organization_form")).done(
       function () {
-     
+
         loadIdentifierTypes();
       }
     );
@@ -233,8 +233,30 @@ $(function () {
       } else {
         console.error("HTML content is null or empty.");
       }
-    })
+    });
+
+
   });
+
+  $(document).on("click", "#uploadImageBtn", async function (e) {
+    e.preventDefault();
+  
+    // Get the file input
+    const fileInput = document.getElementById("profilePictureInput");
+  
+    // Access the captured image file
+    const files = fileInput.files; // Contains the captured image
+    const imageFile = files ? files[0] : null;
+  
+    if (imageFile) {
+      console.log("Captured File:", imageFile);
+      // You can now upload the imageFile using your API
+    } else {
+      console.error("No file selected or captured.");
+      alert("Please capture or select an image before uploading.");
+    }
+  });
+  
 
 });
 
