@@ -13,18 +13,29 @@ if ( typeof configs == undefined || configs === null || configs === ''){
     });
 }
 
-export function apiClient(path, type, dataType, async, cache, data) {
-    let result = null
+export function apiClient(path, type, dataType, async, cache = false, data, isFile = false) {
+    let result = null;
+
+    const url = `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`
+    const headers =  {
+        Authorization: `Bearer ${token}`
+    };
+
+    if(!isFile){
+        headers["Content-Type"] = "application/json";
+    }
+
+
     $.ajax({
-        url: `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`,
+        url: url,
         type: type,
         dataType: dataType,
         async: async,
         cache: cache,
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
-        data: data,
+        headers: headers,
+        contentType: isFile ? false : "application/json",
+        processData: !isFile,
+        data: isFile ? data : data, //JSON.stringify(data) gotta be checked
         success: function (res) {
             result = res
         },
@@ -32,6 +43,8 @@ export function apiClient(path, type, dataType, async, cache, data) {
             if(res.status === 401){
                sessionStorage.clear();
                localStorage.clear();
+            } else {
+                console.error("API error:", res);
             } 
         } 
     }).fail(function (jqXHR, testStatus, errorThrown) {
