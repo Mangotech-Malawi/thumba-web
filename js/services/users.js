@@ -32,9 +32,9 @@ export function edit(params) {
   );
 }
 
-export function login(formData) {
+export function login(params) {
   $.when(
-    apiClient("/api/v1/auth/login", "POST", "json", false, false, formData)
+    apiClient("/api/v1/auth/login", "POST", "json", false, false, params)
   ).done(function (data) {
     if (data != null) {
 
