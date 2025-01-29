@@ -25,6 +25,24 @@ export function addClient(params) {
   return apiClient("/api/v1/clients", "POST", "json", false, false, params);
 }
 
+export function uploadImage(clientId, imageFile) {
+  console.log(clientId);
+  const formData = new FormData();
+  formData.append("client[profile_picture]", imageFile); // Rails param for the image
+  formData.append("client[id]", clientId);
+
+  return apiClient(
+    `/api/v1/client/upload_profile_picture`,
+    "POST",
+    null,
+    false, // Synchronous
+    false,
+    formData,
+    true // isFile
+  );
+
+};
+
 export function delClient(client_id, void_reason) {
   return apiClient("/api/v1/clients/delete", "POST", "json", false, false, {
     client_id: client_id,
@@ -38,9 +56,9 @@ export function getClientById(client_id) {
   });
 }
 
-export function getClientRecordReport(params){
+export function getClientRecordReport(params) {
   return apiClient("/api/v1/report/client_record", "GET", "json", false,
-     false, params);
+    false, params);
 }
 
 export function addJob(params) {
@@ -375,13 +393,13 @@ function loadClientJobs(dataset) {
         targets: [16],
       },
       {
-        targets: [8,9], // Targeting the 'Amount' column
+        targets: [8, 9], // Targeting the 'Amount' column
         render: function (data, type, row) {
-            if (type === 'display' || type === 'filter') {
-                // Use the utility function to format the number
-                return formatCurrency(data);
-            }
-            return data;
+          if (type === 'display' || type === 'filter') {
+            // Use the utility function to format the number
+            return formatCurrency(data);
+          }
+          return data;
         }
       }
     ],
@@ -451,11 +469,11 @@ function loadClientDependants(dataset) {
       {
         targets: [3], // Targeting the 'Amount' column
         render: function (data, type, row) {
-            if (type === 'display' || type === 'filter') {
-                // Use the utility function to format the number
-                return formatCurrency(data);
-            }
-            return data;
+          if (type === 'display' || type === 'filter') {
+            // Use the utility function to format the number
+            return formatCurrency(data);
+          }
+          return data;
         }
       }
     ],
@@ -634,13 +652,13 @@ function loadAssetsData(dataset) {
         targets: [9],
       },
       {
-        targets: [5,6], // Targeting the 'Amount' column
+        targets: [5, 6], // Targeting the 'Amount' column
         render: function (data, type, row) {
-            if (type === 'display' || type === 'filter') {
-                // Use the utility function to format the number
-                return formatCurrency(data);
-            }
-            return data;
+          if (type === 'display' || type === 'filter') {
+            // Use the utility function to format the number
+            return formatCurrency(data);
+          }
+          return data;
         }
       }
     ],
@@ -744,13 +762,13 @@ function loadOtherLoansData(dataset) {
         targets: [13],
       },
       {
-        targets: [3,9], // Targeting the 'Amount' column
+        targets: [3, 9], // Targeting the 'Amount' column
         render: function (data, type, row) {
-            if (type === 'display' || type === 'filter') {
-                // Use the utility function to format the number
-                return formatCurrency(data);
-            }
-            return data;
+          if (type === 'display' || type === 'filter') {
+            // Use the utility function to format the number
+            return formatCurrency(data);
+          }
+          return data;
         }
       }
     ],

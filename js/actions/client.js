@@ -145,7 +145,7 @@ $(function () {
     localStorage.setItem("clientDataSet", JSON.stringify(currentDataset));
 
     let clientType = this.dataset.clientType;
-
+  
     if (clientType === "individual") {
       loadContent.loadRecord("views/clients/individualRecord.html", "client_records");
       $("#recordName").text(
@@ -243,14 +243,13 @@ $(function () {
   
     // Get the file input
     const fileInput = document.getElementById("profilePictureInput");
-  
+    
     // Access the captured image file
     const files = fileInput.files; // Contains the captured image
     const imageFile = files ? files[0] : null;
   
     if (imageFile) {
-      console.log("Captured File:", imageFile);
-      // You can now upload the imageFile using your API
+      client.uploadImage(currentDataset.recordId, imageFile);
     } else {
       console.error("No file selected or captured.");
       alert("Please capture or select an image before uploading.");

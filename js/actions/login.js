@@ -4,10 +4,10 @@ import * as user from "../services/users.js";
 $(document).ready(function () {
 
     $('#loginBtn').on('click', function(e){
-        let username = $('#email').val();
-        let password = $('#password').val();
-        
-        user.login({username: username, password: password} );
+        const username = $('#email').val();
+        const password = $('#password').val();
+        const params = { username: username, password: password }
+        user.login(JSON.stringify(params));
     });
 
     $(document).on('click', '#passwordVisibility', function(e){
