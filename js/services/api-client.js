@@ -15,7 +15,6 @@ if ( typeof configs == undefined || configs === null || configs === ''){
 
 export function apiClient(path, type, dataType, async, cache = false, data, isFile = false) {
     let result = null;
-
     const url = `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`
     const headers =  {
         Authorization: `Bearer ${token}`
@@ -35,7 +34,7 @@ export function apiClient(path, type, dataType, async, cache = false, data, isFi
         headers: headers,
         contentType: isFile ? false : "application/json",
         processData: !isFile,
-        data: isFile ? data : data, //JSON.stringify(data) gotta be checked
+        data: isFile ? data : data, //gotta be checked
         success: function (res) {
             result = res
         },
