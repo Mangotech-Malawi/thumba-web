@@ -229,6 +229,7 @@ function getIndividualViewBtn(data, type, row, meta) {
                     data-record-current-village ="${data.current_village}"
                     data-record-nearest-landmark="${data.nearest_landmark}"
                     data-record-created-at = "${data.created_at}"
+                    data-profile-picture = "${data.profile_picture}"
                     data-client-type = "individual"`;
 
   return `<button type='button' class="btn btn-block btn-primary recordBtn" 
