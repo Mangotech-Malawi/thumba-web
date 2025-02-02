@@ -3,6 +3,12 @@ import * as form from "../utils/forms.js";
 import * as loadContent from "../actions/contentLoader.js";
 import { loadIdentifierTypes } from "../services/users.js";
 
+let cameraFeed = document.getElementById("cameraFeed");
+let cameraCanvas = document.getElementById("cameraCanvas");
+let profilePicture = document.getElementById("profilePicture");
+let browseBtn = document.getElementById("browseBtn");
+
+
 let modalId = "#modal-register-client";
 let clientType = null;
 let currentDataset = null;
@@ -145,7 +151,7 @@ $(function () {
     localStorage.setItem("clientDataSet", JSON.stringify(currentDataset));
 
     let clientType = this.dataset.clientType;
-  
+
     if (clientType === "individual") {
       loadContent.loadRecord("views/clients/individualRecord.html", "client_records");
       $("#recordName").text(
@@ -189,6 +195,8 @@ $(function () {
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);
         });
+
+        $("#profilePicture").attr("src", `http://127.0.0.1:3000${currentDataset.profilePicture}`);
 
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
@@ -238,16 +246,17 @@ $(function () {
 
   });
 
+
   $(document).on("click", "#uploadImageBtn", async function (e) {
     e.preventDefault();
-  
+
     // Get the file input
     const fileInput = document.getElementById("profilePictureInput");
-    
+
     // Access the captured image file
     const files = fileInput.files; // Contains the captured image
     const imageFile = files ? files[0] : null;
-  
+
     if (imageFile) {
       client.uploadImage(currentDataset.recordId, imageFile);
     } else {
@@ -255,7 +264,6 @@ $(function () {
       alert("Please capture or select an image before uploading.");
     }
   });
-  
 
 });
 
@@ -433,4 +441,5 @@ function clearFields(formId) {
     .prop("checked", false)
     .prop("selected", false);
 }
+
 
