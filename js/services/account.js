@@ -14,6 +14,22 @@ export function fetchAccounts() {
     return data;
 }
 
+export function uploadLogo(account_id, imageFile) {
+    const formData = new FormData();
+    formData.append("account[logo]", imageFile); // Rails param for the image
+    formData.append("account[account_id]", account_id);
+
+    return apiClient(
+        `/api/v1/account/upload_logo`,
+        "POST",
+        null,
+        false, // Synchronous
+        false,
+        formData,
+        true // isFile
+    );
+}
+
 export function changeAccountStatus(params) {
     return apiClient("/api/v1/account/change_status", "POST", "json", false, false, params);
 }
@@ -54,7 +70,7 @@ function populateAccountsTable(dataset) {
     });
 }
 
-function getSwitchButton(data, type, row, meta){
+function getSwitchButton(data, type, row, meta) {
     if (data.deactivated)
         return `<div class="icheck-primary d-inline">
                     <input class="account-status" type="checkbox" id="${data.id}"
@@ -70,8 +86,8 @@ function getSwitchButton(data, type, row, meta){
                     <label class="text-success" for="${data.id}">
                      Active
                     </label>
-                </div>` 
-   
+                </div>`
+
 }
 
 
@@ -80,5 +96,4 @@ function getDelButton(data, type, row, meta) {
         data-toggle="modal" data-target = "#modal-del-interest"
         data-del-interest-id = "${data.id}">
        <i class="fas fa-trash"></i></button>`;
-  }
-  
+}

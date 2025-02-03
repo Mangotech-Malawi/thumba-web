@@ -168,13 +168,13 @@ export const content_view = [
     title: "Investment Details",
     link: "views/clients/investment_details.html",
     state: "investment_details",
-    modals: [],
+    modals: ["views/modals/user.html"]
   },
   {
     title: "Client Demographics",
     link: "views/forms/investment.html",
     state: "add_investment",
-    modals: [],
+    modals: ["views/modals/user.html"]
   },
   {
     title: "Client Demographics",
@@ -192,7 +192,7 @@ export const content_view = [
     title: "Client Job Form",
     link: "views/forms/job.html",
     state: "job_form",
-    modals: [],
+    modals: ["views/modals/user.html"]
   },
   {
     title: "Client Dependants",
@@ -294,6 +294,12 @@ export const content_view = [
     title: "Accounts Dashboard",
     link: "views/dashboards/superuser.html",
     state: "super_user_dashboard",
+    modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Account Settings",
+    link: "views/settings/account.html",
+    state: "account_settings",
     modals: ["views/modals/user.html"]
   }
 ];

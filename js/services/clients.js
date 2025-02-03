@@ -26,7 +26,6 @@ export function addClient(params) {
 }
 
 export function uploadImage(clientId, imageFile) {
-  console.log(clientId);
   const formData = new FormData();
   formData.append("client[profile_picture]", imageFile); // Rails param for the image
   formData.append("client[id]", clientId);
