@@ -57,7 +57,7 @@ $(document).ready(function () {
         let data = checkbox.data();
 
         notification(
-            account.changeAccountStatus({id: data.id}).updated,
+            account.changeAccountStatus({ id: data.id }).updated,
             "center",
             "success",
             "accounts",
@@ -67,6 +67,37 @@ $(document).ready(function () {
             3000
         )
     });
+
+    $(document).on('change', '#logoUpload', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('logoPreview').src = e.target.result;
+                document.getElementById('logoPreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $(document).on('click', '#uploadLogoButton', function (e) {
+        e.preventDefault();
+
+        const fileInput = document.getElementById("logoUpload");
+        const account_id = sessionStorage.getItem("account_id");
+
+        // Access the captured image file
+        const files = fileInput.files; // Contains the captured image
+        const imageFile = files ? files[0] : null;
+
+        if (imageFile) {
+            account.uploadLogo(account_id, imageFile);
+        } else {
+            console.error("No file selected or captured.");
+            alert("Please capture or select an image before uploading.");
+        }
+    });
+
 });
 
 
@@ -124,7 +155,7 @@ function notification(
             switch (recordType) {
                 case "accounts":
                     $.when(account.fetchAccounts()).done(function () {
-                        
+
                     });
                     break;
             }
@@ -136,4 +167,14 @@ function notification(
 function validatePassword(password) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
     return regex.test(password)
+}
+
+// Set the details of the account like Name
+export function populateAccountDetails() {
+    $("#accountName").val(sessionStorage.getItem("account_name"));
+    $("#accountAddress").val(sessionStorage.getItem("account_address"));
+    $("#accountEmail").val(sessionStorage.getItem("account_email"));
+    $("#accountPhoneNumber").val(sessionStorage.getItem("account_phone_number"));
+    console.log(sessionStorage.getItem("account_logo"));
+    $("#logoPreview").attr("src",sessionStorage.getItem("account_logo"));
 }

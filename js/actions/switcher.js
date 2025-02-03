@@ -12,6 +12,7 @@ import { links } from "../app-views/links.js";
 import * as dashboard from "../services/dashboard.js";
 import * as subscription from "../services/subscription.js";
 import * as account from "../services/account.js";
+import { populateAccountDetails } from "../actions/account.js"
 
 let user_role = sessionStorage.getItem("role");
 
@@ -149,6 +150,10 @@ $(document).ready(function () {
 
   $(document).on("click", "#accounts-dashboard", function (e) {
     selectContent("super_user_dashboard");
+  });
+
+  $(document).on("click", "#account-settings", function (e) {
+    selectContent("account_settings");
   });
 
 
@@ -317,6 +322,9 @@ function loadOtherContent(state, index) {
           break;
         case "accounts":
           account.fetchAccounts();
+          break;
+        case "account_settings":
+          populateAccountDetails();
           break;
       }
     }

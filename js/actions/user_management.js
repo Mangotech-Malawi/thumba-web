@@ -66,7 +66,7 @@ $(function () {
 
     $(document).on('show.bs.modal', '#modal-register-user', function (e) {
         clearFields() 
-        let opener = e.relatedTarget;
+        const opener = e.relatedTarget;
         formType = $(opener).attr('data-button-type');
 
         //Checking if the button clicked was a edit or add
