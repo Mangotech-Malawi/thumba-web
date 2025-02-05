@@ -331,6 +331,24 @@ export function validateGradeForm(){
   return validData;
 }
 
+export function validateAccountSettingsForm(){
+  formElements = []
+
+  let validData = false
+
+  pushFormElements("alphabeticStringWithSpace", "#accountName", true, "Account Name");
+  pushFormElements("description", "#accountAddress", true, "Account Address");
+  pushFormElements("email", "#accountEmail", true, "Account Email");
+  pushFormElements("phoneNumber", "#accountPhoneNumber", true, "Account Phone Number");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+  
+}
+
 
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({

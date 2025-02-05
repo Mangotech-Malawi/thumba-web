@@ -1,4 +1,4 @@
-import { apiClient } from "./api-client.js";
+import { apiClient, fileApiClient} from "./api-client.js";
 
 export function register(params) {
     return apiClient("/api/v1/account/new", "POST", "json", false, false, params);
@@ -19,7 +19,7 @@ export function uploadLogo(account_id, imageFile) {
     formData.append("account[logo]", imageFile); // Rails param for the image
     formData.append("account[account_id]", account_id);
 
-    return apiClient(
+    return fileApiClient(
         `/api/v1/account/upload_logo`,
         "POST",
         null,
@@ -32,6 +32,10 @@ export function uploadLogo(account_id, imageFile) {
 
 export function changeAccountStatus(params) {
     return apiClient("/api/v1/account/change_status", "POST", "json", false, false, params);
+}
+
+export function update(params){
+    return apiClient("/api/v1/account/edit", "POST", "json", false, false, params);
 }
 
 function populateAccountsTable(dataset) {

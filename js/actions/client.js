@@ -30,9 +30,9 @@ $(function () {
     clientType = $(opener).attr("data-client-type");
 
     if (clientType === "organization") {
-      loadForm("clientRegistration", "views/clients/organizationForm.html");
+        loadContent.loadIndividualRecordView("clientRegistration", "views/clients/organizationForm.html");
     } else if (clientType === "individual") {
-      $.when(loadForm("clientRegistration", "views/clients/individualForm.html")).done(function () {
+      $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(function () {
         loadIdentifierTypes();
       });
     }

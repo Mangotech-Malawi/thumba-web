@@ -98,6 +98,28 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', '#accountSettingsBtn', function () {
+
+        if (form.validateAccountSettingsForm()) {
+            $.when(account.update(accountSettingsParams())).done(function  (data) {
+                notification(
+                    data.updated,
+                    "center",
+                    "success",
+                    "account_settings",
+                    "Account Settings",
+                    "Account Settings have been saved successfully",
+                    true,
+                    3000, 
+                    data
+                );   
+            });
+            
+           
+        }
+    });
+
+
 });
 
 
@@ -131,6 +153,24 @@ function registerAccountParams() {
     return params
 }
 
+function accountSettingsParams() {
+    const name = $("#accountName").val();
+    const address = $("#accountAddress").val();
+    const email = $("#accountEmail").val();
+    const phone_number = $("#accountPhoneNumber").val();
+    const account_id = sessionStorage.getItem("account_id");
+
+    let params = {
+        account_id: account_id,
+        name: name,
+        address: address,
+        email: email,
+        phone_number: phone_number
+    }
+
+    return params;
+}
+
 function notification(
     isDone,
     position,
@@ -139,7 +179,8 @@ function notification(
     title,
     text,
     showConfirmButton,
-    timer
+    timer,
+    data = null
 ) {
     if (isDone)
         $.when(
@@ -158,6 +199,13 @@ function notification(
 
                     });
                     break;
+                case "account_settings":
+                    sessionStorage.setItem("account_name", data.account.name);
+                    sessionStorage.setItem("account_address", data.account.address);
+                    sessionStorage.setItem("account_email", data.account.email);
+                    sessionStorage.setItem("account_phone_number", data.account.phone_number);
+                    populateAccountDetails();
+                    break;
             }
         });
 }
@@ -171,10 +219,10 @@ function validatePassword(password) {
 
 // Set the details of the account like Name
 export function populateAccountDetails() {
+    $("#account-name").text(sessionStorage.getItem("account_name"));
     $("#accountName").val(sessionStorage.getItem("account_name"));
     $("#accountAddress").val(sessionStorage.getItem("account_address"));
     $("#accountEmail").val(sessionStorage.getItem("account_email"));
     $("#accountPhoneNumber").val(sessionStorage.getItem("account_phone_number"));
-    console.log(sessionStorage.getItem("account_logo"));
-    $("#logoPreview").attr("src",sessionStorage.getItem("account_logo"));
+    $("#logoPreview").attr("src", sessionStorage.getItem("account_logo"));
 }

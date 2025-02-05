@@ -13,8 +13,38 @@ if ( typeof configs == undefined || configs === null || configs === ''){
     });
 }
 
-export function apiClient(path, type, dataType, async, cache = false, data, isFile = false) {
+export function apiClient(path, type, dataType, async, cache, data) {
+    let result = null
+    $.ajax({
+        url: `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`,
+        type: type,
+        dataType: dataType,
+        async: async,
+        cache: cache,
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        data: data,
+        success: function (res) {
+            result = res
+        },
+        error: function(res){
+            if(res.status === 401){
+               sessionStorage.clear();
+               localStorage.clear();
+            } 
+        } 
+    }).fail(function (jqXHR, testStatus, errorThrown) {
+
+    });
+
+    return result;
+}
+
+
+export function fileApiClient(path, type, dataType, async, cache = false, data, isFile = false) {
     let result = null;
+
     const url = `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`
     const headers =  {
         Authorization: `Bearer ${token}`
@@ -34,7 +64,7 @@ export function apiClient(path, type, dataType, async, cache = false, data, isFi
         headers: headers,
         contentType: isFile ? false : "application/json",
         processData: !isFile,
-        data: isFile ? data : data, //gotta be checked
+        data: isFile ? data : data, //JSON.stringify(data) gotta be checked
         success: function (res) {
             result = res
         },
