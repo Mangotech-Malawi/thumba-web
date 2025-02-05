@@ -1,4 +1,4 @@
-import { apiClient } from "./api-client.js";
+import { apiClient, fileApiClient } from "./api-client.js";
 import { formatCurrency } from "../utils/formaters.js"
 
 export function fetchClientsData(state) {
@@ -30,7 +30,7 @@ export function uploadImage(clientId, imageFile) {
   formData.append("client[profile_picture]", imageFile); // Rails param for the image
   formData.append("client[id]", clientId);
 
-  return apiClient(
+  return fileApiClient(
     `/api/v1/client/upload_profile_picture`,
     "POST",
     null,

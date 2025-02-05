@@ -7,7 +7,7 @@ $(document).ready(function () {
         const username = $('#email').val();
         const password = $('#password').val();
         const params = { username: username, password: password }
-        user.login(JSON.stringify(params));
+        user.login(params);
     });
 
     $(document).on('click', '#passwordVisibility', function(e){
