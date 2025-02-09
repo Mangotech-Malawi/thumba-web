@@ -1,7 +1,6 @@
 import * as loans from "../services/loans.js";
 import { notify } from "../services/utils.js";
 import { loadContent } from "./contentLoader.js";
-import * as interest from "../services/interests.js";
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 
@@ -28,83 +27,6 @@ $(function () {
     $("#paymentTitle").text(`Loan Payments for ${currentLoanPaymentDataset.applicant}`);
   }
 
-  $(document).on("show.bs.modal", applicationModal, function (e) {
-    let interests = interest.fetchInterests();
-    let opener = e.relatedTarget;
-    let actionType = $(opener).attr("data-action-type");
-    let interestsArray = []; 2
-
-    $("#applicantName").text("");
-    $("#applicantType").text("");
-    localStorage.removeItem("clientId");
-
-    interests.forEach(function (interest, index) {
-      interestsArray.push(
-        '<option value ="',
-        interest.id,
-        '">',
-        `${interest.name} | ${interest.rate}%`,
-        "</option>"
-      );
-    });
-
-    $("#interestsRates").html(interestsArray.join(""));
-
-    if (actionType === "add") {
-      $("#loanApplicationTitle").text("Add Loan Application");
-    } else if (actionType === "edit") {
-      $("#loanApplicationTitle").text("Edit Loan Application");
-      let collaterals = JSON.parse($(opener).attr("data-collaterals"));
-
-      $.when(
-        client.getClientById(
-          $(opener).attr("data-loan-app-client-id")
-        )
-      ).done(function (client) {
-        populateCollaterals(client.assets)
-        $("#applicantName").text(client.applicantName);
-        $("#applicantType").text(client.applicantType);
-        localStorage.setItem("clientId", client.id);
-      });
-
-      let collateralIds = new Array();
-      collaterals.forEach(function (collateral, index) {
-        collateralIds.push(collateral.asset_id);
-      });
-
-      $("#corraterals").val(collateralIds);
-      $('#corraterals').trigger('change');
-
-      $.each(opener.dataset, function (key, value) {
-        $(applicationModal).find(`[id = '${key}']`).val(value);
-      });
-    }
-  });
-
-
-  $(document).on("hide.bs.modal", applicationModal, function (e) {
-    clearFields("#loanApplicationForm")
-    $("#applicantFirstname").text("");
-    $("#applicantLastname").text("");
-    $("#applicantGender").text("");
-  });
-
-  $(document).on("click", "#searchClientBtn", function (e) {
-    let identifier = $("#loanAppClientId").val();
-    $("#applicantName").text("");
-    $("#applicantType").text("");
-    localStorage.removeItem("clientId");
-
-    if (identifier != null && identifier != "")
-      $.when(client.getClientById(identifier)).done(function (client) {
-        if (client != null && typeof client != undefined) {
-          populateCollaterals(client.assets);
-          localStorage.setItem("clientId", client.id);
-          $("#applicantName").text(client.applicantName);
-          $("#applicantType").text(client.applicantType);
-        }
-      });
-  });
 
   $(document).on("click", "#statusNew", function (e) {
     $.when(loadApplicationStatusView("views/loans/new.html", "new_applications")).done(function () {
@@ -133,48 +55,6 @@ $(function () {
       });
   });
 
-
-  $(document).on("click", "#saveApplicationBtn", function (e) {
-    if (form.validateLoanApplicationFormData()) {
-      if ($("#loanApplicationTitle").text() === "Add Loan Application") {
-        if (loans.addApplication(loanApplicationParams()).created) {
-          notification(
-            true,
-            "center",
-            "success",
-            "application",
-            "Add Client Loan Application",
-            "Client application loan has been added successfully",
-            true,
-            3000
-          );
-        } else if (loans.addApplication(loanApplicationParams()).has_active_application) {
-          notification(
-            true,
-            "center",
-            "error",
-            "application",
-            "Application arleady exist",
-            "Client cannot have more than one application in waiting or new status",
-            true,
-            7000
-          );
-        }
-      } else if ($("#loanApplicationTitle").text() === "Edit Loan Application") {
-        notification(
-          loans.updateApplication(loanApplicationParams()).updated,
-          "center",
-          "success",
-          "application",
-          "Edit Client Loan Application",
-          "Client loan has been updated successfully",
-          true,
-          3000
-        );
-      }
-    }
-
-  });
 
   $(document).on("click", ".delete-loan-application", function (e) {
     let id = $(this).data().loanApplicationId;
@@ -562,12 +442,7 @@ $(function () {
 
 });
 
-function populateClientDemographics(client) {
-  localStorage.setItem("clientId", client.id)
-  $("#applicantFirstname").text(client.firstname);
-  $("#applicantLastname").text(client.lastname);
-  $("#applicantGender").text(client.gender);
-}
+
 
 function populateCollaterals(collaterals) {
   let collateralArray = [];
@@ -583,31 +458,6 @@ function populateCollaterals(collaterals) {
 
   $("#corraterals").html("");
   $("#corraterals").html(collateralArray.join(""));
-}
-
-function loanApplicationParams() {
-  let id = $("#id").val();
-  let client_id = localStorage.getItem("clientId");
-  let amount = $("#amount").val();
-  let interestId = $("#interestsRates option:selected").val();
-  let purpose = $("#purpose").val();
-  let collaterals = $("#corraterals").val();
-  let collateralsArray = new Array();
-
-  collaterals.forEach(function (collateral, index) {
-    collateralsArray.push(collateral);
-  });
-
-  let params = {
-    loan_application_id: id,
-    client_id: client_id,
-    amount: amount,
-    interest_id: interestId,
-    purpose: purpose,
-    collaterals: collateralsArray,
-  };
-
-  return params;
 }
 
 function loadLoanGuarantorParams() {
