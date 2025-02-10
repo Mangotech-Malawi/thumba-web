@@ -21,6 +21,16 @@ export function fetchLoanApplications(params) {
 
 }
 
+export function fetchClientLoanApplications(params) {
+  const data = apiClient("/api/v1/applications/client",
+    "GET",
+    "json",
+    false,
+    false,
+    params)
+
+  loadClientApplications(data);
+}
 
 export function fetchLoans() {
   let data = apiClient(
@@ -232,7 +242,7 @@ export function deleteCollateralSale(params) {
   );
 }
 
-export function getLoanAgreement(params){
+export function getLoanAgreement(params) {
   return apiClient(
     "/api/v1/loan_agreement",
     "GET",
@@ -261,9 +271,6 @@ function loadLoanApplications(dataset) {
       { data: "interest_name" },
       { data: "rate" },
       { data: "amount" },
-      { data: null },
-      { data: null },
-      { data: null },
       { data: null }
     ],
 
@@ -280,25 +287,10 @@ function loadLoanApplications(dataset) {
         targets: [2],
       },
       {
-        render: getGuarantorsBtn,
-        data: null,
-        targets: [6],
-      },
-      {
         render: getAnalyseRiskBtn,
         data: null,
-        targets: [7],
-      },
-      {
-        render: getApplicationUpdateBtn,
-        data: null,
-        targets: [8],
-      },
-      {
-        render: getApplicationDelBtn,
-        data: null,
-        targets: [9],
-      },
+        targets: [6],
+      }
     ],
   });
 }
@@ -341,25 +333,7 @@ function getAnalyseRiskBtn(data, type, row, metas) {
     data-collaterals = "${data.collaterals}" 
     data-action-type = "edit"`;
 
-  return getButton(dataFields, "", "default view-risk-calculator", "fas fa-chart-bar");
-}
-
-function getApplicationUpdateBtn(data, type, row, metas) {
-  let collaterals = JSON.stringify(data.collaterals);
-  let dataFields = `data-id = "${data.id}"
-                    data-loan-app-client-id = "${data.borrower.identifier}"
-                    data-amount =  "${data.amount}"
-                    data-purpose = "${data.purpose}"
-                    data-collaterals = '${collaterals}'
-                    data-action-type = "edit"`;
-
-  return getButton(dataFields, "loan-application", "primary", "fas fa-edit");
-}
-
-function getApplicationDelBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
-    data-action-type = "edit"`;
-  return getButton(dataFields, "", "danger delete-loan-application", "fas fa-trash del");
+  return getButton(dataFields, "", "primary view-risk-calculator", "fas fa-balance-scale");
 }
 
 function loadWaitingApplications(dataset) {
@@ -431,12 +405,12 @@ function getRisk(data, type, row, metas) {
   return data.analysis.score_details.risk_percentage;
 }
 
-function getAgreementForm(data, type, row, metas){
+function getAgreementForm(data, type, row, metas) {
   let grade = data.analysis.analysis[0];
   let dataFields = `data-loan-application-id = "${data.id}"
                     data-applicant = "${data.borrower.applicant}"
-                    data-current-address="${ data.borrower.current_village} village,
-                     TA ${ data.borrower.current_ta}, ${data.borrower.current_district}"
+                    data-current-address="${data.borrower.current_village} village,
+                     TA ${data.borrower.current_ta}, ${data.borrower.current_district}"
                     data-amount =  "${data.amount}"
                     data-rate = "${data.rate}"
                     data-period = "${data.period}"
@@ -574,6 +548,62 @@ function loadDumpedApplications(dataset) {
   });
 }
 
+function loadClientApplications(dataset) {
+  $("#clientLoanApplicationsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "interest_name" },
+      { data: "rate" },
+      { data: "amount" },
+      { data: "status_name" },
+      { data: null },
+      { data: null }
+    ],
+    columnDefs: [
+      {
+        render: getApplicationUpdateBtn,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getApplicationDelBtn,
+        data: null,
+        targets: [6],
+      },
+    ]
+  });
+}
+
+
+function getApplicationUpdateBtn(data, type, row, metas) {
+  let collaterals = JSON.stringify(data.collaterals);
+  let dataFields = `data-id = "${data.id}"
+                    data-amount =  "${data.amount}"
+                    data-interest-id ="${data.interest_id}"
+                    data-status-name = "${data.status_name}"
+                    data-purpose = "${data.purpose}"
+                    data-collaterals = '${collaterals}'
+                    data-action-type = "edit"`;
+
+  return getButton(dataFields, "", "primary edit-loan-application", "fas fa-edit");
+}
+
+
+function getApplicationDelBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+                    data-status-name = "${data.status_name}"
+                    data-action-type = "edit"`;
+  return getButton(dataFields, "", "danger delete-loan-application", "fas fa-trash del");
+}
+
 function loadLoans(dataset) {
   $("#clientsLoansTable").DataTable({
     destroy: true,
@@ -622,7 +652,7 @@ function loadLoans(dataset) {
         targets: [8],
       },
       {
-        render:  getDownloadLoanAgreementFormBtn, 
+        render: getDownloadLoanAgreementFormBtn,
         data: null,
         targets: [11]
       },
@@ -641,7 +671,7 @@ function loadLoans(dataset) {
 }
 
 
-function getDownloadLoanAgreementFormBtn(data, type, row, metas){
+function getDownloadLoanAgreementFormBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
                     data-applicant = "${data.borrower.applicant}"`
 
