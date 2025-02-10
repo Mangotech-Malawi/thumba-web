@@ -3,6 +3,7 @@ import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 import * as interest from "../services/interests.js";
 import * as loans from "../services/loans.js";
+import { notify } from "../services/utils.js";
 
 const loanApplicationForm = "#loanApplicationForm";
 let currentDataset = null;
@@ -69,14 +70,14 @@ $(function () {
 
     $(document).on("click", ".edit-loan-application", function (e) {
         const opener = $(this).data();
-        loadLoanApplicationForm() 
+        loadLoanApplicationForm()
 
         $("#loanApplicationTitle").text("Edit Loan Application");
 
         let collaterals = opener.collaterals;
         let collateralIds = new Array();
 
-        if(opener.interestId){
+        if (opener.interestId) {
             $("#interestsRates").val(opener.interestId).trigger("change");
         }
 
@@ -90,11 +91,36 @@ $(function () {
         $.each(opener, function (key, value) {
             $(loanApplicationForm).find(`[id = '${key}']`).val(value);
         });
-    
+
     });
 
+    $(document).on("click", ".delete-loan-application", function (e) {
+        const opener = $(this).data();
 
-
+        if (opener.statusName !== "NEW") {
+            notify(
+                "center",
+                "error",
+                "Application already in process",
+                "Loan application cannot be deleted as it is already being processed",
+                true,
+                4000)
+        } else {
+            const id = $(this).data().loanApplicationId;
+            notification(
+                loans.deleteApplication({
+                    id: id,
+                }).deleted,
+                "center",
+                "success",
+                "application",
+                "Delete Loan Application",
+                "Loan application has been deleted successfully",
+                true,
+                3000
+            );
+        }
+    });
 
 
 });

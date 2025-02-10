@@ -336,14 +336,6 @@ function getAnalyseRiskBtn(data, type, row, metas) {
   return getButton(dataFields, "", "primary view-risk-calculator", "fas fa-balance-scale");
 }
 
-
-
-function getApplicationDelBtn(data, type, row, metas) {
-  let dataFields = `data-loan-application-id = "${data.id}"
-    data-action-type = "edit"`;
-  return getButton(dataFields, "", "danger delete-loan-application", "fas fa-trash del");
-}
-
 function loadWaitingApplications(dataset) {
   $("#waitingApplicationsTable").DataTable({
     destroy: true,
@@ -596,11 +588,20 @@ function getApplicationUpdateBtn(data, type, row, metas) {
   let dataFields = `data-id = "${data.id}"
                     data-amount =  "${data.amount}"
                     data-interest-id ="${data.interest_id}"
+                    data-status-name = "${data.status_name}"
                     data-purpose = "${data.purpose}"
                     data-collaterals = '${collaterals}'
                     data-action-type = "edit"`;
 
   return getButton(dataFields, "", "primary edit-loan-application", "fas fa-edit");
+}
+
+
+function getApplicationDelBtn(data, type, row, metas) {
+  let dataFields = `data-loan-application-id = "${data.id}"
+                    data-status-name = "${data.status_name}"
+                    data-action-type = "edit"`;
+  return getButton(dataFields, "", "danger delete-loan-application", "fas fa-trash del");
 }
 
 function loadLoans(dataset) {

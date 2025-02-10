@@ -56,23 +56,6 @@ $(function () {
   });
 
 
-  $(document).on("click", ".delete-loan-application", function (e) {
-    let id = $(this).data().loanApplicationId;
-
-    notification(
-      loans.deleteApplication({
-        id: id,
-      }).deleted,
-      "center",
-      "success",
-      "application",
-      "Delete Loan Application",
-      "Loan application has been deleted successfully",
-      true,
-      3000
-    );
-  });
-
   $(document).on("click", "#saveGuarantorBtn", function (e) {
     notification(
       loans.addGuarantor(loadLoanGuarantorParams()).created,
