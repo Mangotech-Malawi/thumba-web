@@ -84,67 +84,65 @@ $(function () {
     });
   });
 
-  $(document).on("click", "#registerClientBtn", function (e) {
-    clientType = $(this).data().clientType;
+  $(document).on("click", "#saveIndividualClientBtn", function (e) {
 
-    if (clientType != null) {
-      if ($("#regModalTitle").text() === "Edit Client") {
-        if (clientType === "individual") {
-          if (form.validClientFormData()) {
-            notification(
-              client.editClient(individualParams()).updated,
-              "center",
-              "success",
-              "registration",
-              "Edit Individual Client",
-              "Client has been updated successfully",
-              true,
-              3000
-            );
-          }
-        } else {
-          notification(
-            client.editClient(organizationParams()),
-            "center",
-            "success",
-            "registration",
-            "Edit Organization Client",
-            "Client has been updated successfully",
-            true,
-            3000
-          );
-        }
-      } else {
-        if (clientType === "individual") {
-          if (form.validClientFormData()) {
-            notification(
-              client.addClient(individualParams()),
-              "center",
-              "success",
-              "registration",
-              "Add Individual Client",
-              "Client has been added successfully",
-              true,
-              3000
-            );
-          }
-        } else {
-          notification(
-            client.addClient(organizationParams()),
-            "center",
-            "success",
-            "registration",
-            "Add Organization Client",
-            "Client has been added succefully",
-            true,
-            3000
-          );
-        }
+    if (form.validClientFormData()) {
+      if ($("#cardTitle").text() === "Edit Client") {
+        notification(
+          client.editClient(individualParams()).updated,
+          "center",
+          "success",
+          "registration",
+          "Edit Individual Client",
+          "Client has been updated successfully",
+          true,
+          3000
+        );
+      } else if ($("#cardTitle").text() === "Add Client") {
+        notification(
+          client.addClient(individualParams()),
+          "center",
+          "success",
+          "registration",
+          "Add Individual Client",
+          "Client has been added successfully",
+          true,
+          3000
+        );
+      }
+
+    }
+  });
+
+  $(document).on("click", "#saveOrgClientBtn", function (e) {
+    if (form.validOrgClientFormData()) {
+      if ($("#cardTitle").text().trim() === "Add Client") {
+        notification(
+          client.addClient(individualParams()),
+          "center",
+          "success",
+          "registration",
+          "Add Individual Client",
+          "Client has been added successfully",
+          true,
+          3000
+        );
+      } else if ($("#cardTitle").text().trim() === "Edit Client") {
+        notification(
+          client.editClient(organizationParams()),
+          "center",
+          "success",
+          "registration",
+          "Edit Organization Client",
+          "Client has been updated successfully",
+          true,
+          3000
+        );
       }
     }
 
-
   });
+
 
   $(document).on("click", ".recordBtn", function (e) {
     let opener = e.relatedTarget;
@@ -199,6 +197,8 @@ $(function () {
     if (data.clientType === "individual") {
       $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(
         function () {
+          loadIdentifierTypes();
+
           $("#cardTitle").text("Edit Client");
 
           $.each(data, function (key, value) {
