@@ -254,7 +254,7 @@ function getIndividualEditBtn(data, type, row, meta) {
               data-action-type = "edit"
               data-client-type = "individual"`;
 
-  return getButton(dataFields, "register-client", "default", "fas fa-edit ");
+  return getButton(dataFields, "", "default edit-client", "fas fa-edit ");
 }
 
 function getIndividualDelBtn(data, type, row, meta) {
@@ -339,7 +339,7 @@ function getOrgEditBtn(data, type, row, meta) {
                     data-action-type = "edit"
                     data-client-type = "organization"`;
 
-  return getButton(dataFields, "register-client", "default", "fas fa-edit");
+  return getButton(dataFields, "", "default edit-client", "fas fa-edit");
 }
 
 function getOrgDelBtn(data, type, row, metas) {
