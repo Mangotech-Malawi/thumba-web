@@ -21,6 +21,10 @@ export function validClientFormData() {
   return validClientData;
 }
 
+export function validOrgClientFormData(){
+  
+}
+
 export function validClientJobFormData() {
   formElements = []
   let validData = false;

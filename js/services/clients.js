@@ -237,7 +237,7 @@ function getIndividualViewBtn(data, type, row, meta) {
 
 function getIndividualEditBtn(data, type, row, meta) {
   let dataFields = `data-id = "${data.id}"
-              data-national-id  = "${data.national_id}" 
+              data-identifier  = "${data.identifier}" 
               data-firstname  = "${data.firstname}" 
               data-lastname = "${data.lastname}"
               data-gender = "${data.gender}"
