@@ -10,6 +10,8 @@ let browseBtn = document.getElementById("browseBtn");
 
 
 let modalId = "#modal-register-client";
+const organizationClientForm = "#organizationClientForm";
+const individualClientForm = "#individualClientForm";
 let clientType = null;
 let currentDataset = null;
 
@@ -30,7 +32,7 @@ $(function () {
     clientType = $(opener).attr("data-client-type");
 
     if (clientType === "organization") {
-        loadContent.loadIndividualRecordView("clientRegistration", "views/clients/organizationForm.html");
+      loadContent.loadIndividualRecordView("clientRegistration", "views/clients/organizationForm.html");
     } else if (clientType === "individual") {
       $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(function () {
         loadIdentifierTypes();
@@ -159,8 +161,12 @@ $(function () {
       );
     } else if (clientType === "organization") {
       loadContent.loadRecord("views/clients/organizationRecord.html", "organization_records");
+      $("#recordName").text(
+        `${this.dataset.orgName} Records`
+      );
     }
   });
+
 
   $(document).on("click", "#addClientForm", function (e) {
     $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(
@@ -185,6 +191,36 @@ $(function () {
         loadIdentifierTypes();
       }
     );
+  });
+
+  $(document).on("click", ".edit-client", function (e) {
+    const data = $(this).data();
+
+    if (data.clientType === "individual") {
+      $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(
+        function () {
+          $("#cardTitle").text("Edit Client");
+
+          $.each(data, function (key, value) {
+            $(individualClientForm).find(`[id = '${key}']`).val(value);
+          });
+
+        }
+      );
+    } else if (data.clientType === "organization") {
+
+      $.when(loadContent.loadIndividualRecordView("views/forms/organization.html", "client_organization_form")).done(
+        function () {
+          $("#cardTitle").text("Edit Client");
+
+          $.each(data, function (key, value) {
+            $(organizationClientForm).find(`[id = '${key}']`).val(value);
+          });
+
+        }
+      );
+    }
+
   });
 
 
@@ -214,6 +250,7 @@ $(function () {
       );
     } else if (clientType === "organization") {
       loadContent.loadRecord("views/clients/organizationRecord.html", "organization_records");
+      `${data.name} Records`
     }
   });
 
@@ -441,5 +478,6 @@ function clearFields(formId) {
     .prop("checked", false)
     .prop("selected", false);
 }
+
 
 
