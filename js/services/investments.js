@@ -325,36 +325,14 @@ function populateInvestmentsTable(dataSet) {
         data: dataSet,
         columns: [
             { data: "id" },
-            { data: "firstname" },
-            { data: "lastname" },
-            { data: "package_name" },
-            { data: "amount" },
-            { data: "investment_date" },
-            { data: null },
-            { data: null }
-        ],
-        columnDefs: [
-            {
-                render: getEditInvestmentBtn,
-                data: null,
-                targets: [6],
-            },
-            {
-                render: getDelInvestmentBtn,
-                data: null,
-                targets: [7],
-            },
-            {
-                targets: [4], // Targeting the 'Amount' column
-                render: function (data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        // Use the utility function to format the number
-                        return formatCurrency(data);
-                    }
-                    return data;
-                }
-            }
-        ],
+            { data: "identifier" },
+            { data: "client_name" },
+            { data: "client_type_name" },
+            { data: "product_name" },
+            { data: "product_type" },
+            { data: "investment_amount" },
+            { data: "investment_date" }
+        ]
     });
 }
 
