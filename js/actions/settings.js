@@ -3,6 +3,7 @@ import * as settings from "../services/settings.js";
 import { automaticScoreOptions } from "../services/chartsOptions/automatic_score.js";
 import { manualScoreOptions } from "../services/chartsOptions/manual_score.js";
 import { riskResultOptions } from "../services/chartsOptions/risk_results.js";
+import { notify } from "../services/utils.js";
 import {
   validateAnalysisScoreNameForm, validateAnalysisScoreForm,
   validateGradeForm, validateDTIRatioForm
@@ -508,12 +509,20 @@ function updateRiskResultsChart() {
 
 function updateGradesLabel() {
   $.when(settings.fetchGrade({ risk_percentage: risk_percentage })).done(function (grade) {
-    if (grade != null || typeof grade != undefined || grade != null) {
+    if (grade) {
       gradeId = grade[0].id;
       $("#loan-risk-grade").text(grade[0].name);
       $("#loan-risk-grade-range").text(
         `${grade[0].minimum} - ${grade[0].maximum}  `
       );
+    } else {
+      notify(
+        "center",
+        "error",
+        "Grades not available",
+        "Please add grades for analysis grading ",
+        true,
+        4000)
     }
   });
 
