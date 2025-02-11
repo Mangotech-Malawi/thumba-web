@@ -1,11 +1,9 @@
 <div class="container-fluid">
     <div class="card card-primary ">
         <div class="card-header">
-            <h3 class="card-title font-weight-bold"> <i class="nav-icon fas fa-piggy-bank  "></i> Add Client</h3>
+            <h3 id="cardTitle" class="card-title font-weight-bold"> <i class="nav-icon fas fa-piggy-bank  "></i> Add Client</h3>
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
-
-
                     <button type="button" class="btn btn-outline-light text-left" id="recordBackBtn"
                         data-client-type="organization">
                         <i class="fa fa-arrow-left"></i> Back
@@ -17,7 +15,7 @@
         <!-- /.card-header -->
         <div class="card-body">
             <div class="content">
-
+              <form id="organizationClientForm">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
                       <div class="input-group ">
@@ -193,13 +191,14 @@
                       </div>
                     </div>
                   </div>
+              </form>
             </div>
             <!-- /.card-body -->
 
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-default alt-btn">Close</button>
-            <button type="button" id="registerClientBtn" class="btn btn-primary text-left"  
+            <button type="button" id="saveOrgClientBtn" class="btn btn-primary text-left"  
             data-client-type="organization">Save</button>
         </div>
         <!-- /.card -->
