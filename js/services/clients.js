@@ -238,6 +238,7 @@ function getIndividualViewBtn(data, type, row, meta) {
 function getIndividualEditBtn(data, type, row, meta) {
   let dataFields = `data-id = "${data.id}"
               data-identifier  = "${data.identifier}" 
+              data-identifier-type-id = "${data.identifier_type_id}" 
               data-firstname  = "${data.firstname}" 
               data-lastname = "${data.lastname}"
               data-gender = "${data.gender}"
@@ -312,7 +313,7 @@ function getOrgViewBtn(data, type, row, meta) {
                     data-org-name ="${data.name}" 
                     data-category="${data.category}"
                     data-purpose="${data.purpose}"
-                    data-start-date="${data.start_date}"
+                    data-bus-start-date="${data.start_date}"
                     data-email-address="${data.email_address}"
                     data-phone-number="${data.phone_number}"
                     data-office-location="${data.office_location}"
