@@ -2,13 +2,13 @@ import { apiClient, fileApiClient, getBaseURL } from "./api-client.js";
 import { formatCurrency } from "../utils/formaters.js"
 
 export function fetchClientsData(client_type) {
-  /*let data = apiClient("/api/v1/clients", "GET", "json", false, false, { client_type: client_type });
-  if (data != null) {
-    if (client_type === "individual") */
-    loadIndividualsTable("so");
-   /* else if (client_type === "organization")
-      loadOrganizationsTable(data.organizations);
-  }*/
+
+  if (client_type === "individual") {
+    loadIndividualsTable(client_type);
+  }
+  else if (client_type === "organization") {
+    loadOrganizationsTable(client_type);
+  }
 }
 
 export function editClient(params) {
@@ -174,7 +174,7 @@ export function fetchClientDependants(params) {
   }
 }
 
-function loadIndividualsTable(dataSet) {
+function loadIndividualsTable(client_type) {
   const url = getBaseURL()
   $("#individualsTable").DataTable({
     destroy: true,
@@ -206,7 +206,7 @@ function loadIndividualsTable(dataSet) {
       url: `${url}/api/v1/clients`,
       type: "GET",
       dataType: "json",
-      data: { client_type: "individual" },
+      data: { client_type: client_type },
       async: true,
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
@@ -220,7 +220,7 @@ function loadIndividualsTable(dataSet) {
       }
     },
   });
-  
+
 }
 
 
@@ -278,16 +278,19 @@ function getIndividualDelBtn(data, type, row, meta) {
   );
 }
 
-function loadOrganizationsTable(dataSet) {
+function loadOrganizationsTable(client_type) {
+  const url = getBaseURL();
   $("#organizationsTable").DataTable({
     destroy: true,
     responsive: true,
+    searching: true,
     ordering: true,
     lengthChange: true,
     autoWidth: false,
-    bfilter: false,
     info: true,
-    data: dataSet,
+    paging: true,  // Ensure paging is enabled
+    processing: true,
+    serverSide: true,
     columns: [
       { data: "id" },
       { data: "name" },
@@ -316,6 +319,23 @@ function loadOrganizationsTable(dataSet) {
         targets: [8],
       },
     ],
+    ajax: {
+      url: `${url}/api/v1/clients`,
+      type: "GET",
+      dataType: "json",
+      data: { client_type: client_type },
+      async: true,
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      beforeSend: function () {
+        $("body").removeClass("loading");
+      },
+      dataSrc: function (json) {
+        console.log("API Response:", json); // Verify API response
+        return json.data;
+      }
+    },
   });
 }
 
