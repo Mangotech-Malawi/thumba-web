@@ -15,8 +15,12 @@ if ( typeof configs == undefined || configs === null || configs === ''){
 
 export function apiClient(path, type, dataType, async, cache, data) {
     let result = null
+    const base_url = getBaseURL();
+
+    const url = `${base_url}${path}`
+
     $.ajax({
-        url: `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`,
+        url: url,
         type: type,
         dataType: dataType,
         async: async,
@@ -44,8 +48,9 @@ export function apiClient(path, type, dataType, async, cache, data) {
 
 export function fileApiClient(path, type, dataType, async, cache = false, data, isFile = false) {
     let result = null;
+    const base_url = getBaseURL();
 
-    const url = `${config.apiProtocol}://${config.apiURL}:${config.apiPort}${path}`
+    const url = `${base_url}${path}`
     const headers =  {
         Authorization: `Bearer ${token}`
     };
@@ -81,4 +86,20 @@ export function fileApiClient(path, type, dataType, async, cache = false, data, 
     });
 
     return result;
+}
+
+export function getConfigs(){
+    $.when(conn_data.getConfigs()).done(function(loaded_configs){
+        localStorage.setItem("configs", JSON.stringify(loaded_configs));
+        config = loaded_configs;
+    });
+}
+
+export function getBaseURL(){
+
+    if(config.apiPort != null  && typeof config.apiPort != undefined || config.apiPort != "" ){
+        return `${config.apiProtocol}://${config.apiURL}:${config.apiPort}`
+    }else{
+         return `${config.apiProtocol}://${config.apiURL}`
+    }
 }
