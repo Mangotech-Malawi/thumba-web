@@ -331,7 +331,7 @@ function getOrgEditBtn(data, type, row, meta) {
                     data-name ="${data.name}" 
                     data-category="${data.category}"
                     data-purpose="${data.purpose}"
-                    data-start-date="${data.start_date}"
+                    data-bus-start-date="${data.start_date}"
                     data-email-address="${data.email_address}"
                     data-phone-number="${data.phone_number}"
                     data-office-location="${data.office_location}"
