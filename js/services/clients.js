@@ -1,13 +1,14 @@
-import { apiClient, fileApiClient } from "./api-client.js";
+import { apiClient, fileApiClient, getBaseURL } from "./api-client.js";
 import { formatCurrency } from "../utils/formaters.js"
 
-export function fetchClientsData(state) {
-  let data = apiClient("/api/v1/clients", "GET", "json", false, false, {});
+export function fetchClientsData(client_type) {
+  /*let data = apiClient("/api/v1/clients", "GET", "json", false, false, { client_type: client_type });
   if (data != null) {
-    if (state === "individual") loadIndividualsTable(data.individuals);
-    else if (state === "organization")
+    if (client_type === "individual") */
+    loadIndividualsTable("so");
+   /* else if (client_type === "organization")
       loadOrganizationsTable(data.organizations);
-  }
+  }*/
 }
 
 export function editClient(params) {
@@ -174,6 +175,7 @@ export function fetchClientDependants(params) {
 }
 
 function loadIndividualsTable(dataSet) {
+  const url = getBaseURL()
   $("#individualsTable").DataTable({
     destroy: true,
     responsive: true,
@@ -182,7 +184,9 @@ function loadIndividualsTable(dataSet) {
     lengthChange: true,
     autoWidth: false,
     info: true,
-    data: dataSet,
+    paging: true,  // Ensure paging is enabled
+    processing: true,
+    serverSide: true,
     columns: [
       { data: "identifier" },
       { data: "firstname" },
@@ -194,24 +198,31 @@ function loadIndividualsTable(dataSet) {
       { data: null },
     ],
     columnDefs: [
-      {
-        render: getIndividualViewBtn,
-        data: null,
-        targets: [5],
-      },
-      {
-        render: getIndividualEditBtn,
-        data: null,
-        targets: [6],
-      },
-      {
-        render: getIndividualDelBtn,
-        data: null,
-        targets: [7],
-      },
+      { render: getIndividualViewBtn, data: null, targets: [5] },
+      { render: getIndividualEditBtn, data: null, targets: [6] },
+      { render: getIndividualDelBtn, data: null, targets: [7] },
     ],
+    ajax: {
+      url: `${url}/api/v1/clients`,
+      type: "GET",
+      dataType: "json",
+      data: { client_type: "individual" },
+      async: true,
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      beforeSend: function () {
+        $("body").removeClass("loading");
+      },
+      dataSrc: function (json) {
+        console.log("API Response:", json); // Verify API response
+        return json.data;
+      }
+    },
   });
+  
 }
+
 
 function getIndividualViewBtn(data, type, row, meta) {
   let dataFields = `data-record-id = "${data.id}"
