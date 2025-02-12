@@ -60,9 +60,9 @@ $(function () {
   $(document).on("click", "#saveIndividualClientBtn", function (e) {
 
     if (form.validClientFormData()) {
-      if ($("#cardTitle").text() === "Edit Client") {
+      if ($("#cardTitle").text() === "Add Client") {
         notification(
-          client.editClient(individualParams()).updated,
+          client.addClient(individualParams()).updated,
           "center",
           "success",
           "registration",
@@ -71,9 +71,9 @@ $(function () {
           true,
           3000
         );
-      } else if ($("#cardTitle").text() === "Add Client") {
+      } else if ($("#cardTitle").text() === "Edit Client") {
         notification(
-          client.addClient(individualParams()),
+          client.editClient(individualParams()).updated,
           "center",
           "success",
           "registration",
