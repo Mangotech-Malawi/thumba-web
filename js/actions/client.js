@@ -26,33 +26,6 @@ $(function () {
     currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
   }
 
-  $(document).on("show.bs.modal", modalId, function (e) {
-    let opener = e.relatedTarget;
-    let actionType = $(opener).attr("data-action-type");
-    clientType = $(opener).attr("data-client-type");
-
-    if (clientType === "organization") {
-      loadContent.loadIndividualRecordView("clientRegistration", "views/clients/organizationForm.html");
-    } else if (clientType === "individual") {
-      $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(function () {
-        loadIdentifierTypes();
-      });
-    }
-
-    if (actionType === "edit") {
-      $(modalId).find(`[id = 'regModalTitle']`).text("Edit Client");
-      $.each(opener.dataset, function (key, value) {
-        if (key === "registered") {
-          $(modalId).find(`[id = '${key}']`).prop("checked", value);
-        } else {
-          $(modalId).find(`[id = '${key}']`).val(value).change();
-        }
-      });
-    } else {
-      $(modalId).find(`[id = 'regModalTitle']`).text("Add Client");
-    }
-  });
-
   $(document).on("show.bs.modal", "#modal-del-client", function (e) {
     let opener = e.relatedTarget;
     clientType = $(opener).attr("data-client-type");
@@ -118,7 +91,7 @@ $(function () {
     if (form.validOrgClientFormData()) {
       if ($("#cardTitle").text().trim() === "Add Client") {
         notification(
-          client.addClient(individualParams()),
+          client.addClient(organizationParams()),
           "center",
           "success",
           "registration",
@@ -200,6 +173,10 @@ $(function () {
           loadIdentifierTypes();
 
           $("#cardTitle").text("Edit Client");
+
+          if(data.identifierTypeId){
+            $("#identifierType").val(data.identifierTypeId).trigger("change");
+          }
 
           $.each(data, function (key, value) {
             $(individualClientForm).find(`[id = '${key}']`).val(value);
@@ -349,7 +326,7 @@ function organizationParams(type) {
   let clientId = $("#id").val();
   let name = $("#name").val();
   let category = $("#orgCategory").val();
-  let startDate = $("#startDate").val();
+  let startDate = $("#busStartDate").val();
   let purpose = $("#purpose").val();
   let emailAddress = $("#emailAddress").val();
   let phoneNumber = $("#phoneNumber").val();
