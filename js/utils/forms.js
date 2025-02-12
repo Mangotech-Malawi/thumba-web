@@ -22,7 +22,23 @@ export function validClientFormData() {
 }
 
 export function validOrgClientFormData(){
-  
+  formElements = []
+  let validClientData = false;
+
+  pushFormElements("description", "#name", true, "Organization Name");
+  pushFormElements("startDate", "#busStartDate", true, "Start Date");
+  pushFormElements("description", "#purpose", true, "Purpose");
+  pushFormElements("email", "#emailAddress", true, "Email Address");
+  pushFormElements("phoneNumber", "#phoneNumber", true, "Phone Number");
+  pushFormElements("description", "#officeLocation", true, "Office Location");
+  pushFormElements("description", "#postalAddress", true, "Postal Address");
+
+  $.when(validate(formElements)).done(function (value) {
+    validClientData = value
+  });
+
+  return validClientData;
+
 }
 
 export function validClientJobFormData() {
