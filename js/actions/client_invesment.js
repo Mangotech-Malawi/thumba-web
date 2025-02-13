@@ -2,6 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
 import * as investment from "../services/investments.js";
+import { setRecordText } from "../utils/utils.js";
 
 const investmentForm = "#investmentForm";
 let currentDataset = null;
@@ -197,9 +198,8 @@ function clientInvestmentsSubView() {
 
         $.when(contentLoader.loadIndividualRecordView("views/clients/investmentsSubscription.html", "client_investments")).done(
             function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
-                );
+              
+                setRecordText(currentDataset, "recordName", "Investment Subscriptions");
 
                 investment.fetchClientSubscriptions({
                     client_id: currentDataset.recordId,
