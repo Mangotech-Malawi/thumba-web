@@ -37,6 +37,16 @@ export const content_view = [
     state: "organization",
   },
   {
+    title: "Client Record",
+    link: "views/clients/individualRecord.html",
+    state: "individual_records",
+  },
+  {
+    title: "Organization Record",
+    link: "views/clients/organizationRecord.html",
+    state: "organization_records",
+  },
+  {
     title: "Interests",
     link: "views/interests.html",
     modals: ["views/modals/user.html",
@@ -122,11 +132,6 @@ export const content_view = [
     link: "views/settings/grades.html",
     modals: ["views/modals/user.html", "views/modals/settings.html"],
     state: "grades",
-  },
-  {
-    title: "Client Records",
-    link: "views/clients/individualRecord.html",
-    state: "client_records",
   },
   {
     title: "Completed Applications",
