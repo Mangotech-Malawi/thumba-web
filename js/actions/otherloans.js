@@ -1,6 +1,7 @@
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
+import { setRecordText } from "../utils/utils.js";
 
 const otherloanForm = "#otherloanForm";
 let currentDataset = null;
@@ -139,9 +140,8 @@ function otherloansView(){
 
         $.when(contentLoader.loadIndividualRecordView("views/clients/otherLoans.html", "other_loans")).done(
             function () {
-                $("#recordName").text(
-                    `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
-                );
+               
+                setRecordText(currentDataset, "recordName", "Other Loans");
 
                 client.fetchClientOtherLoans({
                     client_id: currentDataset.recordId,
