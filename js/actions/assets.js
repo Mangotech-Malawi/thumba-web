@@ -1,6 +1,7 @@
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
+import { setRecordText } from "../utils/utils.js";
 
 const assetForm = "#assetForm";
 let currentDataset = null;
@@ -103,9 +104,8 @@ function loadAssetView(){
 
         $.when(contentLoader.loadIndividualRecordView("views/clients/assets.html", "assets")).done(
             function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
-                );
+
+                setRecordText(currentDataset, "recordName", "Assets");
 
                 client.fetchClientAssets({
                     client_id: currentDataset.recordId,

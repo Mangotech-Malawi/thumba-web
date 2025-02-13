@@ -1,6 +1,7 @@
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
+import { setRecordText } from "../utils/utils.js";
 
 const dependantForm = "#dependantForm";
 let currentDataset = null;
@@ -112,10 +113,9 @@ function loadDependantsView() {
         
         $.when(contentLoader.loadIndividualRecordView("views/clients/dependants.html", "dependants")).done(
             function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
-                );
-    
+               
+                setRecordText(currentDataset, "recordName", "Dependants");
+
                 client.fetchClientDependants({
                     client_id: currentDataset.recordId,
                 });

@@ -1,6 +1,7 @@
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as contentLoader from "../actions/contentLoader.js";
+import { setRecordText } from "../utils/utils.js";
 
 const businessForm = "#businessForm";
 let currentDataset = null;
@@ -122,10 +123,9 @@ function loadBusinessesView(){
 
         $.when(contentLoader.loadIndividualRecordView("views/clients/businesses.html", "businesses")).done(
             function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
-                );
-
+                
+                setRecordText(currentDataset, "recordName", "Businesses");
+    
                 client.fetchClientBusinesses({
                     client_id: currentDataset.recordId,
                 });

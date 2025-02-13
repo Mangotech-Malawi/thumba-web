@@ -648,6 +648,8 @@ export function fetchClientAssets(params) {
   if (data != null) {
     loadAssetsData(data);
   }
+
+  return data;
 }
 
 function loadAssetsData(dataset) {

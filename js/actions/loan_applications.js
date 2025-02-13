@@ -4,6 +4,7 @@ import * as contentLoader from "../actions/contentLoader.js";
 import * as interest from "../services/interests.js";
 import * as loans from "../services/loans.js";
 import { notify } from "../services/utils.js";
+import { setRecordText } from "../utils/utils.js";
 
 const loanApplicationForm = "#loanApplicationForm";
 let currentDataset = null;
@@ -133,9 +134,7 @@ function loadClientApplicationsView() {
 
         $.when(contentLoader.loadIndividualRecordView("views/clients/applications.html", "client_applications")).done(
             function () {
-                $("#recordName").text(
-                    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Loan Applications`
-                );
+                setRecordText(currentDataset, "recordName", "Loan Applications");
 
                 loans.fetchClientLoanApplications({
                     client_id: currentDataset.recordId,
@@ -209,11 +208,8 @@ function setCurrentDataSet() {
 }
 
 function loadClientCorraterals(client_id) {
-    $.when(client.getClientById(client_id)).done(function (client) {
-        if (client != null && typeof client != undefined) {
-            populateCollaterals(client.assets);
-
-        }
+    $.when(client.fetchClientAssets({ client_id: client_id })).done(function (assets) {
+        populateCollaterals(assets);
     });
 }
 
