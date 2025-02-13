@@ -203,7 +203,7 @@ function loadOtherContent(state, index) {
         });
 
         $("#pageTitle").text(content_view[index].title);
-  
+
 
       }
 
@@ -219,6 +219,12 @@ function loadOtherContent(state, index) {
           break;
         case "organization":
           client.fetchClientsData(state);
+          break;
+        case "individual_records":
+          setRecordTitle("recordName","Records"); 
+          break;
+        case "organization_records":
+          setRecordTitle("recordName","Records"); 
           break;
         case "interests":
           fetchInterests(state);
@@ -291,7 +297,7 @@ function loadOtherContent(state, index) {
           loans.fetchLoanApplications({ status_name: "DUMPED" });
           break;
         case "client_investments":
-          loadClientInvestments();    
+          loadClientInvestments();
           break;
         case "investment_packages":
           investment.fetchInvestimentPackages();
@@ -332,7 +338,7 @@ function loadOtherContent(state, index) {
 }
 
 function populateApplicationStatusesStats(statuses_stats) {
-  if(statuses_stats != null)
+  if (statuses_stats != null)
     statuses_stats.forEach(function (status_stat, index) {
       if (status_stat.name === "NEW") {
         $("#status-new").text(status_stat.num_of_applications);
@@ -346,22 +352,20 @@ function populateApplicationStatusesStats(statuses_stats) {
     });
 }
 
+
 function loadDemographics() {
-  $.each(getDataset("clientDataSet"), function (key, value) {
+  const currentDataset = getDataset("clientDataSet");
+  $.each(currentDataset, function (key, value) {
     $("#demographics").find(`[id = '${key}']`).text(value);
   });
 
   $("#recordName").text(
-    `${clientDataSet.recordFirstname} ${clientDataSet.recordLastname} Demographics`
+    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
   );
 }
 
 function loadClientJobs() {
-  let currentDataset = getDataset("clientDataSet");
-
-  $("#recordName").text(
-    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Jobs`
-  );
+  const currentDataset = setRecordTitle("recordName", "Jobs");
 
   client.fetchClientJobs({
     client_id: currentDataset.recordId,
@@ -369,10 +373,7 @@ function loadClientJobs() {
 }
 
 function loadClientDependants() {
-  let currentDataset = getDataset("clientDataSet");
-  $("#recordName").text(
-    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Dependants`
-  );
+  const currentDataset = setRecordTitle("recordName", "Dependants");
 
   client.fetchClientDependants({
     client_id: currentDataset.recordId,
@@ -380,10 +381,7 @@ function loadClientDependants() {
 }
 
 function loadClientBusinesses() {
-  let currentDataset = getDataset("clientDataSet");
-  $("#recordName").text(
-    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Businesses`
-  );
+  const currentDataset = setRecordTitle("recordName", "Businesses");
 
   client.fetchClientBusinesses({
     client_id: currentDataset.recordId,
@@ -391,10 +389,7 @@ function loadClientBusinesses() {
 }
 
 function loadClientAssets() {
-  let currentDataset = getDataset("clientDataSet");
-  $("#recordName").text(
-    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Assets`
-  );
+  const currentDataset = setRecordTitle("recordName", "Assets");
 
   client.fetchClientAssets({
     client_id: currentDataset.recordId,
@@ -402,11 +397,7 @@ function loadClientAssets() {
 }
 
 function loadClientOtherLoans() {
-  let currentDataset = getDataset("clientDataSet");
-
-  $("#recordName").text(
-    `Other Loans of ${currentDataset.recordFirstname} ${currentDataset.recordLastname}`
-  );
+  const currentDataset = setRecordTitle("recordName", "Other Loams");
 
   client.fetchClientOtherLoans({
     client_id: currentDataset.recordId,
@@ -414,10 +405,7 @@ function loadClientOtherLoans() {
 }
 
 function loadClientInvestments() {
-  let currentDataset = getDataset("clientDataSet");
-  $("#recordName").text(
-    `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Investment Subscriptions`
-  );
+  const currentDataset = setRecordTitle("recordName", "Investment Subscriptions");
 
   investment.fetchClientSubscriptions({
     client_id: currentDataset.recordId,
@@ -429,6 +417,23 @@ function loadLoanPayments() {
   $("#paymentLoanId").val(currentDataset.loanId);
   $("#paymentTitle").text(`Loan Payments for ${currentDataset.firstname} ${currentDataset.lastname}`);
   $.when(loans.fetchLoanPayments({ loan_id: currentDataset.loanId })).done(function () { });
+
+}
+
+function setRecordTitle(titleId, recordName) {
+  const currentDataset = getDataset("clientDataSet");
+
+  if (currentDataset.clientType === "individual") {
+    $(`#${titleId}`).text(
+      `${currentDataset.recordFirstname} ${currentDataset.recordLastname} ${recordName}`
+    );
+  } else if (currentDataset.clientType === "organization") {
+    $(`#${titleId}`).text(
+      `${currentDataset.orgName} ${recordName}`
+    );
+  }
+
+  return currentDataset;
 
 }
 
