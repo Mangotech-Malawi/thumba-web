@@ -126,7 +126,7 @@ $(function () {
     let clientType = this.dataset.clientType;
 
     if (clientType === "individual") {
-      loadContent.loadRecord("views/clients/individualRecord.html", "client_records");
+      loadContent.loadRecord("views/clients/individualRecord.html", "individual_records");
       $("#recordName").text(
         `${this.dataset.recordFirstname} ${this.dataset.recordLastname} Records`
       );
@@ -221,13 +221,13 @@ $(function () {
   $(document).on("click", "#recordBackBtn", function () {
     clientType = currentDataset.clientType;
     if (clientType === "individual") {
-      loadContent.loadRecord("views/clients/individualRecord.html", "client_records");
+      loadContent.loadRecord("views/clients/individualRecord.html", "individual_records");
       $("#recordName").text(
         `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Records`
       );
     } else if (clientType === "organization") {
       loadContent.loadRecord("views/clients/organizationRecord.html", "organization_records");
-      `${data.name} Records`
+      `${currentDataset.orgName} Records`
     }
   });
 
