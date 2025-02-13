@@ -340,7 +340,7 @@ function loadOrganizationsTable(client_type) {
 }
 
 function getOrgViewBtn(data, type, row, meta) {
-  let dataFields = `data-id ="${data.id}"
+  let dataFields = `data-record-id ="${data.id}"
                     data-org-name ="${data.name}" 
                     data-category="${data.category}"
                     data-purpose="${data.purpose}"
