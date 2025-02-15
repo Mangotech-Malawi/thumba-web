@@ -175,8 +175,10 @@ export function fetchClientDependants(params) {
 }
 
 function loadIndividualsTable(client_type) {
-  const url = getBaseURL()
-  $("#individualsTable").DataTable({
+  const url = getBaseURL();
+  let selectedClients = new Set(); // Use Set to store unique client IDs
+
+  const table = $("#individualsTable").DataTable({
     destroy: true,
     responsive: true,
     searching: true,
@@ -184,10 +186,18 @@ function loadIndividualsTable(client_type) {
     lengthChange: true,
     autoWidth: false,
     info: true,
-    paging: true,  // Ensure paging is enabled
+    paging: true,
     processing: true,
     serverSide: true,
     columns: [
+      { 
+        data: null, 
+        orderable: false, 
+        className: "select-checkbox",
+        render: function (data, type, row) {
+          return `<input type="checkbox" class="client-checkbox" data-id="${row.identifier}">`;
+        }
+      },
       { data: "identifier" },
       { data: "firstname" },
       { data: "lastname" },
@@ -198,10 +208,13 @@ function loadIndividualsTable(client_type) {
       { data: null },
     ],
     columnDefs: [
-      { render: getIndividualViewBtn, data: null, targets: [5] },
-      { render: getIndividualEditBtn, data: null, targets: [6] },
-      { render: getIndividualDelBtn, data: null, targets: [7] },
+      { targets: 0, orderable: false }, // Ensure no ordering on checkbox column
+      { targets: 1, orderable: true },
+      { render: getIndividualViewBtn, data: null, targets: [6] },
+      { render: getIndividualEditBtn, data: null, targets: [7] },
+      { render: getIndividualDelBtn, data: null, targets: [8] },
     ],
+    order: [[1, "asc"]], // Default sorting on the second column (identifier)
     ajax: {
       url: `${url}/api/v1/clients`,
       type: "GET",
@@ -215,12 +228,53 @@ function loadIndividualsTable(client_type) {
         $("body").removeClass("loading");
       },
       dataSrc: function (json) {
-        console.log("API Response:", json); // Verify API response
+        console.log("API Response:", json);
         return json.data;
       }
     },
+    initComplete: function () {
+      $("#individualsTable thead tr").prepend(`
+        <th>
+          <input type="checkbox" id="select-all">
+        </th>
+      `);
+
+      // Handle select-all functionality
+      $("#select-all").on("click", function () {
+        let isChecked = $(this).prop("checked");
+        $(".client-checkbox").each(function () {
+          let clientId = $(this).data("id");
+          $(this).prop("checked", isChecked);
+          if (isChecked) {
+            selectedClients.add(clientId);
+          } else {
+            selectedClients.delete(clientId);
+          }
+        });
+        console.log("Selected Clients:", Array.from(selectedClients));
+      });
+    },
+    drawCallback: function () {
+      // Restore checked states when table redraws (e.g., pagination)
+      $(".client-checkbox").each(function () {
+        let clientId = $(this).data("id");
+        if (selectedClients.has(clientId)) {
+          $(this).prop("checked", true);
+        }
+      });
+    }
   });
 
+  // Handle individual checkbox selection
+  $(document).on("change", ".client-checkbox", function () {
+    let clientId = $(this).data("id");
+    if ($(this).is(":checked")) {
+      selectedClients.add(clientId);
+    } else {
+      selectedClients.delete(clientId);
+    }
+    console.log("Selected Clients:", Array.from(selectedClients));
+  });
 }
 
 

@@ -232,7 +232,7 @@ $(function () {
   });
 
   $(document).on("click", "#clientsBackBtn", function () {
-    clientType = this.dataset.clientType;
+    clientType = currentDataset.clientType
     if (clientType === "individual") {
       $.when(loadContent.loadRecord("views/clients/individuals.html", "individual")).done(function () {
         client.fetchClientsData(clientType);
