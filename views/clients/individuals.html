@@ -2,25 +2,28 @@
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Individuals</h3>
-         
-     
+
+
 
       <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-12 text-right">
-            <!-- Button for calling add organisation modal -->
-            <button
-            type="button"
-            class="btn bg-gradient-success text-left"
-            id="addClientForm"
-         
-            data-action-type="add"
-            data-client-type="individual"
-          >
+          <!-- Button for calling add organisation modal -->
+          <button type="button" class="btn bg-gradient-success text-left" id="addClientForm" data-action-type="add"
+            data-client-type="individual">
             <i class="fa fa-plus-square"></i> New Client
           </button>
-            
+          <button type="button" class="btn bg-gradient-info text-left d-none" id="createGroupFormBtn" 
+              data-toggle="modal"
+              data-target="#modal-group-client"
+               >
+            <i class="fa fa-plus-square"></i> New Group
+          </button>
+          <button type="button" class="btn bg-gradient-info text-left d-none" id="addToGroupFormBtn" >
+            <i class="fa fa-plus-square"></i> Add To Group
+          </button>
+
         </div>
-    </div>
+      </div>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -38,7 +41,7 @@
           </tr>
         </thead>
         <tbody></tbody>
-        
+
       </table>
     </div>
     <!-- /.card-body -->

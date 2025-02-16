@@ -15,7 +15,9 @@ export const content_view = [
   {
     title: "Individuals",
     link: "views/clients/individuals.html",
-    modals: ["views/modals/client.html", "views/modals/user.html"],
+    modals: ["views/modals/client.html", 
+            "views/modals/user.html",
+          "views/modals/group_client.html"],
     state: "individual",
   },
   {
