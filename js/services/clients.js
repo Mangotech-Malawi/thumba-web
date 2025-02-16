@@ -1,6 +1,8 @@
 import { apiClient, fileApiClient, getBaseURL } from "./api-client.js";
 import { formatCurrency } from "../utils/formaters.js"
 
+let selectedClients = new Set();
+
 export function fetchClientsData(client_type) {
 
   if (client_type === "individual") {
@@ -176,7 +178,7 @@ export function fetchClientDependants(params) {
 
 function loadIndividualsTable(client_type) {
   const url = getBaseURL();
-  let selectedClients = new Set(); // Use Set to store unique client IDs
+  // Use Set to store unique client IDs
 
   const table = $("#individualsTable").DataTable({
     destroy: true,
@@ -195,7 +197,7 @@ function loadIndividualsTable(client_type) {
         orderable: false, 
         className: "select-checkbox",
         render: function (data, type, row) {
-          return `<input type="checkbox" class="client-checkbox" data-id="${row.identifier}">`;
+          return `<input type="checkbox" class="client-checkbox" data-id="${data.id}">`;
         }
       },
       { data: "identifier" },
@@ -273,8 +275,19 @@ function loadIndividualsTable(client_type) {
     } else {
       selectedClients.delete(clientId);
     }
-    console.log("Selected Clients:", Array.from(selectedClients));
+    
+    if(selectedClients.size > 1){
+      $("#createGroupFormBtn").removeClass("d-none");
+      $("#addToGroupFormBtn").removeClass("d-none");
+    }else{
+      $("#createGroupFormBtn").addClass("d-none");
+      $("#addToGroupFormBtn").addClass("d-none");
+    }
   });
+}
+
+export function getSelectedClients(){
+  return Array.from(selectedClients)
 }
 
 
