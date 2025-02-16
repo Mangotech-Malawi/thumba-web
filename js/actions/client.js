@@ -2,6 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as loadContent from "../actions/contentLoader.js";
 import { loadIdentifierTypes } from "../services/users.js";
+import { notify } from "../utils/utils.js";
 
 let cameraFeed = document.getElementById("cameraFeed");
 let cameraCanvas = document.getElementById("cameraCanvas");
@@ -174,7 +175,7 @@ $(function () {
 
           $("#cardTitle").text("Edit Client");
 
-          if(data.identifierTypeId){
+          if (data.identifierTypeId) {
             $("#identifierType").val(data.identifierTypeId).trigger("change");
           }
 
@@ -200,6 +201,32 @@ $(function () {
 
   });
 
+
+  $(document).on("click", "#createGroupForm", function (e) {
+    const selectedClients = client.getSelectedClients();
+
+    if (typeof selectedClients != undefined && selectedClients != "" && selectedClients != null) {
+      if (selectedClients.length > 1) {
+          
+      } else {
+        notify(
+          "center",
+          "error",
+          "Cannot create group",
+          "More than one client should be selected",
+          true,
+          3000)
+      }
+    } else {
+      notify(
+        "center",
+        "error",
+        "Cannot create group",
+        "Please select clients to create a group",
+        true,
+        3000)
+    }
+  });
 
 
   $(document).on("click", "#btnDemographics", function (e) {
