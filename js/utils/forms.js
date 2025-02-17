@@ -21,7 +21,7 @@ export function validClientFormData() {
   return validClientData;
 }
 
-export function validOrgClientFormData(){
+export function validOrgClientFormData() {
   formElements = []
   let validClientData = false;
 
@@ -32,6 +32,20 @@ export function validOrgClientFormData(){
   pushFormElements("phoneNumber", "#phoneNumber", true, "Phone Number");
   pushFormElements("description", "#officeLocation", true, "Office Location");
   pushFormElements("description", "#postalAddress", true, "Postal Address");
+
+  $.when(validate(formElements)).done(function (value) {
+    validClientData = value
+  });
+
+  return validClientData;
+
+}
+
+export function validGroupClientFormData() {
+  formElements = []
+  let validClientData = false;
+
+  pushFormElements("description", "#groupName", true, "Group Name");
 
   $.when(validate(formElements)).done(function (value) {
     validClientData = value
@@ -251,7 +265,7 @@ export function validateExpenseForm() {
   return validData;
 }
 
-export function validateUserRegistrationForm(){
+export function validateUserRegistrationForm() {
   formElements = []
 
   let validData = false;
@@ -271,11 +285,11 @@ export function validateUserRegistrationForm(){
 }
 
 
-export function validateUserInvitationForm(){
+export function validateUserInvitationForm() {
   formElements = []
 
   let validData = false;
-  
+
   pushFormElements("email", "#email", true, "Email");
   pushFormElements("", "#role", true, "User Role");
 
@@ -286,7 +300,7 @@ export function validateUserInvitationForm(){
   return validData;
 }
 
-export function validateAnalysisScoreForm(){
+export function validateAnalysisScoreForm() {
   formElements = []
 
   let validData = false;
@@ -302,7 +316,7 @@ export function validateAnalysisScoreForm(){
 }
 
 
-export function validateAnalysisScoreNameForm(){
+export function validateAnalysisScoreNameForm() {
   formElements = []
 
   let validData = false;
@@ -318,14 +332,14 @@ export function validateAnalysisScoreNameForm(){
   return validData;
 }
 
-export function validateDTIRatioForm(){
+export function validateDTIRatioForm() {
   formElements = [];
 
   let validData = false;
 
   pushFormElements("", "#dtiScoreNames", true, "DTI Score Name");
   pushFormElements("positiveDoubleNumber", "#minRatio", true, "Minimum Ratio");
-  pushFormElements("positiveDoubleNumber","#maxRatio", true, "Maximum Ratio");
+  pushFormElements("positiveDoubleNumber", "#maxRatio", true, "Maximum Ratio");
 
   $.when(validate(formElements)).done(function (value) {
     validData = value;
@@ -335,7 +349,7 @@ export function validateDTIRatioForm(){
 
 }
 
-export function validateGradeForm(){
+export function validateGradeForm() {
   formElements = []
 
   let validData = false;
@@ -351,7 +365,7 @@ export function validateGradeForm(){
   return validData;
 }
 
-export function validateAccountSettingsForm(){
+export function validateAccountSettingsForm() {
   formElements = []
 
   let validData = false
@@ -366,7 +380,7 @@ export function validateAccountSettingsForm(){
   });
 
   return validData;
-  
+
 }
 
 
