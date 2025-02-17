@@ -15,6 +15,7 @@ const organizationClientForm = "#organizationClientForm";
 const individualClientForm = "#individualClientForm";
 let clientType = null;
 let currentDataset = null;
+let selectedClients = null;
 
 
 const otherloanModal = "#modal-client-otherloan";
@@ -203,11 +204,15 @@ $(function () {
 
 
   $(document).on("click", "#createGroupForm", function (e) {
-    const selectedClients = client.getSelectedClients();
+
+  });
+
+  $(document).on("show.bs.modal", "#modal-group-client", function (e) {
+    selectedClients = client.getSelectedClients();
 
     if (typeof selectedClients != undefined && selectedClients != "" && selectedClients != null) {
       if (selectedClients.length > 1) {
-          
+
       } else {
         notify(
           "center",
@@ -226,6 +231,36 @@ $(function () {
         true,
         3000)
     }
+  });
+
+  $(document).on("click", "#saveGroupBtn", function (e) {
+
+    const groupId = $("#groupId").val();
+    const groupName = $("#groupName").val();
+    const category = $("#category").val();
+
+    const group_params = {
+      group_id: groupId,
+      group_name: groupName,
+      category: category,
+      group_clients: selectedClients,
+      client_type: "group"
+    }
+
+    if (form.validGroupClientFormData()) {
+      notification(
+        client.addClient(group_params),
+        "center",
+        "success",
+        "registration",
+        "Add Group Client",
+        "Client has been added successfully",
+        true,
+        3000
+      );
+    }
+
+
   });
 
 
