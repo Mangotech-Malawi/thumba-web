@@ -192,12 +192,14 @@ function loadIndividualsTable(client_type) {
     processing: true,
     serverSide: true,
     columns: [
-      { 
-        data: null, 
-        orderable: false, 
+      {
+        data: null,
+        orderable: false,
         className: "select-checkbox",
         render: function (data, type, row) {
-          return `<input type="checkbox" class="client-checkbox" data-id="${data.id}">`;
+
+          const dataFields = getIndividualDatafields(data);
+          return `<input type="checkbox" class="client-checkbox" ${dataFields}>`;
         }
       },
       { data: "identifier" },
@@ -245,7 +247,7 @@ function loadIndividualsTable(client_type) {
       $("#select-all").on("click", function () {
         let isChecked = $(this).prop("checked");
         $(".client-checkbox").each(function () {
-          let clientId = $(this).data("id");
+          let clientId = $(this).data("record-id");
           $(this).prop("checked", isChecked);
           if (isChecked) {
             selectedClients.add(clientId);
@@ -259,7 +261,7 @@ function loadIndividualsTable(client_type) {
     drawCallback: function () {
       // Restore checked states when table redraws (e.g., pagination)
       $(".client-checkbox").each(function () {
-        let clientId = $(this).data("id");
+        let clientId = $(this).data("record-id");
         if (selectedClients.has(clientId)) {
           $(this).prop("checked", true);
         }
@@ -269,48 +271,52 @@ function loadIndividualsTable(client_type) {
 
   // Handle individual checkbox selection
   $(document).on("change", ".client-checkbox", function () {
-    let clientId = $(this).data("id");
+    let clientId = $(this).data("record-id");
     if ($(this).is(":checked")) {
       selectedClients.add(clientId);
     } else {
       selectedClients.delete(clientId);
     }
-    
-    if(selectedClients.size > 1){
+
+    if (selectedClients.size > 1) {
       $("#createGroupFormBtn").removeClass("d-none");
       $("#addToGroupFormBtn").removeClass("d-none");
-    }else{
+    } else {
       $("#createGroupFormBtn").addClass("d-none");
       $("#addToGroupFormBtn").addClass("d-none");
     }
   });
 }
 
-export function getSelectedClients(){
+export function getSelectedClients() {
   return Array.from(selectedClients)
 }
 
 
 function getIndividualViewBtn(data, type, row, meta) {
-  let dataFields = `data-record-id = "${data.id}"
-                    data-record-identifier  = "${data.identifier}" 
-                    data-record-firstname  = "${data.firstname}" 
-                    data-record-lastname = "${data.lastname}"
-                    data-record-gender = "${data.gender}"
-                    data-record-date-of-birth = "${data.date_of_birth}"
-                    data-record-home-district ="${data.home_district}"
-                    data-record-home-ta ="${data.home_ta}"
-                    data-record-home-village ="${data.home_village}"
-                    data-record-current-district ="${data.current_district}"
-                    data-record-current-ta ="${data.current_ta}"
-                    data-record-current-village ="${data.current_village}"
-                    data-record-nearest-landmark="${data.nearest_landmark}"
-                    data-record-created-at = "${data.created_at}"
-                    data-profile-picture = "${data.profile_picture}"
-                    data-client-type = "individual"`;
+  let dataFields = getIndividualDatafields(data)
 
   return `<button type='button' class="btn btn-block btn-primary recordBtn" 
        ${dataFields} > <i class="fas fa-file" aria-hidden="true"></i></button>`;
+}
+
+function getIndividualDatafields(data) {
+  return `data-record-id = "${data.id}"
+          data-record-identifier  = "${data.identifier}" 
+          data-record-firstname  = "${data.firstname}" 
+          data-record-lastname = "${data.lastname}"
+          data-record-gender = "${data.gender}"
+          data-record-date-of-birth = "${data.date_of_birth}"
+          data-record-home-district ="${data.home_district}"
+          data-record-home-ta ="${data.home_ta}"
+          data-record-home-village ="${data.home_village}"
+          data-record-current-district ="${data.current_district}"
+          data-record-current-ta ="${data.current_ta}"
+          data-record-current-village ="${data.current_village}"
+          data-record-nearest-landmark="${data.nearest_landmark}"
+          data-record-created-at = "${data.created_at}"
+          data-profile-picture = "${data.profile_picture}"
+          data-client-type = "individual"`;
 }
 
 function getIndividualEditBtn(data, type, row, meta) {
