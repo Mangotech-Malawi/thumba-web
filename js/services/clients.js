@@ -10,6 +10,8 @@ export function fetchClientsData(client_type) {
   }
   else if (client_type === "organization") {
     loadOrganizationsTable(client_type);
+  } else if (client_type === "group") {
+    loadGroupsTable(client_type)
   }
 }
 
@@ -455,6 +457,101 @@ function getOrgDelBtn(data, type, row, metas) {
     "fa fa-trash"
   );
 }
+
+function loadGroupsTable(client_type) {
+  const url = getBaseURL();
+  $("#groupsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    paging: true,  // Ensure paging is enabled
+    processing: true,
+    serverSide: true,
+    columns: [
+      { data: "id" },
+      { data: "name" },
+      { data: "category", defaultContent: "" },
+      { data: "total_members", defaultContent: "null" },
+      { data: null },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getGroupViewBtn,
+        data: null,
+        targets: [4],
+      },
+      {
+        render: getGroupEditBtn,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getGroupDelBtn,
+        data: null,
+        targets: [6],
+      },
+    ],
+    ajax: {
+      url: `${url}/api/v1/clients`,
+      type: "GET",
+      dataType: "json",
+      data: { client_type: client_type },
+      async: true,
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      beforeSend: function () {
+        $("body").removeClass("loading");
+      },
+      dataSrc: function (json) {
+        console.log("API Response:", json); // Verify API response
+        return json.data;
+      }
+    },
+  });
+}
+
+function getGroupViewBtn(data, type, row, meta) {
+  let dataFields = `data-record-id ="${data.id}"
+                    data-group-id ="${data.group_id}"
+                    data-group-name="${data.name}" 
+                    data-category="${data.category}"
+                    data-total-members="${data.category}"
+                    data-client-type = "group"`;
+
+  return `<button type='button' class="btn btn-block btn-primary recordBtn" 
+${dataFields} > <i class="fas fa-file" aria-hidden="true"></i></button>`;
+}
+
+function getGroupEditBtn(data, type, row, meta) {
+
+  let dataFields = `data-record-id ="${data.id}"
+                    data-group-id ="${data.group_id}"
+                    data-group-name="${data.name}" 
+                    data-category="${data.category}"
+                    data-total-members="${data.category}"
+                    data-action-type = "edit"
+                    data-client-type = "group"`;
+
+  return getButton(dataFields, "", "default edit-client", "fas fa-edit");
+
+}
+
+function getGroupDelBtn(data, type, row, meta) {
+  return getButton(
+    `data-id = "${data.id}" data-client-type = "organization"`,
+    "del-client",
+    "danger",
+    "fa fa-trash"
+  );
+}
+
 
 //Clients Jobs Code
 function loadClientJobs(dataset) {
