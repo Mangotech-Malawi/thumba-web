@@ -15,10 +15,26 @@ export const content_view = [
   {
     title: "Individuals",
     link: "views/clients/individuals.html",
+    modals: ["views/modals/client.html",
+      "views/modals/user.html",
+      "views/modals/group_client.html"],
+    state: "individual",
+  },
+  {
+    title: "groups",
+    link: "views/clients/groups.html",
+    modals: ["views/modals/client.html",
+      "views/modals/user.html",
+      "views/modals/group_client.html"],
+    state: "group",
+  },
+  {
+    title: "Group Record ",
+    link: "views/clients/groupRecord.html",
     modals: ["views/modals/client.html", 
             "views/modals/user.html",
           "views/modals/group_client.html"],
-    state: "individual",
+    state: "group_rcords",
   },
   {
     title: "Client Form",
@@ -271,7 +287,7 @@ export const content_view = [
     title: "Return On Investments",
     link: "views/investments/rois.html",
     state: "return_on_investments",
-    modals: ["views/modals/investment.html","views/modals/user.html"]
+    modals: ["views/modals/investment.html", "views/modals/user.html"]
   },
   {
     title: "My Investments",
@@ -289,7 +305,7 @@ export const content_view = [
     title: "Expenses",
     link: "views/accounts/expenses.html",
     state: "expenses",
-    modals: ["views/modals/expense.html","views/modals/user.html"]
+    modals: ["views/modals/expense.html", "views/modals/user.html"]
   },
   {
     title: "Email Subscription",
