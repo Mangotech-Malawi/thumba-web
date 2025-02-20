@@ -137,6 +137,11 @@ $(function () {
       $("#recordName").text(
         `${this.dataset.orgName} Records`
       );
+    } else if (clientType === "group") {
+      loadContent.loadRecord("views/clients/groupRecord.html", "group_records");
+      $("#recordName").text(
+        `${this.dataset.groupName} Records`
+      );
     }
   });
 
@@ -290,6 +295,9 @@ $(function () {
     } else if (clientType === "organization") {
       loadContent.loadRecord("views/clients/organizationRecord.html", "organization_records");
       `${currentDataset.orgName} Records`
+    } else if (clientType === "group") {
+      loadContent.loadRecord("views/clients/groupRecord.html", "group_records");
+      `${currentDataset.groupName} Records`
     }
   });
 
@@ -301,6 +309,10 @@ $(function () {
       });
     } else if (clientType === "organization") {
       $.when(loadContent.loadRecord("views/clients/organizations.html", "organization")).done(function () {
+        client.fetchClientsData(clientType);
+      });
+    } else if (clientType === "group"){
+      $.when(loadContent.loadRecord("views/clients/groups.html", "group")).done(function () {
         client.fetchClientsData(clientType);
       });
     }
