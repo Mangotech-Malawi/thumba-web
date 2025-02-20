@@ -44,6 +44,10 @@ $(document).ready(function () {
     selectContent("organization");
   });
 
+  $("#groupClient").on("click", function (e) {
+    selectContent("group");
+  });
+
   //The folloing are user management links
   $("#loans").on("click", function (e) {
     selectContent("loans");
@@ -156,7 +160,6 @@ $(document).ready(function () {
     selectContent("account_settings");
   });
 
-
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
@@ -214,6 +217,9 @@ function loadOtherContent(state, index) {
           users.fetchUsers();
           users.fetchInvitations();
           break;
+        case "group":
+          client.fetchClientsData(state);
+          break;
         case "individual":
           client.fetchClientsData(state);
           break;
@@ -221,10 +227,13 @@ function loadOtherContent(state, index) {
           client.fetchClientsData(state);
           break;
         case "individual_records":
-          setRecordTitle("recordName","Records"); 
+          setRecordTitle("recordName", "Records");
           break;
         case "organization_records":
-          setRecordTitle("recordName","Records"); 
+          setRecordTitle("recordName", "Records");
+          break;
+        case "group_records":
+          setRecordTitle("recordName", "Records");
           break;
         case "interests":
           fetchInterests(state);
