@@ -142,6 +142,8 @@ $(function () {
       $("#recordName").text(
         `${this.dataset.groupName} Records`
       );
+
+      populateGroupDetails(currentDataset);
     }
   });
 
@@ -528,6 +530,12 @@ function clearFields(formId) {
     .val("")
     .prop("checked", false)
     .prop("selected", false);
+}
+
+function populateGroupDetails(currentDataset){
+  $.each(currentDataset, function (key, value) {
+    $("#groupDetails").find(`[id = '${key}']`).text(value);
+  });
 }
 
 

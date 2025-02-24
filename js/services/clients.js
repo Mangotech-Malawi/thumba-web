@@ -522,7 +522,7 @@ function getGroupViewBtn(data, type, row, meta) {
                     data-group-id ="${data.group_id}"
                     data-group-name="${data.name}" 
                     data-category="${data.category}"
-                    data-total-members="${data.category}"
+                    data-total-members="${data.total_members}"
                     data-client-type = "group"`;
 
   return `<button type='button' class="btn btn-block btn-primary recordBtn" 
