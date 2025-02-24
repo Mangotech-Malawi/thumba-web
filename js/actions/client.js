@@ -132,6 +132,8 @@ $(function () {
       $("#recordName").text(
         `${this.dataset.recordFirstname} ${this.dataset.recordLastname} Records`
       );
+
+      populateClientsDetails(currentDataset);
     } else if (clientType === "organization") {
       loadContent.loadRecord("views/clients/organizationRecord.html", "organization_records");
       $("#recordName").text(
@@ -545,6 +547,13 @@ function populateOrganizationDetails(currentDataset){
     $("#organizationDetails").find(`[id = '${key}']`).text(value);
   });
 }
+
+function populateClientsDetails(currentDataset){
+  $.each(currentDataset, function (key, value) {
+    $("#clientDetails").find(`[id = '${key}']`).text(value);
+  });
+}
+
 
 
 
