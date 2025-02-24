@@ -160,6 +160,7 @@ $(document).ready(function () {
     selectContent("account_settings");
   });
 
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
