@@ -137,6 +137,8 @@ $(function () {
       $("#recordName").text(
         `${this.dataset.orgName} Records`
       );
+
+      populateOrganizationDetails(currentDataset);
     } else if (clientType === "group") {
       loadContent.loadRecord("views/clients/groupRecord.html", "group_records");
       $("#recordName").text(
@@ -535,6 +537,12 @@ function clearFields(formId) {
 function populateGroupDetails(currentDataset){
   $.each(currentDataset, function (key, value) {
     $("#groupDetails").find(`[id = '${key}']`).text(value);
+  });
+}
+
+function populateOrganizationDetails(currentDataset){
+  $.each(currentDataset, function (key, value) {
+    $("#organizationDetails").find(`[id = '${key}']`).text(value);
   });
 }
 
