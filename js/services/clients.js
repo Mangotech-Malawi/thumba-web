@@ -178,6 +178,21 @@ export function fetchClientDependants(params) {
   }
 }
 
+export function fetchGroupMembers(params) {
+  let data = apiClient(
+    "/api/v1/clients/members",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  if (data != null) {
+    loadGroupMembers(data);
+  }
+}
+
 function loadIndividualsTable(client_type) {
   const url = getBaseURL();
   // Use Set to store unique client IDs
@@ -549,6 +564,45 @@ function getGroupDelBtn(data, type, row, meta) {
     "del-client",
     "danger",
     "fa fa-trash"
+  );
+}
+
+
+
+function loadGroupMembers(dataset) {
+  $("#membersTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "identifier" },
+      { data: "firstname" },
+      { data: "lastname" },
+      { data: "gender" },
+      { data: "date_of_birth" },
+      { data: null },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      { render: getIndividualViewBtn, data: null, targets: [5] },
+      { render: getIndividualEditBtn, data: null, targets: [6] },
+      { render: getRemoveDelBtn, data: null, targets: [7] },
+    ],
+  });
+}
+
+function getRemoveDelBtn(data, type, row, meta) {
+  return getButton(
+    `data-id = "${data.id}" data-client-type = "individual"`,
+    "del-member",
+    "danger",
+    "fa fa-times"
   );
 }
 
