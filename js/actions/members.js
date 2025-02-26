@@ -6,29 +6,25 @@ import { setRecordText } from "../utils/utils.js";
 let currentDataset = null;
 localStorage;
 
-$(function (){
+$(function () {
 
     $(document).on("click", "#btnMembers", function (e) {
         loadDependantsView();
     });
-
-
-
-
 
 });
 
 function loadDependantsView() {
     if (localStorage.getItem("clientDataSet") != null) {
         currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-        
+
         $.when(contentLoader.loadIndividualRecordView("views/clients/members.html", "members")).done(
             function () {
-               
+
                 setRecordText(currentDataset, "recordName", "Members");
 
-                client.fetchClientDependants({
-                    client_id: currentDataset.recordId,
+                client.fetchGroupMembers({
+                    group_id: currentDataset.groupId,
                 });
             }
         );
