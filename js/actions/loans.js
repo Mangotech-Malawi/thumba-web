@@ -1,8 +1,10 @@
 import * as loans from "../services/loans.js";
 import { notify } from "../services/utils.js";
 import { loadContent } from "./contentLoader.js";
+import * as contentLoader from "../actions/contentLoader.js";
 import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
+import { setRecordText } from "../utils/utils.js";
 
 const applicationModal = "#modal-loan-application";
 const guarantorModal = "#modal-guarantors";
@@ -17,6 +19,7 @@ let paymentDate;
 let loan_id;
 localStorage;
 let currentLoanPaymentDataset;
+let currentDataset = null;
 
 $(function () {
 
@@ -27,6 +30,10 @@ $(function () {
     $("#paymentTitle").text(`Loan Payments for ${currentLoanPaymentDataset.applicant}`);
   }
 
+
+  $(document).on("click", "#btnLoans", function (e) {
+    loadLoansView();
+  });
 
   $(document).on("click", "#statusNew", function (e) {
     $.when(loadApplicationStatusView("views/loans/new.html", "new_applications")).done(function () {
@@ -151,31 +158,31 @@ $(function () {
   $(document).on("click", ".loan-agreement", function (e) {
 
     let agreement_params = {
-                            loan_application_id: $(this).data().loanApplicationId,
-                            applicant: $(this).data().applicant,
-                            purpose: $(this).data().purpose,
-                            amount: $(this).data().amount,
-                            rate:  $(this).data().rate,
-                            compounding_frequency:  $(this).data().compoundingFrequency,
-                            rate_type: $(this).data().rateType,
-                            loan_term_type: $(this).data().loanTermType,
-                            monthly_payment: $(this).data().monthlyPayment,
-                            repayment_terms: $(this).data().repaymentTerms,
-                            current_address: $(this).data().currentAddress,
-                            accum_amount:  $(this).data().accumAmount,
-                            accum_days:  $(this).data().accumDays,
-                            grace_period:  $(this).data().gracePeriod
-                           }
+      loan_application_id: $(this).data().loanApplicationId,
+      applicant: $(this).data().applicant,
+      purpose: $(this).data().purpose,
+      amount: $(this).data().amount,
+      rate: $(this).data().rate,
+      compounding_frequency: $(this).data().compoundingFrequency,
+      rate_type: $(this).data().rateType,
+      loan_term_type: $(this).data().loanTermType,
+      monthly_payment: $(this).data().monthlyPayment,
+      repayment_terms: $(this).data().repaymentTerms,
+      current_address: $(this).data().currentAddress,
+      accum_amount: $(this).data().accumAmount,
+      accum_days: $(this).data().accumDays,
+      grace_period: $(this).data().gracePeriod
+    }
 
     $.when(loans.getLoanAgreement(agreement_params)).done(function (htmlContent) {
-        if (htmlContent) {
-          let win = window.open("", "", "");
-          win.document.write(htmlContent.html)
-          win.document.close();
-          win.print();
-        } else {
-          console.error("HTML content is null or empty.");
-        }
+      if (htmlContent) {
+        let win = window.open("", "", "");
+        win.document.write(htmlContent.html)
+        win.document.close();
+        win.print();
+      } else {
+        console.error("HTML content is null or empty.");
+      }
     });
   });
 
@@ -600,4 +607,21 @@ function addWeeks(date, weeks) {
   date.setDate(date.getDate() + 7 * weeks);
   let options = { day: '2-digit', month: '2-digit', year: 'numeric' };
   return date.toLocaleDateString('en-US', options);
+}
+
+function loadLoansView() {
+  if (localStorage.getItem("clientDataSet") != null) {
+    currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+
+    $.when(contentLoader.loadIndividualRecordView("views/clients/loans.html", "client_loans")).done(
+      function () {
+
+        setRecordText(currentDataset, "recordName", "Loans");
+
+        loans.fetchClientLoans({
+          client_id: currentDataset.recordId,
+        });
+      }
+    );
+  }
 }
