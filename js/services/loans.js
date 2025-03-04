@@ -45,6 +45,19 @@ export function fetchLoans() {
   loadLoans(data);
 }
 
+export function fetchClientLoans(params) {
+  let data = apiClient(
+    "/api/v1/loans/clients",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  )
+
+  loadClientLoans(data);
+}
+
 export function fetchLoanApplicationsStatuses(params) {
   let data = apiClient(
     "/api/v1/applications/statuses_stats",
@@ -300,6 +313,7 @@ function getApplicant(data, type, row, metas) {
   if (data == null || data.borrower == null) {
     return "N/A"; // or some other default value
   }
+
   let applicant = data.borrower.applicant;
   if (typeof applicant === "undefined") {
     return "N/A"; // or some other default value
@@ -695,6 +709,48 @@ function getSeizeCollaterBtn(data, type, row, metas) {
                     `;
 
   return getButton(dataFields, "seized-collateral", "warning", "fas fa-building");
+}
+
+function loadClientLoans(dataset) {
+  $("#clientLoansTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "loan_id" },
+      { data: "rate" },
+      { data: "amount" },
+      { data: "total_repayment_amount" },
+      { data: "loaned_date" },
+      { data: "due_date" },
+      { data: null },
+      { data: null },
+      { data: null }
+    ],
+    columnDefs: [
+
+      {
+        render: getDownloadLoanAgreementFormBtn,
+        data: null,
+        targets: [6]
+      },
+      {
+        render: getPayBtn,
+        data: null,
+        targets: [7],
+      },
+      {
+        render: getSeizeCollaterBtn,
+        data: null,
+        targets: [8]
+      }
+    ]
+  });
 }
 
 export function addGuarantor(params) {
