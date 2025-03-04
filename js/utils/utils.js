@@ -42,5 +42,9 @@ export function setRecordText(dataset, titleId, record) {
         $(`#${titleId}`).text(
             `${dataset.orgName} ${record}`
         );
+    } else if (dataset.clientType === "group"){
+        $(`#${titleId}`).text(
+            `${dataset.groupName} ${record}`
+        );
     }
 }
