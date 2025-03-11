@@ -14,7 +14,7 @@ import * as subscription from "../services/subscription.js";
 import * as account from "../services/account.js";
 import { populateAccountDetails } from "../actions/account.js"
 
-let user_role = sessionStorage.getItem("role");
+let privileges = sessionStorage.getItem("privileges");
 
 const mainContent = "mainContent";
 const modalContent = "modalContent";
@@ -23,7 +23,7 @@ selectContent(localStorage.getItem("state"));
 
 $(document).ready(function () {
   if (sessionStorage.getItem("role") != null) {
-    loadLinks(user_role);
+    loadLinks(privileges);
   }
 
   //The folloing are cases links
@@ -167,17 +167,22 @@ $(document).ready(function () {
   });
 });
 
-function loadLinks(user_role) {
-  for (let index = 0; index < links.length; index++) {
-    if (user_role === links[index].role) {
-      $.when(loadContent("sidebarLinks", "", links[index].link)).done(
-        function () {
-          //load dashboard stats
-        }
-      );
-    }
-  }
+function loadLinks(privileges) {
+  const userPrivileges = JSON.parse(privileges).map(priv => priv.name);
+
+  // Filter and sort links based on position
+  const allowedLinks = links
+      .filter(link => userPrivileges.includes(link.privilege))
+      .sort((a, b) => a.position - b.position); // Sort by position
+
+  // Load links in the sorted order
+  allowedLinks.forEach(link => {
+      $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
+          console.log(`Loaded: ${link.link}`);
+      });
+  });
 }
+
 
 export function selectContent(state) {
 
