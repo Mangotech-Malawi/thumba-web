@@ -1,27 +1,38 @@
 export const links = [
     {
-        role: "co-owner",
-        link: "views/links/co-owner.html"
+        privilege: "manages_clients",
+        link: "views/links/clients.html",
+        position: 1, 
     },
     {
-        role: "admin",
-        link: "views/links/admin.html"
-    },
-    
-    {
-        role: "loan-officer",
-        link: "views/links/loan-officer.html"
+        privilege: "manages_applications",
+        link: "views/links/loans.html",
+        position: 2, 
     },
     {
-        role: "investor",
-        link: "views/links/investors.html"
+        privilege: "manages_products",
+        link: "views/links/products.html",
+        position: 3, 
     },
     {
-        role: "finance",
-        link: "views/links/finance.html"
+        privilege: "manages_tenants",
+        link: "views/links/superuser.html",
+        position: 4, 
     },
     {
-        role: "superuser",
-        link: "views/links/superuser.html"
+        privilege: "manages_finances",
+        link: "views/links/finances.html",
+        position: 5, 
+    },
+    {
+        privilege: "manages_users",
+        link: "views/links/users.html",
+        position: 6, 
+    },
+
+    {
+        privilege: "manages_settings",
+        link: "views/links/settings.html",
+        position: 7,
     }
 ]
