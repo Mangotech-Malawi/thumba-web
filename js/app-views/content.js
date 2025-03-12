@@ -129,13 +129,13 @@ export const content_view = [
   },
   {
     title: "Users Invitations",
-    link: "views/usersInvitations.html",
+    link: "views/user_invitations.html",
     modals: ["views/modals/user.html"],
     state: "user_invitations",
   },
   {
     title: "Users Invitations",
-    link: "views/usersInvitations.html",
+    link: "views/roles.html",
     modals: ["views/modals/user.html"],
     state: "user_roles",
   },
