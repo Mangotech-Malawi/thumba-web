@@ -56,6 +56,19 @@ $(document).ready(function () {
   $("#users").on("click", function (e) {
     selectContent("users");
   });
+
+  $("#users").on("click", function (e) {
+    selectContent("users");
+  });
+
+  $("#roles").on("click", function (e) {
+    selectContent("user_roles");
+  });
+
+  $("#userInvitations").on("click", function (e) {
+    selectContent("user_invitations");
+  });
+
   $("#applications").on("click", function (e) {
     selectContent("applications");
   });
