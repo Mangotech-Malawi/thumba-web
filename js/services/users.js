@@ -239,6 +239,7 @@ export function saveSessionDetails(data) {
   sessionStorage.setItem("account_phone_number", data.account_phone_number);
   sessionStorage.setItem("account_id", data.account_id);
   sessionStorage.setItem("account_logo", data.account_logo);
+  sessionStorage.setItem("privileges", data.privileges)
 
   localStorage.clear();
 

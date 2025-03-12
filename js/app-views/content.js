@@ -128,6 +128,18 @@ export const content_view = [
     state: "users",
   },
   {
+    title: "Users Invitations",
+    link: "views/user_invitations.html",
+    modals: ["views/modals/user.html"],
+    state: "user_invitations",
+  },
+  {
+    title: "Users Invitations",
+    link: "views/roles.html",
+    modals: ["views/modals/user.html"],
+    state: "user_roles",
+  },
+  {
     title: "Loan Analysis Scores Settings",
     link: "views/settings/scores.html",
     modals: ["views/modals/user.html", "views/modals/settings.html"],
