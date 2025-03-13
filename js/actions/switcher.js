@@ -234,8 +234,13 @@ function loadOtherContent(state, index) {
       switch (state) {
         case "users":
           users.fetchUsers();
+          break;
+        case "user_invitations":
           users.fetchInvitations();
           break;
+        case "user_roles":
+          users.fetchRoles();
+          break
         case "group":
           client.fetchClientsData(state);
           break;
