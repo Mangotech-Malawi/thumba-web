@@ -20,20 +20,20 @@ $(function () {
                 true,
                 3000
             );
-            
+
         }
     });
 
-    $(document).on("click", "#acceptInvitationBtn", function(){
-      
-           $.when(users.register(getRegistrationParams())).done( function (data){
-                if(data.created){
-                     toastr.success('Registration Completed!', 'Success',5000);
-                     window.location = "index.html";
-                }else{
-                    toastr.error(data.message, 'Error', 5000);
-                }
-           });
+    $(document).on("click", "#acceptInvitationBtn", function () {
+
+        $.when(users.register(getRegistrationParams())).done(function (data) {
+            if (data.created) {
+                toastr.success('Registration Completed!', 'Success', 5000);
+                window.location = "index.html";
+            } else {
+                toastr.error(data.message, 'Error', 5000);
+            }
+        });
     });
 
     $(document).on("click", "#add-user", function (e) {
@@ -65,7 +65,7 @@ $(function () {
     });
 
     $(document).on('show.bs.modal', '#modal-register-user', function (e) {
-        clearFields() 
+        clearFields()
         const opener = e.relatedTarget;
         formType = $(opener).attr('data-button-type');
 
@@ -194,11 +194,11 @@ $(function () {
     $(document).on('click', '#sendOTPBtn', function (e) {
         let email = $("#recoveryEmail").val();
 
-        $.when(users.sendOTP({ email: email})).done(
-            function (data){
-                if (data.otp_sent){
+        $.when(users.sendOTP({ email: email })).done(
+            function (data) {
+                if (data.otp_sent) {
                     localStorage.setItem("recoveryEmail", email);
-                    window.location = "verify_otp.html"                    
+                    window.location = "verify_otp.html"
                 } else {
 
                 }
@@ -209,14 +209,16 @@ $(function () {
     $(document).on('click', '#verifyOTPBtn', function (e) {
         let otpCode = $("#otpCode").val();
         let email = localStorage.getItem("recoveryEmail");
-        
-        $.when(users.verifyOTP({ otp_code: otpCode,
-                                email: email})).done(
-            function (data){
-                if (data.valid_otp){
-                     $.when(users.saveSessionDetails(data)).done(function (){
+
+        $.when(users.verifyOTP({
+            otp_code: otpCode,
+            email: email
+        })).done(
+            function (data) {
+                if (data.valid_otp) {
+                    $.when(users.saveSessionDetails(data)).done(function () {
                         window.location = "thumba.html";
-                     });
+                    });
 
                 } else {
 
@@ -225,6 +227,26 @@ $(function () {
         )
     });
 
+    $(document).on('click', '#saveRoleBtn', function (e) {
+        if (form.validateRoleFormData()) {
+            $.when(users.addRole(getRoleParams())).done( function (data){
+                if(data.created){
+                    notification(
+                        true,
+                        "center",
+                        "success",
+                        "roles",
+                        "Add Role",
+                        "Role has been added succesfully",
+                        true,
+                        3000
+                    );
+                } 
+            });
+        }
+    });
+
+
 });
 
 function validatePassword(password) {
@@ -232,8 +254,8 @@ function validatePassword(password) {
     return regex.test(password)
 }
 
-function getUserInvitationParams(){
-    let email  = $("#email").val();
+function getUserInvitationParams() {
+    let email = $("#email").val();
     let password = $("#role").val();
 
     let params = {
@@ -244,12 +266,12 @@ function getUserInvitationParams(){
     return params
 }
 
-function getRegistrationParams(){
+function getRegistrationParams() {
     const url = new URL(window.location.href);
 
-// Use URLSearchParams to get the token value from the query string
+    // Use URLSearchParams to get the token value from the query string
     const url_params = new URLSearchParams(url.search);
-    const token = url_params.get('token'); 
+    const token = url_params.get('token');
     const username = $("#username").val();
     const identifier = $("#identifier").val();
     const identifierType = $("#identifierType").val();
@@ -292,6 +314,13 @@ function getUserParams() {
     return params;
 }
 
+function getRoleParams() {
+    const name = $("#roleName").val();
+    const privileges = $("#privileges").val();
+
+    return { name: name, privileges: privileges }
+}
+
 function notification(
     isDone,
     position,
@@ -320,6 +349,10 @@ function notification(
             } else if (recordType === "delete-user") {
                 $.when(users.fetchUsers()).done(function () {
                     $("#modal-delete-user").modal("hide");
+                });
+            } else if (recordType === "roles") {
+                $.when(users.fetchRoles()).done(function () {
+                    $("#modal-role").modal("hide");
                 });
             }
         });

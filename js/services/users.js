@@ -103,6 +103,10 @@ export function fetchRoles(){
 
 }
 
+export function addRole(params){
+  return apiClient("/api/v1/role", "POST", "json", false, false, params)
+}
+
 export function fetchUsers() {
 
   let data = apiClient("/api/v1/users", "GET", "json", false, false, {});

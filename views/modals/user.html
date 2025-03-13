@@ -229,6 +229,72 @@
   <!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" id="modal-role">
+  <div class="modal-dialog modal-lg modal-dialog-centered ">
+      <div class="modal-content">
+          <form id="addExpense" action="" method="post"></form>
+          <div class="modal-header">
+              <h4 id="expenseModalTitle" class="modal-title">Add Role</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="content">
+                  <div class="row">
+                      <div class="input-group ">
+                          <input id="groupId" type="hidden" class="form-control">
+                      </div>
+
+                      <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                          <div class="form-group ">
+                            <label>Role</label>
+                              <div class="input-group ">
+                                  <input id="roleName" type="text" class="form-control"
+                                      placeholder="Role ">
+                                  <div class="input-group-append">
+                                      <div class="input-group-text">
+                                          <span class="fas fa-file"></span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                          <div class="form-group ">
+                              <label>Privileges</label>
+                              <div class="select2-info">
+                                <select id="privileges" class="privileges" name="privileges[]" multiple="multiple"
+                                  data-placeholder="Select Privileges" data-dropdown-css-class="select2-info"
+                                  style="width: 100%">
+                                  <option value="manages_users">Manages Users</option>
+                                  <option value="manages_clients">Manages Clients</option>
+                                  <option value="manages_applications">Manages Applications</option>
+                                  <option value="manages_finances">Manages Finances</option>
+                                  <option value="manages_products">Manages Products</option>
+                                  <option value="client_portal_access">Client Portal Access</option>
+                                  <option value="manages_settings">Manages Settings</option>
+                                </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default alt-btn" data-dismiss="modal">Close</button>
+              <button type="button" id="saveRoleBtn" class="btn btn-primary">Save</button>
+          </div>
+          </form>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
 <script>
   $("#role").select2();
+  $('.privileges').select2();
 </script>

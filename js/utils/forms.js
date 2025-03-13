@@ -383,6 +383,22 @@ export function validateAccountSettingsForm() {
 
 }
 
+export function validateRoleFormData(){
+  formElements = []
+
+  let validData = false
+
+  pushFormElements("alphabeticStringWithSpace", "#roleName", true, "Role Name");
+
+  pushFormElements("", "#privileges", true, "Privileges");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
 
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({
