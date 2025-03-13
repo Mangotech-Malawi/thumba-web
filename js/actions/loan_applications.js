@@ -28,8 +28,6 @@ $(function () {
     $(document).on("click", "#saveApplicationBtn", function (e) {
         if (form.validateLoanApplicationFormData()) {
 
-            console.log($("#loanApplicationTitle").text().trim());
-
             if ($("#loanApplicationTitle").text().trim() === "Add Loan Application") {
                 if (loans.addApplication(loanApplicationParams()).created) {
                     notification(
