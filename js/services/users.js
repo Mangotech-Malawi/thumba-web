@@ -94,6 +94,15 @@ function getIdentifierTypes(){
   return apiClient("/api/v1/identifier_types", "GET", "json", false, false, {});
 }
 
+export function fetchRoles(){
+  let data =  apiClient("/api/v1/roles", "GET", "json", false, false, {});
+
+  if( data != null){
+    loadRolesTable(data)
+  }
+
+}
+
 export function fetchUsers() {
 
   let data = apiClient("/api/v1/users", "GET", "json", false, false, {});
@@ -223,6 +232,59 @@ function getDelInvitationButton(data, type, row, meta) {
     data-id = "${data.id}"
     data-button-type = "edit">
    <i class="fas fa-edit"></i></button>`;
+}
+
+function loadRolesTable(data) {
+  let dataset = data.map(role => {
+      return {
+          name: role.name,
+          description: role.description,
+          system_default: role.system_default ? "Yes" : "No",
+          manages_users: role.privileges.some(p => p.name === "manages_users"),
+          manages_clients: role.privileges.some(p => p.name === "manages_clients"),
+          manages_applications: role.privileges.some(p => p.name === "manages_applications"),
+          manages_finances: role.privileges.some(p => p.name === "manages_finances"),
+          manages_products: role.privileges.some(p => p.name === "manages_products"),
+          client_portal_access: role.privileges.some(p => p.name === "client_portal_access"),
+          manages_settings: role.privileges.some(p => p.name === "manages_settings"),
+          system_default_flag: role.system_default
+      };
+  });
+
+  $("#rolesTable").DataTable({
+      destroy: true,
+      responsive: true,
+      ordering: true,
+      lengthChange: true,
+      autoWidth: false,
+      bfilter: false,
+      info: true,
+      data: dataset,
+      columns: [
+          { data: "name" },
+          { data: "description" },
+          { data: "system_default" },
+          { data: "manages_users", render: renderCheckbox },
+          { data: "manages_clients", render: renderCheckbox },
+          { data: "manages_applications", render: renderCheckbox },
+          { data: "manages_finances", render: renderCheckbox },
+          { data: "manages_products", render: renderCheckbox },
+          { data: "client_portal_access", render: renderCheckbox },
+          { data: "manages_settings", render: renderCheckbox },
+          { data: null, render: getDelRolesButton }
+      ]
+  });
+}
+
+function renderCheckbox(data, type, row) {
+  let isChecked = data ? "checked" : "";
+  let isDisabled = row.system_default_flag ? "disabled" : "";
+  let checkClass = data ? "icheck-success" : "icheck-primary";
+  return `<div class="checkbox ${checkClass }  small"><input type='checkbox' ${isChecked} ${isDisabled}><label></label></div>`;
+}
+
+function getDelRolesButton(data, type, row) {
+  return row.system_default_flag ? "" : '<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>';
 }
 
 export function saveSessionDetails(data) {
