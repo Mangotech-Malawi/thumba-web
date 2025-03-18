@@ -69,13 +69,33 @@ $(function () {
         const opener = e.relatedTarget;
         formType = $(opener).attr('data-button-type');
 
+        $.when(users.fetchRoles()).done( function (roles){
+            let rolesArray = []
+            
+            if( typeof roles!== undefined && roles !== null && roles !== '' ){
+                roles.forEach(function (role, index) {
+                    rolesArray.push(
+                        '<option value ="',
+                        role.id,
+                        '">',
+                        `${role.name}`,
+                        "</option>"
+                    );
+                });
+
+                $("#role").html(rolesArray.join(""));
+
+            }
+               
+        })       
+
+
         //Checking if the button clicked was a edit or add
         if (formType === 'add') {
             $('.modal-title').text("Add User");
         } else {
             $('.modal-title').text("Edit User")
-            let $userModal = $('#modal-register-user');
-
+            let $userModal = $('#modal-register-user')
             $.each(opener.dataset, function (key, value) {
                 $userModal.find(`[id = '${key}']`).val(value).change();
             });
@@ -256,11 +276,11 @@ function validatePassword(password) {
 
 function getUserInvitationParams() {
     let email = $("#email").val();
-    let password = $("#role").val();
+    let role = $("#role").val();
 
     let params = {
         email: email,
-        role: password
+        role: role
     }
 
     return params
