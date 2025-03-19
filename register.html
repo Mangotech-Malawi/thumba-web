@@ -10,274 +10,289 @@
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
-
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Background styling */
         body {
-            font-family: 'Source Sans Pro', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(to bottom, #41475b 50%, #f4f4f4 50%);
             height: 100vh;
-            background-color: #f4f4f4;
-            overflow: hidden;
-        }
-
-        .ccontainer {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100%;
-            width: 100%;
-            position: relative;
         }
 
-        /* Registration Form Styling */
-        .registration-form {
-            background-color:  #e8e8e8;
+        /* Container and form styling */
+        .login-box {
+            width: 600px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .login-card-body {
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 50%;
-            /* Ensures the form is always 50% of the screen width */
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            margin-left: 50%;
         }
 
-        .login-card {
-            margin-top: 10%;
-            bottom: 5%;
-        }
-
-        .registration-form h2 {
+        .login-card-body h2 {
             text-align: center;
             margin-bottom: 20px;
             color: #333;
-            font-size: 25px;
-            font-weight: 600;
         }
 
-        .registration-form p {
+        .login-card-body p {
             text-align: center;
             color: #555;
-            font-style: italic;
-            font-size: 16px;
-            margin-bottom: 40px;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
 
-        .input-group input,
-        .input-group textarea,
-        .input-group select {
+        .btn-primary {
             width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
         }
 
-        .input-group textarea {
-            resize: vertical;
+        .social-auth-links {
+            text-align: center;
         }
 
-        .input-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #333;
-            font-size: 16px;
+        /* Adjustments for mobile view */
+        @media (max-width: 768px) {
+            .login-box {
+                width: 100%;
+                margin-left: 5%;
+                margin-right: 5%;
+            }
         }
 
-
-        .btn:hover {
-            background-color: #218838;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .image-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            /* Keeps the background image to the left on desktop */
-            height: 100%;
-            background: url('./dist/img/thumba.jpg') no-repeat center center;
-            background-size: cover;
-            opacity: 0.9;
-            z-index: -1;
-        }
-
+        /* Step visibility */
         .form-step {
             display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .form-step.active {
             display: block;
+            opacity: 1;
         }
 
-        .footer {
-            background-color: #f8f9fa;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
+        /* Button styles */
+        button {
             width: 100%;
+        }
+
+        /* Step navigation transitions */
+        .form-step {
+            position: relative;
+        }
+
+        #nextStep1,
+        #nextStep2,
+        #prevStep2,
+        #prevStep3,
+        #registerBtn {
+            margin-top: 20px;
+        }
+
+        #passwordError {
+            margin-top: 10px;
+        }
+
+        /* Styling error message */
+        #passwordError {
+            color: red;
+            font-size: 0.875rem;
+        }
+
+        .step-tracker {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
             font-size: 14px;
-            color: #555;
+            color: #888;
+            position: relative;
         }
 
-
-        /* Mobile View */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: flex-start;
-                height: auto;
-            }
-
-            .image-background {
-                width: 100%;
-                height: 100%;
-                /* Makes the image fill the entire mobile screen */
-                opacity: 0.8;
-                display: block;
-            }
-
-            .registration-form {
-                width: 100%;
-                margin-left: 0;
-                margin-top: 50%;
-                padding: 20px;
-                box-shadow: none;
-            }
-
-            .registration-form h2 {
-                font-size: 22px;
-            }
+        .step i {
+            font-size: 24px;
+            margin-bottom: 5px;
         }
 
-        @media (max-width: 480px) {
-            .registration-form h2 {
-                font-size: 20px;
-            }
-
-            .input-group input,
-            .input-group select,
-            .input-group textarea {
-                font-size: 12px;
-                padding: 8px;
-            }
-
-            .btn {
-                font-size: 14px;
-            }
+        .step-number {
+            font-size: 16px;
+            font-weight: bold;
+            background: #ccc;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 2;
         }
 
-        @media (max-width: 575px) {
-            .background-image {
-                display: none;
-            }
+        .step-label {
+            margin-top: 5px;
+        }
 
-            .registration-form {
+        .step-line {
+            flex-grow: 1;
+            height: 3px;
+            background: #ccc;
+            position: relative;
+            top: -15px;
+            z-index: 1;
+        }
 
-                opacity: 0.9;
-            }
+        /* Active Step */
+        .step.active {
+            color: #28a745;
+        }
+
+        .step.active .step-number {
+            background: #28a745;
+        }
+
+        /* Completed Steps */
+        .step.completed .step-number {
+            background: #28a745;
+        }
+
+        .step.completed+.step-line {
+            background: #28a745;
+        }
+
+        .container {
+            text-align: center;
+            /* Centers inline elements like <a> */
         }
     </style>
 </head>
 
 <body>
-    <div class="ccontainer">
-        <!-- Background Image -->
-        <div class="image-background"></div>
+    <div class="login-box">
 
-        <div class="registration-form">
-           
-            <div class=" login-card card p-5">
+
+        <div class="card">
+
+            <div class=" card-body login-card-body">
 
                 <form id="registrationForm">
 
-                    <h2>Thumba Registration</h2>
-                    <p>Register your company and custodian details to get started with Thumba.</p>
-        
+                    <h2 class="login-box-msg">Thumba Registration</h2>
+                    <p class="login-box-msg">Register your company and custodian details to get started with Thumba.</p>
+
+                    <!-- Step Tracker -->
+                    <div class="step-tracker">
+                        <div class="step active" id="step1Indicator">
+                            <span class="step-number">1</span>
+                            <i class="fas fa-building"></i>
+                            <span class="step-label">Company Details</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step" id="step2Indicator">
+                            <span class="step-number">2</span>
+                            <i class="fas fa-user-tie"></i>
+                            <span class="step-label">Custodian Details</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step" id="step3Indicator">
+                            <span class="step-number">3</span>
+                            <i class="fas fa-user-shield"></i>
+                            <span class="step-label">User Registration</span>
+                        </div>
+                    </div>
+
                     <!-- Step 1: Company Details -->
                     <div class="form-step active" id="step1">
-                        <h4>Company Details</h4>
 
-                        <div class="input-group">
-                            <label for="name">Account Name</label>
-                            <input type="text" id="name" placeholder="Account Name" required>
+
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control" id="name" placeholder="Account Name" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="address">Address</label>
-                            <textarea id="address" placeholder="Enter your company's address" rows="4"
-                                required></textarea>
+                        <div class="input-group mb-4">
+                            <textarea id="address" placeholder="Enter your company's address" class="form-control"
+                                rows="4" required></textarea>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Email Address" required>
+                        <div class="input-group mb-4">
+                            <input type="email" id="email" class="form-control" placeholder="Email Address" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="phoneNumber">Phone Number</label>
-                            <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+                        <div class="input-group mb-4">
+                            <input type="tel" id="phoneNumber" class="form-control" placeholder="Phone Number" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
                         </div>
+
 
                         <button type="button" class="btn btn-block btn-secondary " id="nextStep1">Next</button>
                     </div>
 
                     <!-- Step 2: Custodian Details -->
                     <div class="form-step" id="step2">
-                        <h4>Custodian Details</h4>
 
-                        <div class="input-group">
-                            <label for="firstname">First Name</label>
-                            <input type="text" id="firstname" placeholder="First Name" required>
+
+                        <div class="input-group mb-4">
+                            <input type="text" id="firstname" class="form-control" placeholder="First Name" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="lastname">Last Name</label>
-                            <input type="text" id="lastname" placeholder="Last Name" required>
+                        <div class="input-group mb-4">
+                            <input type="text" id="lastname" class="form-control" placeholder="Last Name" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="identifierType">Identification Type</label>
-                            <select id="identifierType" required>
-
+                        <div class="input-group mb-4">
+                            <label for="identifierType" class="form-label">Identification Type</label>
+                            <select id="identifierType" style="width: 100%;" class="form-control"
+                                placeholder="Identification Type" required>
+                                <!-- Add options here -->
                             </select>
+
                         </div>
 
-                        <div class="input-group">
-                            <label for="identifier">Identifier</label>
-                            <input type="text" id="identifier" placeholder="Identification Number" required>
+                        <div class="input-group mb-4">
+                            <input type="text" id="identifier" class="form-control" placeholder="Identification Number"
+                                required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-block btn-secondary " id="prevStep2">Previous</button>
+                            <button type="button" class="btn btn-block btn-secondary mr-2 "
+                                id="prevStep2">Previous</button>
                             <button type="button" class="btn btn-block btn-success" id="nextStep2">Next</button>
                         </div>
 
@@ -285,49 +300,71 @@
 
                     <!-- Step 3: User Registration -->
                     <div class="form-step" id="step3">
-                        <h4>User Registration</h4>
 
-                        <div class="input-group">
-                            <label for="username">Username</label>
-                            <input type="text" id="username" placeholder="Username" required>
+
+                        <div class="input-group mb-3">
+                            <input type="text" id="username" class="form-control" placeholder="Username" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="userEmail">Email</label>
-                            <input type="email" id="userEmail" placeholder="User Email" required>
+                        <div class="input-group mb-3">
+                            <input type="email" id="userEmail" class="form-control" placeholder="User Email" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="Password" required>
+                        <div class="input-group mb-3">
+                            <input type="password" id="password" class="form-control" placeholder="Password" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
                         </div>
 
-                        <div class="input-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                        <div class="input-group mb-3">
+                            <input type="password" id="confirmPassword" class="form-control"
+                                placeholder="Confirm Password" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
                         </div>
 
                         <div class="input-group">
                             <label id="passwordError" class="text-danger"></label>
                         </div>
 
+
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-block  btn-secondary " id="prevStep3">Previous</button>
-                            <button type="submit" class="btn btn-block  btn-success" id="registerBtn"
+                            <button type="button" class="btn btn-block  btn-secondary mr-2 "
+                                id="prevStep3">Previous</button>
+                            <button type="button" class="btn  btn-block btn-success" id="registerBtn"
                                 disabled>Register</button>
                         </div>
 
+
+
                     </div>
 
-                    <footer class="mt-5">
 
-                    </footer>
-                    <div class="container text-center mt-5">
+                    <!--<div class="container text-center mt-5">
                         <p>&copy; <span id="year"></span> Mangotech. All rights reserved.</p>
-                    </div>
+                    </div>-->
                 </form>
             </div>
 
+
+
+        </div>
+
+        <div class="card mt-2">
+            <div class="card-body login-card-body ">
+                <h5 class="login-box-msg">Have an account?</h5>
+                <div class="container">
+                    <a href="index.html">Login</a>
+                </div>
+            </div>
         </div>
 
 
@@ -355,27 +392,58 @@
 
     <script>
         $("#identifierType").select2();
-        // Handle Form Steps Navigation
+
+        function updateStepTracker(step) {
+            document.querySelectorAll(".step").forEach((stepEl, index) => {
+                if (index + 1 < step) {
+                    stepEl.classList.add("completed");
+                } else {
+                    stepEl.classList.remove("completed");
+                }
+                stepEl.classList.toggle("active", index + 1 === step);
+            });
+        }
+
+        // Example event listeners for navigation buttons
+        document.getElementById("nextStep1").addEventListener("click", function () {
+            updateStepTracker(2);
+        });
+
+        document.getElementById("nextStep2").addEventListener("click", function () {
+            updateStepTracker(3);
+        });
+
+        document.getElementById("prevStep2").addEventListener("click", function () {
+            updateStepTracker(1);
+        });
+
+        document.getElementById("prevStep3").addEventListener("click", function () {
+            updateStepTracker(2);
+        });
+
         document.getElementById('nextStep1').addEventListener('click', function () {
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
-        });
-
-        document.getElementById('prevStep2').addEventListener('click', function () {
-            document.getElementById('step2').classList.remove('active');
-            document.getElementById('step1').classList.add('active');
+            updateStepIndicator(2);
         });
 
         document.getElementById('nextStep2').addEventListener('click', function () {
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step3').classList.add('active');
+            updateStepIndicator(3);
+        });
+
+        document.getElementById('prevStep2').addEventListener('click', function () {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            updateStepIndicator(1);
         });
 
         document.getElementById('prevStep3').addEventListener('click', function () {
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step2').classList.add('active');
+            updateStepIndicator(2);
         });
-
         // Form Validation (Passwords Match)
         document.getElementById('registrationForm').addEventListener('input', function () {
             const username = document.getElementById('username').value;

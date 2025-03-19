@@ -101,6 +101,7 @@ export function fetchRoles(){
     loadRolesTable(data)
   }
 
+  return data;
 }
 
 export function addRole(params){
