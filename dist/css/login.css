@@ -1,15 +1,18 @@
-HTML {
+html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-/* Ensure full background height while allowing scrolling */
 body {
     background: linear-gradient(to bottom, #41475b 50%, #f4f4f4 50%);
-    height: 200vh; /* Ensures background maintains the split effect */
+    min-height: 100vh; /* Ensures it covers the viewport */
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* Prevents unwanted scrollbars */
 }
+
 
 
 .login-title {
@@ -31,19 +34,9 @@ body {
     align-items: center;
 }
 
-/* Wrapper to handle scrolling only on mobile */
-.scroll-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-
 /* Container and form styling */
 .login-box {
-    width: 500px;
-    max-width: 90%;
+    width: 600px;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -201,42 +194,11 @@ button {
 @media (max-width: 768px) {
     .login-box {
         width: 100%;
-        margin-top: 5%;
         margin-left: 5%;
-        margin-bottom: 5%;
-    }
-}
-
-
-/* Enable scrolling within wrapper on mobile */
-@media (max-width: 768px) {
-    body {
-        height: auto; /* Allows natural scrolling */
-        min-height: 100vh;
+        margin-right: 5%;
     }
 
-    .scroll-container {
-        height: 100vh;
-        overflow-y: auto;
-        /* Allows scrolling only on mobile */
-        padding-top: 150px;
-        /* Prevent content from touching edges */
-    }
-}
-
-/* Enable scrolling within wrapper on mobile */
-@media (max-width: 667px) {
-    
-    body {
-        height: auto; /* Allows natural scrolling */
-        min-height: 100vh;
-    }
-
-    .scroll-container {
-        height: 100vh;
-        overflow-y: auto;
-        /* Allows scrolling only on mobile */
-        padding-top: 300px;
-        /* Prevent content from touching edges */
+    .step-tracker{
+        display: none;
     }
 }
