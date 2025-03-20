@@ -3,18 +3,17 @@ HTML {
 }
 
 body {
-    min-height: 100%;
- 
-    background-color: rgba(211, 211, 211, 0.461); /* Replace 'your-image-url.jpg' with the URL of your image */
-    background-size: cover; /* Adjust background size as needed */
-    background-position: center; /* Adjust background position as needed */
-    background-repeat: no-repeat; /* Prevent background image from repeating */
-    background-size: cover;
+    background: linear-gradient(to bottom, #41475b 50%, #f4f4f4 50%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    /* Default scroll behavior */
 }
 
 
-
- .login-title {
+.login-title {
     font-size: 1.3em;
     font-family: sans-serif;
     color: #fff;
@@ -33,9 +32,19 @@ body {
     align-items: center;
 }
 
+/* Wrapper to handle scrolling only on mobile */
+.scroll-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
 /* Container and form styling */
 .login-box {
     width: 500px;
+    max-width: 90%;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -193,7 +202,18 @@ button {
 @media (max-width: 768px) {
     .login-box {
         width: 100%;
+        margin-top: 5%;
         margin-left: 5%;
-        margin-right: 5%;
+        margin-bottom: 5%;
+    }
+}
+
+
+/* Enable scrolling within wrapper on mobile */
+@media (max-width: 768px) {
+    .scroll-container {
+        height: 100vh;
+        overflow-y: auto; /* Allows scrolling only on mobile */
+        padding: 20px 0; /* Prevent content from touching edges */
     }
 }
