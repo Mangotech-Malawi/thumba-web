@@ -2,14 +2,13 @@ HTML {
     height: 100%;
 }
 
+/* Ensure full background height while allowing scrolling */
 body {
     background: linear-gradient(to bottom, #41475b 50%, #f4f4f4 50%);
-    min-height: 100vh;
+    height: 200vh; /* Ensures background maintains the split effect */
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-y: auto;
-    /* Default scroll behavior */
 }
 
 
@@ -211,6 +210,11 @@ button {
 
 /* Enable scrolling within wrapper on mobile */
 @media (max-width: 768px) {
+    body {
+        height: auto; /* Allows natural scrolling */
+        min-height: 100vh;
+    }
+
     .scroll-container {
         height: 100vh;
         overflow-y: auto;
@@ -222,6 +226,12 @@ button {
 
 /* Enable scrolling within wrapper on mobile */
 @media (max-width: 667px) {
+    
+    body {
+        height: auto; /* Allows natural scrolling */
+        min-height: 100vh;
+    }
+
     .scroll-container {
         height: 100vh;
         overflow-y: auto;
