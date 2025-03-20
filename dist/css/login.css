@@ -213,7 +213,20 @@ button {
 @media (max-width: 768px) {
     .scroll-container {
         height: 100vh;
-        overflow-y: auto; /* Allows scrolling only on mobile */
-        padding: 20px 0; /* Prevent content from touching edges */
+        overflow-y: auto;
+        /* Allows scrolling only on mobile */
+        padding-top: 150px;
+        /* Prevent content from touching edges */
+    }
+}
+
+/* Enable scrolling within wrapper on mobile */
+@media (max-width: 667px) {
+    .scroll-container {
+        height: 100vh;
+        overflow-y: auto;
+        /* Allows scrolling only on mobile */
+        padding-top: 300px;
+        /* Prevent content from touching edges */
     }
 }
