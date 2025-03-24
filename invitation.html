@@ -35,24 +35,29 @@
     <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="dist/css/login.css">
-   
+    <style>
+        .login-box {
+            width: 400px;
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
 </head>
 
 <body class="hold-transition ">
     <div class="scroll-container">
         <div class="login-box ">
             <!-- /.login-logo -->
-    
+
             <div id="login" class="card  ">
-                
+
                 <div class="card-body login-card-body ">
                     <h1 class="text-center  h1 mb-4"><b> Thumba</b></h1>
                     <p class="login-box-msg">Register and accept invitation</p>
-    
+
                     <p id="invalidCredentials" class="login-box-msg text-danger"></p>
-    
+
                     <div class="row">
-    
+
                     </div>
                     <div class="input-group mb-3">
                         <input type="text" id="firstname" class="form-control" placeholder="First Name">
@@ -62,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="input-group mb-3">
                         <input type="text" id="lastname" class="form-control" placeholder="Last Name">
                         <div class="input-group-append">
@@ -71,17 +76,16 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="input-group mb-3">
                         <div class="select2-primary w-100">
                             <select id="identifierType" name="IdentifierType" class="form-control "
-                                data-placeholder="Select Identification Type"
-                                data-dropdown-css-class="select2-primary">
+                                data-placeholder="Select Identification Type" data-dropdown-css-class="select2-primary">
                                 <!-- Add options here -->
                             </select>
                         </div>
                     </div>
-    
+
                     <div class="input-group mb-3">
                         <input type="text" id="identifier" class="form-control" placeholder="Identifier">
                         <div class="input-group-append">
@@ -90,16 +94,16 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="input-group mb-3">
                         <input type="text" id="username" class="form-control" placeholder="Username">
                         <div class="input-group-append">
-                            <div class="input-group-text"> 
+                            <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" id="password" placeholder="Password">
                         <div class="input-group-append">
@@ -108,12 +112,12 @@
                             </div>
                         </div>
                     </div>
-    
-    
+
+
                     <div class="input-group">
                         <label id="wrongPassword" class="text-danger"></label>
                     </div>
-    
+
                     <div class="input-group mb-3">
                         <input type="password" id="confirmPassword" class="form-control" placeholder="Retype password">
                         <div class="input-group-append">
@@ -122,16 +126,16 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="social-auth-links text-center mb-3">
-                        <a href="#" id = "acceptInvitationBtn" class="btn btn-block btn-primary">
+                        <a href="#" id="acceptInvitationBtn" class="btn btn-block btn-primary">
                             <i class="fab mr-2"></i> Accept Invitation
                         </a>
                     </div>
                 </div>
                 <!-- /.login-card-body -->
             </div>
-    
+
             <div class="card mt-2">
                 <div class="card-body login-card-body ">
                     <h5 class="login-box-msg">Already registered?</h5>
@@ -140,11 +144,11 @@
                     </div>
                 </div>
             </div>
-    
+
         </div>
     </div>
 
-  
+
     <!-- /.login-box -->
 
     <script src="plugins/jquery/jquery.min.js"></script>
@@ -156,15 +160,15 @@
     <script defer src="dist/js/adminlte.min.js"></script>
     <script src="dist/js/modernizr.2.7.1.js"></script>
     <script defer src="plugins/toastr/toastr.min.js"></script>
-    <script  defer src="js/actions/user_management.js" type="module"></script>
-    <script  defer src="js/services/users.js" type="module"></script>
+    <script defer src="js/actions/user_management.js" type="module"></script>
+    <script defer src="js/services/users.js" type="module"></script>
     <script defer src="js/actions/login.js" type="module"></script>
     <script defer src="js/services/validator.js" type="module"></script>
     <script defer src="js/services/config.js" type="module"></script>
     <script defer src="js/actions/account.js" type="module"></script>
     <script>
         $("#identifierType").select2();
-     </script>
+    </script>
 </body>
 
 </html>
