@@ -62,7 +62,7 @@ $(function () {
   $(document).on("click", "#saveIndividualClientBtn", function (e) {
 
     if (form.validClientFormData()) {
-      if ($("#cardTitle").text() === "Add Client") {
+      if ($("#cardTitle").text().trim() === "Add Client") {
         notification(
           client.addClient(individualParams()).updated,
           "center",
@@ -73,7 +73,7 @@ $(function () {
           true,
           3000
         );
-      } else if ($("#cardTitle").text() === "Edit Client") {
+      } else if ($("#cardTitle").text().trim() === "Edit Client") {
         notification(
           client.editClient(individualParams()).updated,
           "center",
@@ -155,6 +155,7 @@ $(function () {
   $(document).on("click", "#addClientForm", function (e) {
     $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(
       function () {
+        clientType = "individual";
         $.each(currentDataset, function (key, value) {
           $("#demographics").find(`[id = '${key}']`).text(value);
         });
@@ -171,7 +172,7 @@ $(function () {
   $(document).on("click", "#addOrganizationClientForm", function (e) {
     $.when(loadContent.loadIndividualRecordView("views/forms/organization.html", "client_organization_form")).done(
       function () {
-
+        clientType = "organization";
         loadIdentifierTypes();
       }
     );
