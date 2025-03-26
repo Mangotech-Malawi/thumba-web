@@ -7,7 +7,18 @@ $(document).ready(function () {
         e.preventDefault();
 
         if (account.register(registerAccountParams()).created) {
-            window.location("index.html");
+            $("#registration-container").html("");
+
+            $("#registration-container").append(
+                `<h4 class="login-box-msg" style="opacity: 0;">Account Registered Successfully</h4>
+             <img src="dist/img/tick.png" class="tick_image" alt="some image" style="opacity: 0;">`
+            );
+
+            // Custom animation
+            $(".login-box-msg").animate({ opacity: 1, marginTop: "10px" }, 200);
+            $(".tick_image").delay(100).animate({ opacity: 1, marginTop: "100px" }, 200)
+                .animate({ marginTop: "40px" }, 400);
+
         }
 
     });
@@ -101,7 +112,7 @@ $(document).ready(function () {
     $(document).on('click', '#accountSettingsBtn', function () {
 
         if (form.validateAccountSettingsForm()) {
-            $.when(account.update(accountSettingsParams())).done(function  (data) {
+            $.when(account.update(accountSettingsParams())).done(function (data) {
                 notification(
                     data.updated,
                     "center",
@@ -110,12 +121,12 @@ $(document).ready(function () {
                     "Account Settings",
                     "Account Settings have been saved successfully",
                     true,
-                    3000, 
+                    3000,
                     data
-                );   
+                );
             });
-            
-           
+
+
         }
     });
 
