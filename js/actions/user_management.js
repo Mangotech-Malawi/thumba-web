@@ -69,10 +69,10 @@ $(function () {
         const opener = e.relatedTarget;
         formType = $(opener).attr('data-button-type');
 
-        $.when(users.fetchRoles()).done( function (roles){
+        $.when(users.fetchRoles()).done(function (roles) {
             let rolesArray = []
-            
-            if( typeof roles!== undefined && roles !== null && roles !== '' ){
+
+            if (typeof roles !== undefined && roles !== null && roles !== '') {
                 roles.forEach(function (role, index) {
                     rolesArray.push(
                         '<option value ="',
@@ -86,8 +86,8 @@ $(function () {
                 $("#role").html(rolesArray.join(""));
 
             }
-               
-        })       
+
+        })
 
 
         //Checking if the button clicked was a edit or add
@@ -133,7 +133,7 @@ $(function () {
             $("#profileUsername").attr('disabled', true);
             $("#profileUsername").val(sessionStorage.getItem("username"));
             $("#saveProfile").attr('disabled', true);
-            $("#newPassword").attr('disabled', true);
+           // $("#newPassword").attr('disabled', true);
             $("#confirmPassword").attr('disabled', true);
         });
     });
@@ -218,7 +218,41 @@ $(function () {
             function (data) {
                 if (data.otp_sent) {
                     localStorage.setItem("recoveryEmail", email);
-                    window.location = "verify_otp.html"
+                    $("#forgot-password-container").html("");
+
+                    $("#forgot-password-container").html(`
+                           <div class="card-body">
+                    <p class="login-box-msg">Verify OTP ( Enter OTP Sent to your Email Address)</p>
+
+                    <div class="input-group mb-3">
+                        <input id="otpCode" type="text" class="form-control" placeholder="OTP">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-barcode"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Timer Display -->
+                    <p id="countdownText" class="text-danger font-weight-bold">OTP expires in: <span id="countdown">30</span> seconds</p>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button id="verifyOTPBtn" class="btn btn-success btn-block">Verify OTP</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <p class="mt-3 mb-1">
+                        <a href="forgot_password.html">Resend Email</a>
+                    </p>
+                </div>
+                        `);
+
+
+                    runDownOTP();
+
+
                 } else {
 
                 }
@@ -249,8 +283,8 @@ $(function () {
 
     $(document).on('click', '#saveRoleBtn', function (e) {
         if (form.validateRoleFormData()) {
-            $.when(users.addRole(getRoleParams())).done( function (data){
-                if(data.created){
+            $.when(users.addRole(getRoleParams())).done(function (data) {
+                if (data.created) {
                     notification(
                         true,
                         "center",
@@ -261,7 +295,7 @@ $(function () {
                         true,
                         3000
                     );
-                } 
+                }
             });
         }
     });
@@ -385,5 +419,23 @@ function clearFields() {
     $("#nationalId").val("");
     $("#email").val("");
 
+}
+
+function runDownOTP() {
+    let countdown = 30; // OTP expiration time in seconds
+    const countdownElement = document.getElementById("countdown");
+    const countdownText = document.getElementById("countdownText");
+    const verifyButton = document.getElementById("verifyOTPBtn");
+
+    const timer = setInterval(function () {
+        if (countdown > 0) {
+            countdown--;
+            countdownElement.textContent = countdown;
+        } else {
+            clearInterval(timer);
+            countdownText.innerHTML = `<span class="text-danger">Sent OTP expired</span>`;
+            verifyButton.disabled = true; // Disable the Verify OTP button
+        }
+    }, 1000); // Runs every second
 }
 
