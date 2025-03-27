@@ -1,3 +1,4 @@
+import { loadSnippet } from "./db.js";
 
 export function loadContent(containerId, newState, urlPath, ...args) {
   $.ajax({
@@ -43,6 +44,27 @@ export function loadRecord(path, state) {
 }
 
 export function loadInvestmentView(path, state) {
-  $.when(loadContent("investmentContainer", state, path)).done(function () {});
+  $.when(loadContent("investmentContainer", state, path)).done(function () { });
+}
+
+export async function setContent(containerId, newState, ...args) {
+  const targetContainer = $(`#${containerId}`);
+
+  // Clear container if newState is provided and not empty
+  if (newState && newState !== "") {
+    targetContainer.html("");
+  }
+
+  const resp = await loadSnippet(newState)
+
+  targetContainer.append(resp);
+
+  // Set localStorage based on args[0] existence
+  const localStorageKey = args[0] !== undefined && args[0] !== null ? "homeState" : "state";
+  if (newState !== "") {
+    localStorage.setItem(localStorageKey, newState);
+  }
+
+  $("#body").removeClass("sidebar-open");
 }
 

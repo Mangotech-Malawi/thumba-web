@@ -6,7 +6,7 @@ import * as loans from "../services/loans.js";
 import * as investment from "../services/investments.js";
 import * as settings from "../services/settings.js";
 import * as expense from "../services/expenses.js";
-import { loadContent } from "../actions/contentLoader.js";
+import { loadContent, setContent } from "../actions/contentLoader.js";
 import { content_view } from "../app-views/content.js";
 import { links } from "../app-views/links.js";
 import * as dashboard from "../services/dashboard.js";
@@ -185,26 +185,34 @@ function loadLinks(privileges) {
 
   // Filter and sort links based on position
   const allowedLinks = links
-      .filter(link => userPrivileges.includes(link.privilege))
-      .sort((a, b) => a.position - b.position); // Sort by position
+    .filter(link => userPrivileges.includes(link.privilege))
+    .sort((a, b) => a.position - b.position); // Sort by position
 
   // Load links in the sorted order
   allowedLinks.forEach(link => {
-      $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
-          console.log(`Loaded: ${link.link}`);
-      });
+    $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
+      console.log(`Loaded: ${link.link}`);
+    });
   });
 }
 
 
 export function selectContent(state) {
 
-  for (let index = 0; index < content_view.length; index++) {
-    if (state === content_view[index].state) {
-      loadOtherContent(state, index)
-      break;
+  if (state === "individual" || state === "organization" || state === "users") {
+    $.when(setContent(mainContent, state)).done(function (){
+      client.fetchClientsData(state);
+    });
+
+  } else {
+    for (let index = 0; index < content_view.length; index++) {
+      if (state === content_view[index].state) {
+        loadOtherContent(state, index)
+        break;
+      }
     }
   }
+
 }
 
 function loadOtherContent(state, index) {
