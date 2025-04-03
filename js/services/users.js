@@ -207,7 +207,7 @@ function loadInvitationsTable(dataset) {
     data: dataset,
     columns: [
       { data: "email" },
-      { data: "role" },
+      { data: "role_name" },
       { data: "accepted" },
       { data: "expires_at" },
       { data: "created_at" },
@@ -230,10 +230,11 @@ function loadInvitationsTable(dataset) {
 }
 
 function getResendInvitationButton(data, type, row, meta) {
-  return `<button  type="button"  class="btn btn-block btn-primary"
-    data-toggle="modal" data-target = "#modal-delete-user"
+  return `<button  type="button"  class="btn btn-block btn-primary
+    resend-invitation"
     data-id = "${data.id}"
-    data-role = "${data.role}"
+    data-role-id = "${data.role_id}"
+    data-role = "${data.role_name}"
     data-email = "${data.email}">
    <i class="fas fa-envelope"></i> Resend</button>`;
 }

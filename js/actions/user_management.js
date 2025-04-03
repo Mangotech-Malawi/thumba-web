@@ -14,7 +14,7 @@ $(function () {
                 users.inviter(getUserInvitationParams()).created,
                 "center",
                 "success",
-                "users",
+                "user-invitation",
                 "User Invitation",
                 "User invitation has been added successfully",
                 true,
@@ -22,6 +22,21 @@ $(function () {
             );
 
         }
+    });
+
+    $(document).on("click", ".resend-invitation", function (e) {
+        const invitation = $(this).data();
+
+        notification(
+            users.inviter({ email: invitation.email, role: invitation.roleId }).created,
+            "center",
+            "success",
+            "user-invitation",
+            "User Invitation Sent",
+            "User invitation has been sent successfully",
+            true,
+            3000
+        );
     });
 
     $(document).on("click", "#acceptInvitationBtn", function () {
@@ -102,7 +117,7 @@ $(function () {
          }*/
     });
 
-  
+
 
     $(document).on('show.bs.modal', '#modal-user-role', function (e) {
         const opener = e.relatedTarget;
@@ -110,7 +125,7 @@ $(function () {
         const roleId = $(opener).attr('data-role-id');
         const userId = $(opener).attr('data-user-id');
 
-      
+
         $.when(users.fetchRoles()).done(function (roles) {
             let rolesArray = []
 
@@ -448,6 +463,10 @@ function notification(
             if (recordType === "user_role") {
                 $.when(users.fetchUsers()).done(function () {
                     $("#modal-user-role").modal("hide");
+                });
+            } else if (recordType === "user-invitation") {
+                $.when( users.fetchInvitations()).done(function () {
+                    $("#modal-register-user").modal("hide");
                 });
             } else if (recordType === "delete-user") {
                 $.when(users.fetchUsers()).done(function () {
