@@ -91,17 +91,66 @@ $(function () {
 
 
         //Checking if the button clicked was a edit or add
-        if (formType === 'add') {
-            $('.modal-title').text("Add User");
-        } else {
-            $('.modal-title').text("Edit User")
-            let $userModal = $('#modal-register-user')
-            $.each(opener.dataset, function (key, value) {
-                $userModal.find(`[id = '${key}']`).val(value).change();
-            });
-        }
+        /* if (formType === 'add') {
+             $('.modal-title').text("Add User");
+         } else {
+             $('.modal-title').text("Edit User")
+             let $userModal = $('#modal-register-user')
+             $.each(opener.dataset, function (key, value) {
+                 $userModal.find(`[id = '${key}']`).val(value).change();
+             });
+         }*/
     });
 
+  
+
+    $(document).on('show.bs.modal', '#modal-user-role', function (e) {
+        const opener = e.relatedTarget;
+        formType = $(opener).attr('data-button-type');
+        const roleId = $(opener).attr('data-role-id');
+        const userId = $(opener).attr('data-user-id');
+
+      
+        $.when(users.fetchRoles()).done(function (roles) {
+            let rolesArray = []
+
+            if (typeof roles !== undefined && roles !== null && roles !== '') {
+                roles.forEach(function (role, index) {
+                    rolesArray.push(
+                        '<option value ="',
+                        role.id,
+                        '">',
+                        `${role.name}`,
+                        "</option>"
+                    );
+                });
+
+                $("#editUserRoleForm").find('[id="role"]').html(rolesArray.join(""));
+
+                $("#editUserRoleForm").find(`[id = 'role']`).val(roleId).trigger('change');
+                $("#editUserRoleForm").find(`[id = 'userId']`).val(userId);
+
+            }
+
+        });
+    });
+
+    $(document).on("click", "#updateRoleBtn", function () {
+        const user_id = $("#editUserRoleForm").find('[id="userId"]').val();
+        const role_id = $("#editUserRoleForm").find('[id="role"]').val();
+
+        notification(
+            users.updateUserRole({ user_id: user_id, role_id: role_id }).updated,
+            "center",
+            "success",
+            "user_role",
+            "Update User Role",
+            "User role has been updated successfully",
+            true,
+            3000
+        );
+
+    });
 
     $(document).on('show.bs.modal', '#modal-delete-user', function (e) {
         let opener = e.relatedTarget;
@@ -133,7 +182,7 @@ $(function () {
             $("#profileUsername").attr('disabled', true);
             $("#profileUsername").val(sessionStorage.getItem("username"));
             $("#saveProfile").attr('disabled', true);
-           // $("#newPassword").attr('disabled', true);
+            // $("#newPassword").attr('disabled', true);
             $("#confirmPassword").attr('disabled', true);
         });
     });
@@ -396,9 +445,9 @@ function notification(
                 timer: timer,
             })
         ).done(function () {
-            if (recordType === "users") {
+            if (recordType === "user_role") {
                 $.when(users.fetchUsers()).done(function () {
-                    $("#modal-register-user").modal("hide");
+                    $("#modal-user-role").modal("hide");
                 });
             } else if (recordType === "delete-user") {
                 $.when(users.fetchUsers()).done(function () {
