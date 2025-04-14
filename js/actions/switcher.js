@@ -44,7 +44,7 @@ $(document).ready(function () {
     selectContent("organization");
   });
 
-  $("#groupClient").on("click", function (e) {
+  $("#groupClient").on("click", function (e) { 
     selectContent("group");
   });
 
@@ -246,6 +246,9 @@ function loadOtherContent(state, index) {
           break;
         case "individual":
           client.fetchClientsData(state);
+          break;
+        case "client_form":
+          users.loadIdentifierTypes();
           break;
         case "organization":
           client.fetchClientsData(state);
