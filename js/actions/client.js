@@ -26,6 +26,13 @@ $(function () {
 
   if (localStorage.getItem("clientDataSet") != null) {
     currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
+    if(currentDataset.clientType === "individual"){
+      populateClientsDetails(currentDataset);
+    } else if(currentDataset.clientType === "organization"){
+      populateOrganizationDetails(currentDataset);
+    } else if(currentDataset.clientType === "group"){
+      populateGroupDetails(currentDataset);
+    } 
   }
 
   if (localStorage.getItem("clientType") != null) {
@@ -139,7 +146,7 @@ $(function () {
 
     let clientType = this.dataset.clientType;
     localStorage.setItem("clientType", clientType);
-    
+
     if (clientType === "individual") {
       loadContent.loadRecord("views/clients/individualRecord.html", "individual_records");
       $("#recordName").text(
@@ -308,12 +315,15 @@ $(function () {
       $("#recordName").text(
         `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Records`
       );
+      populateClientsDetails(currentDataset);
     } else if (clientType === "organization") {
       loadContent.loadRecord("views/clients/organizationRecord.html", "organization_records");
       `${currentDataset.orgName} Records`
+      populateOrganizationDetails(currentDataset);
     } else if (clientType === "group") {
       loadContent.loadRecord("views/clients/groupRecord.html", "group_records");
       `${currentDataset.groupName} Records`
+      populateGroupDetails(currentDataset);
     }
   });
 
@@ -333,8 +343,6 @@ $(function () {
         console.error("HTML content is null or empty.");
       }
     });
-
-
   });
 
 
