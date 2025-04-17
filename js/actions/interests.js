@@ -26,6 +26,7 @@ $(function () {
 
         $.each(data, function (key, value) {
           $(loanProductForm).find(`[id = '${key}']`).val(value);
+          $(loanProductForm).find(`[id = '${key}']`).val(value).trigger("change");
         });
       }
     );
