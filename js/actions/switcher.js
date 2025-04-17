@@ -44,7 +44,7 @@ $(document).ready(function () {
     selectContent("organization");
   });
 
-  $("#groupClient").on("click", function (e) { 
+  $("#groupClient").on("click", function (e) {
     selectContent("group");
   });
 
@@ -185,14 +185,14 @@ function loadLinks(privileges) {
 
   // Filter and sort links based on position
   const allowedLinks = links
-      .filter(link => userPrivileges.includes(link.privilege))
-      .sort((a, b) => a.position - b.position); // Sort by position
+    .filter(link => userPrivileges.includes(link.privilege))
+    .sort((a, b) => a.position - b.position); // Sort by position
 
   // Load links in the sorted order
   allowedLinks.forEach(link => {
-      $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
-          console.log(`Loaded: ${link.link}`);
-      });
+    $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
+      console.log(`Loaded: ${link.link}`);
+    });
   });
 }
 
