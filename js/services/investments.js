@@ -164,6 +164,7 @@ function getEditInvestmentPackageBtn(data, type, row, metas) {
                       data-max-amount = "${data.max_amount}"
                       data-interest-rate = "${data.interest_rate}"
                       data-interest-frequency = "${data.market_value}"
+                      data-compounding-frequency = "${data.compounding_frequency}"
                       data-duration = "${data.duration}"
                       data-currency = "${data.currency}"
                       data-risk-level = "${data.risk_level}"
@@ -172,7 +173,7 @@ function getEditInvestmentPackageBtn(data, type, row, metas) {
                       data-payout-schedule = "${data.payout_schedule}"
                       data-action-type = "edit"`;
 
-    return getButton(dataFields, "investiment-package", "primary ", "fas fa-edit");
+    return getButton(dataFields, "", "primary edit-investment-product", "fas fa-edit");
 }
 
 

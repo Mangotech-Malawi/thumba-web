@@ -1,33 +1,70 @@
 import * as investment from "../services/investments.js";
 import * as user from "../services/users.js";
 import * as form from "../utils/forms.js";
+import * as contentLoader from "../actions/contentLoader.js";
+import { notify } from "../services/utils.js";
+import { setRecordText } from "../utils/utils.js";
 
 const investmentModal = "#modal-investment";
+const investmentProductForm = "#investmentProductForm";
 const investmentPackageModal = "#modal-investiment-package";
 
 $(function () {
 
+    $(document).on("click", "#btnInvestmentProduct", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/forms/investment_product.html", 
+                                "investment_product_form")).done(
+          function () {
+    
+          }
+        );
+    });
+
+    $(document).on("click", ".edit-investment-product", function (e) {
+        const data = $(this).data();
+
+        $.when(contentLoader.loadIndividualRecordView("views/forms/investment_product.html", "investment_product_form")).done(
+            function () {
+            $("#formTitle").text("Edit Investment Product");
+
+            $.each(data, function (key, value) {
+                $(investmentProductForm).find(`[id = '${key}']`).val(value);
+            });
+            }
+        );
+    });
+
+      $(document).on("click", "#investmentProductBackBtn", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/investments/investmentPackages.html", "investment_packages")).done(
+          function () {
+            investment.fetchInvestimentPackages();
+          }
+        );
+      });
+
+
     $(document).on("click", "#saveInvestmentPackageBtn", function (e) {
+
         if(form.validateInvestmentPackageForm())
-        if ($("#investmentPackageModalTitle").text() === "Add Investment Package") {
+        if ($("#formTitle").text().trim() === "Add Investment Product") {
             notification(
                 investment.addInvestmentPackage(getInvestmentPackageParams()).created,
                 "center",
                 "success",
                 "investment_package",
-                "Add Investment Package",
-                "Investment Package has been added successfully",
+                "Add Investment Product",
+                "Investment Product has been added successfully",
                 true,
                 3000
             );
-        } else if ($("#investmentPackageModalTitle").text() === "Edit Investment Package") {
+        } else if ($("#formTitle").text() === "Edit Investment Product") {
             notification(
                 investment.editInvestmentPackage(getInvestmentPackageParams()).updated,
                 "center",
                 "success",
                 "investment_package",
-                "Edit Investment Package",
-                "Investment Package has been edited successfully",
+                "Edit Investment Product",
+                "Investment Product has been edited successfully",
                 true,
                 3000
             );
