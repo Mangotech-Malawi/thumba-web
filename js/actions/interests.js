@@ -1,9 +1,45 @@
 import * as interest from "../services/interests.js";
+import * as form from "../utils/forms.js";
+import * as contentLoader from "../actions/contentLoader.js";
 import { notify } from "../services/utils.js";
+import { setRecordText } from "../utils/utils.js";
 
 const modalId = "#modal-interest";
+const loanProductForm = "#loanProductForm";
 const delModalId = "#modal-del-interest";
 $(function () {
+
+  $(document).on("click", "#btnInterestBtn", function (e) {
+    $.when(contentLoader.loadIndividualRecordView("views/forms/interest.html", "interest_form")).done(
+      function () {
+
+      }
+    );
+  });
+  
+  $(document).on("click", ".edit-loan-product", function (e) {
+    const data = $(this).data();
+
+    $.when(contentLoader.loadIndividualRecordView("views/forms/interest.html", "interest_form")).done(
+      function () {
+        $("#formTitle").text("Edit Loan Product");
+
+        $.each(data, function (key, value) {
+          $(loanProductForm).find(`[id = '${key}']`).val(value);
+        });
+      }
+    );
+
+  });
+
+  $(document).on("click", "#loanProductBackBtn", function (e) {
+    $.when(contentLoader.loadIndividualRecordView("views/interests.html", "interests")).done(
+      function () {
+          interest.fetchInterests();
+      }
+    );
+  });
+
   $(document).on("show.bs.modal", modalId, function (e) {
     let opener = e.relatedTarget;
 
@@ -54,7 +90,7 @@ $(function () {
       compounding_frequency: compounding_frequency
     };
 
-    if ($("#interestModalTitle").text() === "Edit Interest") {
+    if ($("#formTitle").text().trim() === "Edit Loan Product") {
       let resp = interest.editInterest(params);
 
       if (resp.updated) {
@@ -73,7 +109,7 @@ $(function () {
           });
         });
       }
-    } else {
+    } else if ($("#formTitle").text().trim() === "Add Loan Product") {
       let resp = interest.addInterest(params);
       if (resp != null) {
         $.when(
@@ -105,27 +141,27 @@ $(function () {
     deleteNotification(interest.deleteInterest(id));
   });
 
- 
+
 });
 
 function deleteNotification(resp) {
-    if (resp.deleted) {
-      $.when(
-        notify(
-          "center",
-          "success",
-          "Delete Interest",
-          "interest has been deleted successfully",
-          false,
-          1500
-        )
-      ).done(function () {
-        $.when(interest.fetchInterests()).done(function () {
-          $(delModalId).modal("hide");
-        });
+  if (resp.deleted) {
+    $.when(
+      notify(
+        "center",
+        "success",
+        "Delete Interest",
+        "interest has been deleted successfully",
+        false,
+        1500
+      )
+    ).done(function () {
+      $.when(interest.fetchInterests()).done(function () {
+        $(delModalId).modal("hide");
       });
-    }
+    });
   }
+}
 
 function clearFields() {
   $("#interestId").val("");

@@ -94,22 +94,21 @@ function populateInterestsTable(dataSet) {
 }
 
 function getEditButton(data, type, row, meta) {
-  return `<button  type="button"  class="btn btn-default"
-    data-toggle="modal" data-target = "#modal-interest"
-    data-interest-id = "${data.id}"
-    data-name  = "${data.name}" 
-    data-max  = "${data.max}" 
-    data-min = "${data.min}"
-    data-rate = "${data.rate}"
-    data-accum-amount = "${data.accum_amount}"
-    data-period = "${data.period}"
-    data-grace-period ="${data.grace_period}"
-    data-accum-days ="${data.accum_days}"
-    data-loan-term-type="${data.loan_term_type}"
-    data-rate-type="${data.rate_type}"
-    data-compounding-frequency="${data.compounding_frequency}"
-    data-action-type = "edit">
-   <i class="fas fa-edit"></i></button>`;
+  const dataFields = `data-interest-id = "${data.id}"
+                      data-name  = "${data.name}" 
+                      data-max  = "${data.max}" 
+                      data-min = "${data.min}"
+                      data-rate = "${data.rate}"
+                      data-accum-amount = "${data.accum_amount}"
+                      data-period = "${data.period}"
+                      data-grace-period ="${data.grace_period}"
+                      data-accum-days ="${data.accum_days}"
+                      data-loan-term-type="${data.loan_term_type}"
+                      data-rate-type="${data.rate_type}"
+                      data-compounding-frequency="${data.compounding_frequency}"
+                      data-action-type = "edit"`
+                    
+  return getButton(dataFields, "", "default edit-loan-product", "fas fa-edit ");
 }
 
 function getDelButton(data, type, row, meta) {
@@ -117,4 +116,10 @@ function getDelButton(data, type, row, meta) {
       data-toggle="modal" data-target = "#modal-del-interest"
       data-del-interest-id = "${data.id}">
      <i class="fas fa-trash"></i></button>`;
+}
+
+
+function getButton(dataFields, modal, color, icon) {
+  return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
+          data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
