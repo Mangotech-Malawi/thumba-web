@@ -26,13 +26,13 @@ $(function () {
 
   if (localStorage.getItem("clientDataSet") != null) {
     currentDataset = JSON.parse(localStorage.getItem("clientDataSet"));
-    if(currentDataset.clientType === "individual"){
+    if (currentDataset.clientType === "individual") {
       populateClientsDetails(currentDataset);
-    } else if(currentDataset.clientType === "organization"){
+    } else if (currentDataset.clientType === "organization") {
       populateOrganizationDetails(currentDataset);
-    } else if(currentDataset.clientType === "group"){
+    } else if (currentDataset.clientType === "group") {
       populateGroupDetails(currentDataset);
-    } 
+    }
   }
 
   if (localStorage.getItem("clientType") != null) {
@@ -226,24 +226,20 @@ $(function () {
       );
     }
 
-    localStorage.setItem("clientType", data.clientType  )
+    localStorage.setItem("clientType", data.clientType)
 
   });
 
-
-  $(document).on("click", "#createGroupForm", function (e) {
-
-  });
 
   $(document).on("show.bs.modal", "#modal-group-client", function (e) {
     const opener = e.relatedTarget;
 
-    if(opener.dataset.actionType == "add"){
+    if (opener.dataset.actionType == "add") {
       selectedClients = client.getSelectedClients();
 
       if (typeof selectedClients != undefined && selectedClients != "" && selectedClients != null) {
         if (selectedClients.length > 1) {
-  
+
         } else {
           notify(
             "center",
@@ -262,7 +258,7 @@ $(function () {
           true,
           3000)
       }
-    } else if (opener.dataset.actionType == "edit"){
+    } else if (opener.dataset.actionType == "edit") {
       $("#groupModalTitle").text("Edit Group");
 
       $.each(opener.dataset, function (key, value) {
@@ -281,7 +277,7 @@ $(function () {
     const category = $("#category").val();
 
     const group_params = {
-      client_id: clientId, 
+      client_id: clientId,
       group_id: groupId,
       group_name: groupName,
       category: category,
@@ -291,39 +287,104 @@ $(function () {
 
     if (form.validGroupClientFormData()) {
 
-      if($("#groupModalTitle").text().trim() === "Add Group"){
-    
-          notification(
-            client.addClient(group_params),
-            "center",
-            "success",
-            "registration",
-            "Add Group Client",
-            "Client has been added successfully",
-            true,
-            3000
-          );
+      if ($("#groupModalTitle").text().trim() === "Add Group") {
 
-          $("#modal-group-client").modal("hide");
-          
-    
-      } else if($("#groupModalTitle").text().trim() === "Edit Group"){
-          notification(
-            client.editClient(group_params),
-            "center",
-            "success",
-            "registration",
-            "Edit Group Client",
-            "Group has been added successfully",
-            true,
-            3000
-          );
+        notification(
+          client.addClient(group_params),
+          "center",
+          "success",
+          "registration",
+          "Add Group Client",
+          "Client has been added successfully",
+          true,
+          3000
+        );
 
-          $("#modal-group-client").modal("hide");
-       }
+        $("#modal-group-client").modal("hide");
+
+
+      } else if ($("#groupModalTitle").text().trim() === "Edit Group") {
+        notification(
+          client.editClient(group_params),
+          "center",
+          "success",
+          "registration",
+          "Edit Group Client",
+          "Group has been added successfully",
+          true,
+          3000
+        );
+
+        $("#modal-group-client").modal("hide");
+      }
     }
+
+  });
+
+  $(document).on("show.bs.modal", "#modal-add-to-group", function (e) {
+     $.when(client.fetchGroups()).done(function (groups){
+
+      let groupsArray = [];
+
+      groups.forEach(function (group, index) {
+        groupsArray.push(
+          '<option value ="',
+          group.id,
+          '">',
+          `${group.name}`,
+          "</option>"
+        )
     
-    });
+        $("#groupSelector").html(groupsArray.join(""));
+      });
+     })
+  });
+
+  $(document).on("click", "#addToGroupBtn", function (e) {
+    selectedClients = client.getSelectedClients();
+
+    if (typeof selectedClients != undefined && selectedClients != "" && selectedClients != null) {
+      if (selectedClients.length > 0) {
+
+        const groupId = $("#groupSelector").val();
+        
+        const add_to_group_params = {
+                                group_id: groupId,
+                                clients_ids: selectedClients
+                              }
+
+        notification(
+          client.addClientToGroup(add_to_group_params ),
+          "center",
+          "success",
+          "registration",
+          "Add Client To Group",
+          "Added to group succesfully",
+          true,
+          3000
+        );
+        
+        $("#modal-add-to-group").modal("hide");
+        
+      } else {
+        notify(
+          "center",
+          "error",
+          "Cannot add to group",
+          "Please select atleast one client to proceed",
+          true,
+          3000)
+      }
+    } else {
+      notify(
+        "center",
+        "error",
+        "Cannot add to group",
+        "Please select atleast one client to proceed",
+        true,
+        3000)
+    }
+  });
 
 
   $(document).on("click", "#btnDemographics", function (e) {
@@ -593,7 +654,7 @@ function populateClientsDetails(currentDataset) {
   });
 }
 
-function goBackToClientTable(){
+function goBackToClientTable() {
   const clientType = localStorage.getItem("clientType");
 
   if (clientType === "individual") {
