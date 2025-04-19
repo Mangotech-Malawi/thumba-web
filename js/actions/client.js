@@ -207,7 +207,7 @@ $(function () {
           }
 
           $.each(data, function (key, value) {
-            $(individualClientForm).find(`[id = '${key}']`).val(value);
+            $(individualClientForm).find(`[id = '${key}']`).val(value).change();
           });
 
         }
@@ -384,7 +384,7 @@ function individualParams() {
   let current_district = $("#currentDistrict option:selected").val();
   let current_ta = $("#currentTa").val();
   let current_village = $("#currentVillage").val();
-  let nearest_landmark = $("#nearest_landmark option:selected").val();
+  let nearest_landmark = $("#nearestLandmark option:selected").val();
   const clientType = localStorage.getItem("clientType");
 
   let params = {
