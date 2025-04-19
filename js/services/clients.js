@@ -193,6 +193,28 @@ export function fetchGroupMembers(params) {
   }
 }
 
+export function fetchGroups(){
+    return apiClient(
+      "/api/v1/clients/groups",
+      "GET",
+      "json",
+      false,
+      false,
+      {}
+    );
+}
+
+export function addClientToGroup(params){
+  return apiClient(
+    "/api/v1/clients/add_members",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 function loadIndividualsTable(client_type) {
   const url = getBaseURL();
   // Use Set to store unique client IDs
@@ -295,13 +317,18 @@ function loadIndividualsTable(client_type) {
       selectedClients.delete(clientId);
     }
 
-    if (selectedClients.size > 1) {
-      $("#createGroupFormBtn").removeClass("d-none");
+    if (selectedClients.size > 0) {
       $("#addToGroupFormBtn").removeClass("d-none");
-    } else {
-      $("#createGroupFormBtn").addClass("d-none");
+    } else {  
       $("#addToGroupFormBtn").addClass("d-none");
     }
+    
+    if (selectedClients.size > 1){
+      $("#createGroupFormBtn").removeClass("d-none");
+    } else {
+      $("#createGroupFormBtn").addClass("d-none");
+    }
+    
   });
 }
 
