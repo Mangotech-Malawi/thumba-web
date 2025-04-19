@@ -554,7 +554,7 @@ function getGroupEditBtn(data, type, row, meta) {
                     data-action-type = "edit"
                     data-client-type = "group"`;
 
-  return getButton(dataFields, "", "default edit-client", "fas fa-edit");
+  return getButton(dataFields, "group-client", "default edit-client", "fas fa-edit");
 
 }
 
