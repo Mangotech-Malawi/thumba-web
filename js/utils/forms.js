@@ -383,6 +383,26 @@ export function validateAccountSettingsForm() {
 
 }
 
+export function validateBranchForm() {
+  formElements = []
+
+  let validData = false
+
+  pushFormElements("alphabeticStringWithSpace", "#name", true, "Branch Name");
+  pushFormElements("", "#branchType", true, "Branch Type");
+  pushFormElements("description", "#location", true, "Location");
+  pushFormElements("email", "#emailAddress", true, "Email Address");
+  pushFormElements("phoneNumber", "#phoneNumber", true, "Branch Phone");
+  pushFormElements("description", "#postalAddress", true, "Postal Address");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+
+}
+
 export function validateRoleFormData(){
   formElements = []
 
