@@ -342,5 +342,11 @@ export const content_view = [
     link: "views/settings/account.html",
     state: "account_settings",
     modals: ["views/modals/user.html"]
+  }, 
+  {
+    title: "Branches",
+    link: "views/settings/branches.html",
+    state: "branches",
+    modals: ["views/modals/user.html"]
   }
 ];
