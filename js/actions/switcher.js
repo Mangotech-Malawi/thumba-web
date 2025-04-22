@@ -173,6 +173,9 @@ $(document).ready(function () {
     selectContent("account_settings");
   });
 
+  $(document).on("click", "#branches", function (e) {
+    selectContent("branches");
+  });
 
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
@@ -365,6 +368,9 @@ function loadOtherContent(state, index) {
         case "accounts":
           account.fetchAccounts();
           break;
+        case "branches":
+            account.fetchBranches();
+            break;
         case "account_settings":
           populateAccountDetails();
           break;

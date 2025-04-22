@@ -1,8 +1,27 @@
 import * as account from "../services/account.js";
 import * as form from "../utils/forms.js"
 import { toastNote } from "../utils/utils.js"
+import * as contentLoader from "../actions/contentLoader.js";
+import * as users from "../services/users.js";
 
 $(document).ready(function () {
+
+    $(document).on("click", "#btnBranchBtn", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/forms/branches.html", "branches_form")).done(
+            function () {
+                populateUsers();
+            }
+        );
+    });
+
+    $(document).on("click", "#branchBackBtn", function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/settings/branches.html", "branches")).done(
+            function () {
+              account.fetchBranches();
+            }
+        );
+    });
+
     $(document).on("click", "#registerBtn", function (e) {
         e.preventDefault();
 
@@ -130,6 +149,61 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', '.edit-branch', function () {
+        const data = $(this).data();
+
+        $.when(contentLoader.loadIndividualRecordView("views/forms/branches.html", "branches_form")).done(
+                function () {
+                $("#cardTitle").text("Update Branch");
+
+                $.when(populateUsers()).done( function(){
+                    $.each(data, function (key, value) {
+                        $("#branchForm").find(`[id = '${key}']`).val(value);
+                        $("#branchForm").find(`[id = '${key}']`).val(value).trigger("change");
+                    });
+                });
+            }
+        );
+    });
+
+    $(document).on('click', '#saveBranchBtn', function () {
+       if(form.validateBranchForm()){
+
+            if($("#cardTitle").text().trim() === "Add Branch") {
+                $.when(account.addBranch(branchParams())).done(function (data) {
+                    notification(
+                        data.created,
+                        "center",
+                        "success",
+                        "branch",
+                        "Add Branch",
+                        "Branch has been saved successfully",
+                        true,
+                        3000,
+                        data
+                    );
+                });
+
+            } else if ($("#cardTitle").text().trim() === "Update Branch") {
+                $.when(account.updateBranch(branchParams())).done(function (data) {
+                    notification(
+                        data.updated,
+                        "center",
+                        "success",
+                        "branch",
+                        "Update Branch",
+                        "Branch has been saved successfully",
+                        true,
+                        3000,
+                        data
+                    );
+                });
+
+            }
+
+       }
+    });
+
 
 });
 
@@ -182,6 +256,30 @@ function accountSettingsParams() {
     return params;
 }
 
+function branchParams(){
+    const branchId = $("#branchId").val();
+    const name = $("#name").val();
+    const branchType = $("#branchType").val();
+    const location = $("#location").val();
+    const emailAddress = $("#emailAddress").val();
+    const phoneNumber = $("#phoneNumber").val();
+    const manager = $("#managerSelector").val();
+    const postalAddress =$("#postalAddress").val();
+
+    let params = {
+        id: branchId,
+        name: name,
+        branch_type: branchType,
+        location: location,
+        email_address: emailAddress,
+        phone_number: phoneNumber,
+        manager: manager,
+        postal_address: postalAddress
+    }
+
+    return params;
+}
+
 function notification(
     isDone,
     position,
@@ -217,11 +315,31 @@ function notification(
                     sessionStorage.setItem("account_phone_number", data.account.phone_number);
                     populateAccountDetails();
                     break;
+                case "branch":
+
             }
         });
 }
 
 
+function populateUsers(){
+    $.when(users.fetchUsers()).done(function (users){
+
+        let usersArray = [];
+
+        users.forEach(function (user, index) {
+            usersArray.push(
+                '<option value ="',
+                user.id,
+                '">',
+                `Username: ${user.username} | Name: ${user.firstname} ${user.lastname}`,
+                "</option>"
+            )
+        });
+
+        $("#managerSelector").html(usersArray.join(""));
+    })
+}
 
 function validatePassword(password) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;

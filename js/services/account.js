@@ -14,6 +14,26 @@ export function fetchAccounts() {
     return data;
 }
 
+export function addBranch(params){
+    return apiClient("/api/v1/branch/new", "POST", "json", false, false, params);
+}
+
+export function updateBranch(params){
+    return apiClient("/api/v1/branch/edit", "POST", "json", false, false, params);
+}
+
+export function fetchBranches() {
+    let data = apiClient("/api/v1/branches", "GET", "json", false, false, {});
+
+    if (data != null) {
+        populateBranchesTable(data);
+    }
+
+    return data;
+}
+
+
+
 export function uploadLogo(account_id, imageFile) {
     const formData = new FormData();
     formData.append("account[logo]", imageFile); // Rails param for the image
@@ -100,4 +120,83 @@ function getDelButton(data, type, row, meta) {
         data-toggle="modal" data-target = "#modal-del-interest"
         data-del-interest-id = "${data.id}">
        <i class="fas fa-trash"></i></button>`;
+}
+
+
+function populateBranchesTable(dataSet) {
+    $("#branchesTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: "branch_code" },
+            { data: "name" },
+            { data: "location" },
+            { data: "branch_type" },
+            { data: "email_address" },
+            { data: "phone_number" },
+            { data: null },
+            { data: null },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                render: getManagerDetails,
+                data: null,
+                targets: [6],
+            },
+            {
+                render: getEditBranchBtn,
+                data: null,
+                targets: [7],
+            },
+            {
+                render: getDelBranchBtn,
+                data: null,
+                targets: [8],
+            }
+        ],
+    });
+}
+
+function getManagerDetails(data, type, row, metas){    
+    return `${data.firstname} ${data.lastname}`
+}
+
+function getEditBranchBtn(data, type, row, metas) {
+    let dataFields = `data-branch-id = "${data.id}"
+                      data-branch-code = "${data.branch_code}"
+                      data-name = "${data.name}"
+                      data-location = "${data.location}"
+                      data-branch-type = "${data.branch_type}"
+                      data-email-address = "${data.email_address}"
+                      data-phone-number = "${data.phone_number}"
+                      data-username = "${data.username}"
+                      data-firstname = "${data.firstname}"
+                      data-lastname = "${data.lastname}"
+                      data-manager-id = "${data.manager_id}"
+                      data-postal-address = "${data.postal_address}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "", "default edit-branch",
+        "fas fa-edit");
+}
+
+function getDelBranchBtn(data, type, row, metas) {
+    let dataFields = `data-id = "${data.id}"
+                      data-action-type = "edit"`;
+
+    return getButton(dataFields, "", "danger  delete-branch",
+        "fas fa-trash")
+}
+
+
+function getButton(dataFields, modal, color, icon) {
+    return `<button type='button' class="btn btn-block btn-${color}" data-toggle="modal" 
+            data-target="#modal-${modal}" ${dataFields} ><i class="${icon}" aria-hidden="true"></i></button>`;
 }
