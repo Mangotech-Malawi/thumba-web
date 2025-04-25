@@ -291,7 +291,6 @@ export function validateUserInvitationForm() {
   let validData = false;
 
   pushFormElements("email", "#email", true, "Email");
-  pushFormElements("", "#role", true, "User Role");
 
   $.when(validate(formElements)).done(function (value) {
     validData = value;

@@ -294,7 +294,6 @@ function loadIndividualsTable(client_type) {
             selectedClients.delete(clientId);
           }
         });
-        console.log("Selected Clients:", Array.from(selectedClients));
       });
     },
     drawCallback: function () {
