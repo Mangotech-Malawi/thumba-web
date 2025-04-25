@@ -22,11 +22,15 @@ export function updateBranch(params){
     return apiClient("/api/v1/branch/edit", "POST", "json", false, false, params);
 }
 
-export function fetchBranches() {
+export function fetchBranches(table_type) {
     let data = apiClient("/api/v1/branches", "GET", "json", false, false, {});
 
     if (data != null) {
-        populateBranchesTable(data);
+        if(table_type == "user_invitation"){
+            populateUserInvitationBranchesTable(data);
+        } else if  (table_type == "account"){
+            populateBranchesTable(data);
+        }
     }
 
     return data;
@@ -193,6 +197,56 @@ function getDelBranchBtn(data, type, row, metas) {
 
     return getButton(dataFields, "", "danger  delete-branch",
         "fas fa-trash")
+}
+
+
+
+function populateUserInvitationBranchesTable(dataSet) {
+    $("#userInvitationBranchesTable").DataTable({
+        destroy: true,
+        responsive: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        autoWidth: false,
+        info: true,
+        data: dataSet,
+        columns: [
+            { data: null },
+            { data: "branch_code" },
+            { data: "name" },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                render: getCheckBox,
+                data: null,
+                targets: [0],
+            },
+            {
+                render: getRoleSelector,
+                data: null,
+                targets: [3],
+            },
+        ],
+    });
+}
+
+function getCheckBox(data, type, row, metas) {
+    return `
+        <div class="form-check icheck-primary">
+            <input class="form-check-input  branch-checkbox" type="checkbox" 
+                   id="branch_${data.id}" data-branch-id="${data.id}">
+            <label class="form-check-label" for="branch_${data.id}"></label>
+        </div>
+    `;
+}
+
+function getRoleSelector(data, type, row, metas) {
+    return `
+        <select id="role-selector${data.id}" class="form-control role-selector mr-4" style="width: 100%;" name="branch_roles_${data.id}" data-branch-id="${data.id}">
+        </select>
+    `;
 }
 
 

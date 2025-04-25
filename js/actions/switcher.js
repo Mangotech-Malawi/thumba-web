@@ -369,7 +369,7 @@ function loadOtherContent(state, index) {
           account.fetchAccounts();
           break;
         case "branches":
-            account.fetchBranches();
+            account.fetchBranches("account");
             break;
         case "account_settings":
           populateAccountDetails();

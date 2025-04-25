@@ -1,10 +1,16 @@
 import * as users from "../services/users.js";
 import * as form from "../utils/forms.js"
+import * as contentLoader from "../actions/contentLoader.js";
 import { toastNote } from "../utils/utils.js"
+import * as account from "../services/account.js";
 
 let formType;
 
+let selectedBranches = [];
+
 $(function () {
+
+    selectedBranches = [];
 
     $("#lbl-username").text(sessionStorage.getItem("username"));
 
@@ -79,6 +85,95 @@ $(function () {
         }
     });
 
+    $(document).on('click', '#addUserInvitationBtn', function (e) {
+        $.when(contentLoader.loadIndividualRecordView("views/forms/user_invitation.html", "user_invitation_form")).done(
+            function () {
+
+                selectedBranches = []
+
+                $.when(account.fetchBranches("user_invitation")).done(function (branches) {
+                    $.when(users.fetchRoles()).done(function (roles) {
+                        let rolesArray = []
+
+                        if (typeof roles !== undefined && roles !== null && roles !== '') {
+                            rolesArray.push(`<option value="">-- Select Default Role --</option>`);
+                            roles.forEach(function (role, index) {
+                                rolesArray.push(
+                                    '<option value ="',
+                                    role.id,
+                                    '">',
+                                    `${role.name}`,
+                                    "</option>"
+                                );
+                            });
+
+                            $("#bulkRole").html(rolesArray.join(""));
+                            $(".role-selector").html(rolesArray.join(""));
+                            $(".role-selector").select2();
+                        }
+
+                    });
+                });
+            }
+        );
+    });
+
+    // Listen to the "Select All" checkbox
+    $(document).on("change", "#selectAllBranches", function () {
+        const isChecked = $(this).is(":checked");
+
+        // Check/uncheck all individual branch checkboxes
+        $(".branch-checkbox").each(function () {
+            $(this).prop("checked", isChecked).trigger("change");
+        });
+    });
+
+    $(document).on("change", ".branch-checkbox", function () {
+        const all = $(".branch-checkbox").length;
+        const checked = $(".branch-checkbox:checked").length;
+        const isChecked = $(this).is(":checked")
+
+        $("#selectAllBranches").prop("checked", all === checked);
+        const data = $(this).data();
+        const role_id = $(`#role-selector${data.branchId}`).val();
+
+        if (isChecked) {
+            selectedBranches.push({ branch_id: data.branchId, role_id: role_id });
+        } else {
+            selectedBranches = selectedBranches.filter(function (item) {
+                return item.branch_id !== data.branchId;
+            });
+        }
+
+    });
+
+    $(document).on("change", ".role-selector", function () {
+        const data = $(this).data();
+        const isChecked = $(`#branch_${data.branchId}`).is(":checked");
+
+        if (isChecked) {
+            const role_id = $(`#role-selector${data.branchId}`).val();
+
+            // Find the branch in the selectedBranches array and update the role_id
+            const existing = selectedBranches.find(b => b.branch_id === data.branchId);
+            if (existing) {
+                existing.role_id = role_id;
+            } 
+        }
+
+    });
+
+    $(document).on("change", "#bulkRole", function () {
+        const value = $(this).val();
+
+        if (value !== "" && value !== null) {
+            $(".role-selector").val(value).trigger("change");
+        }else {
+            $(".role-selector").val("").trigger("change");
+        }
+    
+    });
+
     $(document).on('show.bs.modal', '#modal-register-user', function (e) {
         clearFields()
         const opener = e.relatedTarget;
@@ -99,6 +194,27 @@ $(function () {
                 });
 
                 $("#role").html(rolesArray.join(""));
+
+            }
+
+        });
+
+        $.when(account.fetchBranches()).done(function (branches) {
+            let branchesArray = []
+
+            if (typeof branches !== undefined && branches !== null && branches !== '') {
+             
+                branches.forEach(function (branch, index) {
+                    branchesArray.push(
+                        '<option value ="',
+                        branch.id,
+                        '">',
+                        `${branch.name}`,
+                        "</option>"
+                    );
+                });
+
+                $("#branchSelector").html(branchesArray.join(""));
 
             }
 
@@ -268,7 +384,7 @@ $(function () {
                     // notify("center", "success", "Updated Profile", "User has been deleted successfully", false, 1500);
                     $("#modal-profile").modal("hide");
                 } else {
-                    // notify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
+                    // notxify("center", "warning", "Updated Profile", "Failed to update user profile", false, 1500);
                     $("#modal-profile").modal("hide");
                 }
 
@@ -373,8 +489,9 @@ function validatePassword(password) {
 }
 
 function getUserInvitationParams() {
-    let email = $("#email").val();
-    let role = $("#role").val();
+
+    const email = $("#email").val();
+    const role = $("#role").val();
 
     let params = {
         email: email,
@@ -465,7 +582,7 @@ function notification(
                     $("#modal-user-role").modal("hide");
                 });
             } else if (recordType === "user-invitation") {
-                $.when( users.fetchInvitations()).done(function () {
+                $.when(users.fetchInvitations()).done(function () {
                     $("#modal-register-user").modal("hide");
                 });
             } else if (recordType === "delete-user") {

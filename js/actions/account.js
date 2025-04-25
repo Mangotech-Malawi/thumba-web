@@ -17,7 +17,7 @@ $(document).ready(function () {
     $(document).on("click", "#branchBackBtn", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/settings/branches.html", "branches")).done(
             function () {
-              account.fetchBranches();
+              account.fetchBranches("account");
             }
         );
     });
