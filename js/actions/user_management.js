@@ -16,6 +16,7 @@ $(function () {
 
     $(document).on("click", "#inviteUser", function (e) {
         if (form.validateUserInvitationForm()) {
+
             notification(
                 users.inviter(getUserInvitationParams()).created,
                 "center",
@@ -495,7 +496,7 @@ function getUserInvitationParams() {
 
     let params = {
         email: email,
-        role: role
+        branches: selectedBranches
     }
 
     return params
