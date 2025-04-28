@@ -207,7 +207,6 @@ function loadInvitationsTable(dataset) {
     data: dataset,
     columns: [
       { data: "email" },
-      { data: "role_name" },
       { data: "accepted" },
       { data: "expires_at" },
       { data: "created_at" },
@@ -218,12 +217,12 @@ function loadInvitationsTable(dataset) {
       {
         render: getResendInvitationButton,
         data: null,
-        targets: [5],
+        targets: [4],
       },
       {
         render: getDelInvitationButton,
         data: null,
-        targets: [6],
+        targets: [5],
       },
     ],
   });
@@ -233,7 +232,7 @@ function getResendInvitationButton(data, type, row, meta) {
   return `<button  type="button"  class="btn btn-block btn-primary
     resend-invitation"
     data-id = "${data.id}"
-    data-role-id = "${data.role_id}"
+    data-branches = "${data.branches}"
     data-role = "${data.role_name}"
     data-email = "${data.email}">
    <i class="fas fa-envelope"></i> Resend</button>`;
