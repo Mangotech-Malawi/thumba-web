@@ -35,7 +35,7 @@ $(function () {
         const invitation = $(this).data();
 
         notification(
-            users.inviter({ email: invitation.email, role: invitation.roleId }).created,
+            users.inviter({ email: invitation.email, branches: invitation.branches}).created,
             "center",
             "success",
             "user-invitation",
