@@ -142,11 +142,17 @@ function loadUsersTable(dataset) {
       { data: "firstname" },
       { data: "lastname" },
       { data: "email" },
-      { data: "role" },
+      { data: null },
       { data: null },
       { data: null },
     ],
     columnDefs: [
+      {
+        targets: [6],
+        render: function (data, type, row) {
+          return `<span class="badge badge-primary">${data.branches.length} branches</span> `;
+        }
+      },
       {
         render: getEditButton,
         data: null,
@@ -170,14 +176,14 @@ function getDelButton(data, type, row, meta) {
 }
 
 function getEditButton(data, type, row, meta) {
-  return `<button  type="button"  class="btn btn-block btn-default"
-    data-toggle="modal" data-target = "#modal-user-role"
+  return `<button  type="button"  class="btn btn-block btn-default edit-user-role"
     data-user-id = "${data.id}"
     data-national-id = "${data.identifier}"
     data-username = "${data.username}"
     data-firstname = "${data.firstname}"
     data-lastname = "${data.lastname}"
     data-email = "${data.email}"
+    data-branches = '${JSON.stringify(data.branches)}'
     data-role-id = "${data.role_id}"
     data-role = "${data.role}"
     data-button-type = "edit">
