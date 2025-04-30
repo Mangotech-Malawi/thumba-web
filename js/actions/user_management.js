@@ -35,7 +35,7 @@ $(function () {
         const invitation = $(this).data();
 
         notification(
-            users.inviter({ email: invitation.email, branches: invitation.branches}).created,
+            users.inviter({ email: invitation.email, branches: invitation.branches }).created,
             "center",
             "success",
             "user-invitation",
@@ -89,34 +89,32 @@ $(function () {
     $(document).on('click', '#addUserInvitationBtn', function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/user_invitation.html", "user_invitation_form")).done(
             function () {
-
-                selectedBranches = []
-
-                $.when(account.fetchBranches("user_invitation")).done(function (branches) {
-                    $.when(users.fetchRoles()).done(function (roles) {
-                        let rolesArray = []
-
-                        if (typeof roles !== undefined && roles !== null && roles !== '') {
-                            rolesArray.push(`<option value="">-- Select Default Role --</option>`);
-                            roles.forEach(function (role, index) {
-                                rolesArray.push(
-                                    '<option value ="',
-                                    role.id,
-                                    '">',
-                                    `${role.name}`,
-                                    "</option>"
-                                );
-                            });
-
-                            $("#bulkRole").html(rolesArray.join(""));
-                            $(".role-selector").html(rolesArray.join(""));
-                            $(".role-selector").select2();
-                        }
-
-                    });
-                });
+                loadRolesAndBranches();
             }
         );
+    });
+
+    $(document).on("click", ".edit-user-role", function (e) {
+        const opener = $(this).data();
+        const branches = opener.branches;
+        const roles = opener.roles;
+
+        $.when(contentLoader.loadIndividualRecordView("views/forms/user_invitation.html", "user_invitation_form"))
+            .done(function () {
+                $("#cardTitle").text("Edit User Branch Roles");
+                $.when(loadRolesAndBranches()).done(function () {
+
+                    $("#email").val(opener.email)
+                    branches.forEach(function (branch) {
+                        $(`#branch_${branch.branch_id}`).prop("checked", true);
+                        $(`#role-selector${branch.branch_id}`).val(branch.role_id).trigger("change");
+                        selectedBranches.push({ branch_id: branch.branch_id, role_id: branch.role_id });
+                    });
+
+                    //$("#selectAllBranches").prop("checked", true);
+
+                });
+            });
     });
 
     // Listen to the "Select All" checkbox
@@ -159,7 +157,7 @@ $(function () {
             const existing = selectedBranches.find(b => b.branch_id === data.branchId);
             if (existing) {
                 existing.role_id = role_id;
-            } 
+            }
         }
 
     });
@@ -169,10 +167,10 @@ $(function () {
 
         if (value !== "" && value !== null) {
             $(".role-selector").val(value).trigger("change");
-        }else {
+        } else {
             $(".role-selector").val("").trigger("change");
         }
-    
+
     });
 
     $(document).on('show.bs.modal', '#modal-register-user', function (e) {
@@ -204,7 +202,7 @@ $(function () {
             let branchesArray = []
 
             if (typeof branches !== undefined && branches !== null && branches !== '') {
-             
+
                 branches.forEach(function (branch, index) {
                     branchesArray.push(
                         '<option value ="',
@@ -623,5 +621,33 @@ function runDownOTP() {
             verifyButton.disabled = true; // Disable the Verify OTP button
         }
     }, 1000); // Runs every second
+}
+
+function loadRolesAndBranches() {
+    selectedBranches = []
+
+    $.when(account.fetchBranches("user_invitation")).done(function (branches) {
+        $.when(users.fetchRoles()).done(function (roles) {
+            let rolesArray = []
+
+            if (typeof roles !== undefined && roles !== null && roles !== '') {
+                rolesArray.push(`<option value="">-- Select Default Role --</option>`);
+                roles.forEach(function (role, index) {
+                    rolesArray.push(
+                        '<option value ="',
+                        role.id,
+                        '">',
+                        `${role.name}`,
+                        "</option>"
+                    );
+                });
+
+                $("#bulkRole").html(rolesArray.join(""));
+                $(".role-selector").html(rolesArray.join(""));
+                $(".role-selector").select2();
+            }
+
+        });
+    });
 }
 
