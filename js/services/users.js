@@ -84,6 +84,12 @@ export function updateUserRole(params) {
   );
 }
 
+export function updateUserBranchRoles(params) {
+  return apiClient("/api/v1/update_user_branch_roles", "POST", "json", false, false,
+    params,
+  );
+}
+
 export function sendOTP(params) {
   return apiClient("/api/v1/auth/send_otp", "POST", "json", false, false,
     params
