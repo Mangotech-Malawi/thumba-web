@@ -94,6 +94,19 @@ $(function () {
         );
     });
 
+    $(document).on("click", "#saveUserBranchRolesBtn", function (e) {
+        notification(
+            users.updateUserBranchRoles({ user_id: $("#userId").val(), branches: selectedBranches }).updated,
+            "center",
+            "success",
+            "user_branch_roles",
+            "Update User Branch Roles",
+            "User branch roles has been updated successfully",
+            true,
+            3000
+        );
+    });
+
     $(document).on("click", ".edit-user-role", function (e) {
         const opener = $(this).data();
         const branches = opener.branches;
@@ -102,9 +115,13 @@ $(function () {
         $.when(contentLoader.loadIndividualRecordView("views/forms/user_invitation.html", "user_invitation_form"))
             .done(function () {
                 $("#cardTitle").text("Edit User Branch Roles");
+                $("#inviteUser").text("Save Role").attr("id", "saveUserBranchRolesBtn");
+                
                 $.when(loadRolesAndBranches()).done(function () {
 
-                    $("#email").val(opener.email)
+                    $("#email").val(opener.email);
+                    $("#userId").val(opener.userId);
+
                     branches.forEach(function (branch) {
                         $(`#branch_${branch.branch_id}`).prop("checked", true);
                         $(`#role-selector${branch.branch_id}`).val(branch.role_id).trigger("change");
