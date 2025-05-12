@@ -326,6 +326,7 @@ export function saveSessionDetails(data) {
   sessionStorage.setItem("account_id", data.account_id);
   sessionStorage.setItem("account_logo", data.account_logo);
   sessionStorage.setItem("privileges", data.privileges)
+  sessionStorage.setItem("branch_user_roles", data.branch_user_roles)
 
   localStorage.clear();
 

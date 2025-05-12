@@ -120,67 +120,10 @@ function loadBranches() {
 
   // Use dummy data instead of API call for testing
   setTimeout(function() {
-    const dummyBranches = [
-      {
-        id: 1,
-        branch_id: 1,
-        name: "Main Branch - Harare",
-        branch_code: "HRE-001",
-        branch_type: "main",
-        location: "Harare CBD"
-      },
-      {
-        id: 2,
-        branch_id: 2,
-        name: "Bulawayo Branch",
-        branch_code: "BYO-002",
-        branch_type: "satellite",
-        location: "Bulawayo"
-      },
-      {
-        id: 3,
-        branch_id: 3,
-        name: "Mobile Unit 1",
-        branch_code: "MOB-001",
-        branch_type: "mobile",
-        location: "Gweru"
-      },
-      {
-        id: 4,
-        branch_id: 4,
-        name: "Online Services",
-        branch_code: "ONL-001",
-        branch_type: "online",
-        location: "Virtual"
-      },
-      {
-        id: 5,
-        branch_id: 5,
-        name: "Agency - Mutare",
-        branch_code: "AGN-001",
-        branch_type: "agency",
-        location: "Mutare"
-      },
-      {
-        id: 6,
-        branch_id: 6,
-        name: "Masvingo Branch",
-        branch_code: "MSV-001",
-        branch_type: "satellite",
-        location: "Masvingo"
-      },
-      {
-        id: 7,
-        branch_id: 7,
-        name: "Kwekwe Agency",
-        branch_code: "KWE-001",
-        branch_type: "agency",
-        location: "Kwekwe"
-      }
-    ];
+    const dummyBranches = sessionStorage.getItem("branch_user_roles");
 
     // Store all branches globally
-    allBranches = dummyBranches;
+    allBranches = JSON.parse(dummyBranches);
 
     // Update branch count
     $("#branchCount").text(allBranches.length);
@@ -205,11 +148,11 @@ function loadBranches() {
 // Function to filter branches based on search term
 function filterBranches(searchTerm) {
   // Filter branches based on search term
-  const filteredBranches = allBranches.filter(branch => {
-    return branch.name.toLowerCase().includes(searchTerm) ||
-           branch.branch_code.toLowerCase().includes(searchTerm) ||
-           branch.branch_type.toLowerCase().includes(searchTerm) ||
-           (branch.location && branch.location.toLowerCase().includes(searchTerm));
+  const filteredBranches = allBranches.filter(branch_role => {
+    return branch_role.branch.name.toLowerCase().includes(searchTerm) ||
+           branch_role.branch.branch_code.toLowerCase().includes(searchTerm) ||
+           branch_role.branch.branch_type.toLowerCase().includes(searchTerm) ||
+           (branch_role.branch.location && branch_role.branch.location.toLowerCase().includes(searchTerm));
   });
 
   // Limit the number of branches to display if not searching
@@ -232,11 +175,11 @@ function filterBranches(searchTerm) {
 }
 
 // Function to display branches as cards
-function displayBranches(branches) {
+function displayBranches(branches_roles) {
   // Clear loading indicator
   $("#branchesContainer").empty();
 
-  if (branches.length === 0) {
+  if (branches_roles.length === 0) {
     $("#branchesContainer").html(`
       <div class="col-12 text-center py-4">
         <i class="fas fa-search text-muted" style="font-size: 2rem;"></i>
@@ -248,29 +191,25 @@ function displayBranches(branches) {
   }
 
   // Create branch cards
-  branches.forEach(function(branch) {
-    const branchIcon = getBranchIcon(branch.branch_type);
+  branches_roles.forEach(function(branch_role) {
+    const branchIcon = getBranchIcon(branch_role.branch.branch_type);
     const branchCard = `
       <div class="col-md-4 col-sm-6 mb-4">
         <div class="card branch-card text-center h-100"
-             data-branch-id="${branch.branch_id || branch.id}"
-             data-branch-name="${branch.name}"
-             data-branch-code="${branch.branch_code}"
-             data-branch-type="${branch.branch_type}">
+             data-branch-id="${branch_role.branch.id || branch_role.branch.id}"
+             data-branch-name="${branch_role.branch.name}"
+             data-branch-code="${branch_role.branch.branch_code}"
+             data-branch-type="${branch_role.branch.branch_type}">
           <div class="card-header bg-light py-2">
-            <span class="badge badge-info">${capitalizeFirstLetter(branch.branch_type)}</span>
+            <span class="badge badge-info">${capitalizeFirstLetter(branch_role.branch.branch_type)}</span>
           </div>
           <div class="card-body py-3">
             <i class="${branchIcon} branch-icon text-primary"></i>
-            <h5 class="card-title mb-1">${branch.name}</h5>
-            <p class="card-text text-muted mb-1"><small>${branch.branch_code}</small></p>
-            ${branch.location ? `<p class="card-text mb-0"><small><i class="fas fa-map-marker-alt mr-1"></i>${branch.location}</small></p>` : ''}
+            <h5 class="card-title mb-1">${branch_role.branch.name}</h5>
+            <p class="card-text text-muted mb-1"><small>${branch_role.branch.branch_code}</small></p>
+            ${branch_role.branch.location ? `<p class="card-text mb-0"><small><i class="fas fa-map-marker-alt mr-1"></i>${branch_role.branch.location}</small></p>` : ''}
           </div>
-          <div class="card-footer bg-white py-2">
-            <button class="btn btn-sm btn-outline-primary select-branch-btn">
-              <i class="fas fa-check-circle mr-1"></i> Select
-            </button>
-          </div>
+         
         </div>
       </div>
     `;
