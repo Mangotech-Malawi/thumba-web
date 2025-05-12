@@ -1,6 +1,10 @@
 // A token will be used to access data from server
 $(function () {
-
+  // Check if branch is selected
+  if (sessionStorage.getItem("token") && !sessionStorage.getItem("selected_branch_id")) {
+    window.location = "branch_selection.html";
+    return;
+  }
 
   var touchStartY;
   var touchStartTime;
@@ -13,6 +17,11 @@ $(function () {
 
   $("#lbl-username").text(sessionStorage.getItem("username"));
   $("#account-name").text(` ${sessionStorage.getItem("account_name")}`);
+
+  // Display selected branch if available
+  if (sessionStorage.getItem("selected_branch_name")) {
+    $("#selected-branch").text(sessionStorage.getItem("selected_branch_name"));
+  }
 
 
   $(window).on('touchmove', { passive: false }, function (event) {
@@ -42,7 +51,7 @@ $(function () {
   $(document).on("click", "#logout-link", function (e) {
     sessionStorage.clear();
     localStorage.clear();
-    
+
     window.location = "index.html";
   });
 
