@@ -40,7 +40,7 @@ export function login(params) {
 
       $.when(saveSessionDetails(data)).done(
         function () {
-          window.location = "thumba.html";
+          window.location = "branch_selection.html";
         });
 
     } else {
