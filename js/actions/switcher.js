@@ -184,7 +184,7 @@ $(document).ready(function () {
 });
 
 function loadLinks(privileges) {
-  const userPrivileges = JSON.parse(privileges).map(priv => priv.name);
+ const userPrivileges = JSON.parse(privileges).map(priv => priv.name);
 
   // Filter and sort links based on position
   const allowedLinks = links
@@ -195,7 +195,7 @@ function loadLinks(privileges) {
   allowedLinks.forEach(link => {
     $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
       console.log(`Loaded: ${link.link}`);
-    });
+    })
   });
 }
 
