@@ -40,7 +40,14 @@ export function login(params) {
 
       $.when(saveSessionDetails(data)).done(
         function () {
-          window.location = "branch_selection.html";
+          if (sessionStorage.getItem("token") && !sessionStorage.getItem("selected_branch_id") && 
+              sessionStorage.getItem("branch_user_roles") != "" ) {
+              window.location = "branch_selection.html";
+            
+            } else  {
+              window.location = "thumba.html";
+            
+            }
         });
 
     } else {
@@ -325,7 +332,7 @@ export function saveSessionDetails(data) {
   sessionStorage.setItem("account_phone_number", data.account_phone_number);
   sessionStorage.setItem("account_id", data.account_id);
   sessionStorage.setItem("account_logo", data.account_logo);
-  sessionStorage.setItem("privileges", data.privileges)
+  sessionStorage.setItem("privileges", JSON.stringify(data.privileges))
   sessionStorage.setItem("branch_user_roles", data.branch_user_roles)
 
   localStorage.clear();
