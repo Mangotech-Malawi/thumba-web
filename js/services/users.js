@@ -40,8 +40,13 @@ export function login(params) {
 
       $.when(saveSessionDetails(data)).done(
         function () {
-          if (sessionStorage.getItem("token") && !sessionStorage.getItem("selected_branch_id") && 
-              sessionStorage.getItem("branch_user_roles") != "" ) {
+
+          const token = sessionStorage.getItem("token")
+          const branch_user_roles = JSON.parse(sessionStorage.getItem("branch_user_roles"));
+          const branch_role_id = sessionStorage.getItem("selected_branch_id");
+        
+          if (token && branch_role_id && 
+              branch_user_roles.length > 0  ) {
               window.location = "branch_selection.html";
             
             } else  {
