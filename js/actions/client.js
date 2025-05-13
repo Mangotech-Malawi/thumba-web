@@ -481,9 +481,11 @@ function individualParams() {
   let current_village = $("#currentVillage").val();
   let nearest_landmark = $("#nearestLandmark option:selected").val();
   const clientType = localStorage.getItem("clientType");
+  const selectedBranchId = sessionStorage.getItem("selected_branch_id");
 
   let params = {
     client_id: client_id,
+    branch_id: selectedBranchId,
     client_type: clientType,
     identifier: identifier,
     identifier_type_id: identifierTypeId,
@@ -515,8 +517,10 @@ function organizationParams(type) {
   let postalAddress = $("#postalAddress").val();
   let registered = $("#registered").val();
   const clientType = localStorage.getItem("clientType");
+  const selectedBranchId = sessionStorage.getItem("selected_branch_id");
 
   let params = {
+    branch_id: selectedBranchId,
     client_id: clientId,
     client_type: clientType,
     name: name,
