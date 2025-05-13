@@ -2,6 +2,7 @@
 import * as user from "../services/users.js";
 
 $(document).ready(function () {
+     sessionStorage.clear();
 
     $('#loginBtn').on('click', function(e){
         const username = $('#email').val();
