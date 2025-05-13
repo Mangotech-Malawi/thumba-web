@@ -4,7 +4,7 @@ import { apiClient } from "../services/api-client.js";
 let allBranches = [];
 let visibleBranchCount = 3; // Initially show only 3 branches
 
-$(function() {
+$(function () {
   // Display user name
   const userName = sessionStorage.getItem("username");
   $("#userName").text(userName);
@@ -13,7 +13,7 @@ $(function() {
   loadBranches();
 
   // Handle branch selection via card click
-  $(document).on("click", ".branch-card", function(e) {
+  $(document).on("click", ".branch-card", function (e) {
     // Don't trigger if clicking the select button (it has its own handler)
     if ($(e.target).hasClass('select-branch-btn') || $(e.target).closest('.select-branch-btn').length) {
       return;
@@ -23,7 +23,7 @@ $(function() {
   });
 
   // Handle branch selection via select button
-  $(document).on("click", ".select-branch-btn", function(e) {
+  $(document).on("click", ".select-branch-btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -32,18 +32,18 @@ $(function() {
   });
 
   // Handle branch search
-  $("#branchSearch").on("keyup", function() {
+  $("#branchSearch").on("keyup", function () {
     filterBranches($(this).val().toLowerCase());
   });
 
   // Handle clear search button
-  $("#clearSearch").on("click", function() {
+  $("#clearSearch").on("click", function () {
     $("#branchSearch").val("").focus();
     filterBranches("");
   });
 
   // Handle show more button
-  $("#showMoreBtn").on("click", function() {
+  $("#showMoreBtn").on("click", function () {
     visibleBranchCount = allBranches.length; // Show all branches
     filterBranches($("#branchSearch").val().toLowerCase());
     $(this).parent().hide(); // Hide the show more button
@@ -77,7 +77,7 @@ $(function() {
   }
 
   // Handle continue button click
-  $("#continueBtn").on("click", function() {
+  $("#continueBtn").on("click", function () {
     if (sessionStorage.getItem("selected_branch_id")) {
       // Show loading overlay
       $("body").addClass("loading");
@@ -91,7 +91,7 @@ $(function() {
   });
 
   // Handle logout button click
-  $("#logoutBtn").on("click", function() {
+  $("#logoutBtn").on("click", function () {
     Swal.fire({
       title: 'Logout Confirmation',
       text: "Are you sure you want to logout?",
@@ -119,30 +119,33 @@ function loadBranches() {
   $("body").addClass("loading");
 
   // Use dummy data instead of API call for testing
-  setTimeout(function() {
-    const dummyBranches = sessionStorage.getItem("branch_user_roles");
+  setTimeout(function () {
+    const branches = sessionStorage.getItem("branch_user_roles");
 
     // Store all branches globally
-    allBranches = JSON.parse(dummyBranches);
+    if (branches && branches.length > 0) {
+      allBranches = JSON.parse(branches);
 
-    // Update branch count
-    $("#branchCount").text(allBranches.length);
+      // Update branch count
+      $("#branchCount").text(allBranches.length);
 
-    if (allBranches && allBranches.length > 0) {
-      // Filter branches (this will apply the initial limit)
-      filterBranches("");
+      if (allBranches && allBranches.length > 0) {
+        // Filter branches (this will apply the initial limit)
+        filterBranches("");
 
-      // Show "Show More" button if there are more branches than the initial limit
-      if (allBranches.length > visibleBranchCount) {
-        $("#showMoreContainer").show();
+        // Show "Show More" button if there are more branches than the initial limit
+        if (allBranches.length > visibleBranchCount) {
+          $("#showMoreContainer").show();
+        }
+      } else {
+        displayNoBranchesMessage();
       }
-    } else {
-      displayNoBranchesMessage();
-    }
 
-    // Hide loading state
-    $("body").removeClass("loading");
+      // Hide loading state
+      $("body").removeClass("loading");
+    }
   }, 1000); // Simulate network delay
+
 }
 
 // Function to filter branches based on search term
@@ -150,9 +153,9 @@ function filterBranches(searchTerm) {
   // Filter branches based on search term
   const filteredBranches = allBranches.filter(branch_role => {
     return branch_role.branch.name.toLowerCase().includes(searchTerm) ||
-           branch_role.branch.branch_code.toLowerCase().includes(searchTerm) ||
-           branch_role.branch.branch_type.toLowerCase().includes(searchTerm) ||
-           (branch_role.branch.location && branch_role.branch.location.toLowerCase().includes(searchTerm));
+      branch_role.branch.branch_code.toLowerCase().includes(searchTerm) ||
+      branch_role.branch.branch_type.toLowerCase().includes(searchTerm) ||
+      (branch_role.branch.location && branch_role.branch.location.toLowerCase().includes(searchTerm));
   });
 
   // Limit the number of branches to display if not searching
@@ -191,7 +194,7 @@ function displayBranches(branches_roles) {
   }
 
   // Create branch cards
-  branches_roles.forEach(function(branch_role) {
+  branches_roles.forEach(function (branch_role) {
     const branchIcon = getBranchIcon(branch_role.branch.branch_type);
     const branchCard = `
       <div class="col-md-4 col-sm-6 mb-4">
