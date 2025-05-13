@@ -8,7 +8,7 @@
 
   <script>
     if (sessionStorage.getItem("token") === null) {
-      window.location = "index.html";
+     // window.location = "index.html";
     }
   </script>
 
@@ -132,7 +132,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-sm" href="#">
+            <a id="branch-label" class="nav-link text-sm" href="#">
               <i class="fas fa-code-branch"></i> Branch: <span id="selected-branch" class="badge badge-info"></span>
             </a>
           </li>
@@ -154,7 +154,7 @@
               </a>
               <div class="dropdown-divider"></div>
 
-              <a href="branch_selection.html" class="dropdown-item">
+              <a id="change-branch-link" href="branch_selection.html" class="dropdown-item">
                 <i class="fas fa-exchange-alt mr-2"></i> Change Branch
               </a>
               <div class="dropdown-divider"></div>

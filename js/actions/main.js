@@ -1,9 +1,13 @@
 // A token will be used to access data from server
 $(function () {
   // Check if branch is selected
-  if (sessionStorage.getItem("token") && !sessionStorage.getItem("selected_branch_id")) {
+  if (sessionStorage.getItem("token") && !sessionStorage.getItem("selected_branch_id") && 
+      sessionStorage.getItem("branch_user_roles") != "" ) {
     window.location = "branch_selection.html";
     return;
+  } else {
+    $("#branch-label").addClass("d-none");
+    $("#change-branch-link").addClass("d-none");
   }
 
   var touchStartY;
