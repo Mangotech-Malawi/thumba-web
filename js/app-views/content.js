@@ -13,6 +13,12 @@ export const content_view = [
     modals: ["views/modals/user.html"]
   },
   {
+    title: "Dashboard",
+    state: "loan_officer_dashboard",
+    link: "views/dashboards/loan-officer.html",
+    modals: ["views/modals/user.html"]
+  },
+  {
     title: "Individuals",
     link: "views/clients/individuals.html",
     modals: ["views/modals/client.html",
