@@ -31,6 +31,10 @@ $(document).ready(function () {
     selectContent("admin_dashboard");
   });
 
+  $("#loan-officer-dashboard").on("click", function (e) {
+    selectContent("loan_officer_dashboard");
+  });
+
   //The folloing are cases links
   $("#investor-dashboard").on("click", function (e) {
     selectContent("investor_dashboard");
