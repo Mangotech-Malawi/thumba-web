@@ -13,6 +13,20 @@ $(function () {
   });
 });
 
+export function loanOfficer() {
+  dashboardData = fetchLoanOfficerDashboardData();
+
+  if (typeof dashboardData !== "undefined" && dashboardData !== null && dashboardData != '') {
+    console.log("Something here apo");
+    $("#totalClients").text(nf.format(dashboardData.total_clients));
+    $("#investorsCount").text(nf.format(dashboardData.clients_who_made_investments));
+    $("#loanApplicantsCount").text(nf.format(dashboardData.clients_who_applied_loans));
+    $("#loanApplicationsCount").text(nf.format(dashboardData.total_loan_applications));
+    $("#totalLoans").text(nf.format(dashboardData.total_loans));
+    
+  }
+}
+
 export function admin() {
   dashboardData = fetchAdminDashboardData();
 
@@ -179,9 +193,18 @@ function fetchAdminDashboardData() {
   }
 }
 
+function fetchLoanOfficerDashboardData(){
+  let data = apiClient("/api/v1/loan_officer_dashboard_stats", "GET", "json", false, false, {});
+  if (data != null) {
+    return data;
+  }
+};
+
 function fetchInvestorDashboardData() {
   let data = apiClient("/api/v1/investor_dashboard_stats", "GET", "json", false, false, {});
   if (data != null) {
     return data;
   }
 }
+
+
