@@ -562,30 +562,33 @@ function populateDTIRatioScoreNames(scoreNames) {
 
 function createManualScoresCheckBoxes(scores) {
   $("#scores-checkbox-row").html("");
-  scores.forEach(function (score, index) {
-    $("#scores-checkbox-row").append(
-      '<li>' +
-      '<div class="icheck-primary  d-inline ml-2 ">' +
-      '<input class="manual-score-chkbox" type="checkbox" value="' +
-      score.score +
-      '" id="' +
-      score.id +
-      score.code +
-      '" data-id ="' +
-      score.id +
-      '" /><label for="' +
-      score.id +
-      score.code +
-      '">' +
-      '</label></div>' +
-      '<span class="text">' +
-      score.code +
-      "</span>" +
-      "</div></li>"
-    );
+  if (scores != null){
+    scores.forEach(function (score, index) {
+      $("#scores-checkbox-row").append(
+        '<li>' +
+        '<div class="icheck-primary  d-inline ml-2 ">' +
+        '<input class="manual-score-chkbox" type="checkbox" value="' +
+        score.score +
+        '" id="' +
+        score.id +
+        score.code +
+        '" data-id ="' +
+        score.id +
+        '" /><label for="' +
+        score.id +
+        score.code +
+        '">' +
+        '</label></div>' +
+        '<span class="text">' +
+        score.code +
+        "</span>" +
+        "</div></li>"
+      );
+  
+      availableManualScore += score.score;
+    });
+  }
 
-    availableManualScore += score.score;
-  });
 }
 
 function notification(

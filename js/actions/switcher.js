@@ -369,6 +369,9 @@ function loadOtherContent(state, index) {
         case "admin_dashboard":
           dashboard.admin();
           break;
+        case "loan_officer_dashboard":
+          dashboard.loanOfficer();
+          break;
         case "accounts":
           account.fetchAccounts();
           break;
