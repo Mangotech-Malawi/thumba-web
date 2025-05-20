@@ -17,19 +17,22 @@ export function loanOfficer() {
   dashboardData = fetchLoanOfficerDashboardData();
 
   if (typeof dashboardData !== "undefined" && dashboardData !== null && dashboardData != '') {
-    console.log("Something here apo");
+    //populateClientsByProducts(dashb)
+    loadProductsChart(dashboardData.products_client_count);
+    console.log(dashboardData.products_client_count);
     $("#totalClients").text(nf.format(dashboardData.total_clients));
     $("#investorsCount").text(nf.format(dashboardData.clients_who_made_investments));
     $("#loanApplicantsCount").text(nf.format(dashboardData.clients_who_applied_loans));
     $("#loanApplicationsCount").text(nf.format(dashboardData.total_loan_applications));
     $("#totalLoans").text(nf.format(dashboardData.total_loans));
-    
-  }
+    $("#disbursementRate").text(`${dashboardData.disbursement_rate}%`);
+
+  } 
 }
 
 export function admin() {
   dashboardData = fetchAdminDashboardData();
-
+  
   if (typeof dashboardData !== "undefined" && dashboardData !== null && dashboardData != '') {
     populateSharesChart(dashboardData.investors);
     populateReturnsGrowthChart(dashboardData.all_returns);
@@ -205,6 +208,137 @@ function fetchInvestorDashboardData() {
   if (data != null) {
     return data;
   }
+}
+
+function loadProductsChart(products_client_count){
+
+    const data = products_client_count;
+    
+    const isDarkMode = document.body.classList.contains("dark-mode");
+
+    // Common chart options
+    const commonOptions = {
+      chart: {
+        type: "bar",
+        height: 350,
+        background: "#f4f4f4", // Light gray background for better visibility
+        toolbar: {
+          show: true,
+          tools: {
+            download: true, // Enable download
+          },
+        },
+      },
+      toolbar: {
+        theme: "dark",
+      },
+      tooltip: {
+        theme:  "dark", // Tooltip theme remains light
+      },
+      dataLabels: {
+        style: {
+          fontSize: "14px",
+          colors: ["#000000"], // Black for data labels
+        },
+      },
+      xaxis: {
+        labels: {
+          style: {
+            fontSize: "12px", // Increased font size for X-axis labels
+            colors: "#000000", // Black for X-axis labels
+          },
+        },
+        title: {
+          style: {
+            fontSize: "20px", // Increased font size for X-axis title
+            color: "#000000", // Black for X-axis title
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "18px", // Increased font size for Y-axis labels
+            colors: "#000000", // Black for Y-axis labels
+          },
+        },
+        title: {
+          style: {
+            fontSize: "20px", // Increased font size for Y-axis title
+            color: "#000000", // Black for Y-axis title
+          },
+        },
+      },
+    };
+  
+    // Investment Products Chart
+    const investmentOptions = {
+      ...commonOptions,
+      series: [
+        {
+          name: "Subscriptions",
+          data: data.investment_products.map(
+            (product) => product.subscriptions
+          ),
+        },
+      ],
+      xaxis: {
+        ...commonOptions.xaxis,
+        categories: data.investment_products.map(
+          (product) => product.package_name
+        ),
+      },
+      colors: ["#17A2B8", "#28A745", "#FFC107"], // Warm colors
+      title: {
+        text: "Investment Products by Clients",
+        align: "center",
+        style: {
+          fontSize: "18px", // Increased font size for chart title
+          color: "#000000", // Black for chart title
+        },
+      },
+    };
+  
+    const investmentChart = new ApexCharts(
+      document.querySelector("#investmentProductsChart"),
+      investmentOptions
+    );
+    investmentChart.render();
+  
+    // Loan Products Chart
+    const loanOptions = {
+      ...commonOptions,
+      series: [
+        {
+          name: "Total Loans",
+          data: data.loan_products.map(
+            (product) => product.total_loans
+          ),
+        },
+      ],
+      xaxis: {
+        ...commonOptions.xaxis,
+        categories: data.loan_products.map(
+          (product) => product.name
+        ),
+      },
+      colors: ["#DC3545", "#6C757D", "#007BFF"], // Warm green colors
+      title: {
+        text: "Loan Products by Clients",
+        align: "center",
+        style: {
+          fontSize: "18px", // Increased font size for chart title
+          color: "#000000", // Black for chart title
+        },
+      },
+    };
+  
+    const loanChart = new ApexCharts(
+      document.querySelector("#loanProductsChart"),
+      loanOptions
+    );
+    loanChart.render();
+ 
 }
 
 
