@@ -26,7 +26,7 @@ export function loanOfficer() {
     $("#loanApplicationsCount").text(nf.format(dashboardData.total_loan_applications));
     $("#totalLoans").text(nf.format(dashboardData.total_loans));
     $("#disbursementRate").text(`${dashboardData.disbursement_rate}%`);
-
+    
   } 
 }
 
@@ -34,7 +34,7 @@ export function admin() {
   dashboardData = fetchAdminDashboardData();
   
   if (typeof dashboardData !== "undefined" && dashboardData !== null && dashboardData != '') {
-    populateSharesChart(dashboardData.investors);
+   /* populateSharesChart(dashboardData.investors);
     populateReturnsGrowthChart(dashboardData.all_returns);
     $("#totalClients").text(nf.format(dashboardData.client_count));
     $("#totalUsers").text(nf.format(dashboardData.user_count));
@@ -43,7 +43,13 @@ export function admin() {
     $("#currentlyLoaned").text(`MK${nf.format(dashboardData.currently_loaned)}`);
     $("#totalProfits").text(`MK${nf.format(dashboardData.expected_profit)}`);
     $("#totalAvailable").text(`MK${nf.format(dashboardData.total_available)}`);
-    $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);
+    $("#totalExpenses").text(`MK${nf.format(dashboardData.total_expenses)}`);*/
+    $("#totalUsers").text(dashboardData.total_users);
+    $("#totalBranches").text(dashboardData.total_branches);
+    $("#totalInvitations").text(dashboardData.invitations.total_invitations);
+    $("#totalInvitationsAccepted").text(dashboardData.invitations.accepted.yes);
+    loadUserRolesChart(dashboardData.user_role_count);
+    loadUserBranchesChart(dashboardData.user_branch_count);
   }
 
 }
@@ -339,6 +345,99 @@ function loadProductsChart(products_client_count){
     );
     loanChart.render();
  
+}
+
+function loadUserRolesChart(user_role_count){
+  const number_of_users = user_role_count.map(item => item.number_of_users);
+  const roles = user_role_count.map(item => item.name);
+
+  var options = {
+    series: number_of_users,
+    labels: roles,
+    chart: {
+    type: 'donut',
+  },
+  responsive: [{
+    breakpoint: 200,
+    options: {
+      chart: {
+        width: 100,
+        height: 350
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+  };
+
+  var chart = new ApexCharts(document.querySelector("#userRolesChart"), options);
+  chart.render();
+}
+
+function loadUserBranchesChart(user_branch_count){
+  
+  const number_of_users = user_branch_count.map(item => item.number_of_users);
+  const branch_names = user_branch_count.map(item => item.name);
+
+  var options = {
+    series: [{
+    data: number_of_users
+  }],
+    chart: {
+    type: 'bar',
+    height: 350
+  },
+  annotations: {
+    xaxis: [{
+      x: 500,
+      borderColor: '#00E396',
+      label: {
+        borderColor: '#00E396',
+        style: {
+          color: '#fff',
+          background: '#00E396',
+        },
+        text: 'X annotation',
+      }
+    }],
+    yaxis: [{
+      y: 'July',
+      y2: 'September',
+      label: {
+        text: 'Y annotation'
+      }
+    }]
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true,
+    }
+  },
+  dataLabels: {
+    enabled: true
+  },
+  xaxis: {
+    categories: branch_names,
+  },
+  grid: {
+    xaxis: {
+      lines: {
+        show: true
+      }
+    }
+  },
+  yaxis: {
+    reversed: true,
+    axisTicks: {
+      show: true
+    }
+  }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#userBranchesChart"), options);
+  chart.render();
+
 }
 
 
