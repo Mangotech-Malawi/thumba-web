@@ -196,21 +196,21 @@ function populateReturnsInvestmentChart(returns_investments) {
 }
 
 function fetchAdminDashboardData() {
-  let data = apiClient("/api/v1/admin_dashboard_stats", "GET", "json", false, false, {});
+  let data = apiClient("/api/v1/dashboard/admin", "GET", "json", false, false, {});
   if (data != null) {
     return data;
   }
 }
 
 function fetchLoanOfficerDashboardData(){
-  let data = apiClient("/api/v1/loan_officer_dashboard_stats", "GET", "json", false, false, {});
+  let data = apiClient("/api/v1/dashboard/loan_officer", "GET", "json", false, false, {});
   if (data != null) {
     return data;
   }
 };
 
 function fetchInvestorDashboardData() {
-  let data = apiClient("/api/v1/investor_dashboard_stats", "GET", "json", false, false, {});
+  let data = apiClient("/api/v1/dashboard/investor", "GET", "json", false, false, {});
   if (data != null) {
     return data;
   }
