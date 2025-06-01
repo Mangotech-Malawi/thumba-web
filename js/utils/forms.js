@@ -180,6 +180,21 @@ export function validateDumpLoanForm() {
   return validData;
 }
 
+export function validateLoanDisbursementForm() {
+  formElements = []
+
+  let validData = false;
+  pushFormElements("moneyAmount", "#disbursedAmount", true, "Disbursed Amount");
+  pushFormElements("startDate", "#disbursedDate", true, "Disbursed Date");
+  pushFormElements("description", "#notes", true, "Disbursement Notes");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value
+  });
+
+  return validData;
+}
+
 export function validateLoanPaymentForm() {
   formElements = []
 
@@ -402,7 +417,7 @@ export function validateBranchForm() {
 
 }
 
-export function validateRoleFormData(){
+export function validateRoleFormData() {
   formElements = []
 
   let validData = false
