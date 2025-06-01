@@ -95,6 +95,12 @@ export const content_view = [
     modals: ["views/modals/user.html", "views/modals/loan_payments.html"],
     state: "loan_payments",
   },
+    {
+    title: "Loan Disbursements",
+    link: "views/loans/loan_disbursement.html",
+    modals: [ "views/modals/user.html"],
+    state: "loan_disbursement",
+  },
   {
     title: "Loans",
     link: "views/loans/loans.html",
