@@ -174,6 +174,20 @@ export function fetchLoanPayments(params) {
   populatePaymentsTable(data)
 }
 
+export function fetchLoanDisbursements(params) {
+  let data = apiClient(
+    "/api/v1/loan_disbursements",
+    "GET",
+    "json",
+    false,
+    false,
+    params
+  );
+
+  populateLoanDisbursementsTable(data)
+}
+
+
 export function addCollateralSeizure(params) {
   return apiClient(
     "/api/v1/collateral_seizure",
@@ -666,7 +680,7 @@ function loadLoans(dataset) {
         targets: [8],
       },
       {
-        render: getDownloadLoanAgreementFormBtn,
+        render: getDisbursementsBtn,
         data: null,
         targets: [11]
       },
@@ -689,7 +703,15 @@ function getDownloadLoanAgreementFormBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
                     data-applicant = "${data.borrower.applicant}"`
 
-  return getButton(dataFields, "", "info download-loan-agreement", "fas fa-download");
+  return getButton(dataFields, getDisbursementsBtn, "info download-loan-agreement", "fas fa-download");
+}
+
+function getDisbursementsBtn(data, type, row, metas){
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-applicant = "${data.borrower.applicant}"
+                    `;
+
+  return getButton(dataFields, "", "success loan-disbursement", "fas fa-coins");
 }
 
 function getPayBtn(data, type, row, metas) {
@@ -697,7 +719,7 @@ function getPayBtn(data, type, row, metas) {
                     data-applicant = "${data.borrower.applicant}"
                     `;
 
-  return getButton(dataFields, "", "secondary loan-payments", "fas fa-handshake");
+  return getButton(dataFields, "", "secondary loan-payments", "fas fa-hand-holding-usd");
 }
 
 function getSeizeCollaterBtn(data, type, row, metas) {
@@ -735,7 +757,7 @@ function loadClientLoans(dataset) {
     columnDefs: [
 
       {
-        render: getDownloadLoanAgreementFormBtn,
+        render: getDisbursementsBtn,
         data: null,
         targets: [6]
       },
@@ -880,6 +902,42 @@ function getPaymentDelBtn(data, type, row, metas) {
     data-action-type = "edit"`;
   return getButton(dataFields, "", "danger delete-loan-payment", "fas fa-trash");
 }
+
+
+function populateLoanDisbursementsTable(dataset) {
+  $("#loanDisbursementsTable").DataTable({
+    destroy: true,
+    responsive: true,
+    searching: true,
+    ordering: true,
+    lengthChange: true,
+    autoWidth: false,
+    info: true,
+    data: dataset,
+    columns: [
+      { data: "id" },
+      { data: "disbursed_amount" },
+      { data: "disbursed_on" },
+      { data: "balance" },
+      { data: "disbursed_by" },
+      { data: null },
+      { data: null },
+    ],
+    columnDefs: [
+      {
+        render: getPaymentUpdateBtn,
+        data: null,
+        targets: [5],
+      },
+      {
+        render: getPaymentDelBtn,
+        data: null,
+        targets: [6],
+      },
+    ],
+  });
+}
+
 
 
 function populateSeizedCollateralsTable(dataset) {
