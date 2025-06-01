@@ -31,61 +31,85 @@ $(function () {
     });
 
     $(document).on("show.bs.modal", disbursementModal, function (e) {
+        const opener = e.relatedTarget;
+
+        if (opener.dataset.actionType === "add") {
+            $("#disbursementModalTitle").text("Add Disbursement");
+        } else if (opener.dataset.actionType === "edit") {
+            // Populate modal fields with disbursement data for editing
+            $("#disbursementId").val(opener.dataset.disbursementId);
+            $("#disbursedAmount").val(opener.dataset.disbursedAmount);
+            $("#disbursedDate").val(opener.dataset.disbursedDate);
+            $("#notes").val(opener.dataset.notes || "");
+            $("#disbursementModalTitle").text("Edit Disbursement");
+        }
 
     });
 
     $(document).on("click", "#saveDisbursementBtn", function (e) {
 
-        console.log("Something here strange");
-        
         if (form.validateLoanDisbursementForm()) {
-            if (disbursementFormTitle === "Add Disbursement") {
-                notification(
-                    loans.addDisbursement(getDisbursementParams()).created,
-                    "center",
-                    "success",
-                    "disbursement",
-                    "Loan Disbursement",
-                    "Loan has been disbursed successfully",
-                    true,
-                    3000
-                );
-            } else if (disbursementFormTitle === "Edit Disbursement") {
-                notification(
-                    loans.updateDisbursement(getDisbursementParams()).updated,
-                    "center",
-                    "success",
-                    "disbursement",
-                    "Loan Disbursement",
-                    "Loan disbursement has been updated successfully",
-                    true,
-                    3000
-                );
-
+            if ($("#disbursementModalTitle").text().trim() === "Add Disbursement") {
+                if (loans.addDisbursement(getDisbursementParams()).created) {
+                    reloadDisbursements("Add Disbursement", "Disbursement added successfully");
+                }
+            } else if ($("#disbursementModalTitle").text().trim() === "Edit Disbursement") {
+                if (loans.editDisbursement(getDisbursementParams()).updated) {
+                    reloadDisbursements("Edit Disbursement", "Disbursement updated successfully");
+                }
             }
         }
 
     });
 
 
-})
+    // Delete Disbursement
+    $(document).on("click", ".delete-disbursement", function (e) {
+        const disbursementId = $(this).data("disbursementId");
+        if (confirm("Are you sure you want to delete this disbursement?")) {
+            $.when(loans.deleteDisbursement({ disbursement_id: disbursementId })).done(function (resp) {
+                if (resp && resp.deleted) {
+                    reloadDisbursements("Delete Disbursement", "Disbursement deleted successfully");
+                } else {
+                    notify("center", "error", "Delete Failed", "Could not delete disbursement", false, 3000);
+                }
+            });
+        }
+    });
+
+
+});
+
+function reloadDisbursements(title, description) {
+    $.when(
+        notify(
+            "center",
+            "success",
+            title,
+            description,
+            false,
+            3000
+        )
+    ).done(function () {
+        $.when(loans.fetchLoanDisbursements({ loan_id: loan_id })).done(function () {
+            $(disbursementModal).modal("hide");
+        });
+    });
+}
 
 function getDisbursementParams() {
-
-    const loanId = $("#disbursementLoanId").val();
     const disbursementId = $("#disbursementId").val();
     const amount = $("#disbursedAmount").val();
     const disbursedOn = $("#disbursedDate").val();
     const notes = $("#notes").val();
 
-    params = {
-        loan_id: loanId,
+    return {
+        loan_id: loan_id,
         disbursementId: disbursementId,
         disbursed_amount: amount,
         disbursed_on: disbursedOn,
         notes: notes
     }
 
-    return params;
 }
 

@@ -174,6 +174,18 @@ export function fetchLoanPayments(params) {
   populatePaymentsTable(data)
 }
 
+
+export function addDisbursement(params) {
+  return apiClient(
+    "/api/v1/loan_disbursement",
+    "POST",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function fetchLoanDisbursements(params) {
   let data = apiClient(
     "/api/v1/loan_disbursements",
@@ -706,7 +718,7 @@ function getDownloadLoanAgreementFormBtn(data, type, row, metas) {
   return getButton(dataFields, getDisbursementsBtn, "info download-loan-agreement", "fas fa-download");
 }
 
-function getDisbursementsBtn(data, type, row, metas){
+function getDisbursementsBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
                     data-applicant = "${data.borrower.applicant}"
                     `;
@@ -925,12 +937,12 @@ function populateLoanDisbursementsTable(dataset) {
     ],
     columnDefs: [
       {
-        render: getPaymentUpdateBtn,
+        render: getDisbursementUpdateBtn,
         data: null,
         targets: [5],
       },
       {
-        render: getPaymentDelBtn,
+        render: getDisbursementDelBtn,
         data: null,
         targets: [6],
       },
@@ -938,7 +950,22 @@ function populateLoanDisbursementsTable(dataset) {
   });
 }
 
+function getDisbursementUpdateBtn(data, type, row, metas) {
+  let dataFields = `data-loan-id = "${data.loan_id}"
+                    data-disbursment-id = "${data.id}"
+                    data-disbursed-amount =  "${data.disbursed_amount}"
+                    data-disbursed-date = "${data.disbursed_on}"
+                    data-notes ="${data.notes}"
+                    data-action-type = "edit"`;
 
+  return getButton(dataFields, "disbursement", "default ", "fas fa-edit");
+}
+
+function getDisbursementDelBtn(data, type, row, metas) {
+  let dataFields = `data-disbursement-id = "${data.id}"
+                    data-action-type = "delete"`;
+  return getButton(dataFields, "", "danger delete-disbursement", "fas fa-trash");
+}
 
 function populateSeizedCollateralsTable(dataset) {
   $("#seizedCollateralsTable").DataTable({
