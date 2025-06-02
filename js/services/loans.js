@@ -186,6 +186,17 @@ export function addDisbursement(params) {
   );
 }
 
+export function editDisbursement(params) {
+   return apiClient(
+    "/api/v1/loan_disbursement",
+    "PUT",
+    "json",
+    false,
+    false,
+    params
+  );
+}
+
 export function fetchLoanDisbursements(params) {
   let data = apiClient(
     "/api/v1/loan_disbursements",
@@ -952,7 +963,7 @@ function populateLoanDisbursementsTable(dataset) {
 
 function getDisbursementUpdateBtn(data, type, row, metas) {
   let dataFields = `data-loan-id = "${data.loan_id}"
-                    data-disbursment-id = "${data.id}"
+                    data-disbursement-id = "${data.id}"
                     data-disbursed-amount =  "${data.disbursed_amount}"
                     data-disbursed-date = "${data.disbursed_on}"
                     data-notes ="${data.notes}"
