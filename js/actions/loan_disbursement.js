@@ -50,18 +50,24 @@ $(function () {
 
         if (form.validateLoanDisbursementForm()) {
             if ($("#disbursementModalTitle").text().trim() === "Add Disbursement") {
-                if (loans.addDisbursement(getDisbursementParams()).created) {
+                const resp = getDisbursementParams();
+                if (loans.addDisbursement(resp.created)) {
                     reloadDisbursements("Add Disbursement", "Disbursement added successfully");
+                } else {
+                    notify("center", "error", "Add Disbursement", resp.error, false, 3000);
                 }
             } else if ($("#disbursementModalTitle").text().trim() === "Edit Disbursement") {
-                if (loans.editDisbursement(getDisbursementParams()).updated) {
+                const resp = loans.editDisbursement(getDisbursementParams());
+             
+                if (resp.updated) {
                     reloadDisbursements("Edit Disbursement", "Disbursement updated successfully");
-                }
+                } else {
+                    notify("center", "error", "Update Disbursement", resp.error, false, 3000);
+                }      
             }
         }
 
     });
-
 
     // Delete Disbursement
     $(document).on("click", ".delete-disbursement", function (e) {
@@ -105,7 +111,7 @@ function getDisbursementParams() {
 
     return {
         loan_id: loan_id,
-        disbursementId: disbursementId,
+        disbursement_id: disbursementId,
         disbursed_amount: amount,
         disbursed_on: disbursedOn,
         notes: notes
