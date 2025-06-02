@@ -669,12 +669,7 @@ function loadLoans(dataset) {
       { data: "loan_id" },
       { data: null },
       { data: null },
-      { data: "rate" },
       { data: "amount" },
-      { data: "payment" },
-      { data: "profit" },
-      { data: null },
-      { data: null },
       { data: "loaned_date" },
       { data: "due_date" },
       { data: null },
@@ -693,29 +688,19 @@ function loadLoans(dataset) {
         targets: [2],
       },
       {
-        render: getGrade,
-        data: null,
-        targets: [7],
-      },
-      {
-        render: getRisk,
-        data: null,
-        targets: [8],
-      },
-      {
         render: getDisbursementsBtn,
         data: null,
-        targets: [11]
+        targets: [6]
       },
       {
         render: getPayBtn,
         data: null,
-        targets: [12],
+        targets: [7],
       },
       {
         render: getSeizeCollaterBtn,
         data: null,
-        targets: [13]
+        targets: [8]
       }
     ]
   });
