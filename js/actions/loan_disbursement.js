@@ -50,9 +50,9 @@ $(function () {
 
         if (form.validateLoanDisbursementForm()) {
             if ($("#disbursementModalTitle").text().trim() === "Add Disbursement") {
-                const resp = loans.addDisbursement(getDisbursementParams);
+                const resp = loans.addDisbursement(getDisbursementParams());
 
-                if (loans.addDisbursement(resp.created)) {
+                if (resp.created) {
                     reloadDisbursements("Add Disbursement", "Disbursement added successfully");
                 } else {
                     notify("center", "error", "Add Disbursement", resp.error, false, 3000);
