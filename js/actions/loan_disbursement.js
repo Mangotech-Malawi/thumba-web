@@ -12,13 +12,23 @@ const disbursementModal = "#modal-disbursement";
 
 $(function () {
 
+
+    if (localStorage.getItem("loanDisbursementDataset") != null && typeof localStorage != undefined) {
+        currentDisbursementDataset = JSON.parse(localStorage.getItem("loanDisbursementDataset"));
+        loan_id = currentDisbursementDataset.loanId;
+     
+        $("#disbursementTitle").text(`Loan # ${loan_id} Disbursement for ${currentDisbursementDataset.applicant}`);
+         
+         $.when(loans.fetchLoanDisbursements({ loan_id: loan_id })).done(function () { });
+    }
+
     $(document).on("click", ".loan-disbursement", function (e) {
         currentDisbursementDataset = this.dataset;
-        localStorage.setItem("loanDisbursement",
+        localStorage.setItem("loanDisbursementDataset",
             JSON.stringify(currentDisbursementDataset));
 
         loan_id = $(this).data().loanId;
-        let headerText = `Loan Disbursement for ${$(this).data().applicant}`;
+        let headerText = `Loan # ${loan_id} Disbursement for ${$(this).data().applicant}`;
 
         $.when(contentLoader.loadIndividualRecordView("views/loans/loan_disbursement.html", "loan_disbursement")).done(
             function () {
@@ -50,21 +60,21 @@ $(function () {
 
         if (form.validateLoanDisbursementForm()) {
             if ($("#disbursementModalTitle").text().trim() === "Add Disbursement") {
-                const resp = loans.addDisbursement(getDisbursementParams);
+                const resp = loans.addDisbursement(getDisbursementParams());
 
-                if (loans.addDisbursement(resp.created)) {
+                if (resp.created) {
                     reloadDisbursements("Add Disbursement", "Disbursement added successfully");
                 } else {
                     notify("center", "error", "Add Disbursement", resp.error, false, 3000);
                 }
             } else if ($("#disbursementModalTitle").text().trim() === "Edit Disbursement") {
                 const resp = loans.editDisbursement(getDisbursementParams());
-             
+
                 if (resp.updated) {
                     reloadDisbursements("Edit Disbursement", "Disbursement updated successfully");
                 } else {
                     notify("center", "error", "Update Disbursement", resp.error, false, 3000);
-                }      
+                }
             }
         }
 
