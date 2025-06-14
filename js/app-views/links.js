@@ -65,5 +65,10 @@ export const links = [
         link: "views/links/settings.html",
         position: 13,
     },
+    {
+        privilege: "manage_shares",
+        link: "views/links/shares_management.html",
+        position: 14,
+    }
 
 ]
