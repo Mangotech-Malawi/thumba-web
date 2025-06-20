@@ -37,9 +37,9 @@ export const content_view = [
   {
     title: "Group Record ",
     link: "views/clients/groupRecord.html",
-    modals: ["views/modals/client.html", 
-            "views/modals/user.html",
-          "views/modals/group_client.html"],
+    modals: ["views/modals/client.html",
+      "views/modals/user.html",
+      "views/modals/group_client.html"],
     state: "group_rcords",
   },
   {
@@ -95,10 +95,10 @@ export const content_view = [
     modals: ["views/modals/user.html", "views/modals/loan_payments.html"],
     state: "loan_payments",
   },
-    {
+  {
     title: "Loan Disbursements",
     link: "views/loans/loan_disbursement.html",
-    modals: [ "views/modals/user.html"],
+    modals: ["views/modals/user.html"],
     state: "loan_disbursement",
   },
   {
@@ -354,11 +354,35 @@ export const content_view = [
     link: "views/settings/account.html",
     state: "account_settings",
     modals: ["views/modals/user.html"]
-  }, 
+  },
   {
     title: "Branches",
     link: "views/settings/branches.html",
     state: "branches",
+    modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Share Classes",
+    link: "views/share_management/share_classes.html",
+    state: "share_classes",
+    modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Shareholders",
+    link: "views/share_management/shareholders.html",
+    state: "shareholders",
+    modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Capital Contributions",
+    link: "views/share_management/capital_contributions.html",
+    state: "capital_contribution",
+    modals: ["views/modals/user.html"]
+  },
+  {
+    title: "Shares",
+    link: "views/share_management/shares.html",
+    state: "shares",
     modals: ["views/modals/user.html"]
   }
 ];

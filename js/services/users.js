@@ -283,6 +283,7 @@ function loadRolesTable(data) {
       manages_products: role.privileges.some(p => p.name === "manages_products"),
       client_portal_access: role.privileges.some(p => p.name === "client_portal_access"),
       manages_settings: role.privileges.some(p => p.name === "manages_settings"),
+      manages_shares: role.privileges.some(p => p.name === "manages_shares"),
       system_default_flag: role.system_default
     };
   });
@@ -307,6 +308,7 @@ function loadRolesTable(data) {
       { data: "manages_products", render: renderCheckbox },
       { data: "client_portal_access", render: renderCheckbox },
       { data: "manages_settings", render: renderCheckbox },
+      { data: "manages_shares", render: renderCheckbox },
       { data: null, render: getDelRolesButton }
     ]
   });

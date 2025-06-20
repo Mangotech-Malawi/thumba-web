@@ -12,6 +12,7 @@ import { links } from "../app-views/links.js";
 import * as dashboard from "../services/dashboard.js";
 import * as subscription from "../services/subscription.js";
 import * as account from "../services/account.js";
+import * as share_management from "../services/share_management.js";
 import { populateAccountDetails } from "../actions/account.js"
 
 let privileges = sessionStorage.getItem("privileges");
@@ -181,6 +182,22 @@ $(document).ready(function () {
     selectContent("branches");
   });
 
+  $(document).on("click", "#shareClass", function (e) {
+    selectContent("share_classes");
+  });
+
+  $(document).on("click", "#shareholders", function (e) {
+    selectContent("shareholders");
+  });
+
+  $(document).on("click", "#capitalContribution", function (e) {
+    selectContent("capital_contribution");
+  });
+
+  $(document).on("click", "#shares", function (e) {
+    selectContent("shares");
+  });
+
   $("#logout").on("click", function (e) {
     sessionStorage.clear();
     users.logout();
@@ -188,7 +205,7 @@ $(document).ready(function () {
 });
 
 function loadLinks(privileges) {
- const userPrivileges = JSON.parse(privileges).map(priv => priv.name);
+  const userPrivileges = JSON.parse(privileges).map(priv => priv.name);
 
   // Filter and sort links based on position
   const allowedLinks = links
@@ -376,10 +393,22 @@ function loadOtherContent(state, index) {
           account.fetchAccounts();
           break;
         case "branches":
-            account.fetchBranches("account");
-            break;
+          account.fetchBranches("account");
+          break;
         case "account_settings":
           populateAccountDetails();
+          break;
+        case "share_classes":
+          share_management.fetchShareClasses();
+          break;
+        case "shareholders":
+          share_management.fetchShareholders();
+          break;
+        case "capital_contributions":
+          share_management.fetchCapitalContributions();
+          break;
+        case "shares":
+          share_management.fetchShares();
           break;
       }
     }
