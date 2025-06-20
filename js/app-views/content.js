@@ -384,5 +384,11 @@ export const content_view = [
     link: "views/share_management/shares.html",
     state: "shares",
     modals: ["views/modals/user.html", "views/modals/shares_management.html"]
+  },
+   {
+    title: "Shareholder Form",
+    link: "views/forms/shareholder.html",
+    state: "shareholder_form",
+    modals: ["views/modals/user.html", "views/modals/shares_management.html"]
   }
 ];
