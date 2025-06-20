@@ -66,7 +66,7 @@ export const links = [
         position: 13,
     },
     {
-        privilege: "manage_shares",
+        privilege: "manages_shares",
         link: "views/links/shares_management.html",
         position: 14,
     }
