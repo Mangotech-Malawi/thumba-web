@@ -404,7 +404,7 @@ function loadOtherContent(state, index) {
         case "shareholders":
           share_management.fetchShareholders();
           break;
-        case "capital_contributions":
+        case "capital_contribution":
           share_management.fetchCapitalContributions();
           break;
         case "shares":

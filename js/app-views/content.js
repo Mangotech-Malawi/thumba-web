@@ -365,24 +365,24 @@ export const content_view = [
     title: "Share Classes",
     link: "views/share_management/share_classes.html",
     state: "share_classes",
-    modals: ["views/modals/user.html"]
+    modals: ["views/modals/user.html", "views/modals/shares_management.html"]
   },
   {
     title: "Shareholders",
     link: "views/share_management/shareholders.html",
     state: "shareholders",
-    modals: ["views/modals/user.html"]
+    modals: ["views/modals/user.html", "views/modals/shares_management.html"]
   },
   {
     title: "Capital Contributions",
     link: "views/share_management/capital_contributions.html",
     state: "capital_contribution",
-    modals: ["views/modals/user.html"]
+    modals: ["views/modals/user.html", "views/modals/shares_management.html"]
   },
   {
     title: "Shares",
     link: "views/share_management/shares.html",
     state: "shares",
-    modals: ["views/modals/user.html"]
+    modals: ["views/modals/user.html", "views/modals/shares_management.html"]
   }
 ];
