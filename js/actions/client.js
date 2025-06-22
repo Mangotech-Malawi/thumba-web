@@ -79,8 +79,8 @@ $(function () {
           "center",
           "success",
           "registration",
-          "Edit Individual Client",
-          "Client has been updated successfully",
+          "Add Individual Client",
+          "Client has been added successfully",
           true,
           3000
         );
@@ -90,8 +90,8 @@ $(function () {
           "center",
           "success",
           "registration",
-          "Add Individual Client",
-          "Client has been added successfully",
+          "Edit Individual Client",
+          "Client has been updated successfully",
           true,
           3000
         );
@@ -322,7 +322,7 @@ $(function () {
   });
 
   $(document).on("show.bs.modal", "#modal-add-to-group", function (e) {
-     $.when(client.fetchGroups()).done(function (groups){
+    $.when(client.fetchGroups()).done(function (groups) {
 
       let groupsArray = [];
 
@@ -334,10 +334,10 @@ $(function () {
           `${group.name}`,
           "</option>"
         )
-    
+
         $("#groupSelector").html(groupsArray.join(""));
       });
-     })
+    })
   });
 
   $(document).on("click", "#addToGroupBtn", function (e) {
@@ -347,14 +347,14 @@ $(function () {
       if (selectedClients.length > 0) {
 
         const groupId = $("#groupSelector").val();
-        
+
         const add_to_group_params = {
-                                group_id: groupId,
-                                clients_ids: selectedClients
-                              }
+          group_id: groupId,
+          clients_ids: selectedClients
+        }
 
         notification(
-          client.addClientToGroup(add_to_group_params ),
+          client.addClientToGroup(add_to_group_params),
           "center",
           "success",
           "registration",
@@ -363,9 +363,9 @@ $(function () {
           true,
           3000
         );
-        
+
         $("#modal-add-to-group").modal("hide");
-        
+
       } else {
         notify(
           "center",
