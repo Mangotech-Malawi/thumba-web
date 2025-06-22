@@ -433,6 +433,19 @@ export function validateRoleFormData() {
   return validData;
 }
 
+export function validCapitalContributionFormData() {
+  formElements = []
+  let validData = false;
+
+  pushFormElements("startDate", "#contributedDate", true, "Contribution Date");
+  pushFormElements("moneyAmount", "#amount", true, "Amount");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
 
 function pushFormElements(type, id, isFilled, name) {
   formElements.push({

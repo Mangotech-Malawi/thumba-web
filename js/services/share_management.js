@@ -10,6 +10,8 @@ export function fetchShareClasses(params) {
         params)
 
     loadShareClasses(data)
+
+    return data;
 }
 
 export function loadShareClasses(dataset) {
@@ -69,6 +71,10 @@ function getDeleteShareClassBtn(data, type, row, metas) {
 
 
 // Shareholders
+export function addShareholder(params) {
+  return apiClient("/api/v1/shareholder", "POST", "json", false, false, params);
+}
+
 export function fetchShareholders(params) {
     const data = apiClient("/api/v1/shareholders",
         "GET",
@@ -102,18 +108,31 @@ export function loadShareholders(dataset) {
 
         columnDefs: [
             {
-
-                render: getEditShareholderBtn,
+                render: getContributionBtn,
                 data: null,
                 targets: [4],
             },
             {
-                render: getDeleteShareholderBtn,
+
+                render: getEditShareholderBtn,
                 data: null,
                 targets: [5],
+            },
+            {
+                render: getDeleteShareholderBtn,
+                data: null,
+                targets: [6],
             }
         ],
     });
+}
+
+function getContributionBtn(data, type, row, metas) {
+    let dataFields = `data-shareholder-id = "${data.shareholder_id}"
+                      data-share-class-modal-title = "Edit Share Class"`;
+
+    return getButton(dataFields, "capital-contribution", "default edit-shareholder",
+        "fas fa-money-bill-alt")
 }
 
 function getEditShareholderBtn(data, type, row, metas) {
@@ -124,7 +143,7 @@ function getEditShareholderBtn(data, type, row, metas) {
                       data-share-class-modal-title = "Edit Share Class"`;
 
     return getButton(dataFields, "", "default edit-shareholder",
-        "fas fa-money-bill-alt");
+        "fas fa-edit");
 }
 
 function getDeleteShareholderBtn(data, type, row, metas) {
@@ -136,6 +155,10 @@ function getDeleteShareholderBtn(data, type, row, metas) {
 
 
 // Capital Contributions
+
+export function addCapitalContribution(params) {
+  return apiClient("/api/v1/capital_contribution", "POST", "json", false, false, params);
+}
 
 export function fetchCapitalContributions(params) {
     const data = apiClient("/api/v1/capital_contributions",
