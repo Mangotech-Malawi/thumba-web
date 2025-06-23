@@ -5,6 +5,7 @@ import { loadIdentifierTypes } from "../services/users.js";
 
 const capitalContributionModal = "#modal-capital-contribution";
 let capitalContributionModalTitle = "#capitalContributionModalTitle";
+const capitalContributionStatusModal = "#modal-capital-contibuton-status";
 
 $(function () {
     $(document).on("click", "#btnShareholderBtn", function () {
@@ -85,6 +86,17 @@ $(function () {
                 );
             }
         }
+    });
+
+    // Place this in your main JS file or after DataTable initialization
+
+    $(document).on('change', '.capital-status-selector', function () {
+        const id = $(this).data('id');
+        const newStatus = $(this).val();
+        const $select = $(this);
+
+        console.log(newStatus);
+        console.log(id);
     });
 
 
