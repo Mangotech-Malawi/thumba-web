@@ -72,7 +72,7 @@ function getDeleteShareClassBtn(data, type, row, metas) {
 
 // Shareholders
 export function addShareholder(params) {
-  return apiClient("/api/v1/shareholder", "POST", "json", false, false, params);
+    return apiClient("/api/v1/shareholder", "POST", "json", false, false, params);
 }
 
 export function fetchShareholders(params) {
@@ -157,7 +157,7 @@ function getDeleteShareholderBtn(data, type, row, metas) {
 // Capital Contributions
 
 export function addCapitalContribution(params) {
-  return apiClient("/api/v1/capital_contribution", "POST", "json", false, false, params);
+    return apiClient("/api/v1/capital_contribution", "POST", "json", false, false, params);
 }
 
 export function fetchCapitalContributions(params) {
@@ -168,7 +168,9 @@ export function fetchCapitalContributions(params) {
         false,
         params)
 
-    loadCapitalContributions(data)
+    $.when(loadCapitalContributions(data)).done(function () {
+        $(".capital-status-selector").select2();
+    });
 }
 
 export function loadCapitalContributions(dataset) {
@@ -191,7 +193,7 @@ export function loadCapitalContributions(dataset) {
             { data: "code" },
             { data: "price_per_share" },
             { data: "amount" },
-            { data: "status" },
+            { data: "status", render: getStatusBadge },
             { data: null },
             { data: null }
         ],
@@ -210,6 +212,26 @@ export function loadCapitalContributions(dataset) {
             }
         ],
     });
+}
+
+function getStatusBadge(data, type, row, metas) {
+    let badgeClass = "badge-secondary";
+    if (data === "approved") badgeClass = "badge-success";
+    else if (data === "pending") badgeClass = "badge-warning";
+    else if (data === "rejected") badgeClass = "badge-danger";
+
+    if (data === "pending") {
+        return `
+            <select class="form-control form-control-md d-inline capital-status-selector"
+                    data-id="${row.id}" style="width:auto; min-width:110px;">
+                <option value="pending" selected>Pending</option>
+                <option value="approved">Approve</option>
+                <option value="rejected">Reject</option>
+            </select>
+        `;
+    } else {
+        return `<span class="badge ${badgeClass}">${data.charAt(0).toUpperCase() + data.slice(1)}</span>`;
+    }
 }
 
 function getEditCapitalContributionBtn(data, type, row, metas) {
