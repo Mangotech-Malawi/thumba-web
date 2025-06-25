@@ -95,13 +95,31 @@ $(function () {
         const newStatus = $(this).val();
         const $select = $(this);
 
-        console.log(newStatus);
-        console.log(id);
+        $.when($(capitalContributionStatusModal).modal("show")).done(function () {
+            $("#confirmationMessage").text(`Are you sure you want to update
+                                         capital contribution to ${newStatus}`);
+
+            $(capitalContributionStatusModal).find(`[id= 'contributionId']`).val(id);
+            $(capitalContributionStatusModal).find(`[id= 'contributionStatus']`).val(newStatus);
+        });
+
     });
 
-
-
-
+    $(document).on('click', '#updateCapitalContributionStatusBtn', function () {
+        const id = $(capitalContributionStatusModal).find(`[id= 'contributionId']`).val();
+        const newStatus = $("#contributionStatus").val();
+        
+        notification(
+            share_management.updateCapitalContributionStatus({ id: id, status: newStatus }).updated,
+            "center",
+            "success",
+            "capital_contribution_status",
+            "Capital Contribution Status Update",
+            `Capital Contribution has been ${newStatus} successfully`,
+            true,
+            3000
+        );
+    });
 })
 
 // Shareholder params
@@ -193,6 +211,11 @@ function notification(
                         $(capitalContributionModal).modal("hide");
                     });
                     break;
+                case "capital_contribution_status":
+                    share_management.fetchCapitalContributions();
+                    $(capitalContributionStatusModal).modal("hide");
+                    break;
+
             }
         });
 }

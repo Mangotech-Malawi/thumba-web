@@ -178,6 +178,10 @@ export function fetchCapitalContributions(params) {
     });
 }
 
+export function updateCapitalContributionStatus(params) {
+    return apiClient("/api/v1/capital_contribution/status", "POST", "json", false, false, params);
+}
+
 export function loadCapitalContributions(dataset) {
 
     $("#capitalContributionsTable").DataTable({
@@ -228,6 +232,7 @@ function getStatusBadge(data, type, row, metas) {
         return `
             <select class="form-control form-control-sm d-inline capital-status-selector"
                     data-id="${row.id}" style="width:auto; min-width:110px;">
+                <option value="pending" selected>Pending</option>
                 <option value="approved">Approve</option>
                 <option value="rejected">Reject</option>
             </select>
@@ -253,7 +258,7 @@ function getDeleteCapitalContributionBtn(data, type, row, metas) {
     return getButton(dataFields, "", "danger del-shareholder", "fas fa-trash");
 }
 
-// Shares 
+// Shares s
 
 export function fetchShares(params) {
     const data = apiClient("/api/v1/shares",
@@ -282,7 +287,7 @@ export function loadShares(dataset) {
             { data: "lastname" },
             { data: "gender" },
             { data: "name" },
-            { data: "quantity" }
+            { data: "total_quantity" }
         ]
     });
 }
