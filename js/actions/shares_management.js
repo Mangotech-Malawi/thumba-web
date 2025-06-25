@@ -264,6 +264,10 @@ function notification(
             })
         ).done(function () {
             switch (recordType) {
+                case "share_class":
+                    $(shareClassModal).modal("hide");
+                    share_management.fetchShareClasses();
+                    break;
                 case "registration":
                     $.when(loadContent.loadRecord("views/share_management/shareholders.html", "shareholders")).done(function () {
                         share_management.fetchShareholders();

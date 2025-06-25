@@ -1,6 +1,14 @@
 import { apiClient } from "./api-client.js";
 
 // Share Classes 
+export function addShareClass(params) {
+    return apiClient("/api/v1/share_class", "POST", "json", false, false, params);
+}
+
+export function editShareClass(params){
+    return apiClient("/api/v1/share_class", "PUT", "json", false, false, params);
+}
+
 export function fetchShareClasses(params) {
     const data = apiClient("/api/v1/share_classes",
         "GET",
