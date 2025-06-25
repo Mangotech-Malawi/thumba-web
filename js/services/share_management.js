@@ -55,7 +55,8 @@ function getEditShareClassBtn(data, type, row, metas) {
                       data-name = "${data.name}"
                       data-code = "${data.code}"
                       data-price-per-share = "${data.price_per_share}"
-                      data-description = "${data.market_value}"
+                      data-description = "${data.description}"
+                      data-action-type = "edit"
                       data-share-class-modal-title = "Edit Share Class"`;
 
     return getButton(dataFields, "share-class", "default edit-share-class",

@@ -433,6 +433,23 @@ export function validateRoleFormData() {
   return validData;
 }
 
+export function validShareClassFormData() {
+  formElements = []
+  let validData = false;
+
+
+  pushFormElements("alphabeticStringWithSpace", "#name", true, "Share Class Name");
+  pushFormElements("alphabeticStringWithSpace", "#code", true, "Share Class Code");
+  pushFormElements("moneyAmount", "#amount", true, "Share Class Amount");
+  pushFormElements("description", "#description", true, "Description");
+
+  $.when(validate(formElements)).done(function (value) {
+    validData = value;
+  });
+
+  return validData;
+}
+
 export function validCapitalContributionFormData() {
   formElements = []
   let validData = false;
