@@ -6,10 +6,55 @@ import { loadIdentifierTypes } from "../services/users.js";
 const capitalContributionModal = "#modal-capital-contribution";
 let capitalContributionModalTitle = "#capitalContributionModalTitle";
 const capitalContributionStatusModal = "#modal-capital-contibuton-status";
+const shareClassModal = "#modal-share-class";
 
 $(function () {
+
+    $(document).on("show.bs.modal", shareClassModal, function (e) {
+        const opener = e.relatedTarget;
+        clearFields("#shareClassForm");
+
+        if ($(opener).attr("data-action-type") === "edit") {
+
+            $("#shareClassModalTitle").text("Edit Share Class");
+
+            $.each(opener.dataset, function (key, value) {
+                $(shareClassModal).find(`[id = '${key}']`).val(value);
+            });
+        } else {
+            $("#shareClassModalTitle").text("Create Share Class");
+        }
+    });
+
+    $(document).on("click", "#saveShareClassBtn", function (e) {
+        if (form.validShareClassFormData()) {
+            if ($("#shareClassModalTitle").text().trim() === "Create Share Class") {
+                notification(
+                    share_management.addShareClass(shareClassParams()).created,
+                    "center",
+                    "success",
+                    "share_class",
+                    "Add Share Class",
+                    "Share Class has been added successfully",
+                    true,
+                    3000
+                );
+            } else if ($("#shareClassModalTitle").text().trim() === "Edit Share Class") {
+                notification(
+                    share_management.editShareClass(shareClassParams()).updated,
+                    "center",
+                    "success",
+                    "share_class",
+                    "Edit Share Class",
+                    "Share Class has been updated successfully",
+                    true,
+                    3000
+                );
+            }
+        }
+    });
+
     $(document).on("click", "#btnShareholderBtn", function () {
-        console.log("Client something");
         $.when(loadContent.loadIndividualRecordView("views/forms/shareholder.html", "shareholder_form")).done(
             function () {
                 loadIdentifierTypes();
@@ -108,7 +153,7 @@ $(function () {
     $(document).on('click', '#updateCapitalContributionStatusBtn', function () {
         const id = $(capitalContributionStatusModal).find(`[id= 'contributionId']`).val();
         const newStatus = $("#contributionStatus").val();
-        
+
         notification(
             share_management.updateCapitalContributionStatus({ id: id, status: newStatus }).updated,
             "center",
@@ -121,6 +166,25 @@ $(function () {
         );
     });
 })
+
+// Shareclass Params
+function shareClassParams() {
+    const shareClassId = $("#shareClassId").val();
+    const name = $("#name").val();
+    const code = $("#code").val();
+    const pricePerShare = $("#pricePerShare").val();
+    const description = $("#description").val();
+
+    const params = {
+        share_class_id: shareClassId,
+        name: name,
+        code: code,
+        price_per_share: pricePerShare,
+        description: description
+    }
+
+    return params;
+}
 
 // Shareholder params
 function shareholderParams() {
@@ -200,6 +264,10 @@ function notification(
             })
         ).done(function () {
             switch (recordType) {
+                case "share_class":
+                    $(shareClassModal).modal("hide");
+                    share_management.fetchShareClasses();
+                    break;
                 case "registration":
                     $.when(loadContent.loadRecord("views/share_management/shareholders.html", "shareholders")).done(function () {
                         share_management.fetchShareholders();
@@ -236,4 +304,12 @@ function populateShareClasses(shareClasses) {
     });
 
     $("#shareClassSelector").html(shareClassArray.join(""));
+}
+
+function clearFields(formId) {
+    $(":input", formId)
+        .not(":button, :submit, :reset")
+        .val("")
+        .prop("checked", false)
+        .prop("selected", false);
 }

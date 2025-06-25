@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 id="shareClassModalTitle" class="modal-title">Add Share Class</h4>
+                <h4 id="shareClassModalTitle" class="modal-title">Create Share Class</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,66 +10,73 @@
             <div class="modal-body">
 
                 <div class="content">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <div class="input-group ">
-                                <input id="shareClassId" type="hidden" class="form-control">
-                            </div>
-                        </div>
+                    <form id="shareClassForm">
+                        <div class="row">
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <div class="form-group ">
-                                <label>Name</label>
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
                                 <div class="input-group ">
-                                    <input id="name" type="text" class="form-control" placeholder="Share class name">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-coins"></span>
+                                    <input id="shareClassId" type="hidden" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <div class="form-group ">
+                                    <label>Name</label>
+                                    <div class="input-group ">
+                                        <input id="name" type="text" class="form-control"
+                                            placeholder="Share class name">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-coins"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <div class="form-group ">
-                                <label>Code</label>
-                                <div class="input-group ">
-                                    <input id="code" type="text" class="form-control" placeholder="Share class code">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-coins"></span>
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <div class="form-group ">
+                                    <label>Code</label>
+                                    <div class="input-group ">
+                                        <input id="code" type="text" class="form-control"
+                                            placeholder="Share class code">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-coins"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <div class="form-group ">
-                                <label>Price Per Share</label>
-                                <div class="input-group ">
-                                    <input id="pricePerShare" type="text" class="form-control"
-                                        placeholder="Share class code">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-coins"></span>
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <div class="form-group ">
+                                    <label>Price Per Share</label>
+                                    <div class="input-group ">
+                                        <input id="pricePerShare" type="text" class="form-control"
+                                            placeholder="Share class code">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-coins"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <div class="form-group">
-                                <label>Description</label>
-                                <div class="input-group">
-                                    <textarea id="description" type="text" class="form-control"
-                                        placeholder="Description"></textarea>
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <div class="input-group">
+                                        <textarea id="description" type="text" class="form-control"
+                                            placeholder="Description"></textarea>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
-                    </div>
+                    </form>
+
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
