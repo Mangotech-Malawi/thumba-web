@@ -170,6 +170,11 @@ export function fetchCapitalContributions(params) {
 
     $.when(loadCapitalContributions(data)).done(function () {
         $(".capital-status-selector").select2();
+
+        // Re-initialize select2 after every table draw (including responsive collapse/expand)
+        $('#capitalContributionsTable').on('draw.dt responsive-display.dt', function () {
+            $(".capital-status-selector").select2();
+        });
     });
 }
 
@@ -200,7 +205,6 @@ export function loadCapitalContributions(dataset) {
 
         columnDefs: [
             {
-
                 render: getEditCapitalContributionBtn,
                 data: null,
                 targets: [9],
@@ -222,9 +226,8 @@ function getStatusBadge(data, type, row, metas) {
 
     if (data === "pending") {
         return `
-            <select class="form-control form-control-md d-inline capital-status-selector"
+            <select class="form-control form-control-sm d-inline capital-status-selector"
                     data-id="${row.id}" style="width:auto; min-width:110px;">
-                <option value="pending" selected>Pending</option>
                 <option value="approved">Approve</option>
                 <option value="rejected">Reject</option>
             </select>
@@ -240,7 +243,7 @@ function getEditCapitalContributionBtn(data, type, row, metas) {
                       data-share-class-modal-title = "Edit Capital Contribution"`;
 
     return getButton(dataFields, "capital-contribution", "default edit-capital-contribution",
-        "fas fa-money-bill-alt");
+        "fas fa-edit");
 }
 
 function getDeleteCapitalContributionBtn(data, type, row, metas) {
