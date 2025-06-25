@@ -59,7 +59,7 @@ function getEditShareClassBtn(data, type, row, metas) {
                       data-share-class-modal-title = "Edit Share Class"`;
 
     return getButton(dataFields, "share-class", "default edit-share-class",
-        "fas fa-money-bill-alt");
+        "fas fa-edit");
 }
 
 function getDeleteShareClassBtn(data, type, row, metas) {
