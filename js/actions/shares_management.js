@@ -62,6 +62,21 @@ $(function () {
         );
     });
 
+    $(document).on("click", ".edit-shareholder", function (e) {
+        const data = $(this).data();
+
+        $.when(loadContent.loadIndividualRecordView("views/forms/shareholder.html", "shareholder_form")).done(
+            function () {
+                loadIdentifierTypes();
+
+                $.each(data, function (key, value) {
+                    $("#shareholderForm").find(`[id = '${key}']`).val(value).change();
+                });
+            }
+        );
+
+    });
+
     $(document).on("click", "#saveShareholderBtn", function () {
         if (form.validClientFormData()) {
             if ($("#cardTitle").text().trim() === "Add Shareholder") {

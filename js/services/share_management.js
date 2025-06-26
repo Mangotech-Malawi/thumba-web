@@ -140,15 +140,26 @@ function getContributionBtn(data, type, row, metas) {
     let dataFields = `data-shareholder-id = "${data.shareholder_id}"
                       data-share-class-modal-title = "Edit Share Class"`;
 
-    return getButton(dataFields, "capital-contribution", "default edit-shareholder",
+    return getButton(dataFields, "capital-contribution", "default",
         "fas fa-money-bill-alt")
 }
 
 function getEditShareholderBtn(data, type, row, metas) {
     let dataFields = `data-shareholder-id = "${data.shareholder_id}"
+                      data-identifier = "${data.identifier}"
+                      data-identifier-type-id = "${data.identifier_type_id}"
                       data-firstname = "${data.firstname}"
                       data-lastname = "${data.lastname}"
                       data-gender = "${data.gender}"
+                      data-email-address = "${data.email_address}"
+                      data-phone-number = "${data.phone_number}"
+                      data-date-of-birth = "${data.date_of_birth}"
+                      data-home-district = "${data.home_district}"
+                      data-home-village = "${data.home_village}"
+                      data-home-ta = "${data.home_ta}"
+                      data-current-district = "${data.current_district}"
+                      data-current-ta = "${data.current_ta}"
+                      data-current-village = "${data.current_village}"
                       data-share-class-modal-title = "Edit Share Class"`;
 
     return getButton(dataFields, "", "default edit-shareholder",
