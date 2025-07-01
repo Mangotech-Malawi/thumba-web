@@ -1,5 +1,5 @@
 {
     "apiURL": "url",
     "apiPort": "port",
-    "apiProtocol": "protocol",
+    "apiProtocol": "protocol"
 }

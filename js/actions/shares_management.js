@@ -58,6 +58,8 @@ $(function () {
         $.when(loadContent.loadIndividualRecordView("views/forms/shareholder.html", "shareholder_form")).done(
             function () {
                 loadIdentifierTypes();
+
+                 $("#cardTitle").text("Add Shareholder");
             }
         );
     });
@@ -68,6 +70,8 @@ $(function () {
         $.when(loadContent.loadIndividualRecordView("views/forms/shareholder.html", "shareholder_form")).done(
             function () {
                 loadIdentifierTypes();
+
+                $("#cardTitle").text("Edit Shareholder");
 
                 $.each(data, function (key, value) {
                     $("#shareholderForm").find(`[id = '${key}']`).val(value).change();
@@ -92,7 +96,7 @@ $(function () {
                 );
             } else if ($("#cardTitle").text().trim() === "Edit Shareholder") {
                 notification(
-                    share_management.updateShareholder(shareholderParams()).uppdated,
+                    share_management.updateShareholder(shareholderParams()).updated,
                     "center",
                     "success",
                     "registration",

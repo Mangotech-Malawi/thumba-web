@@ -84,6 +84,10 @@ export function addShareholder(params) {
     return apiClient("/api/v1/shareholder", "POST", "json", false, false, params);
 }
 
+export function updateShareholder(params) {
+    return apiClient("/api/v1/shareholder", "PUT", "json", false, false, params);
+}
+
 export function fetchShareholders(params) {
     const data = apiClient("/api/v1/shareholders",
         "GET",
