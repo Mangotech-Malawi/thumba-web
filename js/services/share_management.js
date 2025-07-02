@@ -184,6 +184,10 @@ export function addCapitalContribution(params) {
     return apiClient("/api/v1/capital_contribution", "POST", "json", false, false, params);
 }
 
+export function editCapitalContribution(params){
+    return apiClient("/api/v1/capital_contribution", "PUT", "json",false, false , params);
+}
+
 export function fetchCapitalContributions(params) {
     const data = apiClient("/api/v1/capital_contributions",
         "GET",
@@ -268,10 +272,15 @@ function getStatusBadge(data, type, row, metas) {
 
 function getEditCapitalContributionBtn(data, type, row, metas) {
     let dataFields = `data-capital-contribution-id = "${data.id}"
+                      data-shareholder-id = "${data.shareholder_id}"
+                      data-share-class-selector = "${data.share_class_id}"
                       data-amount = "${data.amount}"
+                      data-status = "${data.status}"
+                      data-contributed-date = "${data.contributed_date}"
+                      data-action-type = "edit"
                       data-share-class-modal-title = "Edit Capital Contribution"`;
 
-    return getButton(dataFields, "capital-contribution", "default edit-capital-contribution",
+    return getButton(dataFields, "", "default edit-capital-contribution",
         "fas fa-edit");
 }
 
