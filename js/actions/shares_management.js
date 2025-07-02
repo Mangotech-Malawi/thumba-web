@@ -59,7 +59,7 @@ $(function () {
             function () {
                 loadIdentifierTypes();
 
-                 $("#cardTitle").text("Add Shareholder");
+                $("#cardTitle").text("Add Shareholder");
             }
         );
     });
@@ -116,12 +116,41 @@ $(function () {
             .val($(opener).attr("data-shareholder-id"));
 
         if ($(opener).attr("data-action-type") === "edit") {
-            $(capitalContributionModalTitle).text("Edit Capital Contribution");
+
+            $.each(opener.dataset, function (key, value) {
+                $(capitalContributionModal).find(`[id = '${key}']`).val(value).change();
+            });
         } else {
             $(capitalContributionModalTitle).text("Add Capital Contribution");
         }
 
         populateShareClasses(share_management.fetchShareClasses());
+    });
+
+    $(document).on("click", ".edit-capital-contribution", function () {
+        const data = $(this).data();
+
+        if (data.status === "pending") {
+            $.when($(capitalContributionModal).modal("show")).done(function () {
+                $(capitalContributionModalTitle).text("Edit Capital Contribution");
+
+                $.each(data, function (key, value) {
+                    $(capitalContributionModal).find(`[id = '${key}']`).val(value).change();
+                });
+            });
+        } else if (data.status === "approved" || data.status == "rejected") {
+            notification(
+                true,
+                "center",
+                "warning",
+                "capital_contribution_warning",
+                "Sorry",
+                "Cannot edit an already approved or rejected capital contribution",
+                true,
+                5000
+
+            );
+        }
     });
 
     $(document).on("click", "#saveCapitalContributionBtn", function () {
@@ -139,7 +168,7 @@ $(function () {
                 );
             } else if ($(capitalContributionModalTitle).text().trim() === "Edit Capital Contribution") {
                 notification(
-                    share_management.editCapitalContribution(capitalContributionParams()).created,
+                    share_management.editCapitalContribution(capitalContributionParams()).updated,
                     "center",
                     "success",
                     "capital_contribution",
@@ -246,12 +275,14 @@ function shareholderParams() {
 
 // Capital contribution params
 function capitalContributionParams() {
+    const contribution_id = $("#capitalContributionId").val();
     const shareholder_id = $("#shareholderId").val()
     const share_class_id = $("#shareClassSelector").val();
     const amount = $("#amount").val();
     const contributed_date = $("#contributedDate").val();
 
     const params = {
+        id: contribution_id,
         shareholder_id: shareholder_id,
         share_class_id: share_class_id,
         amount: amount,
