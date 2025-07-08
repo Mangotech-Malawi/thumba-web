@@ -2,6 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as loadContent from "../actions/contentLoader.js";
 import { loadIdentifierTypes } from "../services/users.js";
+import { loadRegions } from  "./locations.js";
 import { notify } from "../utils/utils.js";
 
 let cameraFeed = document.getElementById("cameraFeed");
@@ -178,6 +179,7 @@ $(function () {
       function () {
         localStorage.setItem("clientType", "individual");
         loadIdentifierTypes();
+        loadRegions();
       }
     );
   });
@@ -675,6 +677,11 @@ function goBackToClientTable() {
     });
   }
 }
+
+
+
+
+
 
 
 
