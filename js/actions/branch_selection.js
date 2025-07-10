@@ -111,6 +111,7 @@ $(function () {
       }
     });
   });
+
 });
 
 // Function to load branches from API
@@ -179,7 +180,7 @@ function filterBranches(searchTerm) {
 
 // Function to display branches as cards
 function displayBranches(branches_roles) {
-  // Clear loading indicator
+
   $("#branchesContainer").empty();
 
   if (branches_roles.length === 0) {
@@ -193,7 +194,7 @@ function displayBranches(branches_roles) {
     return;
   }
 
-  // Create branch cards
+
   branches_roles.forEach(function (branch_role) {
     const branchIcon = getBranchIcon(branch_role.branch.branch_type);
     const branchCard = `
@@ -221,7 +222,6 @@ function displayBranches(branches_roles) {
   });
 }
 
-// Function to display message when no branches are available
 function displayNoBranchesMessage() {
   $("#branchesContainer").html(`
     <div class="col-12 text-center py-5">
@@ -232,7 +232,6 @@ function displayNoBranchesMessage() {
   `);
 }
 
-// Function to get appropriate icon based on branch type
 function getBranchIcon(branchType) {
   switch (branchType?.toLowerCase()) {
     case 'main':
@@ -250,7 +249,6 @@ function getBranchIcon(branchType) {
   }
 }
 
-// Helper function to capitalize first letter
 function capitalizeFirstLetter(string) {
   if (!string) return '';
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
