@@ -33,10 +33,29 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label class="d-block font-weight-bold mb-2">User Type</label>
+
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="nonBranchUser" name="userScope" class="custom-control-input"
+                                        value="non-branch" checked>
+                                    <label class="custom-control-label" for="nonBranchUser">Non-Branch User</label>
+                                </div>
+
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="branchUser" name="userScope" class="custom-control-input"
+                                        value="branch">
+                                    <label class="custom-control-label" for="branchUser">Branch User</label>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Bulk Role Selection -->
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
                             <div class="form-group">
-                                <label class="mb-1">Default Role for Selected Branches</label>
+                                <label class="mb-1">Default Roles</label>
                                 <select class="form-control mr-3" style="width: 100%;" id="bulkRole" name="bulkRole">
                                     <option value="">-- Select Default Role --</option>
                                 </select>
@@ -45,7 +64,8 @@
 
                         <!-- Branch & Role Selection -->
                         <!-- Branch & Role Selection -->
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        <div id="branchUserSection" class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>Branch Access</label>
                                 <div class="card">
@@ -53,7 +73,7 @@
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="selectAllBranches">
                                             <label class="custom-control-label" for="selectAllBranches">Select All
-                                                Branches</label> 
+                                                Branches</label>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -67,13 +87,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
 
                     </div>
                 </form>
@@ -89,7 +111,18 @@
     </div>
     <script>
         $("#bulkRole").select2();
-       
-        // You’ll populate the table with branches and roles from backend or JS here
+
+        $('input[name="userScope"]').on("change", function () {
+            const selectedType = $(this).val();
+            if (selectedType === "branch") {
+                $("#branchUserSection").show();
+            } else {
+                $("#branchUserSection").hide();
+                $("#selectAllBranches").prop("checked", false);
+                $("#userInvitationBranchesTable input[type='checkbox']").prop("checked", false);
+            }
+        });
+
+        $('input[name="userScope"]:checked').trigger("change");
     </script>
     </script>
