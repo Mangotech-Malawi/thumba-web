@@ -31,6 +31,19 @@ $(function () {
         }
     });
 
+    $(document).on("change",'input[name="userScope"]', function () {
+        const selectedType = $(this).val();
+        if (selectedType === "branch") {
+            $("#branchUserSection").show();
+              loadRolesAndBranches();
+        } else {
+            $("#branchUserSection").hide();
+            $("#selectAllBranches").prop("checked", false);
+            $("#userInvitationBranchesTable input[type='checkbox']").prop("checked", false);
+        }
+    });
+
+
     $(document).on("click", ".resend-invitation", function (e) {
         const invitation = $(this).data();
 
@@ -89,7 +102,7 @@ $(function () {
     $(document).on('click', '#addUserInvitationBtn', function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/user_invitation.html", "user_invitation_form")).done(
             function () {
-                loadRolesAndBranches();
+              
             }
         );
     });
@@ -116,7 +129,7 @@ $(function () {
             .done(function () {
                 $("#cardTitle").text("Edit User Branch Roles");
                 $("#inviteUser").text("Save Role").attr("id", "saveUserBranchRolesBtn");
-                
+
                 $.when(loadRolesAndBranches()).done(function () {
 
                     $("#email").val(opener.email);
@@ -568,8 +581,9 @@ function getUserParams() {
 function getRoleParams() {
     const name = $("#roleName").val();
     const privileges = $("#privileges").val();
+    const branchSpecific = $("#branchSpecific").is(":checked");
 
-    return { name: name, privileges: privileges }
+    return { name: name, privileges: privileges, branch_specific: branchSpecific };
 }
 
 function notification(
