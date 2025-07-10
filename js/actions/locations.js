@@ -1,106 +1,118 @@
 import * as locations from "../services/locations.js";
 
 $(function () {
-    $(document).on("change", ".region", function (e) {
-        const region_id = $(this).val();
-        const elementId = $(this).attr('id');
+    $(document).on("change", ".region", function () {
+        const regionId = $(this).val();
+        const isHome = $(this).attr("id") === "homeRegion";
+        const districtId = isHome ? "homeDistrict" : "currentDistrict";
+        const taId = isHome ? "homeTa" : "currentTa";
+        const villageId = isHome ? "homeVillage" : "currentVillage";
 
-        if (elementId == "homeRegion")
-            loadDistricts(region_id, "homeDistrict");
-        else
-            loadDistricts(region_id, "currentDistrict")
+        clearSelects([districtId, taId, villageId]);
+        loadDistricts(regionId, districtId)
+            .then(() => $(`#${districtId}`).trigger("change"));
     });
 
-    $(document).on("change", ".district", function (e) {
-        const district_id = $(this).val();
-         const elementId = $(this).attr('id');
+    $(document).on("change", ".district", function () {
+        const districtId = $(this).val();
+        const isHome = $(this).attr("id") === "homeDistrict";
+        const taId = isHome ? "homeTa" : "currentTa";
+        const villageId = isHome ? "homeVillage" : "currentVillage";
 
-        if (elementId == "homeDistrict")
-           loadTraditionalAuthorities(district_id, "homeTa");
-        else
-           loadTraditionalAuthorities(district_id, "currentTa");
-       
+        clearSelects([taId, villageId]);
+        loadTraditionalAuthorities(districtId, taId)
+            .then(() => $(`#${taId}`).trigger("change"));
     });
 
-    $(document).on("change", ".ta", function (e) {
-        const traditional_authority_id = $(this).val();
-         const elementId = $(this).attr('id');
-        if (elementId == "homeTa")
-           loadVillages(traditional_authority_id, "homeVillage");
-        else
-           loadVillages(traditional_authority_id, "currentVillage");
-       
+    $(document).on("change", ".ta", function () {
+        const taId = $(this).val();
+        const isHome = $(this).attr("id") === "homeTa";
+        const villageId = isHome ? "homeVillage" : "currentVillage";
+
+        clearSelects([villageId]);
+        loadVillages(taId, villageId);
     });
 });
 
+// Utility to clear selects
+function clearSelects(ids) {
+    ids.forEach(id => $(`#${id}`).html('<option value="">-- Select --</option>'));
+}
+
+// 🔁 All loaders now return Promises
+
 export function loadRegions() {
-    $.when(locations.getRegions()).done(function (regions) {
-        let regionsArray = []
-        regions.forEach(function (region, index) {
-            regionsArray.push(
-                '<option value ="',
-                region.id,
-                '">',
-                `${region.name}`,
-                "</option>"
-            );
-        });
+    return locations.getRegions().then((regions) => {
+        const options = buildOptions(regions);
+        $("#homeRegion").html(options);
+        $("#currentRegion").html(options);
 
-        $("#homeRegion").html(regionsArray.join("")).trigger("change");
-         $("#currentRegion").html(regionsArray.join("")).trigger("change");
+        // Trigger cascade
+        $("#homeRegion").trigger("change");
+        $("#currentRegion").trigger("change");
 
-    });
 
-}
 
-function loadDistricts(region_id, elementId) {
-    $.when(locations.getDistricts({ region_id: region_id })).done(function (districts) {
-        let districtsArray = []
-        districts.forEach(function (district, index) {
-            districtsArray.push(
-                '<option value ="',
-                district.id,
-                '">',
-                `${district.name}`,
-                "</option>"
-            );
-        });
-
-        $(`#${elementId}`).html(districtsArray.join("")).trigger("change");
+        return waitFor(800); // Let dependent dropdowns resolve
     });
 }
 
-function loadTraditionalAuthorities(district_id, elementId) {
-    $.when(locations.getTraditionalAuthorities({ district_id: district_id })).done(function (traditional_authorities) {
-        let traditionalAuthoritiesArray = []
-        traditional_authorities.forEach(function (ta, index) {
-            traditionalAuthoritiesArray.push(
-                '<option value ="',
-                ta.id,
-                '">',
-                `${ta.name}`,
-                "</option>"
-            );
-        });
-
-        $(`#${elementId}`).html(traditionalAuthoritiesArray.join("")).trigger("change");
+export function loadDistricts(regionId, elementId) {
+    return locations.getDistricts({ region_id: regionId }).then((districts) => {
+        const options = buildOptions(districts);
+        $(`#${elementId}`).html(options);
     });
 }
 
-function loadVillages(traditional_authority_id, elementId) {
-    $.when(locations.getVillages({ traditional_authority_id: traditional_authority_id })).done(function (villages) {
-        let villagesArray = []
-        villages.forEach(function (village, index) {
-            villagesArray.push(
-                '<option value ="',
-                village.id,
-                '">',
-                `${village.name}`,
-                "</option>"
-            );
-        });
-
-        $(`#${elementId}`).html(villagesArray.join(""));
+export function loadTraditionalAuthorities(districtId, elementId) {
+    return locations.getTraditionalAuthorities({ district_id: districtId }).then((tas) => {
+        const options = buildOptions(tas);
+        $(`#${elementId}`).html(options);
     });
 }
 
+export function loadVillages(taId, elementId) {
+    return locations.getVillages({ traditional_authority_id: taId }).then((villages) => {
+        const options = buildOptions(villages);
+        $(`#${elementId}`).html(options);
+    });
+}
+
+// 🔨 Helpers
+
+function buildOptions(items) {
+    return items.map(item => `<option value="${item.id}">${item.name}</option>`).join("");
+}
+
+function waitFor(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function selectLocationChain(regionId, districtId, taId, villageId, prefix) {
+    // Set region and trigger change first
+    $(`#${prefix}Region`).val(regionId).trigger("change");
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            locations.getDistricts({ region_id: regionId }).then((districts) => {
+                const districtOptions = districts.map(d => `<option value="${d.id}">${d.name}</option>`).join("");
+                $(`#${prefix}District`).html(districtOptions).val(districtId).trigger("change");
+
+                setTimeout(() => {
+                    locations.getTraditionalAuthorities({ district_id: districtId }).then((tas) => {
+                        const taOptions = tas.map(ta => `<option value="${ta.id}">${ta.name}</option>`).join("");
+                        $(`#${prefix}Ta`).html(taOptions).val(taId).trigger("change");
+
+                        setTimeout(() => {
+                            locations.getVillages({ traditional_authority_id: taId }).then((villages) => {
+                                const villageOptions = villages.map(v => `<option value="${v.id}">${v.name}</option>`).join("");
+                                $(`#${prefix}Village`).html(villageOptions).val(villageId);
+                                resolve(); // Done loading full location chain
+                            });
+                        }, 300);
+                    });
+                }, 300);
+            });
+        }, 300);
+    });
+}
