@@ -2,7 +2,7 @@ import * as client from "../services/clients.js";
 import * as form from "../utils/forms.js";
 import * as loadContent from "../actions/contentLoader.js";
 import { loadIdentifierTypes } from "../services/users.js";
-import { loadRegions } from  "./locations.js";
+import * as locations from "./locations.js";
 import { notify } from "../utils/utils.js";
 
 let cameraFeed = document.getElementById("cameraFeed");
@@ -75,27 +75,48 @@ $(function () {
 
     if (form.validClientFormData()) {
       if ($("#cardTitle").text().trim() === "Add Client") {
-        notification(
-          client.addClient(individualParams()).created,
-          "center",
-          "success",
-          "registration",
-          "Add Individual Client",
-          "Client has been added successfully",
-          true,
-          3000
-        );
+
+        $.when(client.addClient(individualParams())).done(function (res) {
+          if (res.created) {
+            notification(
+              res.created,
+              "center",
+              "success",
+              "registration",
+              "Add Individual Client",
+              "Client has been added successfully",
+              true,
+              3000
+            );
+          } else {
+            notify(
+              "center",
+              "error",
+              "Failed to create client",
+              "Please contact your adminstrator",
+              true,
+              3000)
+          }
+        })
+
       } else if ($("#cardTitle").text().trim() === "Edit Client") {
-        notification(
-          client.editClient(individualParams()).updated,
-          "center",
-          "success",
-          "registration",
-          "Edit Individual Client",
-          "Client has been updated successfully",
-          true,
-          3000
-        );
+
+        $.when(client.editClient(individualParams())).done(function (res) {
+
+          if (res.updated) {
+            notification(
+              res.updated,
+              "center",
+              "success",
+              "registration",
+              "Edit Individual Client",
+              "Client has been updated successfully",
+              true,
+              3000
+            );
+          }
+        });
+
       } else {
         notify(
           "center",
@@ -179,7 +200,7 @@ $(function () {
       function () {
         localStorage.setItem("clientType", "individual");
         loadIdentifierTypes();
-        loadRegions();
+        locations.loadRegions();
       }
     );
   });
@@ -198,22 +219,48 @@ $(function () {
 
     if (data.clientType === "individual") {
 
-      $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(
-        function () {
-          loadIdentifierTypes();
+      $.when(loadContent.loadIndividualRecordView("views/forms/client.html", "client_form")).done(function () {
+        // First, load static options like identifier types
+        loadIdentifierTypes();
 
-          $("#cardTitle").text("Edit Client");
+        $("#cardTitle").text("Edit Client");
 
-          if (data.identifierTypeId) {
-            $("#identifierType").val(data.identifierTypeId).trigger("change");
-          }
+        // Set the identifier type if it's available
+        if (data.identifierTypeId) {
+          $("#identifierType").val(data.identifierTypeId).trigger("change");
+        }
 
-          $.each(data, function (key, value) {
-            $(individualClientForm).find(`[id = '${key}']`).val(value).change();
+        locations.loadRegions().then(() => {
+          $("#homeRegion").val(data.homeRegion).trigger("change");
+          $("#currentRegion").val(data.currentRegion).trigger("change");
+
+          locations.selectLocationChain(
+            data.homeRegion,
+            data.homeDistrict,
+            data.homeTa,
+            data.homeVillage,
+            "home"
+          ).then(() => {
+            console.log("Home location chain set");
           });
 
-        }
-      );
+          locations.selectLocationChain(
+            data.currentRegion,
+            data.currentDistrict,
+            data.currentTa,
+            data.currentVillage,
+            "current"
+          ).then(() => {
+            console.log("Current location chain set");
+          });
+        }).then(() => {
+          // After everything is populated
+          $.each(data, function (key, value) {
+            $(individualClientForm).find(`[id='${key}']`).val(value).trigger("change");
+          });
+        });
+
+      });
     } else if (data.clientType === "organization") {
 
       $.when(loadContent.loadIndividualRecordView("views/forms/organization.html", "client_organization_form")).done(
@@ -468,20 +515,22 @@ $(function () {
 //CLIENT REGISTRATION METHODS
 
 function individualParams() {
-  let client_id = $("#id").val();
-  let identifier = $("#identifier").val();
-  let identifierTypeId = $("#identifierType").val();
-  let firstname = $("#firstname").val();
-  let lastname = $("#lastname").val();
-  let gender = $("#gender option:selected").val();
-  let date_of_birth = $("#dateOfBirth").val();
-  let home_district = $("#homeDistrict option:selected").val();
-  let home_ta = $("#homeTa").val();
-  let home_village = $("#homeVillage").val();
-  let current_district = $("#currentDistrict option:selected").val();
-  let current_ta = $("#currentTa").val();
-  let current_village = $("#currentVillage").val();
-  let nearest_landmark = $("#nearestLandmark option:selected").val();
+  const client_id = $("#id").val();
+  const identifier = $("#identifier").val();
+  const identifierTypeId = $("#identifierType").val();
+  const firstname = $("#firstname").val();
+  const lastname = $("#lastname").val();
+  const gender = $("#gender option:selected").val();
+  const date_of_birth = $("#dateOfBirth").val();
+  const home_region = $("#homeRegion").val();
+  const home_district = $("#homeDistrict option:selected").val();
+  const home_ta = $("#homeTa").val();
+  const home_village = $("#homeVillage").val();
+  const current_district = $("#currentDistrict option:selected").val();
+  const current_region = $("#currentRegion").val();
+  const current_ta = $("#currentTa").val();
+  const current_village = $("#currentVillage").val();
+  const nearest_landmark = $("#nearestLandmark option:selected").val();
   const clientType = localStorage.getItem("clientType");
   const selectedBranchId = sessionStorage.getItem("selected_branch_id");
 
@@ -495,9 +544,11 @@ function individualParams() {
     lastname: lastname,
     gender: gender,
     date_of_birth: date_of_birth,
+    home_region: home_region,
     home_district: home_district,
     home_ta: home_ta,
     home_village: home_village,
+    current_region: current_region,
     current_district: current_district,
     current_ta: current_ta,
     current_village: current_village,
@@ -538,7 +589,6 @@ function organizationParams(type) {
 
   return params;
 }
-
 
 
 
