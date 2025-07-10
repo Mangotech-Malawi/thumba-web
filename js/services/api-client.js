@@ -13,36 +13,28 @@ if ( typeof configs == undefined || configs === null || configs === ''){
     });
 }
 
-export function apiClient(path, type, dataType, async, cache, data) {
-    let result = null
-    const base_url = getBaseURL();
+export function apiClient(path, type, dataType = "json", async = true, cache = false, data = {}) {
+  const base_url = getBaseURL();
+  const url = `${base_url}${path}`;
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-    const url = `${base_url}${path}`
-
-    $.ajax({
-        url: url,
-        type: type,
-        dataType: dataType,
-        async: async,
-        cache: cache,
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
-        data: data,
-        success: function (res) {
-            result = res
-        },
-        error: function(res){
-            if(res.status === 401){
-               sessionStorage.clear();
-               localStorage.clear();
-            } 
-        } 
-    }).fail(function (jqXHR, testStatus, errorThrown) {
-
-    });
-
-    return result;
+  return $.ajax({
+    url: url,
+    type: type,
+    dataType: dataType,
+    async: async,
+    cache: cache,
+    data: data,
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }).fail(function (jqXHR, textStatus, errorThrown) {
+    if (jqXHR.status === 401) {
+      sessionStorage.clear();
+      localStorage.clear();
+      console.warn("Unauthorized: Session cleared.");
+    }
+  });
 }
 
 
