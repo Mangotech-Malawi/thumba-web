@@ -31,12 +31,13 @@ $(function () {
         }
     });
 
-    $(document).on("change",'input[name="userScope"]', function () {
+    $(document).on("change", 'input[name="userScope"]', function () {
         const selectedType = $(this).val();
         if (selectedType === "branch") {
             $("#branchUserSection").show();
-              loadRolesAndBranches();
+            loadRolesAndBranches({branch_specific: true});
         } else {
+            loadRoles({branch_specific: false});
             $("#branchUserSection").hide();
             $("#selectAllBranches").prop("checked", false);
             $("#userInvitationBranchesTable input[type='checkbox']").prop("checked", false);
@@ -102,7 +103,7 @@ $(function () {
     $(document).on('click', '#addUserInvitationBtn', function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/forms/user_invitation.html", "user_invitation_form")).done(
             function () {
-              
+
             }
         );
     });
@@ -658,27 +659,31 @@ function loadRolesAndBranches() {
     selectedBranches = []
 
     $.when(account.fetchBranches("user_invitation")).done(function (branches) {
-        $.when(users.fetchRoles()).done(function (roles) {
-            let rolesArray = []
+        loadRoles({branch_specific: true});
+    });
+}
 
-            if (typeof roles !== undefined && roles !== null && roles !== '') {
-                rolesArray.push(`<option value="">-- Select Default Role --</option>`);
-                roles.forEach(function (role, index) {
-                    rolesArray.push(
-                        '<option value ="',
-                        role.id,
-                        '">',
-                        `${role.name}`,
-                        "</option>"
-                    );
-                });
+function loadRoles(params) {
+    $.when(users.fetchRoles(params)).done(function (roles) {
+        let rolesArray = []
 
-                $("#bulkRole").html(rolesArray.join(""));
-                $(".role-selector").html(rolesArray.join(""));
-                $(".role-selector").select2();
-            }
+        if (typeof roles !== undefined && roles !== null && roles !== '') {
+            rolesArray.push(`<option value="">-- Select Default Role --</option>`);
+            roles.forEach(function (role, index) {
+                rolesArray.push(
+                    '<option value ="',
+                    role.id,
+                    '">',
+                    `${role.name}`,
+                    "</option>"
+                );
+            });
 
-        });
+            $("#bulkRole").html(rolesArray.join(""));
+            $(".role-selector").html(rolesArray.join(""));
+            $(".role-selector").select2();
+        }
+
     });
 }
 
