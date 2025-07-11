@@ -112,17 +112,7 @@
     <script>
         $("#bulkRole").select2();
 
-        $('input[name="userScope"]').on("change", function () {
-            const selectedType = $(this).val();
-            if (selectedType === "branch") {
-                $("#branchUserSection").show();
-            } else {
-                $("#branchUserSection").hide();
-                $("#selectAllBranches").prop("checked", false);
-                $("#userInvitationBranchesTable input[type='checkbox']").prop("checked", false);
-            }
-        });
-
+        
         $('input[name="userScope"]:checked').trigger("change");
     </script>
     </script>
