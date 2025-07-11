@@ -6,35 +6,65 @@ let token = sessionStorage.getItem("token");
 
 let configs = JSON.parse(localStorage.getItem("configs"));
 
-if ( typeof configs == undefined || configs === null || configs === ''){
-    $.when(conn_data.getConfigs()).done(function(loaded_configs){
+if (typeof configs == undefined || configs === null || configs === '') {
+    $.when(conn_data.getConfigs()).done(function (loaded_configs) {
         localStorage.setItem("configs", JSON.stringify(loaded_configs));
         config = loaded_configs;
     });
 }
 
-export function apiClient(path, type, dataType = "json", async = true, cache = false, data = {}) {
-  const base_url = getBaseURL();
-  const url = `${base_url}${path}`;
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+export function apiClient(path, type, dataType = "json", async = false, cache = false, data = {}) {
+    const base_url = getBaseURL();
+    const url = `${base_url}${path}`;
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  return $.ajax({
-    url: url,
-    type: type,
-    dataType: dataType,
-    async: async,
-    cache: cache,
-    data: data,
-    headers: {
-      'Authorization': 'Bearer ' + token
+    if (async === false) {
+        // 🔁 SYNC MODE — block and return the result directly
+        let result = null;
+
+        $.ajax({
+            url,
+            type,
+            dataType,
+            async: false, // force sync
+            cache,
+            data,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            success: function (res) {
+                result = res;
+            },
+            error: function (jqXHR) {
+                if (jqXHR.status === 401) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    console.warn("Unauthorized: Session cleared.");
+                }
+            },
+        });
+
+        return result;
     }
-  }).fail(function (jqXHR, textStatus, errorThrown) {
-    if (jqXHR.status === 401) {
-      sessionStorage.clear();
-      localStorage.clear();
-      console.warn("Unauthorized: Session cleared.");
-    }
-  });
+
+    // ✅ ASYNC MODE — return the jqXHR promise
+    return $.ajax({
+        url,
+        type,
+        dataType,
+        async: true,
+        cache,
+        data,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }).fail(function (jqXHR) {
+        if (jqXHR.status === 401) {
+            sessionStorage.clear();
+            localStorage.clear();
+            console.warn("Unauthorized: Session cleared.");
+        }
+    });
 }
 
 
@@ -43,11 +73,11 @@ export function fileApiClient(path, type, dataType, async, cache = false, data, 
     const base_url = getBaseURL();
 
     const url = `${base_url}${path}`
-    const headers =  {
+    const headers = {
         Authorization: `Bearer ${token}`
     };
 
-    if(!isFile){
+    if (!isFile) {
         headers["Content-Type"] = "application/json";
     }
 
@@ -65,14 +95,14 @@ export function fileApiClient(path, type, dataType, async, cache = false, data, 
         success: function (res) {
             result = res
         },
-        error: function(res){
-            if(res.status === 401){
-               sessionStorage.clear();
-               localStorage.clear();
+        error: function (res) {
+            if (res.status === 401) {
+                sessionStorage.clear();
+                localStorage.clear();
             } else {
                 console.error("API error:", res);
-            } 
-        } 
+            }
+        }
     }).fail(function (jqXHR, testStatus, errorThrown) {
 
     });
@@ -80,18 +110,18 @@ export function fileApiClient(path, type, dataType, async, cache = false, data, 
     return result;
 }
 
-export function getConfigs(){
-    $.when(conn_data.getConfigs()).done(function(loaded_configs){
+export function getConfigs() {
+    $.when(conn_data.getConfigs()).done(function (loaded_configs) {
         localStorage.setItem("configs", JSON.stringify(loaded_configs));
         config = loaded_configs;
     });
 }
 
-export function getBaseURL(){
+export function getBaseURL() {
 
-    if(config.apiPort != null  && typeof config.apiPort != undefined || config.apiPort != "" ){
+    if (config.apiPort != null && typeof config.apiPort != undefined || config.apiPort != "") {
         return `${config.apiProtocol}://${config.apiURL}:${config.apiPort}`
-    }else{
-         return `${config.apiProtocol}://${config.apiURL}`
+    } else {
+        return `${config.apiProtocol}://${config.apiURL}`
     }
 }
