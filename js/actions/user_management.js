@@ -3,6 +3,7 @@ import * as form from "../utils/forms.js"
 import * as contentLoader from "../actions/contentLoader.js";
 import { toastNote } from "../utils/utils.js"
 import * as account from "../services/account.js";
+import { notify } from "../services/utils.js";
 
 let formType;
 
@@ -35,9 +36,9 @@ $(function () {
         const selectedType = $(this).val();
         if (selectedType === "branch") {
             $("#branchUserSection").show();
-            loadRolesAndBranches({branch_specific: true});
+            loadRolesAndBranches({ branch_specific: true });
         } else {
-            loadRoles({branch_specific: false});
+            loadRoles({ branch_specific: false });
             $("#branchUserSection").hide();
             $("#selectAllBranches").prop("checked", false);
             $("#userInvitationBranchesTable input[type='checkbox']").prop("checked", false);
@@ -521,14 +522,51 @@ function validatePassword(password) {
 function getUserInvitationParams() {
 
     const email = $("#email").val();
-    const role = $("#role").val();
+    const role = $("#bulkRole").val();
+    const userType = $('input[name="userScope"]:checked').val();
 
-    let params = {
-        email: email,
-        branches: selectedBranches
-    }
+    if (userType === "branch") {
+        if (
+            selectedBranches &&
+            selectedBranches.length > 0 &&
+            selectedBranches.every(branch => branch.role_id && branch.role_id !== "")
+        ) {
+            return {
+                user_type: userType,
+                email: email,
+                branches: selectedBranches
+            };
+        } else {
+            notify(
+                {
+                    position: "center",
+                    icon: "error",
+                    title: "Cannot Proceed",
+                    text: "Please select at least one branch and assign a role to each.",
+                    timer: 3000,
+                }
+            )
+        }
 
-    return params
+    } else if (userType == "non-branch")
+        if (role !== "" && typeof role !== undefined && role !== null) {
+            return {
+                user_type: userType,
+                email: email,
+                role_id: role
+            }
+        } else {
+            notify(
+                {
+                    position: "center",
+                    icon: "error",
+                    title: "Cannot Proceed",
+                    text: "Please select a role",
+                    timer: 3000,
+                }
+            )
+        }
+
 }
 
 function getRegistrationParams() {
@@ -659,7 +697,7 @@ function loadRolesAndBranches() {
     selectedBranches = []
 
     $.when(account.fetchBranches("user_invitation")).done(function (branches) {
-        loadRoles({branch_specific: true});
+        loadRoles({ branch_specific: true });
     });
 }
 
