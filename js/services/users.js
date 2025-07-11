@@ -118,8 +118,8 @@ function getIdentifierTypes() {
   return apiClient("/api/v1/identifier_types", "GET", "json", false, false, {});
 }
 
-export function fetchRoles() {
-  let data = apiClient("/api/v1/roles", "GET", "json", false, false, {});
+export function fetchRoles(params) {
+  let data = apiClient("/api/v1/roles", "GET", "json", false, false, params);
 
   if (data != null) {
     loadRolesTable(data)
