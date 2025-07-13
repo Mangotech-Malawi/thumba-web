@@ -17,17 +17,32 @@ $(function () {
 
     $(document).on("click", "#inviteUser", function (e) {
         if (form.validateUserInvitationForm()) {
+            $.when(users.inviter(getUserInvitationParams())).done(function (resp) {
+                if (resp.created) {
+                    notification(
+                        true,
+                        "center",
+                        "success",
+                        "user-invitation",
+                        "User Invitation",
+                        "User invitation has been added successfully",
+                        true,
+                        3000
+                    );
+                } else {
+                    notification(
+                        true,
+                        "center",
+                        "warning",
+                        "user-invitation",
+                        "User Invitation",
+                        resp.message,
+                        true,
+                        3000
+                    );
+                }
+            })
 
-            notification(
-                users.inviter(getUserInvitationParams()).created,
-                "center",
-                "success",
-                "user-invitation",
-                "User Invitation",
-                "User invitation has been added successfully",
-                true,
-                3000
-            );
 
         }
     });
@@ -538,13 +553,12 @@ function getUserInvitationParams() {
             };
         } else {
             notify(
-                {
-                    position: "center",
-                    icon: "error",
-                    title: "Cannot Proceed",
-                    text: "Please select at least one branch and assign a role to each.",
-                    timer: 3000,
-                }
+                "center",
+                "error",
+                "Cannot Proceed",
+                "Please select at least one branch and assign a role to each.",
+                3000,
+
             )
         }
 
@@ -557,13 +571,11 @@ function getUserInvitationParams() {
             }
         } else {
             notify(
-                {
-                    position: "center",
-                    icon: "error",
-                    title: "Cannot Proceed",
-                    text: "Please select a role",
-                    timer: 3000,
-                }
+                "center",
+                "error",
+                "Cannot Proceed",
+                "Please select a role",
+                3000
             )
         }
 
