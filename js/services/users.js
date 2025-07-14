@@ -257,7 +257,8 @@ function getResendInvitationButton(data, type, row, meta) {
     resend-invitation"
     data-id = "${data.id}"
     data-branches = "${data.branches}"
-    data-role = "${data.role_name}"
+    data-role-id = "${data.role_id}"
+    data-user-type = "${data.user_type}"
     data-email = "${data.email}">
    <i class="fas fa-envelope"></i> Resend</button>`;
 }
