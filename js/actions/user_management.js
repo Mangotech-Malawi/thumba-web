@@ -63,13 +63,14 @@ $(function () {
 
     $(document).on("click", ".resend-invitation", function (e) {
         const { email, userType, branches, roleId } = $(this).data();
-
+       
         const invitationParams = {
             email,
             user_type: userType,
-            ...(userType === "branch" && { branches }),
+            ...(userType === "branch" && { branches:  JSON.parse(decodeURIComponent(branches)) }),
             ...(userType === "non-branch" && { role_id: roleId })
         };
+
 
        $.when(users.inviter(invitationParams)).done(function (resp){
             notification(
