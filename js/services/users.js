@@ -253,10 +253,12 @@ function loadInvitationsTable(dataset) {
 }
 
 function getResendInvitationButton(data, type, row, meta) {
+  const encodedBranches = encodeURIComponent(JSON.stringify(data.branches));
+
   return `<button  type="button"  class="btn btn-block btn-primary
     resend-invitation"
     data-id = "${data.id}"
-    data-branches = "${data.branches}"
+    data-branches = "${encodedBranches}"
     data-role-id = "${data.role_id}"
     data-user-type = "${data.user_type}"
     data-email = "${data.email}">
