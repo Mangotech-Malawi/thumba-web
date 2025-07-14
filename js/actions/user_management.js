@@ -62,18 +62,28 @@ $(function () {
 
 
     $(document).on("click", ".resend-invitation", function (e) {
-        const invitation = $(this).data();
+        const { email, userType, branches, roleId } = $(this).data();
 
-        notification(
-            users.inviter({ email: invitation.email, branches: invitation.branches }).created,
-            "center",
-            "success",
-            "user-invitation",
-            "User Invitation Sent",
-            "User invitation has been sent successfully",
-            true,
-            3000
-        );
+        const invitationParams = {
+            email,
+            user_type: userType,
+            ...(userType === "branch" && { branches }),
+            ...(userType === "non-branch" && { role_id: roleId })
+        };
+
+       $.when(users.inviter(invitationParams)).done(function (resp){
+            notification(
+                resp.created,
+                "center",
+                "success",
+                "user-invitation",
+                "User Invitation Sent",
+                "User invitation has been sent successfully",
+                true,
+                3000
+            );
+        });
+       
     });
 
     $(document).on("click", "#acceptInvitationBtn", function () {
