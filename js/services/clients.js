@@ -337,6 +337,7 @@ export function getSelectedClients() {
 
 
 function getIndividualViewBtn(data, type, row, meta) {
+
   let dataFields = getIndividualDatafields(data)
 
   return `<button type='button' class="btn btn-block btn-primary recordBtn" 
@@ -344,6 +345,9 @@ function getIndividualViewBtn(data, type, row, meta) {
 }
 
 function getIndividualDatafields(data) {
+  const URL = getBaseURL();
+  const profile_picture = `${URL}${data.profile_picture}`;
+
   return `data-record-id = "${data.id}"
           data-record-identifier  = "${data.identifier}" 
           data-record-firstname  = "${data.firstname}" 
@@ -358,7 +362,7 @@ function getIndividualDatafields(data) {
           data-record-current-village ="${data.current_village_name}"
           data-record-nearest-landmark="${data.nearest_landmark}"
           data-record-created-at = "${data.created_at}"
-          data-profile-picture = "${data.profile_picture}"
+          data-profile-picture = "${profile_picture}"
           data-client-type = "individual"`;
 }
 
