@@ -443,7 +443,7 @@ $(function () {
           $("#demographics").find(`[id = '${key}']`).text(value);
         });
 
-        $("#profilePicture").attr("src", `http://127.0.0.1:3000${currentDataset.profilePicture}`);
+        $("#profilePicture").attr("src", `${currentDataset.profilePicture}`);
 
         $("#recordName").text(
           `${currentDataset.recordFirstname} ${currentDataset.recordLastname} Demographics`
