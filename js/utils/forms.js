@@ -2,6 +2,25 @@ import { validate } from "../utils/validations.js"
 
 let formElements = []
 
+export function validShareholderFormData() {
+  formElements = []
+  let validClientData = false;
+  pushFormElements("identifier", "#identifier", true, "Person Identifier");
+  pushFormElements("personName", "#firstname", true, "Firstname");
+  pushFormElements("personName", "#lastname", true, "Lastname");
+  pushFormElements("dateOfBirth", "#dateOfBirth", true, "Date Of Birth");
+  pushFormElements("email", "#emailAddress", true, "Email Address");
+  pushFormElements("phoneNumber", "#phoneNumber", true, "Phone Number");
+
+
+
+  $.when(validate(formElements)).done(function (value) {
+    validClientData = value
+  });
+
+  return validClientData;
+}
+
 export function validClientFormData() {
   formElements = []
   let validClientData = false;
@@ -40,6 +59,7 @@ export function validOrgClientFormData() {
   return validClientData;
 
 }
+
 
 export function validGroupClientFormData() {
   formElements = []

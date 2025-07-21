@@ -82,7 +82,7 @@ $(function () {
     });
 
     $(document).on("click", "#saveShareholderBtn", function () {
-        if (form.validClientFormData()) {
+        if (form.validShareholderFormData()) {
             if ($("#cardTitle").text().trim() === "Add Shareholder") {
                 notification(
                     share_management.addShareholder(shareholderParams()).created,
@@ -245,12 +245,7 @@ function shareholderParams() {
     const phone_number = $("#phoneNumber").val();
     let gender = $("#gender option:selected").val();
     let date_of_birth = $("#dateOfBirth").val();
-    let home_district = $("#homeDistrict option:selected").val();
-    let home_ta = $("#homeTa").val();
-    let home_village = $("#homeVillage").val();
-    let current_district = $("#currentDistrict option:selected").val();
-    let current_ta = $("#currentTa").val();
-    let current_village = $("#currentVillage").val();
+
 
     let params = {
         shareholder_id: shareholder_id,
@@ -261,13 +256,7 @@ function shareholderParams() {
         email_address: email_address,
         phone_number: phone_number,
         gender: gender,
-        date_of_birth: date_of_birth,
-        home_district: home_district,
-        home_ta: home_ta,
-        home_village: home_village,
-        current_district: current_district,
-        current_ta: current_ta,
-        current_village: current_village,
+        date_of_birth: date_of_birth
     };
 
     return params;
