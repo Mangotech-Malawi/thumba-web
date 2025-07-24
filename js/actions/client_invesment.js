@@ -211,7 +211,7 @@ function clientInvestmentsSubView() {
 }
 
 function loadInvestmentDetailsView(subscription_id) {
-    $.when(contentLoader.loadInvestmentView("/views/clients/investment_details.html",
+    $.when(contentLoader.loadInvestmentView("views/clients/investment_details.html",
         "investment_details")).done(
             function () {
                 investment.fetchClientInvestments({
@@ -222,7 +222,7 @@ function loadInvestmentDetailsView(subscription_id) {
 }
 
 function loadInvestmentOverview(subscription_id) {
-    $.when(contentLoader.loadInvestmentView("/views/clients/investment_overview.html",
+    $.when(contentLoader.loadInvestmentView("views/clients/investment_overview.html",
         "investment_overview")).done(
             function () {
                 investment.fetchClientInvestments({
