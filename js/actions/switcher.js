@@ -27,7 +27,11 @@ $(document).ready(function () {
     loadLinks(privileges);
   }
 
-  //The folloing are cases links
+
+  $("#dashboard").on("click", function(e){
+     selectContent("dashboard");
+  });
+
   $("#admin-dashboard").on("click", function (e) {
     selectContent("admin_dashboard");
   });
@@ -215,7 +219,6 @@ function loadLinks(privileges) {
   // Load links in the sorted order
   allowedLinks.forEach(link => {
     $.when(loadContent("sidebarLinks", "", link.link)).done(() => {
-      console.log(`Loaded: ${link.link}`);
     })
   });
 }
