@@ -1,62 +1,91 @@
-<div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-3 col-sm-3">
-        <!-- small box -->
-        <div class="small-box bg-success">
-          <div class="inner">
-            <h3 id="new-registrations">0</h3>
-            <p>Total Clients</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-stats-bars"></i>
-          </div>
-  
-          <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
-        </div>
-      </div>
-      <div class="col-lg-3  col-sm-3">
-        <!-- small box -->
-        <div class="small-box bg-info">
-          <div class="inner">
-            <h3 id="total-assigned">0</h3>
-            <p>Total Loaned</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-bag"></i>
-          </div>
-  
-          <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-3">
-        <!-- small box -->
-        <div class="small-box bg-primary">
-          <div class="inner">
-            <h3 id="total-unassigned">0</h3>
-            <p>Profits</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-bag"></i>
-          </div>
-  
-          <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
-        </div>
-      </div>
+<!-- Tabs Navigation with Alpine.js -->
+<div x-data="dashboardTabs()">
+  <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+    <template x-if="canSee('loans')">
+      <li class="nav-item">
+        <a id="loan-dashboard" class="nav-link" :class="{active: activeTab === 'loans-dashboard'}" @click="activeTab = 'loans-dashboard'" id="loans-tab" data-toggle="tab" href="#loans-dashboard" role="tab">
+          Loans Dashboard
+        </a>
+      </li>
+    </template>
+    <template x-if="canSee('finance')">
+      <li class="nav-item">
+        <a id = "finance-dashboard" class="nav-link" :class="{active: activeTab === 'finance-performance'}" @click="activeTab = 'finance-performance'" id="finance-tab" data-toggle="tab" href="#finance-performance" role="tab">
+          Finance Performance
+        </a>
+      </li>
+    </template>
+    <template x-if="canSee('branches')">
+      <li class="nav-item">
+        <a class="nav-link" :class="{active: activeTab === 'branches-performance'}" @click="activeTab = 'branches-performance'" id="branches-tab" data-toggle="tab" href="#branches-performance" role="tab">
+          Branches Performance
+        </a>
+      </li>
+    </template>
+    <template x-if="canSee('admin')">
+      <li class="nav-item">
+        <a id= "system-adminstration-dashboard" class="nav-link" :class="{active: activeTab === 'system-admin'}" @click="activeTab = 'system-admin'" id="admin-tab" data-toggle="tab" href="#system-admin" role="tab">
+          System Administration
+        </a>
+      </li>
+    </template>
+    <template x-if="canSee('system-reports')">
+      <li class="nav-item">
+        <a class="nav-link" :class="{active: activeTab === 'system-reports'}" @click="activeTab = 'system-reports'" id="system-reports-tab" data-toggle="tab" href="#system-reports" role="tab">
+          System Reports
+        </a>
+      </li>
+    </template>
+  </ul>
 
-      <div class="col-lg-3 col-sm-3">
-        <!-- small box -->
-        <div class="small-box bg-warning">
-          <div class="inner">
-            <h3 id="total-unassigned">0</h3>
-            <p>Total Due</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-bag"></i>
-          </div>
-          <a href="#" class="small-box-footer"> <i class="fas fa-sync"></i></i></a>
-        </div>
-      </div>
+  <!-- Tab Contents -->
+  <div class="tab-content" id="dashboardTabsContent">
+    <div class="tab-pane fade" :class="{ 'show active': activeTab === 'loans-dashboard' }" id="loans-dashboard" role="tabpanel" x-show="canSee('loans')">
+      <!-- Loans Dashboard Content -->
+    </div>
+    <div class="tab-pane fade" :class="{ 'show active': activeTab === 'finance-performance' }" id="finance-performance" role="tabpanel" x-show="canSee('finance')">
+      <!-- Finance Performance Content -->
+    </div>
+    <div class="tab-pane fade" :class="{ 'show active': activeTab === 'branches-performance' }" id="branches-performance" role="tabpanel" x-show="canSee('branches')">
+      <!-- Branches Performance Content -->
+    </div>
+    <div class="tab-pane fade" :class="{ 'show active': activeTab === 'system-admin' }" id="system-admin" role="tabpanel" x-show="canSee('admin')">
+      <!-- System Administration Content -->
+    </div>
+    <div class="tab-pane fade" :class="{ 'show active': activeTab === 'system-reports' }" id="system-reports" role="tabpanel" x-show="canSee('system-reports')">
+      <!-- System Reports Content -->
     </div>
   </div>
-  </div>
-  
+</div>
+<script src="js/actions/dashboard.js" type="module"></script>
+<script>
+function dashboardTabs() {
+  const privileges = JSON.parse(sessionStorage.getItem("privileges")) || [];
+  const isOwner = privileges.some(p => p.name === "owner_reports");
+  return {
+    activeTab: 'loans-dashboard',
+    canSee(tab) {
+      if (isOwner) {
+        // Owner sees all except system_reports
+        return tab !== 'system-reports';
+      }
+      if (tab === 'loans') {
+        return privileges.some(p => p.name === 'loan_officer_reports' || p.name === 'owner_reports');
+      }
+      if (tab === 'finance') {
+        return privileges.some(p => p.name === 'owner_reports');
+      }
+      if (tab === 'branches') {
+        return privileges.some(p => p.name === 'branch_reports');
+      }
+      if (tab === 'admin') {
+        return privileges.some(p => p.name === 'admin_reports');
+      }
+      if (tab === 'system-reports') {
+        return privileges.some(p => p.name === 'system_reports');
+      }
+      return false;
+    },
+  };
+}
+</script>

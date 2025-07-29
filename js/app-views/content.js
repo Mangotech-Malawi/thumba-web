@@ -2,20 +2,8 @@ export const content_view = [
   //Clients
   {
     title: "Dashboard",
-    state: "admin_dashboard",
-    link: "views/dashboards/admin.html",
-    modals: ["views/modals/user.html"]
-  },
-  {
-    title: "Dashboard",
-    state: "investor_dashboard",
-    link: "views/dashboards/investor.html",
-    modals: ["views/modals/user.html"]
-  },
-  {
-    title: "Dashboard",
-    state: "loan_officer_dashboard",
-    link: "views/dashboards/loan-officer.html",
+    state: "dashboard",
+    link: "views/dashboard.html",
     modals: ["views/modals/user.html"]
   },
   {
@@ -341,12 +329,6 @@ export const content_view = [
     title: "Accounts",
     link: "views/accounts/accounts.html",
     state: "accounts",
-    modals: ["views/modals/user.html"]
-  },
-  {
-    title: "Accounts Dashboard",
-    link: "views/dashboards/superuser.html",
-    state: "super_user_dashboard",
     modals: ["views/modals/user.html"]
   },
   {
