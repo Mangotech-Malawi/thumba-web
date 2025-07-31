@@ -19,7 +19,6 @@ export function loanOfficer() {
   if (typeof dashboardData !== "undefined" && dashboardData !== null && dashboardData != '') {
     //populateClientsByProducts(dashb)
     loadProductsChart(dashboardData.products_client_count);
-    console.log(dashboardData.products_client_count);
     $("#totalClients").text(nf.format(dashboardData.total_clients));
     $("#investorsCount").text(nf.format(dashboardData.clients_who_made_investments));
     $("#loanApplicantsCount").text(nf.format(dashboardData.clients_who_applied_loans));
@@ -296,10 +295,10 @@ function loadProductsChart(products_client_count){
       },
       colors: ["#17A2B8", "#28A745", "#FFC107"], // Warm colors
       title: {
-        text: "Investment Products by Clients",
+        text: "Investment Products by Subscriptions",
         align: "center",
         style: {
-          fontSize: "18px", // Increased font size for chart title
+          fontSize: "14px", // Increased font size for chart title
           color: "#000000", // Black for chart title
         },
       },
@@ -330,10 +329,10 @@ function loadProductsChart(products_client_count){
       },
       colors: ["#DC3545", "#6C757D", "#007BFF"], // Warm green colors
       title: {
-        text: "Loan Products by Clients",
+        text: "Loan Products by Loans",
         align: "center",
         style: {
-          fontSize: "18px", // Increased font size for chart title
+          fontSize: "14px", // Increased font size for chart title
           color: "#000000", // Black for chart title
         },
       },
