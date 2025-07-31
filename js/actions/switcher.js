@@ -22,14 +22,15 @@ const modalContent = "modalContent";
 
 selectContent(localStorage.getItem("state"));
 
+selectContent("dashboard");
+
 $(document).ready(function () {
   if (sessionStorage.getItem("role") != null) {
     loadLinks(privileges);
   }
 
-
-  $("#dashboard").on("click", function(e){
-     selectContent("dashboard");
+  $("#dashboard").on("click", function (e) {
+    selectContent("dashboard");
   });
 
   $("#admin-dashboard").on("click", function (e) {
