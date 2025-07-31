@@ -2,27 +2,33 @@ import * as dashboard from "../services/dashboard.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
 $(function () {
+    const tabLoaders = {
+        "loan-dashboard": () => {
+            $.when(contentLoader.loadContent("loans-dashboard", "loans_dashboard", "views/dashboards/loan-officer.html"))
+                .done(() => dashboard.loanOfficer());
+        },
+        "finance-dashboard": () => {
+            $.when(contentLoader.loadContent("finance-performance", "finance_dashboard", "views/dashboards/finance.html"))
+                .done(() => dashboard.loanOfficer());
+        },
+        "system-adminstration-dashboard": () => {
+            $.when(contentLoader.loadContent("system-admin", "finance_dashboard", "views/dashboards/admin.html"))
+                .done(() => dashboard.admin());
+        },
+        "system-reports-tab": () => {
+            $.when(contentLoader.loadContent("system-reports", "system_reports", "views/dashboards/superuser.html"))
+                .done(() => console.log("Super user admin"));
+        }
+    };
 
-    $(document).on("click", "#loan-dashboard", function () {
-        $.when(contentLoader.loadContent("loans-dashboard", "dashboard", "views/dashboards/loan-officer.html")).done(function () {
-            dashboard.loanOfficer();
-        });
+    // Register clicks
+    Object.entries(tabLoaders).forEach(([id, handler]) => {
+        $(document).on("click", `#${id}`, handler);
     });
 
-    $(document).on("click", "#finance-dashboard", function () {
-        $.when(contentLoader.loadContent("finance-performance", "dashboard", "views/dashboards/finance.html")).done(function () {
-            dashboard.loanOfficer();
-        });
-    });
-
-    $(document).on("click", "#system-adminstration-dashboard", function () {
-        $.when(contentLoader.loadContent("system-admin", "dashboard", "views/dashboards/admin.html")).done(function () {
-            dashboard.admin();
-        });
-    });
-
-    $(document).on("click", "#loan-officer-dashboard", function () {
-
-    });
-
+    // Auto-load from localStorage (in case Alpine sets it)
+    const firstTabId = localStorage.getItem("dashboard_first_tab");
+    if (firstTabId && tabLoaders[firstTabId]) {
+        tabLoaders[firstTabId]();
+    }
 });
