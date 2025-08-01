@@ -88,6 +88,52 @@ export function shares(){
   $("#totalShares").text(dashboardData.total_shares_issued);
   $("#shareClasses").text(dashboardData.total_share_class);
   $("#capitalizationRate").text(`${dashboardData.capitalization_rate}%`);
+
+  // Render charts for shares
+  renderSharesCharts(dashboardData);
+}
+
+export function renderSharesCharts(dashboardData) {
+  // Share Capital by Class (Bar Chart)
+  const capitalSeries = [{
+    name: "Capital",
+    data: dashboardData.share_capital_by_class.map(item => parseFloat(item.capital))
+  }];
+  const capitalCategories = dashboardData.share_capital_by_class.map(item => item.name);
+
+  const capitalOptions = {
+    chart: { type: "bar", height: 300 },
+    series: capitalSeries,
+    xaxis: { categories: capitalCategories },
+    title: { text: "Share Capital by Class", align: "center" },
+    colors: ["#3f51b5"],
+    dataLabels: { enabled: true }
+  };
+
+  const capitalChart = new ApexCharts(
+    document.querySelector("#shareCapitalByClassChart"),
+    capitalOptions
+  );
+  capitalChart.render();
+
+  // Share Class by Shareholder Count (Pie Chart)
+  const shareholderSeries = dashboardData.share_class_by_shareholder_count.map(item => item.shareholder_count);
+  const shareholderLabels = dashboardData.share_class_by_shareholder_count.map(item => item.share_class_name);
+
+  const shareholderOptions = {
+    chart: { type: "pie", height: 300 },
+    series: shareholderSeries,
+    labels: shareholderLabels,
+    title: { text: "Share Class by Shareholder Count", align: "center" },
+    colors: ["#009688", "#ffc107", "#e91e63", "#607d8b"],
+    dataLabels: { enabled: true }
+  };
+
+  const shareholderChart = new ApexCharts(
+    document.querySelector("#shareClassByShareholderCountChart"),
+    shareholderOptions
+  );
+  shareholderChart.render();
 }
 
 function populateSharesChart(investors) {
