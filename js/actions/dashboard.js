@@ -21,7 +21,7 @@ $(function () {
         },
         "shares-dashboard": () => {
             $.when(contentLoader.loadContent("shares-performance", "shares_perfomance", "views/dashboards/shares.html"))
-                .done(() => console.log("Super user admin"));
+                .done(() => dashboard.shares() );
         }
     };
 

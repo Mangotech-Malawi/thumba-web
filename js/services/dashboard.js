@@ -77,6 +77,19 @@ export function investor() {
   }
 }
 
+export function shares(){
+  dashboardData = fetchSharesDashboardData();
+
+  $("#totalShareCapital").text(`MK${formatCurrency(dashboardData.total_share_capital)}`);
+  $("#acceptedContributions").text(`MK${formatCurrency(dashboardData.accepted_contributions)}`);
+  $("#rejectedContributions").text(`MK${formatCurrency(dashboardData.rejected_total_contributions)}`)
+  $("#pendingApprovals").text(`MK${formatCurrency(dashboardData.pending_approvals)}`);
+  $("#totalShareholders").text(dashboardData.total_shareholders);
+  $("#totalShares").text(dashboardData.total_shares_issued);
+  $("#shareClasses").text(dashboardData.total_share_class);
+  $("#capitalizationRate").text(`${dashboardData.capitalization_rate}%`);
+}
+
 function populateSharesChart(investors) {
   $("#sharesContributionTitle").text("Shares & Contributions Chart");
   sharesOptions.series = [];
@@ -215,6 +228,15 @@ function fetchInvestorDashboardData() {
   }
 }
 
+
+function fetchSharesDashboardData() {
+  let data = apiClient("/api/v1/dashboard/shares", "GET", "json", false, false, {});
+  if (data != null) {
+    return data;
+  }
+}
+
+// Render Charts Here 
 function loadProductsChart(products_client_count){
 
     const data = products_client_count;
