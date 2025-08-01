@@ -18,6 +18,10 @@ $(function () {
         "system-reports-tab": () => {
             $.when(contentLoader.loadContent("system-reports", "system_reports", "views/dashboards/superuser.html"))
                 .done(() => console.log("Super user admin"));
+        },
+        "shares-dashboard": () => {
+            $.when(contentLoader.loadContent("shares-performance", "shares_perfomance", "views/dashboards/shares.html"))
+                .done(() => console.log("Super user admin"));
         }
     };
 
