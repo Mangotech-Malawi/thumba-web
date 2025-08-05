@@ -20,9 +20,15 @@ let privileges = sessionStorage.getItem("privileges");
 const mainContent = "mainContent";
 const modalContent = "modalContent";
 
-selectContent(localStorage.getItem("state"));
+let state = localStorage.getItem("state");
 
-selectContent("dashboard");
+if (state == null || state == '' || typeof state == undefined) {
+  selectContent("dashboard");
+} else {
+  selectContent(localStorage.getItem("state"));
+}
+
+
 
 $(document).ready(function () {
   if (sessionStorage.getItem("role") != null) {

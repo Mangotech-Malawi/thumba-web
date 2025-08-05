@@ -2,6 +2,7 @@ import * as dashboard from "../services/dashboard.js";
 import * as contentLoader from "../actions/contentLoader.js";
 
 $(function () {
+    
     const tabLoaders = {
         "loan-dashboard": () => {
             $.when(contentLoader.loadContent("loans-dashboard", "loans_dashboard", "views/dashboards/loan-officer.html"))
@@ -9,7 +10,7 @@ $(function () {
         },
         "finance-dashboard": () => {
             $.when(contentLoader.loadContent("finance-performance", "finance_dashboard", "views/dashboards/finance.html"))
-                .done(() => dashboard.loanOfficer());
+                .done(() => dashboard.finance());
         },
         "system-adminstration-dashboard": () => {
             $.when(contentLoader.loadContent("system-admin", "finance_dashboard", "views/dashboards/admin.html"))
@@ -32,7 +33,7 @@ $(function () {
 
     // Auto-load from localStorage (in case Alpine sets it)
     const firstTabId = localStorage.getItem("dashboard_first_tab");
-    if (firstTabId && tabLoaders[firstTabId]) {
+    if (firstTabId && tabLoaders[firstTabId] && localStorage.getItem("state") === "dashboard") {
         tabLoaders[firstTabId]();
     }
 });
