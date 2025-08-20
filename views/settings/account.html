@@ -1,54 +1,304 @@
-<div class="container-fluid ">
-    <div class="card">
+<style>
+    :root {
+        --primary: #000000;
+        --secondary: #FFFFFF;
+        --accent: #CCCCCC;
+        --text: #FFFFFF;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+        color: var(--text);
+    }
+
+    .palette-card.selected {
+        border: 3px solid #007bff;
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+        transform: translateY(-2px);
+    }
+
+    .palette-card {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        padding: 8px;
+        background: #f8f9fa;
+    }
+
+    .palette-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .palette-label {
+        text-align: center;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .palette-colors {
+        border: 1px solid #dee2e6;
+    }
+
+    #preview {
+        border: 2px solid #e9ecef;
+        background: var(--secondary);
+    }
+
+    .preview-header {
+        background-color: var(--primary) !important;
+        color: var(--text) !important;
+    }
+
+    .preview-footer {
+        background-color: var(--accent) !important;
+        color: var(--text) !important;
+    }
+</style>
+<div class="container-fluid py-4">
+    <!-- Account Details Card -->
+    <div class="card mb-4 shadow-sm">
         <div class="card-header bg-gradient-primary">
-            <h3 class="card-title">Account Details</h3>
+            <h3 class="card-title mb-0">Account Details</h3>
         </div>
-        <div class="card-body bg-default">
+        <div class="card-body">
             <form id="accountSettingsForm">
-                <div class="form-group">
-                    <label for="companyName">Company Name</label>
+                <div class="mb-3">
+                    <label for="accountName" class="form-label">Company Name</label>
                     <input type="text" id="accountName" class="form-control" placeholder="Enter your company name">
                 </div>
-
-                <div class="form-group">
-                    <label for="address">Address</label>
+                <div class="mb-3">
+                    <label for="accountAddress" class="form-label">Address</label>
                     <input type="text" id="accountAddress" class="form-control" placeholder="Enter your address">
                 </div>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
+                <div class="mb-3">
+                    <label for="accountEmail" class="form-label">Email</label>
                     <input type="email" id="accountEmail" class="form-control" placeholder="Enter your email">
                 </div>
-                
-                <div class="form-group">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="text" id="accountPhoneNumber" class="form-control" placeholder="Enter your phone number">
+                <div class="mb-3">
+                    <label for="accountPhoneNumber" class="form-label">Phone Number</label>
+                    <input type="text" id="accountPhoneNumber" class="form-control"
+                        placeholder="Enter your phone number">
                 </div>
-             
-                <button id="accountSettingsBtn" class="btn btn-primary">Save Settings</button>
-            </form>     
+                <button id="accountSettingsBtn" type="button" class="btn btn-primary">Save Settings</button>
+            </form>
         </div>
     </div>
 
-    <div class="card">
+    <!-- Logo Upload Card -->
+    <div class="card mb-4 shadow-sm">
         <div class="card-header">
-            <h3 class="card-title">Account Branding</h3>
+            <h3 class="card-title mb-0">Company Logo</h3>
         </div>
         <div class="card-body">
-            <form id="accountBrandingForm">
-                <div class="form-group">
-                    <label for="logoUpload">Company Logo</label>
-                    <input type="file" id="logoUpload" class="form-control" accept="image/*">
-                    <button type="button" id="uploadLogoButton" class="btn btn-success mt-2">Upload Logo</button>
-                    <img id="logoPreview" src="#" alt="Logo Preview" style="width: 150px; height: 150px; object-fit: cover; margin-top: 10px;">
+            <div class="mb-3">
+                <input type="file" id="logoUpload" class="form-control mb-2" accept="image/*">
+                <button type="button" id="uploadLogoButton" class="btn btn-success">Upload Logo</button>
+                <img id="logoPreview" src="#" alt="Logo Preview"
+                    style="width: 150px; height: 150px; object-fit: cover; margin-top: 15px; display: none; border-radius: 8px; border: 2px solid #dee2e6;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Branding Card -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Color Branding</h3>
+        </div>
+        <div class="card-body">
+            <!-- Predefined Color Palettes -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Choose a Color Palette</label>
+                <div id="paletteContainer" class="d-flex gap-3 flex-wrap mt-3">
+
+                    <!-- Palette 1: Classic Black & White -->
+                    <div class="palette-card  selected" data-primary="#000000" data-secondary="#FFFFFF"
+                        data-accent="#6C757D" data-text="#FFFFFF">
+                        <div class="palette-colors d-flex rounded overflow-hidden">
+                            <div style="background:#000000; width:40px; height:40px;" title="Primary"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border-right: 1px solid #dee2e6;"
+                                title="Secondary"></div>
+                            <div style="background:#6C757D; width:40px; height:40px;" title="Accent"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border: 1px solid #000;"
+                                title="Text on Primary"></div>
+                        </div>
+                        <div class="palette-label">Classic Black & White</div>
+                    </div>
+
+                    <!-- Palette 2: Modern Grey -->
+                    <div class="palette-card ml-2" data-primary="#374151" data-secondary="#F9FAFB" data-accent="#9CA3AF"
+                        data-text="#FFFFFF">
+                        <div class="palette-colors d-flex rounded overflow-hidden">
+                            <div style="background:#374151; width:40px; height:40px;" title="Primary"></div>
+                            <div style="background:#F9FAFB; width:40px; height:40px;" title="Secondary"></div>
+                            <div style="background:#9CA3AF; width:40px; height:40px;" title="Accent"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border: 1px solid #374151;"
+                                title="Text on Primary"></div>
+                        </div>
+                        <div class="palette-label">Modern Grey</div>
+                    </div>
+
+                    <!-- Palette 3: Professional Blue -->
+                    <div class="palette-card ml-2" data-primary="#1E40AF" data-secondary="#EFF6FF" data-accent="#3B82F6"
+                        data-text="#FFFFFF">
+                        <div class="palette-colors d-flex rounded overflow-hidden">
+                            <div style="background:#1E40AF; width:40px; height:40px;" title="Primary"></div>
+                            <div style="background:#EFF6FF; width:40px; height:40px;" title="Secondary"></div>
+                            <div style="background:#3B82F6; width:40px; height:40px;" title="Accent"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border: 1px solid #1E40AF;"
+                                title="Text on Primary"></div>
+                        </div>
+                        <div class="palette-label">Professional Blue</div>
+                    </div>
+
+                    <!-- Palette 4: Elegant Purple -->
+                    <div class="palette-card ml-2" data-primary="#7C3AED" data-secondary="#FAF5FF" data-accent="#A855F7"
+                        data-text="#FFFFFF">
+                        <div class="palette-colors d-flex rounded overflow-hidden">
+                            <div style="background:#7C3AED; width:40px; height:40px;" title="Primary"></div>
+                            <div style="background:#FAF5FF; width:40px; height:40px;" title="Secondary"></div>
+                            <div style="background:#A855F7; width:40px; height:40px;" title="Accent"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border: 1px solid #7C3AED;"
+                                title="Text on Primary"></div>
+                        </div>
+                        <div class="palette-label">Elegant Purple</div>
+                    </div>
+
+                    <!-- Palette 5: Sophisticated Teal -->
+                    <div class="palette-card ml-2" data-primary="#0D9488" data-secondary="#F0FDFA" data-accent="#14B8A6"
+                        data-text="#FFFFFF">
+                        <div class="palette-colors d-flex rounded overflow-hidden">
+                            <div style="background:#0D9488; width:40px; height:40px;" title="Primary"></div>
+                            <div style="background:#F0FDFA; width:40px; height:40px;" title="Secondary"></div>
+                            <div style="background:#14B8A6; width:40px; height:40px;" title="Accent"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border: 1px solid #0D9488;"
+                                title="Text on Primary"></div>
+                        </div>
+                        <div class="palette-label">Sophisticated Teal</div>
+                    </div>
+
+                    <!-- Palette 6: Warm Orange -->
+                    <div class="palette-card ml-2" data-primary="#EA580C" data-secondary="#FFF7ED" data-accent="#FB923C"
+                        data-text="#FFFFFF">
+                        <div class="palette-colors d-flex rounded overflow-hidden">
+                            <div style="background:#EA580C; width:40px; height:40px;" title="Primary"></div>
+                            <div style="background:#FFF7ED; width:40px; height:40px;" title="Secondary"></div>
+                            <div style="background:#FB923C; width:40px; height:40px;" title="Accent"></div>
+                            <div style="background:#FFFFFF; width:40px; height:40px; border: 1px solid #EA580C;"
+                                title="Text on Primary"></div>
+                        </div>
+                        <div class="palette-label">Warm Orange</div>
+                    </div>
+
                 </div>
-            </form>     
+
+                <div class="mt-4">
+                    <button type="button" id="savePaletteBtn" class="btn btn-primary me-2">Save Color Branding</button>
+                    <button type="button" id="resetPaletteBtn" class="btn btn-secondary">Reset to Default</button>
+                </div>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="mt-4">
+                <h5>Live Preview</h5>
+                <div id="preview" class="mt-3 rounded">
+                    <div class="preview-header p-3 fw-bold rounded-top">
+                        Header Preview - Primary Color with White Text
+                    </div>
+                    <div class="p-3 bg-white">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Column 1</th>
+                                    <th>Column 2</th>
+                                    <th>Column 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sample Data 1</td>
+                                    <td>Sample Data 2</td>
+                                    <td>Sample Data 3</td>
+                                </tr>
+                                <tr>
+                                    <td>More Data 1</td>
+                                    <td>More Data 2</td>
+                                    <td>More Data 3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-info">
+                            This is how your content will look with the selected color scheme.
+                        </div>
+                    </div>
+                    <div class="preview-footer p-3 rounded-bottom">
+                        Footer Preview - Accent Color with White Text
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    
+    document.addEventListener('DOMContentLoaded', function () {
+        const paletteCards = document.querySelectorAll('.palette-card');
+        const preview = document.querySelector('#preview');
+
+        // Handle palette selection
+        paletteCards.forEach(card => {
+            card.addEventListener('click', function () {
+                // Remove selected class from all cards
+                paletteCards.forEach(c => c.classList.remove('selected'));
+
+                // Add selected class to clicked card
+                this.classList.add('selected');
+
+                // Get color values
+                const primary = this.dataset.primary;
+                const secondary = this.dataset.secondary;
+                const accent = this.dataset.accent;
+                const text = this.dataset.text;
+
+                // Update CSS variables
+                document.documentElement.style.setProperty('--primary', primary);
+                document.documentElement.style.setProperty('--secondary', secondary);
+                document.documentElement.style.setProperty('--accent', accent);
+                document.documentElement.style.setProperty('--text', text);
+
+                // Update preview
+                updatePreview();
+            });
+        });
+
+        function updatePreview() {
+            const headerEl = preview.querySelector('.preview-header');
+            const footerEl = preview.querySelector('.preview-footer');
+
+            if (headerEl && footerEl) {
+                // Force update of preview elements
+                headerEl.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+                headerEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text');
+
+                footerEl.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+                footerEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text');
+            }
+        }
+
+
+
+        // Reset palette button
+        document.getElementById('resetPaletteBtn').addEventListener('click', function () {
+            // Reset to first palette (Black & White)
+            paletteCards.forEach(c => c.classList.remove('selected'));
+            paletteCards[0].classList.add('selected');
+            paletteCards[0].click();
+        });
+
+        // Initialize with default preview
+        updatePreview();
+    });
 </script>
-
-
