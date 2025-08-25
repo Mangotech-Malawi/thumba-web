@@ -4,10 +4,6 @@ import { toastNote } from "../utils/utils.js"
 import * as contentLoader from "../actions/contentLoader.js";
 import * as users from "../services/users.js";
 
-
-let defaultPalette = { primary: '#000000', secondary: '#FFFFFF', accent: '#CCCCCC', text: '#000000' };
-let selectedPalette = { ...defaultPalette };
-
 $(document).ready(function () {
 
     $(document).on("click", "#btnBranchBtn", function (e) {
@@ -21,7 +17,7 @@ $(document).ready(function () {
     $(document).on("click", "#branchBackBtn", function (e) {
         $.when(contentLoader.loadIndividualRecordView("views/settings/branches.html", "branches")).done(
             function () {
-                account.fetchBranches("account");
+              account.fetchBranches("account");
             }
         );
     });
@@ -157,10 +153,10 @@ $(document).ready(function () {
         const data = $(this).data();
 
         $.when(contentLoader.loadIndividualRecordView("views/forms/branches.html", "branches_form")).done(
-            function () {
+                function () {
                 $("#cardTitle").text("Update Branch");
 
-                $.when(populateUsers()).done(function () {
+                $.when(populateUsers()).done( function(){
                     $.each(data, function (key, value) {
                         $("#branchForm").find(`[id = '${key}']`).val(value);
                         $("#branchForm").find(`[id = '${key}']`).val(value).trigger("change");
@@ -171,9 +167,9 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#saveBranchBtn', function () {
-        if (form.validateBranchForm()) {
+       if(form.validateBranchForm()){
 
-            if ($("#cardTitle").text().trim() === "Add Branch") {
+            if($("#cardTitle").text().trim() === "Add Branch") {
                 $.when(account.addBranch(branchParams())).done(function (data) {
                     notification(
                         data.created,
@@ -205,14 +201,9 @@ $(document).ready(function () {
 
             }
 
-        }
+       }
     });
 
-
-    // Save button
-    $('#savePaletteBtn').on('click', function () {
-        console.log('Saved Palette:', selectedPalette);
-    });
 
 });
 
@@ -265,7 +256,7 @@ function accountSettingsParams() {
     return params;
 }
 
-function branchParams() {
+function branchParams(){
     const branchId = $("#branchId").val();
     const name = $("#name").val();
     const branchType = $("#branchType").val();
@@ -273,7 +264,7 @@ function branchParams() {
     const emailAddress = $("#emailAddress").val();
     const phoneNumber = $("#phoneNumber").val();
     const manager = $("#managerSelector").val();
-    const postalAddress = $("#postalAddress").val();
+    const postalAddress =$("#postalAddress").val();
 
     let params = {
         id: branchId,
@@ -331,8 +322,8 @@ function notification(
 }
 
 
-function populateUsers() {
-    $.when(users.fetchUsers()).done(function (users) {
+function populateUsers(){
+    $.when(users.fetchUsers()).done(function (users){
 
         let usersArray = [];
 
@@ -364,5 +355,3 @@ export function populateAccountDetails() {
     $("#accountPhoneNumber").val(sessionStorage.getItem("account_phone_number"));
     $("#logoPreview").attr("src", sessionStorage.getItem("account_logo"));
 }
-
-
