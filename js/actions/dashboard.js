@@ -5,23 +5,23 @@ $(function () {
     
     const tabLoaders = {
         "loan-dashboard": () => {
-            $.when(contentLoader.loadContent("loans-dashboard", "loans_dashboard", "views/dashboards/loan-officer.html"))
+            $.when(contentLoader.loadContent("loans-dashboard", "dashboard", "views/dashboards/loan-officer.html"))
                 .done(() => dashboard.loanOfficer());
         },
         "finance-dashboard": () => {
-            $.when(contentLoader.loadContent("finance-performance", "finance_dashboard", "views/dashboards/finance.html"))
+            $.when(contentLoader.loadContent("finance-performance", "dashboard", "views/dashboards/finance.html"))
                 .done(() => dashboard.finance());
         },
         "system-adminstration-dashboard": () => {
-            $.when(contentLoader.loadContent("system-admin", "finance_dashboard", "views/dashboards/admin.html"))
+            $.when(contentLoader.loadContent("system-admin", "dashboard", "views/dashboards/admin.html"))
                 .done(() => dashboard.admin());
         },
         "system-reports-tab": () => {
-            $.when(contentLoader.loadContent("system-reports", "system_reports", "views/dashboards/superuser.html"))
+            $.when(contentLoader.loadContent("system-reports", "dashboard", "views/dashboards/superuser.html"))
                 .done(() => console.log("Super user admin"));
         },
         "shares-dashboard": () => {
-            $.when(contentLoader.loadContent("shares-performance", "shares_perfomance", "views/dashboards/shares.html"))
+            $.when(contentLoader.loadContent("shares-performance", "dashboard", "views/dashboards/shares.html"))
                 .done(() => dashboard.shares() );
         }
     };
