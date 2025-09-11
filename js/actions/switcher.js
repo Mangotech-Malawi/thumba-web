@@ -39,6 +39,10 @@ $(document).ready(function () {
     selectContent("dashboard");
   });
 
+  $("#reports").on("click", function (e) {
+    selectContent("reports");
+  });
+
   $("#individualClient").on("click", function (e) {
     selectContent("individual");
   });

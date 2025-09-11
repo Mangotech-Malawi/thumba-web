@@ -7,6 +7,12 @@ export const content_view = [
     modals: ["views/modals/user.html"]
   },
   {
+    title: "Reports",
+    state: "reports",
+    link: "views/reports.html",
+    modals: ["views/modals/user.html"]
+  },
+  {
     title: "Individuals",
     link: "views/clients/individuals.html",
     modals: ["views/modals/client.html",
@@ -367,7 +373,7 @@ export const content_view = [
     state: "shares",
     modals: ["views/modals/user.html", "views/modals/shares_management.html"]
   },
-   {
+  {
     title: "Shareholder Form",
     link: "views/forms/shareholder.html",
     state: "shareholder_form",
