@@ -1,8 +1,42 @@
 import * as report from "../services/reports.js"
+import * as contentLoader from "../actions/contentLoader.js";
 
-$(document).ready(function () {
+$(function () {
+    const tabLoaders = {
+        "loan-reports": () => {
+            $.when(contentLoader.loadContent("loans-reports", "reports", "views/reports/loan-officer.html"))
+                .done(() => report.loanOfficer());
+        },
+        "finance-reports": () => {
+            $.when(contentLoader.loadContent("finance-reports", "reports", "views/reports/finance.html"))
+                .done(() => report.finance());
+        },
+        "system-admin-reports": () => {
+            $.when(contentLoader.loadContent("system-admin-reports", "reports", "views/reports/admin.html"))
+                .done(() => report.admin());
+        },
+        "system-reports-main": () => {
+            $.when(contentLoader.loadContent("system-reports-main", "reports", "views/reports/superuser.html"))
+                .done(() => console.log("Super user reports"));
+        },
+        "shares-reports": () => {
+            $.when(contentLoader.loadContent("shares-reports", "reports", "views/reports/shares.html"))
+                .done(() => report.shares());
+        }
+    };
 
-    $(document).on("click", ".users-report-btn", function (e) {
+    // Register clicks
+    Object.entries(tabLoaders).forEach(([id, handler]) => {
+        $(document).on("click", `#${id}`, handler);
+    });
+
+    // Auto-load from localStorage (in case Alpine sets it)
+    const firstTabId = localStorage.getItem("reports_first_tab");
+    if (firstTabId && tabLoaders[firstTabId] && localStorage.getItem("state") === "reports") {
+        tabLoaders[firstTabId]();
+    }
+
+     $(document).on("click", ".users-report-btn", function (e) {
         e.preventDefault();
         let documentType = $(this).data().documentType;
 
@@ -16,8 +50,8 @@ $(document).ready(function () {
             );
         }
     });
-
 });
+
 
 function downloadCSV() {
     let token = sessionStorage.getItem("token");
