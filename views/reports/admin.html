@@ -4,18 +4,19 @@
     <div class="col-12">
       <div class="card">
 
+        <!-- FILTER SECTION -->
         <div class="card-header all-report-filter">
           <div class="row align-items-end">
             <!-- Start Date -->
             <div class="col-sm-12 col-md-6 col-lg-2">
               <div class="form-group">
                 <label>Start Date</label>
-                <div class="input-group date" id="startDatePicker" data-target-input="nearest">
-                  <div class="input-group-prepend" data-target="#startDatePicker" data-toggle="datetimepicker">
+                <div class="input-group date" id="startDateAdminPicker" data-target-input="nearest">
+                  <div class="input-group-prepend" data-target="#startDateAdminPicker" data-toggle="datetimepicker">
                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                   </div>
-                  <input type="text" id="startDate" class="form-control datetimepicker-input"
-                    data-target="#startDatePicker" />
+                  <input type="text" id="adminReportStartDate" class="form-control datetimepicker-input date"
+                    data-target="#startDateAdminPicker" />
                 </div>
               </div>
             </div>
@@ -24,12 +25,12 @@
             <div class="col-sm-12 col-md-6 col-lg-2">
               <div class="form-group">
                 <label>End Date</label>
-                <div class="input-group date" id="endDatePicker" data-target-input="nearest">
-                  <div class="input-group-prepend" data-target="#endDatePicker" data-toggle="datetimepicker">
+                <div class="input-group date" id="endDateAdminPicker" data-target-input="nearest">
+                  <div class="input-group-prepend" data-target="#endDateAdminPicker" data-toggle="datetimepicker">
                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                   </div>
-                  <input type="text" id="endDate" class="form-control datetimepicker-input"
-                    data-target="#endDatePicker" />
+                  <input type="text" id="adminReportEndDate" class="form-control datetimepicker-input"
+                    data-target="#endDateAdminPicker" />
                 </div>
               </div>
             </div>
@@ -38,7 +39,7 @@
             <div class="col-sm-12 col-md-6 col-lg-2">
               <div class="form-group">
                 <label class="d-none d-lg-block">&nbsp;</label>
-                <button id="filterBtn" class="btn btn-primary btn-block">
+                <button id="adminFilterBtn" class="btn btn-primary btn-block">
                   <i class="fas fa-filter"></i> Filter
                 </button>
               </div>
@@ -49,7 +50,7 @@
               <div class="form-group">
                 <label class="d-none d-lg-block">&nbsp;</label>
                 <div class="dropdown">
-                  <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="exportDropdown"
+                  <button class="btn btn-outline-success btn-block dropdown-toggle" type="button" id="exportDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-file-export"></i> Export
                   </button>
@@ -63,160 +64,100 @@
           </div>
         </div>
 
-        <!-- Report Table -->
+        <!-- REPORT TABLE SECTION -->
         <div class="card-body">
+
+          <!-- HEADER INSIDE REPORT TABLE AREA -->
+          <div class="d-flex justify-content-between align-items-center flex-wrap border rounded p-3 mb-4"
+           >
+            <!-- Left: Logo + Report Title -->
+            <div class="d-flex align-items-center mb-2 mb-md-0">
+              <img src="#" alt="Company Logo" class="me-3 account-logo"
+                   style="height: 55px; width: auto;">
+              <div>
+                <h5 class="fw-bold text-uppercase mb-0 ml-2">System Administration Report</h5>
+                <h7 id="report-company-name" class="text-muted account-name ml-2 h">Company Name Here</h7>
+              </div>
+            </div>
+
+            <!-- Right: Date Range -->
+            <div class="text-end">
+              <p class="mb-1 fw-semibold text-dark">
+                <i class="far fa-calendar-alt text-orange me-2"></i>
+                <span id="adminReportDateRange">1 Oct 2025 - 17 Oct 2025</span>
+              </p>
+              <small class="text-muted">Generated on: <span id="adminReportGeneratedDate"></span></small>
+            </div>
+          </div>
+
+          <!-- REPORT TABLE -->
           <div id="tab">
-            <br />
-            <table id="loan-client-stats-report" name="LoanClientStats"
-              class="table table-bordered table-hover report-table">
-              <thead>
-                <tr class="bg-light">
+            <table id="admin-report-stats" class="table table-bordered table-hover report-table">
+              <thead class="table bg-secondary">
+                <tr>
                   <th>Category</th>
                   <th>Definition</th>
                   <th>Value</th>
                 </tr>
               </thead>
               <tbody>
-
+                <!-- Users Overview -->
                 <tr>
-                  <td rowspan="9" style="width: 20%">Clients</td>
-                  <td>Total Clients</td>
-                  <td id="totalClients"></td>
+                  <td rowspan="2" style="width: 20%;">Users Overview</td>
+                  <td>Total Users</td>
+                  <td class="text-bold" id="totalUsers"></td>
                 </tr>
                 <tr>
-                  <td>Active Clients</td>
-                  <td id="activeClients"></td>
-                </tr>
-                <tr>
-                  <td>Dormant Clients</td>
-                  <td id="dormantClients"></td>
-                </tr>
-                <tr>
-                  <td>Individual Clients</td>
-                  <td id="individualClients"></td>
-                </tr>
-                <tr>
-                  <td>Group Clients</td>
-                  <td id="groupClients"></td>
-                </tr>
-                <tr>
-                  <td>Institutional Clients</td>
-                  <td id="institutionalClients"></td>
-                </tr>
-                <tr>
-                  <td>Investors</td>
-                  <td id="investorsCount"></td>
-                </tr>
-                <tr>
-                  <td>Loan Applicants</td>
-                  <td id="loanApplicantsCount"></td>
-                </tr>
-                <tr>
-                  <td>Client Growth Rate (%)</td>
-                  <td id="clientGrowthRate"></td>
+                  <td>Total Branches</td>
+                  <td  class="text-bold" id="totalBranches"></td>
                 </tr>
 
-                <!-- Loan Applications -->
+                <!-- Invitations -->
                 <tr>
-                  <td rowspan="6">Loan Applications</td>
-                  <td>Total Applications</td>
-                  <td id="totalApplications"></td>
+                  <td rowspan="3">Invitations</td>
+                  <td>Total Invitations</td>
+                  <td  class="text-bold" id="totalInvitations"></td>
                 </tr>
                 <tr>
-                  <td>Approved Applications</td>
-                  <td id="approvedApplications"></td>
+                  <td>Accepted (Yes)</td>
+                  <td  class="text-bold" id="acceptedYes"></td>
                 </tr>
                 <tr>
-                  <td>Rejected Applications</td>
-                  <td id="rejectedApplications"></td>
-                </tr>
-                <tr>
-                  <td>Pending Applications</td>
-                  <td id="pendingApplications"></td>
-                </tr>
-                <tr>
-                  <td>Approval Rate (%)</td>
-                  <td id="approvalRate"></td>
-                </tr>
-                <tr>
-                  <td>Average Loan Size</td>
-                  <td id="avgLoanSize"></td>
+                  <td>Accepted (No)</td>
+                  <td  class="text-bold" id="acceptedNo"></td>
                 </tr>
 
-                <!-- Loan Disbursement -->
+                <!-- User Roles -->
                 <tr>
-                  <td rowspan="5">Loan Disbursements</td>
-                  <td>Total Disbursed Amount</td>
-                  <td id="totalDisbursed"></td>
+                  <td rowspan="4">User Roles</td>
+                  <td>System Administrator</td>
+                  <td id="roleSysAdmin"></td>
                 </tr>
                 <tr>
-                  <td>Disbursement Rate (%)</td>
-                  <td id="disbursementRate"></td>
+                  <td>Loan Officer</td>
+                  <td id="roleLoanOfficer"></td>
                 </tr>
                 <tr>
-                  <td>Active Loans</td>
-                  <td id="activeLoans"></td>
+                  <td>Branch Loan Officer</td>
+                  <td id="roleBranchLoanOfficer"></td>
                 </tr>
                 <tr>
-                  <td>Closed Loans</td>
-                  <td id="closedLoans"></td>
-                </tr>
-                <tr>
-                  <td>Average Disbursement Time</td>
-                  <td id="avgDisbTime"></td>
+                  <td>Co-Owner</td>
+                  <td id="roleCoOwner"></td>
                 </tr>
 
-                <!-- Loan Repayments -->
-                <tr>
-                  <td rowspan="6">Repayments & Recovery</td>
-                  <td>Total Repaid Amount</td>
-                  <td id="totalRepaid"></td>
+                <!-- Branch Users -->
+                 <tr>
+                  <td rowspan="1">Branch User Count</td>
+                  <td colspan="2">
+                    <table class="table table-sm table-borderless mb-0" id="branchUserRows"></table>
+                  </td>
                 </tr>
-                <tr>
-                  <td>Outstanding Balance</td>
-                  <td id="outstandingBalance"></td>
-                </tr>
-                <tr>
-                  <td>Total Defaulters</td>
-                  <td id="totalDefaulters"></td>
-                </tr>
-                <tr>
-                  <td>Recovery Rate (%)</td>
-                  <td id="recoveryRate"></td>
-                </tr>
-                <tr>
-                  <td>PAR (Portfolio at Risk)</td>
-                  <td id="par"></td>
-                </tr>
-                <tr>
-                  <td>Write-offs</td>
-                  <td id="writeOffs"></td>
-                </tr>
-
-                <!-- Planning -->
-                <tr>
-                  <td rowspan="4">Remediation & Planning</td>
-                  <td>Key Challenges</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Action Plan</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Responsible Staff</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Timeline</td>
-                  <td></td>
-                </tr>
-
               </tbody>
             </table>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
@@ -224,9 +165,33 @@
 
 <!-- Scripts -->
 <script>
-  $(function () {
-    $(".date").datetimepicker({
-      format: "DD/MMM/YYYY",
-    });
-  });
+
+  $(".date").datetimepicker({ format: "DD/MMM/YYYY" });
+
+  // Show today's date
+  var today = new Date();
+  $("#adminReportGeneratedDate").text(today.toLocaleDateString("en-GB", {
+    day: "2-digit", month: "short", year: "numeric"
+  }));
+
+  $(".account-name").text(sessionStorage.getItem("account_name"));
+  $(".account-logo").attr("src", sessionStorage.getItem("account_logo"));
+
+
 </script>
+
+<!-- Custom Styles -->
+<style>
+  .text-orange {
+    color: #ff8c00 !important;
+  }
+
+  .table th,
+  .table td {
+    vertical-align: middle;
+  }
+
+  .report-table {
+    font-size: 0.95rem;
+  }
+</style>
