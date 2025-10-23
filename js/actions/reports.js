@@ -53,7 +53,7 @@ $(function () {
   });
 
 
-  $(document).on("click", "#adminFilterBtn", function(){
+  $(document).on("click", "#adminReportFilterBtn", function(){
     const startDate = $('#adminReportStartDate').val() || 'Start not set';
     const endDate = $('#adminReportEndDate').val() || 'End not set';
 
@@ -109,6 +109,55 @@ $(function () {
 
 
 
+  $(document).on("click", "#loanReportFilterBtn", function(){
+      const startDate = $('#loanReportStartDate').val() || 'Start not set';
+      const endDate = $('#loanReportStartDate').val() || 'End not set';
+      
+      //Display Range
+      $('#loanReportDateRange').text(`${startDate} - ${endDate}`);
+
+      $.when(report.loan({start_date: startDate, end_date: endDate})).done(function(resp){
+          console.log(resp);
+
+            const data = resp.loan_report;
+
+      // ✅ Populate Client Section
+      $("#totalClients").text(data.total_clients || 0);
+      $("#loanApplicantsCount").text(data.clients_who_applied_loans || 0);
+      $("#investorsCount").text(data.clients_who_made_investments || 0);
+      // Add other client classifications if provided in response
+      // Example if your JSON has individual, group, institutional:
+      const types = data.total_clients_by_client_type || [];
+      $("#individualClients").text((types.find(t => t.name === 'individual')?.total_clients) || 0);
+      $("#groupClients").text((types.find(t => t.name === 'group')?.total_clients) || 0);
+      $("#institutionalClients").text((types.find(t => t.name === 'institution')?.total_clients) || 0);
+
+      // ✅ Loan Applications
+      $("#totalApplications").text(data.total_loan_applications || 0);
+      $("#approvedApplications").text(data.statuses_count?.statuses?.DONE || 0);  // Assuming DONE = Approved
+
+      // ✅ Loan Disbursements
+      $("#totalDisbursed").text(data.total_loans || 0);
+      $("#disbursementRate").text((data.disbursement_rate || 0) + "%");
+
+      // ✅ Other metrics - Only if you have them in JSON:
+      // $("#clientGrowthRate").text(data.client_growth_rate || 'N/A');
+      // $("#avgLoanSize").text(data.avg_loan_size || 'N/A');
+
+      // ✅ Products (if you want to display counts in summary)
+      const loanProducts = data.products_client_count.loan_products || [];
+      const investmentProducts = data.products_client_count.investment_products || [];
+      console.log("Loan Products:", loanProducts);
+      console.log("Investment Products:", investmentProducts);
+
+       populateProductTables(data);
+      });
+     
+  }); 
+
+
+
+
 
 function downloadCSV() {
   const token = sessionStorage.getItem("token");
@@ -139,4 +188,36 @@ function downloadPDF(htmlContent) {
   win.document.write(htmlContent.html);
   win.document.close();
   win.print();
+}
+
+// Populate Loan & Investment Products
+function populateProductTables(data) {
+    const loanProducts = data.products_client_count.loan_products || [];
+    const investmentProducts = data.products_client_count.investment_products || [];
+
+    const $loanTableBody = $("#loanProductsTable tbody");
+    const $investmentTableBody = $("#investmentProductsTable tbody");
+
+    $loanTableBody.empty(); // clear previous data
+    $investmentTableBody.empty();
+
+    // Load Loan Products
+    loanProducts.forEach(product => {
+        $loanTableBody.append(`
+            <tr>
+                <td>${product.name || 'N/A'}</td>
+                <td>${product.total_loans || 0}</td>
+            </tr>
+        `);
+    });
+
+    // Load Investment Products
+    investmentProducts.forEach(product => {
+        $investmentTableBody.append(`
+            <tr>
+                <td>${product.package_name || 'N/A'}</td>
+                <td>${product.subscriptions || 0}</td>
+            </tr>
+        `);
+    });
 }
