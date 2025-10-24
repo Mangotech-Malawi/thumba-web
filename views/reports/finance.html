@@ -74,8 +74,8 @@
               <div class="d-flex align-items-center mb-2 mb-md-0">
                 <img src="#" alt="Company Logo" class="me-3 account-logo" style="height: 55px; width: auto;">
                 <div>
-                  <h5 class="fw-bold text-uppercase mb-0 ms-2">Finance Report</h5>
-                  <h6 id="report-company-name" class="text-muted account-name ms-2">Company Name Here</h6>
+                  <h4 class="fw-bold text-bold text-uppercase mb-0 ms-2 ml-3">Finance Report</h4>
+                  <h6 id="report-company-name" class="text-muted account-name ms-2 ml-3">Company Name Here</h6>
                 </div>
               </div>
 
@@ -83,7 +83,7 @@
               <div class="text-end">
                 <p class="mb-1 fw-semibold text-dark">
                   <i class="far fa-calendar-alt text-orange me-2"></i>
-                  <span id="financeReportDateRange">1 Jul 2025 - 31 Aug 2025</span>
+                  <span id="financeReportDateRange">Range </span>
                 </p>
                 <small class="text-muted">Generated on: <span id="financeReportGeneratedDate"></span></small>
               </div>
@@ -91,7 +91,7 @@
 
             <!-- FINANCIAL OVERVIEW TABLE -->
             <div id="tab">
-              <h5 class="fw-bold text-uppercase text-primary mb-3">Financial Overview</h5>
+              <h5 class="fw-bold text-uppercase  mb-3">Financial Overview</h5>
               <table id="finance-overview-report" name="FinanceOverview"
                 class="table table-bordered table-hover report-table">
                 <thead class="table-light">
@@ -137,7 +137,7 @@
               <hr class="my-4">
 
               <!-- MONTHLY REVENUE VS EXPENSES -->
-              <h5 class="fw-bold text-uppercase  text-primary mb-3">Monthly Revenue vs Expenses</h5>
+              <h5 class="fw-bold text-uppercase  mb-3">Monthly Revenue vs Expenses</h5>
               <table id="monthlyRevenueExpensesTable" class="table table-bordered table-hover report-table">
                 <thead class="table-light">
                   <tr>
@@ -153,7 +153,7 @@
               <hr class="my-4">
 
               <!-- EXPENSE BREAKDOWN -->
-              <h5 class="fw-bold text-uppercase  text-primary mb-3">Expense Breakdown by Category</h5>
+              <h5 class="fw-bold text-uppercase  mb-3">Expense Breakdown by Category</h5>
               <table id="expenseBreakdownTable" class="table table-bordered table-hover report-table">
                 <thead class="table-light">
                   <tr>
@@ -184,117 +184,11 @@
         day: "2-digit", month: "short", year: "numeric"
       }));
 
-      // Update report header when Filter clicked
-      $('#financeReportFilterBtn').on('click', function () {
-        const start = $('#financeReportStartDate').val() || 'Start not set';
-        const end = $('#financeReportEndDate').val() || 'End not set';
-        $('#financeReportDateRange').text(`${start} - ${end}`);
-      });
 
       // Set company info from session storage
       $(".account-name").text(sessionStorage.getItem("account_name") || "Company Name Here");
       $(".account-logo").attr("src", sessionStorage.getItem("account_logo") || "#");
 
-      // Sample data structure (replace with actual API call)
-      const financeData = {
-        "finance_report_stats": {
-          "total_revenue": 1515000.0,
-          "total_expenses": 1632500.0,
-          "net_profit": -117500.0,
-          "total_loan_portfolio": 1610000.0,
-          "outstanding_liabilities": 325000.0,
-          "capital_adequacy_ratio": 35.1,
-          "monthly_revenue_vs_expenses": {
-            "2025-07": {
-              "revenue": 1265000.0,
-              "expenses": 120000.0
-            },
-            "2025-08": {
-              "revenue": 250000.0,
-              "expenses": 1512500.0
-            }
-          },
-          "expense_breakdown": [
-            {
-              "category": "loan",
-              "total": "1620000.0"
-            },
-            {
-              "category": "expense",
-              "total": "12500.0"
-            }
-          ]
-        }
-      };
-
-      // Helper function to format currency
-      function formatCurrency(value) {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          minimumFractionDigits: 2
-        }).format(value);
-      }
-
-      // Helper function to get value class
-      function getValueClass(value) {
-        if (value > 0) return 'positive-value';
-        if (value < 0) return 'negative-value';
-        return 'neutral-value';
-      }
-
-      // Populate Financial Overview
-      const stats = financeData.finance_report_stats;
-      
-      $('#totalRevenue').html(`<span class="positive-value">${formatCurrency(stats.total_revenue)}</span>`);
-      $('#totalExpenses').html(`<span class="negative-value">${formatCurrency(stats.total_expenses)}</span>`);
-      $('#netProfit').html(`<span class="${getValueClass(stats.net_profit)}">${formatCurrency(stats.net_profit)}</span>`);
-      $('#totalLoanPortfolio').html(`<span class="positive-value">${formatCurrency(stats.total_loan_portfolio)}</span>`);
-      $('#outstandingLiabilities').html(`<span class="negative-value">${formatCurrency(stats.outstanding_liabilities)}</span>`);
-      $('#capitalAdequacyRatio').html(`<span class="positive-value">${stats.capital_adequacy_ratio.toFixed(1)}%</span>`);
-
-      // Populate Monthly Revenue vs Expenses
-      const monthlyData = stats.monthly_revenue_vs_expenses;
-      const monthlyTableBody = $('#monthlyRevenueExpensesTable tbody');
-      
-      Object.keys(monthlyData).sort().forEach(month => {
-        const data = monthlyData[month];
-        const net = data.revenue - data.expenses;
-        const row = `
-          <tr>
-            <td>${moment(month).format('MMMM YYYY')}</td>
-            <td><span class="positive-value">${formatCurrency(data.revenue)}</span></td>
-            <td><span class="negative-value">${formatCurrency(data.expenses)}</span></td>
-            <td><span class="${getValueClass(net)}">${formatCurrency(net)}</span></td>
-          </tr>
-        `;
-        monthlyTableBody.append(row);
-      });
-
-      // Populate Expense Breakdown
-      const expenseBreakdownBody = $('#expenseBreakdownTable tbody');
-      const totalExpenseBreakdown = stats.expense_breakdown.reduce((sum, item) => sum + parseFloat(item.total), 0);
-      
-      stats.expense_breakdown.forEach(item => {
-        const amount = parseFloat(item.total);
-        const percentage = ((amount / totalExpenseBreakdown) * 100).toFixed(1);
-        const row = `
-          <tr>
-            <td style="text-transform: capitalize;">${item.category}</td>
-            <td><span class="negative-value">${formatCurrency(amount)}</span></td>
-            <td>${percentage}%</td>
-          </tr>
-        `;
-        expenseBreakdownBody.append(row);
-      });
-
-      // Add total row to expense breakdown
-      expenseBreakdownBody.append(`
-        <tr class="table-secondary fw-bold">
-          <td>Total</td>
-          <td><span class="negative-value">${formatCurrency(totalExpenseBreakdown)}</span></td>
-          <td>100.0%</td>
-        </tr>
-      `);
+     
     });
   </script>
