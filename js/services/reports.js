@@ -11,3 +11,7 @@ export function admin(params){
 export function loan(params){
   return apiClient("/api/v1/report/loan", "GET", "json", false, false, params);
 }
+
+export function finance(params){
+  return apiClient("/api/v1/report/finance", "GET", "json", false, false, params);
+}
