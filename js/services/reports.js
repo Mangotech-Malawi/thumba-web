@@ -15,3 +15,7 @@ export function loan(params){
 export function finance(params){
   return apiClient("/api/v1/report/finance", "GET", "json", false, false, params);
 }
+
+export function shares(params){
+  return apiClient("/api/v1/report/shares", "GET", "json", false, false, params);
+}
