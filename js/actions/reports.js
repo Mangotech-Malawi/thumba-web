@@ -285,6 +285,26 @@ $(function () {
       });
   });
 
+  $(document).on("click", "#exportSharesReportToPDF", function () {
+    const startDate = $('#sharesReportStartDate').val();
+    const endDate = $('#sharesReportEndDate').val();
+
+    $.when(report.getSharesReportPDF(startDate, endDate)).done(function (pdfBlob) {
+      if (pdfBlob) {
+        const url = window.URL.createObjectURL(pdfBlob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "shares_report.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error("PDF generation failed or returned empty result.");
+      }
+    });
+  });
+
 
 });
 
