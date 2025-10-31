@@ -69,45 +69,41 @@ export function apiClient(path, type, dataType = "json", async = false, cache = 
 
 
 export function fileApiClient(path, type, dataType, async, cache = false, data, isFile = false) {
-    let result = null;
-    const base_url = getBaseURL();
+  let result = null;
+  const base_url = getBaseURL();
+  const url = `${base_url}${path}`;
+  const headers = {
+    Authorization: `Bearer ${token}`
+  };
 
-    const url = `${base_url}${path}`
-    const headers = {
-        Authorization: `Bearer ${token}`
-    };
+  if (!isFile) {
+    headers["Content-Type"] = "application/json";
+  }
 
-    if (!isFile) {
-        headers["Content-Type"] = "application/json";
+  return $.ajax({
+    url: url,
+    type: type,
+    async: async,
+    cache: cache,
+    headers: headers,
+    xhrFields: {
+      responseType: dataType === "binary" ? "blob" : "json" // ✅ crucial
+    },
+    processData: !isFile,
+    contentType: isFile ? false : "application/json",
+    data: isFile ? data : data ? JSON.stringify(data) : null,
+    success: function (res) {
+      result = res;
+    },
+    error: function (res) {
+      if (res.status === 401) {
+        sessionStorage.clear();
+        localStorage.clear();
+      } else {
+        console.error("API error:", res);
+      }
     }
-
-
-    $.ajax({
-        url: url,
-        type: type,
-        dataType: dataType,
-        async: async,
-        cache: cache,
-        headers: headers,
-        contentType: isFile ? false : "application/json",
-        processData: !isFile,
-        data: isFile ? data : data, //JSON.stringify(data) gotta be checked
-        success: function (res) {
-            result = res
-        },
-        error: function (res) {
-            if (res.status === 401) {
-                sessionStorage.clear();
-                localStorage.clear();
-            } else {
-                console.error("API error:", res);
-            }
-        }
-    }).fail(function (jqXHR, testStatus, errorThrown) {
-
-    });
-
-    return result;
+  });
 }
 
 export function getConfigs() {
