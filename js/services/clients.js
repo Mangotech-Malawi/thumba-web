@@ -38,8 +38,8 @@ export function uploadImage(clientId, imageFile) {
   return fileApiClient(
     `/api/v1/client/upload_profile_picture`,
     "POST",
-    null,
-    false, // Synchronous
+    "json",
+    true, // Synchronous
     false,
     formData,
     true // isFile
