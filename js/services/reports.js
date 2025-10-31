@@ -1,4 +1,4 @@
-import { apiClient  } from "./api-client.js";
+import { apiClient, fileApiClient  } from "./api-client.js";
 
 export function users(params) {
   return apiClient("/api/v1/report/users", "GET", "json", false, false, params);
@@ -18,4 +18,17 @@ export function finance(params){
 
 export function shares(params){
   return apiClient("/api/v1/report/shares", "GET", "json", false, false, params);
+}
+
+
+export function getSharesReportPDF(start_date, end_date) {
+  return fileApiClient(
+    `/api/v1/report/shares_pdf?start_date=${start_date}&end_date=${end_date}`,
+    "GET",
+    "binary",
+    true,   // ✅ async should be true (so $.when() can wait)
+    false,
+    null,
+    false   // not uploading a file
+  );
 }
