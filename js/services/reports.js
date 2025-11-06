@@ -32,3 +32,18 @@ export function getSharesReportPDF(start_date, end_date) {
     false   // not uploading a file
   );
 }
+
+export function getFinanceReportPDF(start_date, end_date) {
+  return fileApiClient(
+    `/api/v1/report/finance_pdf?start_date=${start_date}&end_date=${end_date}`,
+    "GET",
+    "binary",
+    true,   // ✅ async should be true (so $.when() can wait)
+    false,
+    null,
+    false   // not uploading a file
+  );
+}
+
+
+
