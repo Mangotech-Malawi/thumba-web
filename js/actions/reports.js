@@ -157,21 +157,21 @@ $(function () {
     $.when(report.finance({ start_date: startDate, end_date: endDate })).done(function (resp) {
       const stats = resp.finance_report_stats;
 
-        $('#totalRevenue').html(`<span class="positive-value">${formatCurrency(stats.total_revenue)}</span>`);
-        $('#totalExpenses').html(`<span class="negative-value">${formatCurrency(stats.total_expenses)}</span>`);
-        $('#netProfit').html(`<span class="${getValueClass(stats.net_profit)}">${formatCurrency(stats.net_profit)}</span>`);
-        $('#totalLoanPortfolio').html(`<span class="positive-value">${formatCurrency(stats.total_loan_portfolio)}</span>`);
-        $('#outstandingLiabilities').html(`<span class="negative-value">${formatCurrency(stats.outstanding_liabilities)}</span>`);
-        $('#capitalAdequacyRatio').html(`<span class="positive-value">${stats.capital_adequacy_ratio.toFixed(1)}%</span>`);
+      $('#totalRevenue').html(`<span class="positive-value">${formatCurrency(stats.total_revenue)}</span>`);
+      $('#totalExpenses').html(`<span class="negative-value">${formatCurrency(stats.total_expenses)}</span>`);
+      $('#netProfit').html(`<span class="${getValueClass(stats.net_profit)}">${formatCurrency(stats.net_profit)}</span>`);
+      $('#totalLoanPortfolio').html(`<span class="positive-value">${formatCurrency(stats.total_loan_portfolio)}</span>`);
+      $('#outstandingLiabilities').html(`<span class="negative-value">${formatCurrency(stats.outstanding_liabilities)}</span>`);
+      $('#capitalAdequacyRatio').html(`<span class="positive-value">${stats.capital_adequacy_ratio.toFixed(1)}%</span>`);
 
-        // Populate Monthly Revenue vs Expenses
-        const monthlyData = stats.monthly_revenue_vs_expenses;
-        const monthlyTableBody = $('#monthlyRevenueExpensesTable tbody');
-        
-        Object.keys(monthlyData).sort().forEach(month => {
-          const data = monthlyData[month];
-          const net = data.revenue - data.expenses;
-          const row = `
+      // Populate Monthly Revenue vs Expenses
+      const monthlyData = stats.monthly_revenue_vs_expenses;
+      const monthlyTableBody = $('#monthlyRevenueExpensesTable tbody');
+
+      Object.keys(monthlyData).sort().forEach(month => {
+        const data = monthlyData[month];
+        const net = data.revenue - data.expenses;
+        const row = `
             <tr>
               <td>${moment(month).format('MMMM YYYY')}</td>
               <td><span class="positive-value">${formatCurrency(data.revenue)}</span></td>
@@ -179,28 +179,28 @@ $(function () {
               <td><span class="${getValueClass(net)}">${formatCurrency(net)}</span></td>
             </tr>
           `;
-          monthlyTableBody.append(row);
-        });
+        monthlyTableBody.append(row);
+      });
 
-        // Populate Expense Breakdown
-        const expenseBreakdownBody = $('#expenseBreakdownTable tbody');
-        const totalExpenseBreakdown = stats.expense_breakdown.reduce((sum, item) => sum + parseFloat(item.total), 0);
-        
-        stats.expense_breakdown.forEach(item => {
-          const amount = parseFloat(item.total);
-          const percentage = ((amount / totalExpenseBreakdown) * 100).toFixed(1);
-          const row = `
+      // Populate Expense Breakdown
+      const expenseBreakdownBody = $('#expenseBreakdownTable tbody');
+      const totalExpenseBreakdown = stats.expense_breakdown.reduce((sum, item) => sum + parseFloat(item.total), 0);
+
+      stats.expense_breakdown.forEach(item => {
+        const amount = parseFloat(item.total);
+        const percentage = ((amount / totalExpenseBreakdown) * 100).toFixed(1);
+        const row = `
             <tr>
               <td style="text-transform: capitalize;">${item.category}</td>
               <td><span class="negative-value">${formatCurrency(amount)}</span></td>
               <td>${percentage}%</td>
             </tr>
           `;
-          expenseBreakdownBody.append(row);
-        });
+        expenseBreakdownBody.append(row);
+      });
 
-        // Add total row to expense breakdown
-        expenseBreakdownBody.append(`
+      // Add total row to expense breakdown
+      expenseBreakdownBody.append(`
           <tr class="table-secondary fw-bold">
             <td>Total</td>
             <td><span class="negative-value">${formatCurrency(totalExpenseBreakdown)}</span></td>
@@ -212,32 +212,32 @@ $(function () {
   });
 
   $(document).on("click", "#sharesReportFilterBtn", function () {
-      const startDate = $('#sharesReportStartDate').val() || 'Start not set';
-      const endDate = $('#sharesReportEndDate').val() || 'End not set';
-      $('#sharesReportDateRange').text(`${startDate} - ${endDate}`);
+    const startDate = $('#sharesReportStartDate').val() || 'Start not set';
+    const endDate = $('#sharesReportEndDate').val() || 'End not set';
+    $('#sharesReportDateRange').text(`${startDate} - ${endDate}`);
 
-      $.when(report.shares({ start_date: startDate, end_date: endDate })).done(function (resp) {
-  
-        const stats = resp.shares_report_stats;
-        console.log(stats)
+    $.when(report.shares({ start_date: startDate, end_date: endDate })).done(function (resp) {
 
-        $('#totalShareCapital').text(formatCurrency(stats.total_share_capital));
-        $('#acceptedContributions').text(formatCurrency(stats.accepted_contributions));
-        $('#rejectedContributions').text(formatCurrency(stats.rejected_total_contributions));
-        $('#pendingApprovals').text(formatCurrency(stats.pending_approvals));
-        $('#totalShareholders').text(formatNumber(stats.total_shareholders));
-        $('#totalSharesIssued').text(formatNumber(stats.total_shares_issued));
-        $('#totalShareClass').text(formatNumber(stats.total_share_class));
-        $('#capitalizationRate').text(`${stats.capitalization_rate.toFixed(1)}%`);
+      const stats = resp.shares_report_stats;
+      console.log(stats)
 
-        // Populate Share Capital by Class
-        const shareCapitalByClassBody = $('#shareCapitalByClassTable tbody');
-        const totalCapital = parseFloat(stats.total_share_capital);
+      $('#totalShareCapital').text(formatCurrency(stats.total_share_capital));
+      $('#acceptedContributions').text(formatCurrency(stats.accepted_contributions));
+      $('#rejectedContributions').text(formatCurrency(stats.rejected_total_contributions));
+      $('#pendingApprovals').text(formatCurrency(stats.pending_approvals));
+      $('#totalShareholders').text(formatNumber(stats.total_shareholders));
+      $('#totalSharesIssued').text(formatNumber(stats.total_shares_issued));
+      $('#totalShareClass').text(formatNumber(stats.total_share_class));
+      $('#capitalizationRate').text(`${stats.capitalization_rate.toFixed(1)}%`);
 
-        stats.share_capital_by_class.forEach(item => {
-          const capital = parseFloat(item.capital);
-          const percentage = ((capital / totalCapital) * 100).toFixed(1);
-          const row = `
+      // Populate Share Capital by Class
+      const shareCapitalByClassBody = $('#shareCapitalByClassTable tbody');
+      const totalCapital = parseFloat(stats.total_share_capital);
+
+      stats.share_capital_by_class.forEach(item => {
+        const capital = parseFloat(item.capital);
+        const percentage = ((capital / totalCapital) * 100).toFixed(1);
+        const row = `
             <tr>
               <td>${item.share_class_id}</td>
               <td>${item.name}</td>
@@ -245,11 +245,11 @@ $(function () {
               <td>${percentage}%</td>
             </tr>
           `;
-          shareCapitalByClassBody.append(row);
-        });
+        shareCapitalByClassBody.append(row);
+      });
 
-        // Add total row to share capital by class
-        shareCapitalByClassBody.append(`
+      // Add total row to share capital by class
+      shareCapitalByClassBody.append(`
           <tr class="table-secondary fw-bold">
             <td colspan="2">Total</td>
             <td>${formatCurrency(totalCapital)}</td>
@@ -257,32 +257,32 @@ $(function () {
           </tr>
         `);
 
-        // Populate Shareholders by Class
-        const shareholdersByClassBody = $('#shareholdersByClassTable tbody');
-        let totalShareholders = 0;
+      // Populate Shareholders by Class
+      const shareholdersByClassBody = $('#shareholdersByClassTable tbody');
+      let totalShareholders = 0;
 
-        stats.share_class_by_shareholder_count.forEach(item => {
-          totalShareholders += item.shareholder_count;
-          const row = `
+      stats.share_class_by_shareholder_count.forEach(item => {
+        totalShareholders += item.shareholder_count;
+        const row = `
             <tr>
               <td>${item.share_class_id}</td>
               <td>${item.share_class_name}</td>
               <td>${formatNumber(item.shareholder_count)}</td>
             </tr>
           `;
-          shareholdersByClassBody.append(row);
-        });
+        shareholdersByClassBody.append(row);
+      });
 
-        // Add total row to shareholders by class
-        shareholdersByClassBody.append(`
+      // Add total row to shareholders by class
+      shareholdersByClassBody.append(`
           <tr class="table-secondary fw-bold">
             <td colspan="2">Total Shareholders</td>
             <td>${formatNumber(totalShareholders)}</td>
           </tr>
         `);
-        
 
-      });
+
+    });
   });
 
   $(document).on("click", "#exportSharesReportToPDF", function () {
@@ -291,14 +291,7 @@ $(function () {
 
     $.when(report.getSharesReportPDF(startDate, endDate)).done(function (pdfBlob) {
       if (pdfBlob) {
-        const url = window.URL.createObjectURL(pdfBlob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "shares_report.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
+        getPDF(pdfBlob, "shares_report");
       } else {
         console.error("PDF generation failed or returned empty result.");
       }
@@ -306,12 +299,20 @@ $(function () {
   });
 
 
+  $(document).on("click", "#exportFinanceReportToPDF", function (e) {
+    const startDate = $('#financeReportStartDate').val();
+    const endDate = $('#financeReportEndDate').val();
+
+    $.when(report.getFinanceReportPDF(startDate, endDate)).done(function (pdfBlob) {
+      if (pdfBlob) {
+        getPDF(pdfBlob, "finance_report");
+      } else {
+        console.error("PDF generation failed or returned empty result.");
+      }
+    });
+  });
+
 });
-
-
-
-
-
 
 
 
@@ -398,4 +399,15 @@ function getValueClass(value) {
   if (value > 0) return 'positive-value';
   if (value < 0) return 'negative-value';
   return 'neutral-value';
+}
+
+function getPDF(pdfBlob, pdf_name) {
+  const url = window.URL.createObjectURL(pdfBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${pdf_name}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
 }
