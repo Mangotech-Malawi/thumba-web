@@ -312,6 +312,34 @@ $(function () {
     });
   });
 
+  $(document).on("click", "#exportLoanReportToPDF", function (e) {
+    const startDate = $('#loanReportStartDate').val();
+    const endDate = $('#loanReportStartDate').val();
+
+    $.when(report.getLoanReportPDF(startDate, endDate)).done(function (pdfBlob) {
+      if (pdfBlob) {
+        getPDF(pdfBlob, "loan_report");
+      } else {
+        console.error("PDF generation failed or returned empty result.");
+      }
+    });
+  });
+
+
+  $(document).on("click", "#exportAdminReportToPDF", function (e) {
+    const startDate = $('#adminReportStartDate').val();
+    const endDate = $('#adminReportEndDate').val();
+
+    $.when(report.getAdminReportPDF(startDate, endDate)).done(function (pdfBlob) {
+      if (pdfBlob) {
+        getPDF(pdfBlob, "admin_report");
+      } else {
+        console.error("PDF generation failed or returned empty result.");
+      }
+    });
+  });
+
+
 });
 
 

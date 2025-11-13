@@ -51,16 +51,20 @@
                 <label class="d-none d-lg-block">&nbsp;</label>
                 <div class="dropdown">
                   <button class="btn btn-outline-success btn-block dropdown-toggle" type="button" id="exportDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-file-export"></i> Export
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file-export"></i> Export Report
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-                    <li><a class="dropdown-item" href="#" id="exportCSV">Print to CSV</a></li>
-                    <li><a class="dropdown-item" href="#" id="exportPDF">Print to PDF</a></li>
-                  </ul>
+                  <div class="dropdown-menu w-100" aria-labelledby="exportDropdown">
+                    <a class="dropdown-item" href="#" id="exportLoanReportToPDF">
+                      <i class="fas fa-file-pdf text-danger"></i> Export to PDF
+                    </a>
+                    <a class="dropdown-item" href="#" id="exportToCSV">
+                      <i class="fas fa-file-csv text-success"></i> Export to CSV
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
+           </div>
           </div>
         </div>
 

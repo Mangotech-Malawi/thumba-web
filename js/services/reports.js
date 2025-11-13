@@ -26,7 +26,7 @@ export function getSharesReportPDF(start_date, end_date) {
     `/api/v1/report/shares_pdf?start_date=${start_date}&end_date=${end_date}`,
     "GET",
     "binary",
-    true,   // ✅ async should be true (so $.when() can wait)
+    true,   // async should be true (so $.when() can wait)
     false,
     null,
     false   // not uploading a file
@@ -38,7 +38,32 @@ export function getFinanceReportPDF(start_date, end_date) {
     `/api/v1/report/finance_pdf?start_date=${start_date}&end_date=${end_date}`,
     "GET",
     "binary",
-    true,   // ✅ async should be true (so $.when() can wait)
+    true,   // async should be true (so $.when() can wait)
+    false,
+    null,
+    false   // not uploading a file
+  );
+}
+
+export function getLoanReportPDF(start_date, end_date){
+  return fileApiClient(
+    `/api/v1/report/loans_pdf?start_date=${start_date}&end_date=${end_date}`,
+    "GET",
+    "binary",
+    true,   // async should be true (so $.when() can wait)
+    false,
+    null,
+    false   // not uploading a file
+  );
+}
+
+
+export function getAdminReportPDF(start_date, end_date){
+  return fileApiClient(
+    `/api/v1/report/admin_pdf?start_date=${start_date}&end_date=${end_date}`,
+    "GET",
+    "binary",
+    true,   // async should be true (so $.when() can wait)
     false,
     null,
     false   // not uploading a file
