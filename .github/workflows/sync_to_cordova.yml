@@ -15,22 +15,22 @@ jobs:
       - name: Checkout thumba-Web
         uses: actions/checkout@v4 
 
-      - name: Clone thumba-app repo
+      - name: Clone thumba-cordova repo
         uses: actions/checkout@v4
         with: 
-          repository: Mangotech-Malawi/thumba-app
+          repository: Mangotech-Malawi/thumba-cordova
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: thumba-app
+          path: thumba-cordova
 
       - name: Copy only changed files
         run: | 
-          # Sync everything from thumba-web into thumba-app/www
+          # Sync everything from thumba-web into thumba-cordova/www
           # Only updates changed files, deletes files removed in thumba-web
-          rsync -av --delete --exclude='.git' ./ thumba-app/www
+          rsync -av --delete --exclude='.git' ./ thumba-cordova/www
 
-      - name: Commit & push updates to thumba-app
+      - name: Commit & push updates to thumba-cordova
         run: | 
-          cd thumba-app 
+          cd thumba-cordova
           git config user.email "actions@github.com"
           git config user.name "Github Actions"
           git add . 
