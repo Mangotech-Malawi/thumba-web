@@ -28,19 +28,24 @@ jobs:
           fetch-depth: 1
 
       # Step 3: Sync only changed files from thumba-web to thumba-cordova/www
-      - name: Sync files to www folder
+      - name: Sync changed files to www folder
         run: |
-          rsync -av --delete --exclude='.git' ./ thumba-cordova/www
+          rsync -av --update --ignore-existing --exclude='.git' ./ thumba-cordova/www
 
-      # Step 4: Commit and push changes to thumba-cordova
+      # Step 4: Commit and push only if there are changes
       - name: Commit & push changes
         run: |
           cd thumba-cordova
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add .
-          git diff-index --quiet HEAD || git commit -m "Auto-sync from thumba-web main"
-          git push origin main
+          # Only commit if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-sync from thumba-web main"
+            git push origin main
+          else
+            echo "No changes to sync"
+          fi
         env:
           GIT_ASKPASS: /bin/true
           GITHUB_TOKEN: ${{ secrets.THUMBA_SYNC }}
