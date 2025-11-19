@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with: 
           repository: Mangotech-Malawi/thumba-cordova
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.THUMBA_SYNC_TOKEN }}
           path: thumba-cordova
 
       - name: Copy only changed files
@@ -37,4 +37,4 @@ jobs:
           git commit -m "Auto-sync from thumba-web main" || echo "No changes"
           git push 
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.THUMBA_SYNC_TOKEN }}
