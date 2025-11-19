@@ -5,17 +5,14 @@ on:
       - main
 jobs:
   sync:
-    # Only run for merged PRs or direct pushes
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout thumba-web
       - name: Checkout thumba-web
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
       
-      # Step 2: Checkout thumba-cordova using the PAT
       - name: Checkout thumba-cordova repo
         uses: actions/checkout@v4
         with:
@@ -24,19 +21,23 @@ jobs:
           path: thumba-cordova
           fetch-depth: 1
       
-      # Step 3: Sync files from thumba-web to thumba-cordova/www
       - name: Sync files to www folder
         run: |
-          rsync -av --delete --exclude='.git' --exclude='.github' ./ thumba-cordova/www/
+          rsync -av --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.DS_Store' \
+            --exclude='build' \
+            --exclude='.vs' \
+            --exclude='node_modules' \
+            *.html js/ plugins/ dist/ site/ views/ thumba-cordova/www/
       
-      # Step 4: Commit and push only if there are changes
       - name: Commit & push changes
         run: |
           cd thumba-cordova
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add .
-          # Only commit if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "Auto-sync from thumba-web main"
             git push origin main
@@ -44,5 +45,4 @@ jobs:
             echo "No changes to sync"
           fi
         env:
-          GIT_ASKPASS: /bin/true
           GITHUB_TOKEN: ${{ secrets.THUMBA_SYNC }}
