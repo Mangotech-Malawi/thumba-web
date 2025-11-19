@@ -1,40 +1,46 @@
-name: Sync Web -> Cordova App ( Incremental)
+name: Sync Web -> Cordova App (Incremental)
 
-on: 
-  push: 
+on:
+  push:
     branches:
       - main
 
-jobs: 
+jobs:
   sync:
-  # Only run for merged PRs or direct pushes 
-    if: github.event_name == 'push' || ( github.event_name == 'pull_request' && github.event.pull_request.merged == true ) 
+    # Only run for merged PRs or direct pushes
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
 
-    steps: 
-      - name: Checkout thumba-Web
-        uses: actions/checkout@v4 
-
-      - name: Clone thumba-cordova repo
+    steps:
+      # Step 1: Checkout thumba-web
+      - name: Checkout thumba-web
         uses: actions/checkout@v4
-        with: 
-          repository: Mangotech-Malawi/thumba-cordova
-          token: ${{ secrets.THUMBA_SYNC_TOKEN }}
-          path: thumba-cordova
+        with:
+          fetch-depth: 1
 
-      - name: Copy only changed files
-        run: | 
-          # Sync everything from thumba-web into thumba-cordova/www
-          # Only updates changed files, deletes files removed in thumba-web
+      # Step 2: Checkout thumba-cordova using the PAT
+      - name: Checkout thumba-cordova repo
+        uses: actions/checkout@v4
+        with:
+          repository: Mangotech-Malawi/thumba-cordova
+          token: ${{ secrets.THUMBA_SYNC }}
+          path: thumba-cordova
+          fetch-depth: 1
+
+      # Step 3: Sync only changed files from thumba-web to thumba-cordova/www
+      - name: Sync files to www folder
+        run: |
           rsync -av --delete --exclude='.git' ./ thumba-cordova/www
 
-      - name: Commit & push updates to thumba-cordova
-        run: | 
+      # Step 4: Commit and push changes to thumba-cordova
+      - name: Commit & push changes
+        run: |
           cd thumba-cordova
           git config user.email "actions@github.com"
-          git config user.name "Github Actions"
-          git add . 
-          git commit -m "Auto-sync from thumba-web main" || echo "No changes"
-          git push 
+          git config user.name "GitHub Actions"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Auto-sync from thumba-web main"
+          git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.THUMBA_SYNC_TOKEN }}
+          GIT_ASKPASS: /bin/true
+          GITHUB_TOKEN: ${{ secrets.THUMBA_SYNC }}
