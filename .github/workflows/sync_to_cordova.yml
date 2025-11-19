@@ -27,9 +27,10 @@ jobs:
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.DS_Store' \
+            --exclude='build' \
             --exclude='.vs' \
             --exclude='node_modules' \
-            *.html js/ build/ plugins/ dist/ site/ views/ thumba-cordova/www/
+            *.html js/ plugins/ dist/ site/ views/ thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
@@ -39,9 +40,7 @@ jobs:
           git add .
           if ! git diff --cached --quiet; then
             git commit -m "Auto-sync from thumba-web main"
-            git push origin main
+            git push https://x-access-token:${{ secrets.THUMBA_SYNC }}@github.com/Mangotech-Malawi/thumba-cordova.git main
           else
             echo "No changes to sync"
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.THUMBA_SYNC }}
