@@ -35,12 +35,17 @@ jobs:
       - name: Commit & push changes
         run: |
           cd thumba-cordova
+          
+          # Reconfigure git remote to use the PAT
+          git remote set-url origin https://x-access-token:${{ secrets.THUMBA_SYNC }}@github.com/Mangotech-Malawi/thumba-cordova.git
+          
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add .
+          
           if ! git diff --cached --quiet; then
             git commit -m "Auto-sync from thumba-web main"
-            git push https://x-access-token:${{ secrets.THUMBA_SYNC }}@github.com/Mangotech-Malawi/thumba-cordova.git main
+            git push origin main
           else
             echo "No changes to sync"
           fi
