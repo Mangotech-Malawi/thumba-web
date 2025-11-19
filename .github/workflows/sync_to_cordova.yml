@@ -1,23 +1,20 @@
 name: Sync Web -> Cordova App (Incremental)
-
 on:
   push:
     branches:
       - main
-
 jobs:
   sync:
     # Only run for merged PRs or direct pushes
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
-
     steps:
       # Step 1: Checkout thumba-web
       - name: Checkout thumba-web
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
+      
       # Step 2: Checkout thumba-cordova using the PAT
       - name: Checkout thumba-cordova repo
         uses: actions/checkout@v4
@@ -26,12 +23,12 @@ jobs:
           token: ${{ secrets.THUMBA_SYNC }}
           path: thumba-cordova
           fetch-depth: 1
-
-      # Step 3: Sync only changed files from thumba-web to thumba-cordova/www
-      - name: Sync changed files to www folder
+      
+      # Step 3: Sync files from thumba-web to thumba-cordova/www
+      - name: Sync files to www folder
         run: |
-          rsync -av --update --ignore-existing --exclude='.git' ./ thumba-cordova/www
-
+          rsync -av --delete --exclude='.git' --exclude='.github' ./ thumba-cordova/www/
+      
       # Step 4: Commit and push only if there are changes
       - name: Commit & push changes
         run: |
