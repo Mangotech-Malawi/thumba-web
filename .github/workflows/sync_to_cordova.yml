@@ -31,7 +31,7 @@ jobs:
       
       - name: Sync files to www folder
         run: |
-          rsync -av 
+          rsync -av \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.DS_Store' \
