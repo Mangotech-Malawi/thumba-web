@@ -35,10 +35,10 @@ jobs:
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.DS_Store' \
-            --exclude='build' \
             --exclude='.vs' \
             --exclude='node_modules' \
-            *.html js/ plugins/ dist/ site/ views/ thumba-cordova/www/
+            ./ \
+            thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
