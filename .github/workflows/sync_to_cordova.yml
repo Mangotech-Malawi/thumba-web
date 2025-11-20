@@ -37,7 +37,7 @@ jobs:
             --exclude='.DS_Store' \
             --exclude='.vs' \
             --exclude='node_modules' \
-            *.html js/ /build plugins/ dist/ site/ views/ thumba-cordova/www/
+            js/ /build plugins/ dist/ site/ views/ thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
