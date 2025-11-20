@@ -32,14 +32,12 @@ jobs:
       - name: Sync files to www folder
         run: |
           rsync -av --delete \
-          --exclude 'www' \
-          --exclude '.git' \
-          --exclude='.github' \
-          --exclude='.DS_Store' \
-          --exclude='.vs' \
-          --exclude 'node_modules' \
-          ./ ../thumba-cordova/www/
-            
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.DS_Store' \
+            --exclude='.vs' \
+            --exclude='node_modules' \
+            *.html js/ /build plugins/ dist/ site/ views/ thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
