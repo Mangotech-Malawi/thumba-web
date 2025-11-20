@@ -31,14 +31,14 @@ jobs:
       
       - name: Sync files to www folder
         run: |
-          rsync -av \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='.DS_Store' \
-            --exclude='.vs' \
-            --exclude='node_modules' \
-            ./ \
-            thumba-cordova/www/
+          rsync -av --delete \
+          --exclude 'www' \
+          --exclude '.git' \
+          --exclude='.github' \
+          --exclude='.DS_Store' \
+          --exclude='.vs' \
+          --exclude 'node_modules' \
+          ./ ../thumba-cordova/www/
             
       
       - name: Commit & push changes
