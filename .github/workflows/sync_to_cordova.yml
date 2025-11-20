@@ -39,7 +39,7 @@ jobs:
             --exclude='.vs' \
             --exclude='node_modules' \
             --exclude='thumba-cordova/' \
-            thumba-web/js/ thumba-web/build/ thumba-web/plugins/ thumba-web/dist/ thumba-web/site/ thumba-web/views/ thumba-cordova/www/
+            thumba-web/js/ thumba-web/build/ thumba-web/plugins/ thumba-web/dist/  thumba-web/views/ thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
