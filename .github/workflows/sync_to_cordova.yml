@@ -12,7 +12,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
+          path: thumba-web
+      
       - name: Check if token is being injected
         run: |
           if [ -z "${{ secrets.THUMBA_SYNC }}" ]; then
@@ -31,24 +32,22 @@ jobs:
       
       - name: Sync files to www folder
         run: |
-          rsync -av --delete \
+          rsync -av --update \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.DS_Store' \
             --exclude='.vs' \
             --exclude='node_modules' \
-            *.html js/ /build plugins/ dist/ site/ views/ thumba-cordova/www/
+            --exclude='thumba-cordova/' \
+            thumba-web/js/ thumba-web/build/ thumba-web/plugins/ thumba-web/dist/ thumba-web/site/ thumba-web/views/ thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
           cd thumba-cordova
-          
           git remote set-url origin "https://x-access-token:${{ secrets.THUMBA_SYNC }}@github.com/Mangotech-Malawi/thumba-cordova.git"
-          
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add .
-          
           if ! git diff --cached --quiet; then
             git commit -m "Auto-sync from thumba-web main"
             git push origin main
