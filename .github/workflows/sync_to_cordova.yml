@@ -32,14 +32,26 @@ jobs:
       
       - name: Sync files to www folder
         run: |
+          # Copy each directory with its structure preserved
           rsync -av --update \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.DS_Store' \
             --exclude='.vs' \
             --exclude='node_modules' \
-            --exclude='thumba-cordova/' \
-            thumba-web/js/ thumba-web/build/ thumba-web/plugins/ thumba-web/dist/  thumba-web/views/ thumba-cordova/www/
+            thumba-web/js \
+            thumba-web/build \
+            thumba-web/plugins \
+            thumba-web/dist \
+            thumba-web/views \
+            thumba-cordova/www/
+          
+          # Copy HTML files from root
+          rsync -av --update \
+            --include='*.html' \
+            --exclude='*' \
+            thumba-web/ \
+            thumba-cordova/www/
       
       - name: Commit & push changes
         run: |
